@@ -1,0 +1,137 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" class="conferencia-header">
+  <button class="btn-menu">
+    <i class="icon icon-menu-gray"></i>
+  </button>
+  <ion-title>
+    Fechamento
+  </ion-title>
+</ion-header>
+
+<ion-content padding class="conferencia-content">
+  <ion-grid class="grid-select-wrapper">
+    <ion-row>
+      <ion-col>
+        <ion-grid class="grid-select">
+          <ion-row>
+            <ion-col class="col-left" [ngClass]="{ selected: slideLeftSelected }" (click)="changeSlideToLeft()">
+              <span>Navios</span>
+            </ion-col>
+            <ion-col class="col-right" [ngClass]="{ selected: !slideLeftSelected }" (click)="changeSlideToRight()">
+              <span>Avulsos</span>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-slides (ionSlideDidChange)="slideChanged()">
+    <ion-slide>
+      <ion-grid class="grid-base grid-navio" *ngFor="let navio of navios" (click)="configurarNavio(navio)" [ngClass]="{
+          'andamento': navio.conferenciaStatus == 1,
+          'finalizado': navio.conferenciaStatus == 2
+        }">
+        <ion-row class="row-navio">
+          <ion-col col-8 class="col-navio">
+            <div class="div-navio-nome">{{ navio.nome }}</div>
+            <div class="div-navio-viagem">{{ navio.viagem }}</div>
+          </ion-col>
+          <ion-col col-4 class="col-status">
+            <div>{{ navio.statusConfiguracao }}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid class="grid-base grid-error" *ngIf="showNavioErrorMessage">
+        <ion-row>
+          <ion-col text-center>
+            Ocorreu um erro!
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-grid class="grid-base grid-navio" *ngFor="let arquivo of arquivos" (click)="configurarArquivo(arquivo)"
+        [ngClass]="{
+          'andamento': arquivo.conferenciaStatus == 1,
+          'finalizado': arquivo.conferenciaStatus == 2
+        }">
+        <ion-row class="row-navio">
+          <ion-col col-8 class="col-navio">
+            <div class="div-navio-nome">{{ arquivo.nomeOriginal }}</div>
+          </ion-col>
+          <ion-col col-4 class="col-status">
+            <div>{{ arquivo.statusConfiguracao }}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid class="grid-base grid-error" *ngIf="showArquivoErrorMessage">
+        <ion-row>
+          <ion-col text-center>
+            Ocorreu um erro!
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
+<ion-footer class="footer-legenda" *ngIf="slideLeftSelected">
+  <ion-grid class="grid-legenda">
+    <ion-row class="row-legenda-texto">
+      <ion-col>
+        Legendas:
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-legendas">
+      <ion-col class="col-legendas">
+        <div class="legenda-finalizado"></div>
+        <span class="legenda-finalizado-texto">Navios finalizados</span>
+        <div class="legenda-andamento"></div>
+        <span class="legenda-andamento-texto">Navios em andamento</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid class="grid-botao-voltar">
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()" type="button">
+          Voltar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<ion-footer class="footer-legenda" *ngIf="!slideLeftSelected" no-border>
+  <ion-grid class="grid-legenda">
+    <ion-row class="row-legenda-texto">
+      <ion-col>
+        Legendas:
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-legendas">
+      <ion-col class="col-legendas">
+        <div class="legenda-finalizado"></div>
+        <span class="legenda-finalizado-texto">Arquivos finalizados</span>
+        <div class="legenda-andamento"></div>
+        <span class="legenda-andamento-texto">Arquivos em andamento</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid class="grid-botao-voltar">
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()" type="button">
+          Voltar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<modal-loading-white></modal-loading-white>

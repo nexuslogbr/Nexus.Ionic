@@ -1,0 +1,358 @@
+page-nova-conferencia-execucao {
+  ion-input {
+    ::placeholder {
+      opacity: 0.5;
+    }
+  }
+
+  .select-text {
+    opacity: 0.5;
+  }
+
+  .botao-primeiralinha {
+    margin-top: 50px;
+  }
+
+  ion-content {
+    background-color: color($colors, bgQrCode) !important;
+  }
+
+  // label {
+  //   font: 16px 'avenir_demi';
+  //   bottom: 10px;
+  //   color: #fff;
+  //   position: absolute;
+  //   left: 15px;
+  //   display: inline-block;
+  //   max-width: 100%;
+  //   margin-bottom: 5px;
+  // }
+
+  .grid-destinos {
+
+    padding-top: 0px;
+    padding-bottom: 0px;
+
+    ion-col {
+      padding-bottom: 0px;
+      padding-top: 0px;
+    }
+
+    background-color: #F84042 !important;
+
+    ion-item.item-md {
+      //background-color: #06273f;
+      background-color: #F84042;
+      padding: 0;
+      border-bottom: none;
+      font-size: 1.4rem;
+
+      .item-inner {
+        padding-left: 0px;
+        padding-right: 0px !important;
+        border-bottom: 1px solid transparent !important;
+
+        ion-label {
+          color: #fff;
+          font-weight: bold;
+        }
+
+        ion-select {
+          max-width: 85%;
+
+          .select-text {
+            padding-right: 10px;
+            color: #fff;
+            //font: 14px 'avenir_demi';
+          }
+        }
+      }
+    }
+
+    background-color: #1c6381;
+    color: white;
+
+    .selecionado {
+      .select-text {
+        opacity: 1;
+      }
+    }
+  }
+
+  .grid-header {
+    background-color: #FAFAFA;
+    color: black;
+
+    .row-header {
+
+      .turno {
+        display: flex;
+        justify-content: flex-end;
+        overflow-x: hidden;
+        white-space: nowrap;
+      }
+    }
+
+    .row-header-sub {
+      .img-warning {
+        height: 24px;
+      }
+
+      ion-col {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .fixed {
+    position: sticky;
+    top: 0px;
+    z-index: 100;
+    background-color: white;
+    padding: 0px;
+
+    .col-fixed {
+      padding: 0px;
+    }
+  }
+
+
+  .grid-resumo-destino {
+    border: 1px solid #5D5D5D;
+    background-color: white;
+    color: black;
+    margin-top: 10px;
+    padding: 0px;
+
+    .row-destino {
+      background-color: #5D5D5D;
+      font-weight: bold;
+      color: white;
+    }
+
+    .col-left {
+      text-align: left;
+    }
+
+    .col-resumo-quantidade {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+
+    .col-grid-modelos {
+      padding: 0px;
+
+      .grid-resumo-destino-modelos {
+        padding: 0px;
+        background-color: white;
+
+        .row-grid-modelos {
+          border-top: 1px solid #5D5D5D;
+        }
+      }
+    }
+
+  }
+
+  .text-left {
+    text-align: left;
+  }
+
+  .grid-select-wrapper {
+    padding: 0px;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+
+    .grid-select {
+      margin-top: 10px;
+      padding: 0px;
+      background-color: white;
+      border-radius: 12px;
+      border: 1px solid #5D5D5D;
+      margin-bottom: 10px;
+      color: #5D5D5D;
+      text-transform: uppercase;
+
+      ion-col {
+        display: flex;
+        align-items: center;
+        min-height: 40px;
+      }
+
+      ion-col.col-left {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+      }
+
+      ion-col.col-center {
+        border-left: 1px solid #5D5D5D;
+        border-right: 1px solid #5D5D5D;
+      }
+
+      ion-col.col-right {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      ion-col.selected {
+        background-color: #5D5D5D;
+        color: white;
+        font-weight: bold;
+      }
+
+      ion-col {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+
+  .grid-resumo-turno {
+    border: 1px solid #5D5D5D;
+    background-color: white;
+    color: black;
+    margin-top: 10px;
+    padding: 0px !important;
+
+    .row-grid-resumo-turno {
+      border-top: 1px solid #5D5D5D;
+    }
+
+    .row-data-turno {
+      background-color: #5D5D5D;
+      color: white;
+
+      .data {
+        text-align: left;
+        font-size: 0.8em;
+      }
+
+      .turno {
+        text-align: left;
+      }
+
+      .col-resumo-quantidade {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        font-weight: bold;
+      }
+    }
+
+    .col-grid-modelos {
+      padding: 0px;
+      //padding-right: 0px;
+
+      .grid-resumo-destino-modelos {
+        padding-left: 0px;
+        padding-right: 0px;
+        background-color: white;
+      }
+
+      .col-resumo-quantidade {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
+    }
+  }
+
+  ion-slide.swiper-slide {
+    align-items: flex-start;
+  }
+
+  .amarelo {
+    background-color: #ffff8d !important;
+  }
+
+  .offline {
+    opacity: 0.5;
+  }
+
+  .small-footer {
+    height: 100px !important;
+  }
+
+  .footer-sincronizacao {
+    background-color: white;
+    color: black;
+    font-size: 14px;
+    height: 190px;
+
+
+    .grid-botao-finalizar {
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+
+      .btn-menu-internal {
+        background-color: #8DB7FF;
+        color: black;
+      }
+
+    }
+
+    .grid-botao-voltar {
+      margin-top: 6px;
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+
+      .btn-menu-internal-azul-forte {
+        background-color: #DEDEDE;
+        color: black;
+      }
+    }
+
+    .grid-dados {
+      padding-bottom: 6px;
+      padding-top: 6px;
+      display: flex;
+      justify-content: center;
+
+      .resumo {
+        padding-left: 10px;
+      }
+
+      .texto-sincronizacao {
+        font-size: 16px;
+        font-weight: bold;
+        padding-left: 10px;
+      }
+
+      .col-icone {
+        display: flex;
+        justify-content: flex-end;
+        font-size: 30px;
+        margin-right: 30px;
+      }
+    }
+  }
+
+  .col-icon-warning {
+    display: flex;
+    justify-content: flex-end;
+
+    .icon-warning {
+      margin-right: 6px;
+      color: #F5CA1E;
+      font-size: 22px;
+    }
+  }
+
+  // FIX para o scroll do ion-slide
+  ion-slides {
+    height: initial;
+  }
+
+  .desabilitar {
+    opacity: 0.5;
+  }
+
+}

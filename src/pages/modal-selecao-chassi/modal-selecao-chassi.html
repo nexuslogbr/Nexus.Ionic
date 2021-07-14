@@ -1,0 +1,32 @@
+<ion-content padding>
+  <form class="form-recebe-chassis">
+    <ion-list>
+      <ion-list-header text-center>
+        Selecione o chassi
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label label-ios>Chassi:</ion-label>
+        <ion-select  (ionChange)="onChassisChange($event)" okText="Confirmar" cancelText="Cancelar" #selectChassis>
+          <ion-option *ngFor="let chassi of chassis" value="{{chassi}}" id="{{chassi}}">{{chassi}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+  <ion-grid>
+      <ion-row class="first-row">
+          <ion-col>
+            <button ion-button class="btn-menu-internal" (click)="conferir()"
+              type="button">Confirmar</button>
+          </ion-col>
+        </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="cancelar()"
+          type="button">Cancelar</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+    </ion-list>
+  </form>
+</ion-content>

@@ -1,0 +1,19 @@
+<div class="form" style="margin-bottom: 0px;  border: none;" [ngClass]="{'desativado': disabled}">
+  <ion-grid>
+    <ion-row justify-content-start>
+      <ion-col col-9>
+
+        <!-- <ion-input class="input-header input-has-focus" type="text" (ionChange)="onChange()" 
+          [(ngModel)]="inputChassi" placeholder="chassi"
+          [formControl]="formControlChassi"
+          name="chassi" id="chassi" required #chassiInput></ion-input> -->
+        <ion-input class="input-header input-has-focus" type="text" [(ngModel)]="inputChassi" placeholder="chassi"
+          [formControl]="formControlChassi" required #chassiInput></ion-input>
+      </ion-col>
+      <ion-col col-3>
+        <ion-label class="code" (click)="scan()"></ion-label>
+        <!-- <ion-label class="search hidden" (click)="buscaChassi()"></ion-label> -->
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

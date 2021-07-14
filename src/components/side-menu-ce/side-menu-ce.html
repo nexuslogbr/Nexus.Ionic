@@ -1,0 +1,18 @@
+<ion-content class="menu-body">
+  <nav class="">
+      <ul class="">
+          <li class="user menu">
+               <a href="#" id="user">{{usuario}} <span class="user-email">{{email}}</span></a> 
+          </li>
+          <li class="home menu">
+              <button (click)="navigateToHomePage()">Início</button>
+          </li>
+          <li class="about menu">
+              <button (click)="about()">Sobre</button>
+          </li>
+          <li class="log-out menu">
+              <button (click)="Logout()">Logout</button>
+          </li>
+      </ul>
+  </nav>
+</ion-content>

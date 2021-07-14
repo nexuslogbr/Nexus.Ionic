@@ -1,0 +1,12 @@
+
+<ion-card >
+    <div class="icon-arrow" [class.extraClass]="down" (click)="toggleContent($event)">
+        Cadastro Frota
+    </div>
+  <ion-card-content #cc style="padding: 0px;" [class.open]="open">
+
+  <ng-content></ng-content>
+  
+  </ion-card-content>  
+    
+</ion-card>

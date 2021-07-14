@@ -1,0 +1,115 @@
+<ion-grid
+  class="grid-veiculos"
+  *ngIf="fechamento && configuracao.conferenciaConfiguracaoStatusID==2"
+>
+  <ion-row class="row-header">
+    <ion-col col-2>
+      <ion-checkbox
+        (click)="changeAll()"
+        [checked]="selecionarTodos"
+        [disabled]="disableCheckboxes"
+      ></ion-checkbox>
+    </ion-col>
+    <ion-col col-3>Modelo</ion-col>
+    <ion-col col-5>Chassi</ion-col>
+    <ion-col col-2>Status</ion-col>
+  </ion-row>
+  <ion-row class="row-veiculo" *ngFor="let veiculo of veiculos">
+    <ion-col col-2>
+      <ion-checkbox
+        [checked]="veiculo.selecionado"
+        (click)="change(veiculo)"
+        [disabled]="disableCheckboxes"
+      ></ion-checkbox>
+    </ion-col>
+    <ion-col col-3>{{ veiculo.modelo }}</ion-col>
+    <ion-col col-5 class="col-chassi"
+      ><div class="chassi">
+        <div>{{ veiculo.chassi.substring(0,11) }}</div>
+        <div><strong>{{ veiculo.chassi.substring(11,18) }}</strong></div>
+      </div></ion-col
+    >
+    <ion-col col-2>
+      <img
+        src="assets/icons/car.png"
+        class="img-car"
+        *ngIf="veiculo.conferenciaVeiculoMotivoId==null"
+      />
+      <img
+        src="assets/icons/car-azul.png"
+        class="img-car"
+        *ngIf="veiculo.conferenciaVeiculoMotivoId==3"
+      />
+      <img
+        src="assets/icons/car-checked-azul.png"
+        class="img-car"
+        *ngIf="veiculo.conferenciaVeiculoMotivoId==2"
+      />
+      <img
+        src="assets/icons/car-checked-verde.png"
+        class="img-car"
+        *ngIf="veiculo.conferenciaVeiculoMotivoId==1"
+      />
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-grid
+  class="grid-veiculos"
+  *ngIf="!(fechamento && configuracao.conferenciaConfiguracaoStatusID==2)"
+>
+  <ion-row class="row-header">
+    <ion-col col-4>Modelo</ion-col>
+    <ion-col col-5>Chassi</ion-col>
+    <ion-col col-3>Status</ion-col>
+  </ion-row>
+  <ion-row class="row-veiculo" *ngFor="let veiculo of veiculos">
+    <ion-col col-4>{{ veiculo.modelo }}</ion-col>
+    <ion-col col-5 class="col-chassi"
+      ><div class="chassi">
+        <div>{{ veiculo.chassi.substring(0,11) }}</div>
+        <div><strong>{{ veiculo.chassi.substring(11,18) }}</strong></div>
+      </div></ion-col
+    >
+    <ion-col col-3>
+      <img
+        src="assets/icons/car.png"
+        class="img-car"
+        *ngIf="veiculo.conferenciaVeiculoMotivoId==null"
+      />
+      <img
+        src="assets/icons/car-azul.png"
+        class="img-car"
+        *ngIf="veiculo.conferenciaVeiculoMotivoId==3"
+      />
+      <img
+        src="assets/icons/car-checked-azul.png"
+        class="img-car"
+        *ngIf="veiculo.conferenciaVeiculoMotivoId==2"
+      />
+      <img
+        src="assets/icons/car-checked-verde.png"
+        class="img-car"
+        *ngIf="veiculo.conferenciaVeiculoMotivoId==1"
+      />
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-infinite-scroll
+  (ionInfinite)="doInfinit($event)"
+  *ngIf="pagination.hasMoreData"
+>
+  <ion-infinite-scroll-content loadingSpinner="bubbles">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+<!-- <ion-grid class="grid-botao-justificar-wrapper" *ngIf="exibirJustificar">
+  <ion-row>
+    <ion-col>
+      <button ion-button class="btn-menu-internal btn-justificar" (click)="justificar()" type="button">
+        Justificar
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-grid> -->

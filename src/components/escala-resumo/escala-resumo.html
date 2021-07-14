@@ -1,0 +1,72 @@
+<ion-grid class="grid-header-navio" *ngIf="navio">
+  <ion-row>
+    <ion-col>
+      <p>{{navio?.nome}} / {{navio?.viagem}}</p>
+      <span class="porto">{{navio?.porto?.nome}}</span>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-list class="list-items" *ngIf="lotes && lotes.length">
+
+  <ion-list-header *ngFor="let lote of lotes; let i = index" class="list-header" (click)="toggleSection(i)" no-lines
+    no-padding>
+    <ion-grid no-padding class="grid-header">
+      <ion-row>
+        <ion-col text-left>
+          <span class="destino">{{lote?.destino.nome}}
+            ({{lote && lote.navioOperacao && lote.navioOperacao.tipoOperacao==1? 'Carga': 'Descarga'}})</span>
+        </ion-col>
+        <ion-col class="col-opener">
+          <span *ngIf="showConferencia">{{lote.quantidadeVinculada}}/{{lote.quantidadeConferida}}</span>
+          <span *ngIf="!showConferencia">{{lote.quantidadeVinculada}}</span>
+          <ion-icon name="arrow-dropdown" *ngIf="!lote.opened"></ion-icon>
+          <ion-icon name="arrow-dropup" *ngIf="lote.opened"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-list *ngIf="lote.invoices.length && lote.opened" no-padding class="list-invoice">
+      <ion-list-header class="list-invoice-header" no-lines>
+        <ion-grid class="grid-invoice-header">
+          <ion-row class="row-invoice-header">
+            <ion-col text-center>
+              Modelo
+            </ion-col>
+            <ion-col col-4 text-center>
+              Total
+            </ion-col>
+            <ion-col col-4 text-center *ngIf="showConferencia">
+              Conferido
+            </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let invoice of lote.invoices" class="row-invoice">
+            <ion-col text-left>
+              {{lote.modeloNome}}
+            </ion-col>
+            <ion-col col-4 text-center>
+              {{invoice.quantidadeVinculada}}
+            </ion-col>
+            <ion-col col-4 text-center *ngIf="showConferencia">
+              {{invoice.quantidadeConferida}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list-header>
+    </ion-list>
+  </ion-list-header>
+
+</ion-list>
+
+<div *ngIf="navio">
+  <ion-list class="list-items"
+    *ngIf="navio.operacoes==null || (navio.operacoes!=null && navio.operacoes.length==0) || lotes==null || (lotes!=null && lotes.length==0)">
+    <ion-grid class="grid-header-navio">
+      <ion-row>
+        <ion-col>
+          <p>Nenhum lote encontrado</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+</div>

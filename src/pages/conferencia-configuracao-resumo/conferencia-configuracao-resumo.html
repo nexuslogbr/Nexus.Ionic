@@ -1,0 +1,42 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    Configuração/Resumo
+  </ion-title>
+</ion-header>
+
+<ion-content padding>
+
+  <escala-resumo [navio]="navio" [showConferencia]="false"></escala-resumo>
+
+  <ion-grid class="first-row">
+    <ion-row *ngIf="!onlyShow">
+      <ion-col *ngIf="navio !=null && !navio.disponivelConferencia">
+        <button ion-button class="btn-menu-internal" (click)="disponibilizar()" type="button"
+          [disabled]="navio==null">Disponibilizar</button>
+      </ion-col>
+      <ion-col *ngIf="navio !=null && navio.disponivelConferencia && !onlyShow">
+        <button ion-button class="btn-menu-internal" (click)="remover()" type="button"
+          [disabled]="navio==null">Remover</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()"
+          type="button">Voltar</button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="navio!=null && navio.conferenciaFinalizada">
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="liberar()" type="button"
+          [disabled]="navio==null">Liberar Conferência</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<modal-loading></modal-loading>

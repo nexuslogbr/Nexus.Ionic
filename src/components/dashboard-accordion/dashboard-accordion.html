@@ -1,0 +1,14 @@
+<ion-card (click)="toggleContent($event)" style="margin: 15px; border: 1px solid #153b56;">
+    
+  <ion-list-header [class.extraClass]="down" class="icon-arrow">
+      {{navioNome}}
+  </ion-list-header>
+  
+  <ion-card-content #cc>
+  
+  <ng-content></ng-content>
+  
+  </ion-card-content>  
+  
+  </ion-card>
+  

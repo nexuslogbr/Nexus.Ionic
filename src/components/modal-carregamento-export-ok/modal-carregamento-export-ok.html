@@ -1,0 +1,31 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+<ion-content padding>
+  <form class="form-recebe-chassis">
+    <ion-list>
+      <ion-list-header>
+        Selecione o chassi
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label label-ios>Chassi:</ion-label>
+        <ion-input type="text" [(ngModel)]="formCarregamento.chassi" name="chassi" id="chassi" placeholder="" value="" required disabled></ion-input>
+      </ion-item>
+      <div class="login-content" style="display: block;">
+        <p>FINALIZAR CARREGAMENTO?</p>
+      <button ion-button round first class="btn-receiving btn-cancel" (click)="closeModal()" type="button">NÃO</button>
+        <button ion-button round end class="btn-receiving btn-ok" (click)="FinalizarCarregamento()" type="button">SIM</button>
+      </div>
+
+    </ion-list>
+  </form>  
+</ion-content>
+<modal-loading></modal-loading>
+<modal-error></modal-error>

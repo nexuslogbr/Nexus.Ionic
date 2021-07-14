@@ -1,0 +1,77 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+
+<ion-content>
+  <ion-list no-lines>
+    <ion-item no-lines *ngFor="let menu of userMenus;">
+      <button
+        class="main-menu"
+        [ngClass]="menu.cssClass"
+        (click)="chamar(menu)"
+      >
+        {{menu.texto}}
+      </button>
+    </ion-item>
+  </ion-list>
+
+  <!-- <ion-list no-lines *ngIf="!userData.confereOffline && !userData.confereOnline">
+
+    <ion-item no-lines>
+      <button class="reception main-menu" (click)="navigateToRecebimentoPage()">Recebimento</button>
+    </ion-item>
+
+    <ion-item>
+      <button class="storage main-menu" (click)="navigateToParqueamentoPage()">Parqueamento</button>
+    </ion-item>
+
+    <ion-item>
+      <button class="receber-parquear main-menu" (click)="navigateToReceberParquearPage()">Receber/Parquear</button>
+    </ion-item>
+
+    <ion-item>
+      <button class="conferir main-menu" (click)="navigateToNovaConferencia()">Conferência</button>
+    </ion-item>
+
+    <ion-item>
+      <button class="parquear-bloco main-menu" (click)="navigateToParquearEmBlocoPage()">Parquear/Bloco</button>
+    </ion-item>
+
+    <ion-item>
+      <button class="movement main-menu" (click)="navigateToMovimentacaoPage()">Movimentação</button>
+    </ion-item>
+
+    <ion-item>
+      <button class="trimming main-menu" (click)="navigateToRechegoPage()">Rechego</button>
+    </ion-item>
+
+    <ion-item>
+      <button class="load-truck main-menu" (click)="navigateToCarregamentoPage()">Carregamento</button>
+    </ion-item>
+
+    <ion-item>
+      <button class="load-export main-menu" (click)="navigateToCarregamentoExportPage()">Carregamento Export.</button>
+    </ion-item>
+
+    <ion-item>
+      <button class="romaneio main-menu" (click)="navigateToRomaneioPage()">Romaneio</button>
+    </ion-item>
+
+    <ion-item>
+      <button class="historico-chassi main-menu" (click)="historicoChassiPage()">Histórico de Chassi</button>
+    </ion-item>
+  </ion-list>
+
+
+  <ion-list no-lines *ngIf="userData.confereOffline || userData.confereOnline">
+    <ion-item>
+      <button class="conferir main-menu" (click)="navigateToNovaConferencia()">Conferência</button>
+    </ion-item>
+  </ion-list> -->
+</ion-content>

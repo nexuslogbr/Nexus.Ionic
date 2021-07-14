@@ -1,0 +1,31 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" class="conferencia-header">
+  <button class="btn-menu">
+    <i class="icon icon-menu-gray"></i>
+  </button>
+  <ion-title>
+    Conferência
+  </ion-title>
+</ion-header>
+
+<ion-content padding class="conferencia-content">
+
+  <configuracao-item [configuracao]="configuracao" *ngFor="let configuracao of configuracoes"
+    (gotoPage)="gotoPage(configuracao)"></configuracao-item>
+
+</ion-content>
+
+<ion-footer no-border>
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="voltar()" type="button">
+          Voltar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<modal-loading-white></modal-loading-white>
+<modal-downloading></modal-downloading>

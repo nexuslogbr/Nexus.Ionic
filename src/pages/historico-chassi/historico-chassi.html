@@ -1,0 +1,31 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+
+<ion-content padding id="recebimento" class="recebimento show">
+  <div class="qr-code-container">
+    <i class="icon icon-qr-code-black" (click)="scan()"></i>
+    <div class="line"></div>
+    <form (ngSubmit)="buscarChassi()">
+      <ion-label>Chassi:</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="formData.chassi"
+        placeholder=""
+        [formControl]="formControlChassi"
+        value=""
+        required
+        #chassiInput
+      ></ion-input>
+    </form>
+  </div>
+</ion-content>
+
+<modal-error></modal-error>
+<modal-loading></modal-loading>

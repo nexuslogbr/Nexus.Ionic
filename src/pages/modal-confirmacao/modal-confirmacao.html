@@ -1,0 +1,33 @@
+<ion-content padding>
+  <div class="qr-code-container">
+    <i (click)="closeModal()" class="icon {{ iconClass }}"></i>
+    <h3 *ngIf="messageTitle">{{ messageTitle }}</h3>
+    <p id="mensagem">{{ message }}</p>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button
+          ion-button
+          class="btn-menu-internal"
+          (click)="confirmar()"
+          type="button"
+        >
+          Confirmar
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button
+          ion-button
+          class="btn-menu-internal"
+          (click)="cancelar()"
+          type="button"
+        >
+          Cancelar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,32 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    Resumo
+  </ion-title>
+</ion-header>
+
+<ion-content padding>
+
+  <escala-resumo [navio]="navio"></escala-resumo>
+
+  <ion-grid>
+    <ion-row *ngIf="conferenciaNavioLote.finalizada && !navio.conferenciaFinalizada">
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="reabrir()"
+          type="button">Reabrir</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()"
+          type="button">Voltar</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<modal-loading></modal-loading>

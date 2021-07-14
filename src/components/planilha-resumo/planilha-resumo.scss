@@ -1,0 +1,25 @@
+planilha-resumo {
+    .grid-header-arquivo {
+      background-color: #1c6381;
+      color: white;
+      font-weight: 500;
+      border: 1px solid #1c6381;
+  
+      p {
+        margin: 2px;
+      }
+  
+    }
+  
+    .grid-conferencias {
+        padding: 0px;
+        color: white;
+        ion-row {
+          ion-col {
+            padding: 6px;
+            border: 1px solid #1c6381;
+          }
+        }
+      }
+  
+  }

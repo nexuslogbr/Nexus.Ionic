@@ -1,0 +1,120 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+<ion-content>
+  <section class="lines-content row">
+
+    <div class="form-loading col-xs-12 col-sm-12 col-md-12 ">
+      <div>
+        <ion-list-header>
+          Em Carregamento
+        </ion-list-header>
+
+        <div class='shipping-company temporary-wrapper' *ngIf="emCarregamentoTrue">
+          <div class='line-list container target-emCarregamento' [dragula]='"nested-bag"'>
+          </div>
+        </div>
+
+        <div class='shipping-company wrapper' *ngFor="let carregamento of emCarregamento; let i = index">
+          <h6 text-uppercase>{{carregamento.transportadora}}</h6>
+          <div class='line-list container target-emCarregamento' [dragula]='"nested-bag"'>
+            <div class="line-item border-blue source-emCarregamento" *ngFor="let romaneio of carregamento.detalhes"
+            [ngClass]="{'not-draggable': romaneio.quantidade>0}"
+            (pan)="configuraSelecionado(i, romaneio, 'emCarregamento')"
+              (click)="CarregamentoResumo(romaneio.id,romaneio.romaneioID)">
+              <span class="circle-flag loading">{{romaneio.quantidade}}</span>
+              <strong text-uppercase>{{romaneio.fila}}</strong>
+              <strong class="line-content" text-uppercase>{{romaneio.frota}}</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div>
+        <ion-list-header>
+          Conferidos
+        </ion-list-header>
+
+        <div class='shipping-company temporary-wrapper' *ngIf="conferidoTrue">
+          <div class='line-list container target-conferido' [dragula]='"nested-bag"'>
+          </div>
+        </div>
+
+        <div class='shipping-company wrapper' *ngFor="let conferido of conferidos; let i = index">
+          <h6 text-uppercase>{{conferido.transportadora}}</h6>
+          <div class='line-list container target-conferido' [dragula]='"nested-bag"'>
+            <div class="line-item border-red source-conferido" *ngFor="let romaneio of conferido.detalhes"
+            [ngClass]="{'not-draggable': romaneio.quantidade>0}"
+              (pan)="configuraSelecionado(i, romaneio, 'conferido')" (click)="CarregamentoResumoConferido(romaneio.id,romaneio.romaneioID, true)">
+              <span class="circle-flag checked">{{romaneio.quantidade}}</span>
+              <strong text-uppercase>{{romaneio.fila}}</strong>
+              <strong class="line-content" text-uppercase>{{romaneio.frota}}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <ion-list-header>
+          Romaneios Previstos
+        </ion-list-header>
+
+        <div class='shipping-company temporary-wrapper' *ngIf="previstoTrue">
+          <div class='line-list container target-previsto' [dragula]='"nested-bag"'>
+          </div>
+        </div>
+
+        <div class='shipping-company wrapper' *ngFor="let previsto of previstos; let i = index">
+          <h6 text-uppercase>{{previsto.transportadora}}</h6>
+          <div class='line-list container target-previsto' [dragula]='"nested-bag"'>
+            <div class="line-item border-red source-previsto" *ngFor="let romaneio of previsto.detalhes" (pan)="configuraSelecionado(i, romaneio, 'previsto')"
+              (click)="openRampaFila(romaneio.id,romaneio.romaneioID)">
+              <span class="circle-flag checked">{{romaneio.quantidade}}</span>
+              <strong text-uppercase>{{romaneio.fila}}</strong>
+              <strong class="line-content" text-uppercase>{{romaneio.frota}}</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div>
+        <ion-list-header>
+          Carregados
+        </ion-list-header>
+
+        <div class='shipping-company temporary-wrapper' *ngIf="carregadoTrue">
+          <div class='line-list container target-carregado' [dragula]='"nested-bag"'>
+          </div>
+        </div>
+
+        <div class='shipping-company wrapper' *ngFor="let carregado of carregados; let i = index">
+          <h6 text-uppercase>{{carregado.transportadora}}</h6>
+          <div class='line-list container target-carregado' [dragula]='"nested-bag"'>
+            <div class="line-item border-green" *ngFor="let romaneio of carregado.detalhes"
+            (click)="CarregamentoConsultaResumo(romaneio.id,romaneio.romaneioID, true)">
+              <span class="circle-flag loaded">{{romaneio.quantidade}}</span>
+              <strong text-uppercase>{{romaneio.fila}}</strong>
+              <strong class="line-content" text-uppercase>{{romaneio.frota}}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-content">
+        <button ion-button round class="btn-login" (click)="voltar()">VOLTAR</button>
+      </div>
+    </div>
+  </section>
+  <modal-loading></modal-loading>
+</ion-content>
+<modal-error></modal-error>
+
+<!-- <rampa-fila></rampa-fila> -->

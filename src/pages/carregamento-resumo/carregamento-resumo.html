@@ -1,0 +1,63 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+<ion-content padding id="form-novo-romaneio" class="form-novo-romaneio">
+    <div class="form">
+        <ion-list>
+            <ion-list-header>
+              <div style="float:left;">
+                  <label class="title-header">Romaneio: </label> <span>00012345</span>
+              </div>
+              <div style="float: right;">
+                  <label class="title-header">Fila: </label> <span>4A</span>
+              </div>
+            </ion-list-header>
+
+            <ion-list-header>
+              <div style="float:left;">
+                  <label class="title-header">Chassis Conferidos</label>
+              </div>
+              <div style="float: right;">
+                  <label class="title-header">Total: </label> <span>04</span>
+              </div>
+            </ion-list-header>
+
+            <ion-item *ngFor="let chassi of formData.chassis" >
+                <ion-label>Chassi:</ion-label>
+                <ion-input class="form-control" type="text"  id="" name="" value="" placeholder="{{chassi.chassi}}"  [disabled]="true" class="chassis-nao-carregados"></ion-input>
+            </ion-item>       
+
+        </ion-list>
+    </div>
+
+    <div class="form">
+        <ion-list>
+
+            <ion-list-header>
+              <div style="float:left;">
+                  <label class="title-header">Chassis Não Conferidos</label>
+              </div>
+              <div style="float: right;">
+                  <label class="title-header">Total: </label> <span>04</span>
+              </div>
+            </ion-list-header>
+
+            <ion-item *ngFor="let chassi of formData.chassis" >
+                <ion-label>Chassi:</ion-label>
+                <ion-input class="form-control" type="text"  id="" name="" value="" placeholder="{{chassi.chassi}}"  [disabled]="true" class="chassis-carregados"></ion-input>
+            </ion-item>       
+
+        </ion-list>
+    </div>    
+
+    <div class="login-content">
+        <button ion-button round class="btn-default" type="submit" >Finalizar Carregamento</button>
+    </div>
+</ion-content>
+<modal-loading></modal-loading>

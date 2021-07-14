@@ -1,0 +1,62 @@
+page-model-info {
+
+  ion-content {
+    background-color: #18B14F !important;
+
+    div.scroll-content {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .grid-modal {
+
+    .row-icon {
+
+
+      .col-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .img-icon {
+          height: 170px;
+        }
+      }
+    }
+
+    .row-padding-text {
+      height: 40px;
+    }
+
+    .row-primary-text {
+      .col-primary-text {
+        text-align: center;
+
+        .p-primary-text {
+          margin: 0px;
+          font-weight: bold;
+          font-size: 30px;
+          color: white;
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    .row-secundary-text {
+      .col-secundary-text {
+        text-align: center;
+
+        .p-secundary-text {
+          margin: 0px;
+          font-weight: bold;
+          font-size: 30px;
+          color: white;
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+
+}

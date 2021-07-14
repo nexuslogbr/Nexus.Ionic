@@ -1,0 +1,13 @@
+modal-loading {
+    display: none;
+    background-color: #06273f;
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    ion-content.content {
+        background-color: #06273f;
+        position: relative;
+    }
+}

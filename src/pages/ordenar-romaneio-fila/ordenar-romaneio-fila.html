@@ -1,0 +1,27 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+
+<ion-content padding >
+    <div *ngFor="let item of parametros">
+        <div *ngFor="let romaneio of item.detalhes">
+            <ion-item >
+                <ion-icon name="football" item-start large></ion-icon>
+                <h2>Nº Romaneio: {{romaneio.id}}</h2>
+                <p>Transportadora: {{romaneio.transportadora}}</p>
+                <ion-icon name="wine" item-end large (click)="filaRomaneio($event, item.numero)" class="romaneioId" id="{{romaneio.id}}"></ion-icon>
+            </ion-item>
+        </div>
+    </div>
+    <div class="login-content">
+        <button ion-button round class="btn-default" (click)="voltar()">Voltar</button>
+    </div>
+</ion-content>
+<modal-error></modal-error>  
+<modal-loading></modal-loading>

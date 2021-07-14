@@ -1,0 +1,44 @@
+<ion-content padding>
+  <div class="qr-code-container">
+    <i class="icon icon-reception"></i>
+    <p>RECEBIMENTO REALIZADO COM</p>
+    <h3>SUCESSO!</h3>
+    <div class="line"></div>
+    <p *ngIf="modoOperacao==1">DESEJA PARQUEAR AGORA?</p>
+    <button
+      *ngIf="modoOperacao==1"
+      ion-button
+      round
+      first
+      class="btn-receiving btn-cancel"
+      (click)="closeModal()"
+      type="button"
+    >
+      NÃO
+    </button>
+    <button
+      *ngIf="modoOperacao==1"
+      ion-button
+      round
+      end
+      class="btn-receiving btn-ok"
+      (click)="parqueamento()"
+      type="button"
+    >
+      SIM
+    </button>
+
+    <button
+      *ngIf="modoOperacao==2"
+      ion-button
+      round
+      end
+      class="btn-receiving btn-continuar"
+      (click)="closeModal()"
+      type="button"
+    >
+      CONTINUAR
+    </button>
+  </div>
+</ion-content>
+<modal-loading></modal-loading>

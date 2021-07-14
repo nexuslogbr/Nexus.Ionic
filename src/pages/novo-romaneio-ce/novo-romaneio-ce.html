@@ -1,0 +1,89 @@
+<side-menu-ce></side-menu-ce>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+<ion-content padding id="form-novo-romaneio" class="form-novo-romaneio">
+    <div class="form">
+        <ion-list>
+            <ion-list-header>
+                Cadastro de Romaneio
+            </ion-list-header>
+            <ion-item>
+                <ion-label>Porto:</ion-label>
+                <ion-input class="form-control" type="text" [(ngModel)]="formData.porto" id="porto" name="porto" value="" placeholder="{{ porto }}"  [disabled]="isDisabled ? '' : null"></ion-input>
+            </ion-item>
+
+            <ion-item class="item-block item-ios item-select icon-clock">
+                <ion-label>Tipo:</ion-label>
+                <ion-input class="form-control" type="text" [(ngModel)]="formData.tipo" id="formData.tipoID" name="formData.tipoID" value="" placeholder="{{ tipo }}" [disabled]="isDisabled ? '' : null"></ion-input>
+            </ion-item>  
+
+            <ion-item class="item-block item-ios item-select">
+                <ion-label>Data:</ion-label>
+                <!-- <ion-input class="form-control" type="text" id="data" name="data" value="{{formData.data}}" placeholder="{{ data }}" [disabled]="true"></ion-input> -->
+                <ion-datetime min="2017" max="2030-10-31" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" [(ngModel)]="formData.data" cancelText="Cancelar" doneText="Confirmar"></ion-datetime>
+            </ion-item>        
+
+        </ion-list>
+    </div>
+
+    <form class="form">
+        <ion-list>
+            <ion-list-header>
+                Cadastro de transportadora
+            </ion-list-header>
+            <ion-item>
+                <ion-label label-ios>Transportadora:</ion-label>
+                <ion-select  (ionChange)="onTransportadoraChange($event)" okText="Confirmar" cancelText="Cancelar">
+                    <ion-option *ngFor="let transportadora of transportadoras" value="{{transportadora.id}}" id="{{transportadora.id}}">{{transportadora.nome}}</ion-option>
+                </ion-select>
+            </ion-item>
+
+            <ion-item class="item-block item-ios item-select">
+                <ion-label>Placa do caminhão:</ion-label>
+                <ion-input class="form-control text-upper" type="text" [(ngModel)]="formData.placa" id="placa" name="placa" value="" placeholder="{{ placa }}" [disabled]="isDisabled ? '' : null"></ion-input>
+            </ion-item>  
+
+            <ion-item class="item-block item-ios item-select">
+                <ion-label>Frota:</ion-label>
+                <ion-input class="form-control" type="text" [(ngModel)]="formData.frota" id="frota" name="frota" value="" placeholder="{{ frota }}" [disabled]="isDisabled ? '' : null"></ion-input>
+            </ion-item>        
+
+        </ion-list>
+    </form>
+
+    <div class="form-novo-veiculo" >
+        <ion-list>
+            <ion-list-header class="new-vehicle">
+               Novo veículo(chassi ou nota fiscal)
+            </ion-list-header>
+
+            <ion-grid>
+                <ion-row justify-content-start>
+                    <ion-col col-9>
+                            <ion-input class="input-header" type="text"  [(ngModel)]="formData.chassiNf" placeholder=""></ion-input>
+                    </ion-col>
+                    <ion-col col-3>
+                            <ion-label class="icon-qr-code" (click)="ConsultarChassiNf()"></ion-label>
+                    </ion-col>  
+                </ion-row>              
+            </ion-grid>      
+
+        </ion-list>
+
+        <form action="" id="form-novo-veiculo">
+                     
+        </form>
+    
+    </div>
+
+    <div class="login-content">
+        <button ion-button round class="btn-default" type="submit" (click)="novoRomaneio()">Finalizar</button>
+    </div>
+</ion-content>
+<modal-loading></modal-loading>

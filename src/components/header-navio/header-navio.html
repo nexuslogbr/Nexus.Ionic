@@ -1,0 +1,8 @@
+<ion-grid class="grid-header-navio" *ngIf="navio">
+    <ion-row>
+      <ion-col>
+        <p>{{ navio?.nome }} / {{ navio?.viagem }}</p>
+        <span class="porto">{{ navio?.porto?.nome }}</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>

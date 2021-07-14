@@ -1,0 +1,85 @@
+page-romaneio-listar {
+    background-color: #00141b;
+    ion-content {
+        background-color: color($colors, bgQrCode) !important;
+        ion-list{
+            margin: 0;
+            background-color: #06273f;
+            .list-header-md{
+                background-color: #1c6381;
+                border-top: none;
+                margin: 0;
+                ion-label{
+                    color: #fff;
+                    font: 16px 'avenir_demi';
+                }
+            }   
+            ion-item.item-md{
+                background-color: #06273f;
+                border: 1px solid #1c6381 !important;
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;                
+            }        
+            ion-item{
+                background-color: #06273f;
+                padding: 0;
+                color: #fff;
+                .item-inner{
+                    padding-left: 15px;
+                    padding-right: 15px;
+                    border-bottom: 1px solid transparent !important;                 
+                    ion-label{
+                        color: #fff;
+                    }
+                    .input-cover{
+                        width: 80% !important;
+                    }
+                    .icon-date-picker{
+                        background-image: url("../assets/images/icon-date-picker.png");
+                        background-repeat: no-repeat;
+                        background-size: 26px 24px;
+                        width: 26px;
+                        height: 24px;                                
+                    }
+                    ion-input{
+                        color: #fff;
+                    }
+                }
+            }             
+        }
+    }
+    .login-content {
+        margin-top: 15px;
+        padding: 0 20px;
+        width: 100%;
+        text-align: center;
+        .btn {
+            background-color: #1c6381;
+            width: 100% !important;
+            padding: 25px;
+            border-radius: 45px;
+            color: #fff;
+            font: 17px 'avenir_demi';
+            text-transform: uppercase;
+            margin: 0 auto;
+        }            
+        .btn-default {
+            background-color: #1c6381;
+            width: 100%;
+            height: auto;
+            span {
+                padding: 25px 15px 25px 15px;
+                font: 19px 'avenir_bold';
+            }
+        }
+    } 
+    .icon-clock{
+        background-image: url("../assets/images/icon-date-picker.png");
+        background-repeat: no-repeat;
+        background-position: 95% center;
+        background-size: 39px 36px;       
+    }         
+     
+}
+
+    

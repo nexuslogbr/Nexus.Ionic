@@ -1,0 +1,16 @@
+<ion-content padding id="recebimento" class="recebimento show">
+    <div class="qr-code-container">
+        <i class="icon icon-qr-code-black" (click)="scan()"></i>
+        <div class="line"></div>
+        <form>
+            <ion-label>Chassi:</ion-label>
+            <ion-input type="text" [(ngModel)]="chassiNovo" name="chassi" id="chassi" placeholder="" value="" required></ion-input>
+        </form>
+        <div class="login-content">
+            <button ion-button round first class="btn-receiving btn-cancel" (click)="voltar()" type="button">Voltar</button>
+            <button ion-button round end class="btn-receiving btn-ok" (click)="TrocarChassi()" type="button">Substituir</button>
+        </div>             
+    </div>
+
+</ion-content>
+<modal-loading></modal-loading>

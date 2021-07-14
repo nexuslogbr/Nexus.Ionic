@@ -1,0 +1,86 @@
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+
+<ion-content padding>
+    <form class="form-parking col-xs-12 col-sm-12">
+        <div class="form-group row">
+            <h4 class="col-xs-12">Informações de parqueamento</h4>
+
+            <div class="col-xs-12 col-sm-12 select-input">
+                <label for="" class=" col-form-label">Chassi:</label>
+                <input class="form-control" type="text" value="{{ qrCode }}" placeholder="{{ qrCode }}" id="chassi-recebido" name="chassi-recebido" disabled="">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-xs-12 col-sm-12 select-input">
+                <label for="" class="col-form-label">Local:</label>
+                <input class="form-control" type="text" value="{{ local }}" placeholder="{{ local }}" id="bolsao" name="bolsao">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-xs-12 col-sm-12 select-input">
+                <label for="" class="col-form-label">Layout:</label>
+                <input class="form-control" type="text" placeholder="ex: A" id="bolsao" name="bolsao">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-xs-12 col-sm-12 select-input">
+                <label for="" class="col-form-label">Bolsão:</label>
+                <input class="form-control" type="text" placeholder="ex: A" id="bolsao" name="bolsao">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-xs-12 col-sm-12 select-input">
+                <label for="" class="col-form-label">Fila:</label>
+                <input class="form-control" type="text" placeholder="ex: 01" id="fila" name="fila">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-xs-12 col-sm-12 select-input">
+                <label for="" class="col-form-label">Posição:</label>
+                <input class="form-control" type="text" placeholder="ex: 01" id="posicao" name="posicao">
+            </div>
+        </div>
+
+    </form>
+    <div class="login-content">
+        <button ion-button round class="btn-default" type="submit">Finalizar</button>
+    </div>
+</ion-content>
+<!-- [(ngModel)]="formData.pass" -->
+
+
+<!-- <form (ngSubmit)="ArmazenamentoPosicao()">
+        <ion-list>
+          <h4 class="col-xs-12">Informações de parqueamento</h4>
+            <ion-item>
+                <ion-input  type="text"  placeholder="" id="chassi-recebido" name="chassi-recebido" disabled=""></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-input type="password" id="pass" placeholder="Senha" [(ngModel)]="formData.pass" name='pass'></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-input type="password" id="pass" placeholder="Senha" [(ngModel)]="formData.pass" name='pass'></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input type="password" id="pass" placeholder="Senha" [(ngModel)]="formData.pass" name='pass'></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input type="password" id="pass" placeholder="Senha" [(ngModel)]="formData.pass" name='pass'></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input type="password" id="pass" placeholder="Senha" [(ngModel)]="formData.pass" name='pass'></ion-input>
+            </ion-item>
+        </ion-list>
+        <div class="login-content">
+            <button ion-button round class="btn-login" type="submit">Entrar</button>
+        </div>
+    </form> -->

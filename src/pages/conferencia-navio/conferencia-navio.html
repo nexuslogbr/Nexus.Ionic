@@ -1,0 +1,76 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{titulo}}
+  </ion-title>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-grid class="grid-base grid-header" *ngIf="navios.length">
+    <ion-row>
+      <ion-col text-center>
+        Selecionar Navio
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="grid-base grid-navio" *ngFor="let navio of navios" (click)="continuar(navio)">
+    <ion-row>
+      <ion-col>
+        <strong>Navio/Viagem:</strong>&nbsp;{{navio.nome}} / {{navio.viagem}}
+      </ion-col>
+      <ion-col col-2 class="col-icon" *ngIf="navio.disponivelOffline">
+        <ion-icon name="md-cloud-done" class="icon-check" ></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="grid-base grid-noreg" *ngIf="navios.length==0 && !showErrorMessage">
+    <ion-row>
+      <ion-col text-center>
+        Não existem navios disponíveis para conferência
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="grid-base grid-header grid-planilha" *ngIf="planilhas.length">
+    <ion-row>
+      <ion-col text-center>
+        Selecionar Planilha
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="grid-base grid-navio" *ngFor="let planilha of planilhas" (click)="continuarPlanilha(planilha)">
+    <ion-row>
+      <ion-col>
+        <strong>Planilha:</strong>&nbsp;{{planilha.nomeOriginal}}
+      </ion-col>
+      <ion-col col-2 class="col-icon" *ngIf="planilha.disponivelOffline">
+        <ion-icon name="md-cloud-done" class="icon-check" ></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="grid-base grid-error" *ngIf="showErrorMessage">
+    <ion-row>
+      <ion-col text-center>
+        Ocorreu um erro!
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-row class="row-botao-voltar">
+    <ion-col>
+      <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()"
+        type="button">Voltar</button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
+
+<modal-loading></modal-loading>

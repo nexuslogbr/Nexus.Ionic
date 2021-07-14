@@ -1,0 +1,56 @@
+page-historico-chassi {
+  background-color: #06273f;
+  ion-content {
+    background-color: color($colors, bgQrCode) !important;
+  }
+  #recebimento {
+    transition: all 0.4s ease-in-out;
+    background-color: color($colors, bgQrCode) !important;
+    input {
+      border: 1px solid #153b56;
+      background-color: #06273f;
+      color: #fff;
+      font: 14px "avenir_demi";
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+    }
+    .login-content {
+      margin-top: 15px;
+      padding: 0 20px;
+      width: 100%;
+      text-align: center;
+      .btn {
+        background-color: #1c6381;
+        width: 100% !important;
+        padding: 25px;
+        border-radius: 45px;
+        color: #fff;
+        font: 17px "avenir_demi";
+        text-transform: uppercase;
+        margin: 0 auto;
+      }
+      .btn-default {
+        background-color: #1c6381;
+        width: 100%;
+        height: auto;
+        span {
+          padding: 25px 15px 25px 15px;
+          font: 19px "avenir_bold";
+        }
+      }
+    }
+  }
+}
+
+.btn {
+  background-color: #1c6381;
+  width: 100% !important;
+  padding: 25px;
+  border-radius: 45px;
+  color: #fff;
+  font: 17px "avenir_demi";
+  text-transform: uppercase;
+  margin: 0 auto;
+}

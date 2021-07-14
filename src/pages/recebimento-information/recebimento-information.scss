@@ -1,0 +1,68 @@
+page-recebimento-information {
+    background-color: #00141b;
+    ion-content {
+        background-color: #00141b !important;
+        .scroll-content {
+            form {
+                background-color: #06273f;
+                border-radius: 5px;
+                border: 1px solid #1c6381;
+                .form .form-group {
+                    position: relative;
+                    margin-bottom: 0;
+                }
+                h4 {
+                    font: 16px 'avenir_demi';
+                    color: #fff;
+                    background-color: #1c6381;
+                    padding: 15px;
+                    margin: 0 !important;
+                    border-top-left-radius: 5px;
+                    border-top-right-radius: 5px;
+                    width: 100%;
+                }
+                .select-input {
+                    position: relative;
+                    width: 100%;
+                }
+                label {
+                    font: 16px 'avenir_demi';
+                    bottom: 10px;
+                    color: #fff;
+                    position: absolute;
+                    left: 15px;
+                    display: inline-block;
+                    max-width: 100%;
+                    margin-bottom: 5px;
+                }
+                input {
+                    font: 14px 'avenir_demi';
+                    padding: 15px;
+                    padding-left: 80px;
+                    width: 100%;
+                    background-color: #06273f;
+                    border: none;
+                    border-bottom: 1px solid #153b56;
+                    border-radius: 0;
+                    background-color: #06273f;
+                    color: #fff;
+                }
+            }
+        }
+    }
+    .login-content {
+        margin-top: 15px;
+        padding: 0 20px;
+        width: 100%;
+        text-align: center;
+        .btn-default {
+            background-color: #1c6381;
+            width: 100%;
+            height: auto;
+            span {
+                padding: 25px 15px 25px 15px;
+                font: 19px 'avenir_bold';
+            }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+conferencia-resumo-turno {
+  .grid-resumo-turno {
+    background-color: #06273f;
+    color: white;
+    margin-top: 10px;
+
+    .data {
+      text-align: left;
+      font-size: 0.8em;
+    }
+    .turno {
+      text-align: left;
+    }
+
+    .col-resumo-quantidade {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .col-grid-modelos {
+      padding-left: 0px;
+      padding-right: 0px;
+
+      .grid-resumo-destino-modelos {
+        padding-left: 0px;
+        padding-right: 0px;
+        background-color: #1c6381;
+      }
+    }
+  }
+}

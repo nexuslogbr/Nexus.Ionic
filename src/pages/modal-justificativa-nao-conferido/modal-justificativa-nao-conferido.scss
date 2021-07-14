@@ -1,0 +1,154 @@
+page-modal-justificativa-nao-conferido {
+  ion-content {
+    background-color: white !important;
+  }
+
+  ::placeholder {
+    color: #5D5D5D !important;
+  }
+
+  .datetime-text {
+    color: black !important;
+  }
+
+  .select-placeholder {
+    color: #5D5D5D !important;
+  }
+
+  ion-content.content .form-geral ion-list ion-item .item-inner {
+    box-shadow: none !important;
+    background-color: white;
+    color: black;
+  }
+
+  .form-geral {
+
+    ion-list-header {
+      color: white !important;
+      font-weight: bold;
+      margin-bottom: 0px;
+    }
+
+    background-color: #5D5D5D;
+    border-radius: 5px;
+    border: 1px solid transparent;
+
+    .form .form-group {
+      position: relative;
+      margin-bottom: 0;
+    }
+
+    h4 {
+      font: 16px 'avenir_demi';
+      //color: #fff;
+      background-color: #5D5D5D;
+      padding: 15px;
+      margin: 0 !important;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      width: 100%;
+    }
+
+    .select-input {
+      position: relative;
+      width: 100%;
+    }
+
+    label {
+      font: 16px 'avenir_demi';
+      bottom: 10px;
+      color: black;
+      position: absolute;
+      left: 15px;
+      display: inline-block;
+      max-width: 100%;
+      margin-bottom: 5px;
+    }
+
+    input {
+      font: 14px 'avenir_demi';
+      width: 100%;
+      background-color: white;
+      border: none;
+      border-radius: 0;
+      color: black !important;
+      text-align: left;
+      padding-right: 15px;
+
+    }
+
+    ion-list {
+      margin: 0;
+
+      ion-list-header {
+        background-color: #5D5D5D;
+        border-top: none;
+
+        ion-label {
+          color: white;
+          font-weight: bold;
+          font: 16px 'avenir_demi';
+        }
+      }
+
+      ion-item {
+        //background-color: #06273f;
+        padding: 0;
+        border-bottom: 1px solid #5D5D5D;
+
+        .item-inner {
+          padding-left: 15px;
+          border-bottom: 1px solid transparent !important;
+
+          ion-label {
+            color: black;
+          }
+
+          ion-select {
+            max-width: 85%;
+
+            .select-text {
+              padding-right: 10px;
+              color: black;
+              font: 14px 'avenir_demi';
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .datetime-placeholder {
+    color: #5D5D5D !important;
+  }
+
+  // .btn-menu-internal {
+  //   color: black;
+  //   background-color: white;
+  // }
+
+  // .btn-menu-internal-azul-forte {
+  //   background-color: #DEDEDE;
+  // }
+
+  ion-footer {
+    height: 190px;
+    background-color: white;
+
+    .grid-botao-wrapper {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+      padding-top: 0px;
+
+      .btn-menu-internal {
+        background-color: #DEDEDE;
+        color: black;
+      }
+
+    }
+
+    .azul {
+      background-color: #8DB7FF !important;
+    }
+  }
+}

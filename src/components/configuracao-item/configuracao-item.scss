@@ -1,0 +1,80 @@
+configuracao-item {
+  .grid-base {
+    color: white;
+    height: 40px;
+  }
+
+  .grid-cais {
+    background-color: color($colors, areaCais) !important;
+  }
+
+  .grid-configuracao {
+    background-color: #8e897e;
+    min-height: 60px;
+    margin-bottom: 10px;
+
+    .row-configuracao {
+      .col-configuracao {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-transform: uppercase;
+        align-items: flex-start;
+
+        .titulo {
+          font-size: 16px;
+          width: 60vw;
+          font-weight: bold;
+        }
+
+        .subtitulo {
+          margin-top: 4px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        .div-configuracao-nome {
+          margin-left: 10px;
+          font-size: 16px;
+          word-break: break-word;
+          text-align: left;
+        }
+
+        .div-configuracao-viagem {
+          margin-left: 10px;
+          margin-top: 4px;
+          font-size: 14px;
+        }
+      }
+
+      .col-status {
+        justify-content: center;
+        align-items: flex-end;
+        text-transform: uppercase;
+        font-size: 16px;
+        display: flex;
+        flex-direction: column;
+
+        .area {
+          overflow-x: hidden;
+          white-space: nowrap;
+        }
+
+        .contador {
+          margin-top: 4px;
+          font-size: 12px;
+          display: flex;
+        }
+      }
+    }
+
+    ion-row {
+      height: 100%;
+
+      ion-col {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}

@@ -1,0 +1,74 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    Conferência
+  </ion-title>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-grid *ngIf="!userData.confereOnline && !userData.confereOffline" class="first-row">
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="navigateToConferenciaConfiguracaoNavioPage()"
+          type="button">Configuração</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="navigateToConferenciaNavioSelecaoOnlinePage()"
+          type="button">Online</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="navigateToConferenciaNavioSelecaoOfflinePage()"
+          type="button">Offline</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="navigateToConferenciaFinalizadosPage()"
+          type="button">Finalizadas</button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="row-botao-voltar">
+      <ion-col>
+        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()"
+          type="button">Voltar</button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+  <ion-grid *ngIf="userData.confereOnline || userData.confereOffline" class="first-row">
+
+    <ion-row *ngIf="userData.confereOnline">
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="navigateToConferenciaNavioSelecaoOnlinePage()"
+          type="button">Online</button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="userData.confereOffline">
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="navigateToConferenciaNavioSelecaoOfflinePage()"
+          type="button">Offline</button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="row-botao-voltar">
+      <ion-col>
+        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()"
+          type="button">Voltar</button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>
+
+<modal-loading></modal-loading>

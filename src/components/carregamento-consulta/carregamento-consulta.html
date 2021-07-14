@@ -1,0 +1,67 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+<ion-content padding id="form-novo-romaneio" class="form-novo-romaneio">
+    <div class="form">
+        <ion-list>
+
+                <label class="hidden">{{result.id}}</label>
+
+                <div *ngFor="let detalhes of result.detalhes">
+                    <ion-list-header>
+                        <div float-start>
+                            <label class="title-header">Romaneio: </label> <span> {{ detalhes.id }}</span>
+                        </div>
+                        <div float-end>
+                            <label class="title-header">Fila: </label> <span>{{ detalhes.filaID + detalhes.fila }}</span>
+                        </div>
+                    </ion-list-header>
+
+                    <ion-list-header>
+                        <div float-start>
+                            <label class="title-header">Chassis Carregados</label>
+                        </div>
+                        <div float-end>
+                            <label class="title-header">Total: </label> <span> {{ detalhes.quantidadeCarregados }}</span>
+                        </div>
+                    </ion-list-header>
+
+                    <div *ngFor="let chassi of detalhes.chassisCarregados" data-id="{{ chassi }}"  id="{{ chassi }}" style="border: 1px solid #1c6381;">
+                        <div style="display: inline-block; width: 25%;">
+                            <label>Chassi: </label>
+                        </div>
+                        <div style="display: inline-block; width: 70%">
+                            <input class="form-control" type="text"   name="" value="{{chassi}}" placeholder="{{chassi}}"  [disabled]="true" class="chassis-carregados" />
+                        </div>
+                    </div>
+                    <ion-list-header>
+                        <div float-start>
+                            <label class="title-header">Chassis Não Carregados</label>
+                        </div>
+                        <div float-end>
+                            <label class="title-header">Total: </label> <span> {{ detalhes.quantidadeNaoCarregados }}</span>
+                        </div>
+                    </ion-list-header>
+
+                    <div *ngFor="let chassi of detalhes.chassisNaoCarregados" data-id="{{ chassi }}"  id="{{ chassi }}" style="border: 1px solid #1c6381;">
+                        <div style="display: inline-block; width: 25%;">
+                            <label>Chassi: </label>
+                        </div>
+                        <div style="display: inline-block; width: 70%">
+                            <input class="form-control" type="text"   name="" value="{{chassi}}" placeholder="{{chassi}}"  [disabled]="true" class="chassis-nao-carregados" />
+                        </div>
+                    </div>
+                </div>
+        </ion-list>
+        <div class="login-content" >
+            <button  ion-button round class="btn-default" id="btn-voltar" (click)="voltar()">Voltar</button>
+        </div>
+    </div>
+</ion-content>
+<modal-loading></modal-loading>

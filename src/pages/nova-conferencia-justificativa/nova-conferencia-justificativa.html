@@ -1,0 +1,68 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" class="conferencia-header">
+  <button class="btn-menu">
+    <i class="icon icon-menu-gray"></i>
+  </button>
+  <ion-title>
+    Justificativa
+  </ion-title>
+</ion-header>
+
+<ion-content no-padding #pageTop class="conferencia-content">
+
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="incluir()" type="button" [disabled]="!ativarBotaoIcluir">
+          Incluir item na conferência
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="grid-botao-wrapper grid-opcao">
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="confirmarComoNaoConferido()" type="button" [disabled]="!ativarBotaoComoNaoConferido">
+          Confirmar como não conferido
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="grid-botao-wrapper grid-opcao">
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="anular()" type="button" [disabled]="!ativarBotaoAnular">
+          Anular item conferido
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte botao-primeiralinha" (click)="voltar()"
+          type="button">
+          Voltar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+</ion-content>
+
+<ion-footer no-border>
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="voltar()"
+          type="button">
+          Voltar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<modal-loading-white></modal-loading-white>

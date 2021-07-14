@@ -1,0 +1,27 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-list>
+      <ion-list-header>
+          Data
+      </ion-list-header>
+      <ion-item class="item-block item-ios item-select icon-clock">
+          <ion-datetime min="2017" max="2030-10-31" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" [(ngModel)]="formData.data" cancelText="Cancelar" doneText="Confirmar"></ion-datetime>
+      </ion-item> 
+
+    </ion-list>
+    <div class="login-content">
+      <button ion-button round class="btn-default" (click)="ordenarRomaneio()">Buscar</button>
+  </div>
+</ion-content>
+<modal-error></modal-error>  
+<modal-loading></modal-loading>

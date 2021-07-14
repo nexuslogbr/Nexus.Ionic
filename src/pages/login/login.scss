@@ -1,0 +1,187 @@
+page-login {
+  padding-top: 75px;
+
+  ion-content {
+    background-image: url(' ../assets/images/bg-login.png');
+    background-size: cover;
+    background-position: center center;
+
+    @media #{$mobile-mini} {
+      padding-top: 10px;
+    }
+
+    ion-icon.icon-orion {
+      background-image: url('../assets/images/orion.png');
+      background-repeat: no-repeat;
+      width: 69px;
+      height: 69px;
+      margin: 0 auto;
+      float: right;
+      margin-right: 15px;
+    }
+
+    ion-icon.icon-kline {
+      background-image: url('../assets/images/kline.png');
+      background-repeat: no-repeat;
+      width: 69px;
+      height: 69px;
+      margin: 0 auto;
+      float: left;
+      margin-left: 15px;
+    }
+
+    .img-nexus {
+      width: 60%;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    ion-icon.icon-nexus {
+      background-image: url('../assets/images/nexus.png');
+      background-repeat: no-repeat;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+    }
+
+    .list {
+      background-color: transparent;
+
+      .item {
+        background-color: transparent;
+        border-bottom: none;
+        padding: 0 20px;
+        margin-bottom: 30px;
+
+        .item-inner {
+          padding: 0;
+          border-bottom: 0;
+
+          .input-wrapper {
+            border: 1px solid #1f384a;
+            background-color: #00141b;
+            border-radius: 45px;
+
+            input {
+              font: 19px avenir_regular;
+              color: #fff;
+            }
+
+            input::-webkit-input-placeholder {
+              color: #fff;
+            }
+
+            input:-moz-placeholder {
+              color: #fff;
+            }
+
+            input:-ms-input-placeholder {
+              color: #fff;
+            }
+          }
+
+          #user {
+            background-image: url('../assets/images/user.png');
+            background-position: 18px center;
+            background-repeat: no-repeat;
+            padding: 15px 15px 15px 50px;
+          }
+
+          #pass {
+            background-image: url('../assets/images/pass.png');
+            background-position: 18px center;
+            background-repeat: no-repeat;
+            padding: 15px 15px 15px 50px;
+          }
+        }
+      }
+
+      .input-has-focus,
+      .item-input-has-focus {
+        border-bottom: none;
+      }
+
+      .item-input:last-child {
+        border-bottom: none !important;
+        box-shadow: none;
+      }
+    }
+
+    .title-content {
+      text-align: center;
+      margin-bottom: 50px;
+      margin-top: 35px;
+
+      ion-title {
+        .toolbar-title {
+          background-color: transparent;
+          color: #fff !important;
+          font: 14px 'avenir_bold';
+        }
+      }
+    }
+
+    .login-content {
+      padding: 0 20px;
+      width: 100%;
+      text-align: center;
+
+      .btn-login {
+        width: 100%;
+        height: auto;
+        background-color: #1c6381;
+
+        span {
+          padding: 25px 15px 25px 15px;
+          font: 19px 'avenir_bold';
+        }
+      }
+    }
+
+    ion-footer {
+      background-color: transparent;
+      text-align: center;
+      padding-top: 25px;
+      display: none;
+
+      .icon-callidus {
+        background-image: url(' ../assets/images/logo-callidus.png ');
+        background-repeat: no-repeat;
+        width: 90px;
+        height: 19px;
+        margin: 0 auto;
+        display: block;
+
+        @media #{$mobile-mini} {
+          display: block;
+        }
+      }
+    }
+  }
+
+  .ng-pristine,
+  .ng-valid,
+  .item-inner {
+    border: 1px solid transparent !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+  }
+
+  .input-has-focus {
+    border: 1px solid transparent !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+  }
+
+  .item-input-has-focus {
+    border: 1px solid transparent !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+  }
+
+  .alert-button {
+    background-color: #488aff;
+  }
+
+}

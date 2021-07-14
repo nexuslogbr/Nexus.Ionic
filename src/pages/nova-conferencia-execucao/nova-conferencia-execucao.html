@@ -1,0 +1,343 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" class="conferencia-header">
+  <button class="btn-menu">
+    <i class="icon icon-menu-gray"></i>
+  </button>
+  <ion-title>
+    {{tituloPagina}}
+  </ion-title>
+</ion-header>
+
+<ion-content no-padding #pageTop class="conferencia-content">
+  <ion-grid class="fixed">
+    <ion-row>
+      <ion-col class="col-fixed">
+        <ion-grid class="grid-header">
+          <ion-row class="row-header" *ngIf="!fechamento" (click)="voltar()">
+            <ion-col><strong>Nome:</strong>&nbsp;{{ usuario }}</ion-col>
+            <ion-col class="turno"
+              ><strong>Turno:</strong>&nbsp;{{ turno?.turnoHoraFaixa }}
+            </ion-col>
+          </ion-row>
+          <ion-row class="row-header-sub">
+            <ion-col col-9
+              ><strong>Área:</strong>&nbsp;{{ configuracao.area.nome }}</ion-col
+            >
+            <ion-col
+              class="col-icon-warning"
+              *ngIf="fechamento && (conferenciaService.saldoConferencia$|async)>0"
+              (click)="gotoListagemVeiculos()"
+            >
+              <img src="assets/icons/icon-alert.png" class="img-warning" />
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <conferencia-header
+          [configuracao]="configuracao"
+          [totalConferidos]="conferenciaService.totalConferidos$ | async"
+          [totalVeiculos]="conferenciaService.totalVeiculos$ | async"
+          (gotoPage)="gotoListagemVeiculos()"
+        >
+        </conferencia-header>
+
+        <ion-grid
+          class="grid-destinos"
+          *ngIf="configuracao.navioID && !fechamento"
+        >
+          <ion-row class="row-destinos">
+            <ion-col>
+              <ion-item>
+                <ion-label label-ios>Destino:</ion-label>
+                <ion-select
+                  (ionChange)="onDestinoChange($event)"
+                  okText="Confirmar"
+                  cancelText="Cancelar"
+                  #selectDestino
+                  placeholder="Selecione um destino"
+                  [ngClass]="{
+                    selecionado: conferenciaService.destino != null
+                  }"
+                >
+                  <ion-option
+                    *ngFor="let destino of destinos"
+                    value="{{ destino.id }}"
+                    id="{{ destino.id }}"
+                  >
+                    {{ destino.nome }}</ion-option
+                  >
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <input-chassi-controller
+          *ngIf="!fechamento"
+          [disabled]="!conferenciaService.destino"
+          #scanner
+          (onChassiDisabledClick)="onChassiDisabledClick($event)"
+          (onChassiInputed)="onChassiChanged($event)"
+          (onChassiScanned)="onChassiScannedChanged($event)"
+          (onScannerShowed)="changeBackBehavior(false)"
+        >
+        </input-chassi-controller>
+      </ion-col>
+    </ion-row>
+
+    <ion-grid class="grid-select-wrapper">
+      <ion-row>
+        <ion-col>
+          <ion-grid class="grid-select">
+            <ion-row>
+              <ion-col
+                class="col-left"
+                [ngClass]="{ selected: slideLeftSelected }"
+                (click)="changeSlideToLeft()"
+              >
+                <span>Destino</span>
+              </ion-col>
+              <ion-col
+                class="col-center"
+                [ngClass]="{ selected: slideCenterSelected }"
+                (click)="changeSlideToCenter()"
+              >
+                <span>Turno</span>
+              </ion-col>
+              <ion-col
+                class="col-right"
+                [ngClass]="{ selected: slideRightSelected }"
+                (click)="changeSlideToRight()"
+              >
+                <span>Hora</span>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-grid>
+
+  <ion-slides (ionSlideDidChange)="slideChanged($event)">
+    <ion-slide>
+      <ion-grid class="grid-wrapper">
+        <ion-row>
+          <ion-col>
+            <ion-grid
+              class="grid-resumo-destino"
+              *ngFor="let resumo of conferenciaService.sumDestinos$ | async"
+              [ngClass]="{'desabilitar': false}"
+            >
+              <ion-row class="row-destino">
+                <ion-col class="text-left">
+                  {{ resumo.destinoNome }}
+                </ion-col>
+                <ion-col class="col-resumo-quantidade">
+                  {{resumo.quantidadeConferidos}}/{{resumo.quantidadeVeiculos}}
+                  ({{ resumo.quantidadeVeiculos - resumo.quantidadeConferidos
+                  }})
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col class="col-grid-modelos">
+                  <ion-grid
+                    class="grid-resumo-destino-modelos"
+                    *ngIf="resumo.modelos"
+                  >
+                    <ion-row
+                      *ngFor="let modelo of resumo.modelos"
+                      class="row-grid-modelos"
+                    >
+                      <ion-col class="text-left">
+                        <strong> {{ modelo.modeloNome }}</strong>
+                      </ion-col>
+                      <ion-col class="col-resumo-quantidade">
+                        {{ modelo.quantidadeConferidos }}/{{
+                        modelo.quantidadeVeiculos }} ({{
+                        modelo.quantidadeVeiculos - modelo.quantidadeConferidos
+                        }})
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-grid class="grid-wrapper">
+        <ion-row>
+          <ion-col>
+            <ion-grid
+              class="grid-resumo-turno"
+              *ngFor="let resumo of conferenciaService.sumTurnos$ | async"
+              padding
+            >
+              <ion-row class="row-data-turno">
+                <ion-col col-8>
+                  <div class="data">
+                    <strong>Data:</strong> {{ resumo.dataFormatada }}
+                  </div>
+                  <div class="turno">
+                    <strong>Turno: </strong>{{ resumo.turnoHoraInicioFormatado
+                    }}-{{resumo.turnoHoraFimFormatado}}
+                  </div>
+                </ion-col>
+                <ion-col class="col-resumo-quantidade"
+                  ><span>{{ resumo.total }}</span></ion-col
+                >
+              </ion-row>
+
+              <ion-row
+                *ngFor="let detalhe of resumo.detalhes"
+                class="row-grid-resumo-turno"
+              >
+                <ion-col class="col-grid-modelos">
+                  <ion-grid class="grid-resumo-destino-modelos">
+                    <ion-row>
+                      <ion-col col-8 style="display: flex;">
+                        <strong>{{ detalhe.modelo }}</strong>
+                      </ion-col>
+                      <ion-col class="col-resumo-quantidade">
+                        {{ detalhe.totalConferidos }}
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-grid class="grid-wrapper">
+        <ion-row>
+          <ion-col>
+            <ion-grid
+              class="grid-resumo-turno"
+              *ngFor="let resumo of conferenciaService.sumHoras$ | async"
+              padding
+            >
+              <ion-row class="row-data-turno">
+                <ion-col col-8>
+                  <div class="data">
+                    <strong>Data:</strong> {{ resumo.dataFormatada }}
+                  </div>
+                  <div class="turno">
+                    <strong>Hora:</strong> {{ resumo.hora }}
+                  </div>
+                </ion-col>
+                <ion-col class="col-resumo-quantidade"
+                  ><span>{{ resumo.total }}</span></ion-col
+                >
+              </ion-row>
+
+              <ion-row
+                *ngFor="let detalhe of resumo.detalhes"
+                class="row-grid-resumo-turno"
+              >
+                <ion-col class="col-grid-modelos">
+                  <ion-grid class="grid-resumo-destino-modelos">
+                    <ion-row>
+                      <ion-col col-8 style="display: flex;">
+                        <strong>{{ detalhe.modelo }}</strong>
+                      </ion-col>
+                      <ion-col class="col-resumo-quantidade">
+                        {{ detalhe.totalConferidos }}
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
+<ion-footer
+  no-border
+  class="footer-sincronizacao"
+  [ngClass]="{'small-footer': configuracao.conferenciaConfiguracaoStatusID==3}"
+>
+  <ion-grid class="grid-botao-wrapper" no-padding>
+    <ion-grid
+      class="grid-dados"
+      [ngClass]="{'amarelo': (conferenciaService.totalUpload$ | async) > 0, 'offline': !onLine }"
+      *ngIf="!fechamento"
+      (click)="executarSincronizacao()"
+    >
+      <ion-row>
+        <ion-col col-8>
+          <div class="texto-sincronizacao">
+            SINCRONIZAÇÃO PENDENTES: {{ (conferenciaService.totalUpload$ |
+            async) }}
+          </div>
+          <div class="resumo">
+            {{ (conferenciaService.totalConferidos$ | async) -
+            (conferenciaService.totalUpload$ | async) }}/{{
+            conferenciaService.totalVeiculos$ | async }}
+            <strong
+              >({{ (conferenciaService.saldoConferencia$ | async) +
+              (conferenciaService.totalUpload$ | async) }})</strong
+            >
+          </div>
+        </ion-col>
+        <ion-col class="col-icone">
+          <ion-icon md="md-cloud-upload"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-row
+      *ngIf="fechamento && configuracao.conferenciaConfiguracaoStatusID==2"
+    >
+      <ion-col>
+        <ion-grid padding class="grid-botao-finalizar">
+          <ion-row>
+            <ion-col>
+              <button
+                ion-button
+                class="btn-menu-internal"
+                (click)="finalizar()"
+                type="button"
+                style="padding-left: 16px; padding-right: 16px;"
+              >
+                Finalizar Conferência
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-grid padding class="grid-botao-voltar">
+          <ion-row>
+            <ion-col>
+              <button
+                ion-button
+                class="btn-menu-internal btn-menu-internal-azul-forte"
+                (click)="voltar()"
+                type="button"
+              >
+                Voltar
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<modal-sincronizando></modal-sincronizando>

@@ -1,0 +1,36 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list class="list-items" no-padding radio-group>
+    <ion-list-header class="list-header" no-lines>
+      <ion-grid class="grid-header">
+        <ion-row>
+          <ion-col>
+            Selecionar Navio:
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list-header>
+    <ion-item *ngFor="let navio of navios" class="item">
+      <ion-label class="item-nome">{{navio.nome}}</ion-label>
+      <ion-radio value="{{navio.id}}" (ionSelect)="setNavio(navio)"></ion-radio>
+    </ion-item>
+  </ion-list>
+
+  <div class="login-content">
+    <button ion-button round first class="btn-receiving btn-cancel" (click)="voltar()" type="button">Voltar</button>
+    <button ion-button round end class="btn-receiving btn-ok" (click)="continuar()" type="button" [disabled]="navio==null">Continuar</button>
+  </div>
+
+</ion-content>
+
+<modal-loading></modal-loading>

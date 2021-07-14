@@ -1,0 +1,355 @@
+page-carregamento-simulacao-resumo {
+  transition: all 0.4s ease-in-out;
+  background-color: #00141b !important;
+  ion-content {
+    background-color: color($colors, bgQrCode) !important;
+    .scroll-content {
+      .header-item {
+        background-color: #1c6381 !important;
+      }
+      .new-vehicle {
+        margin-bottom: -1px;
+      }
+      .form {
+        background-color: #06273f;
+        border-radius: 5px;
+        border: 1px solid transparent;
+        margin-bottom: 20px;
+        .form .form-group {
+          position: relative;
+          margin-bottom: 0;
+        }
+        h4 {
+          font: 16px 'avenir_demi';
+          color: #fff;
+          background-color: #1c6381;
+          padding: 15px;
+          margin: 0 !important;
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          width: 100%;
+        }
+        .select-input {
+          position: relative;
+          width: 100%;
+        }
+        label {
+          font: 16px 'avenir_demi';
+          bottom: 10px;
+          color: #fff;
+          position: absolute;
+          left: 15px;
+          display: inline-block;
+          max-width: 100%;
+          margin-bottom: 5px;
+        }
+        input {
+          font: 12px 'avenir_demi';
+          width: 100%;
+          background-color: #06273f;
+          border: none;
+          border-radius: 0;
+          background-color: #06273f;
+          color: #fff;
+          text-align: left;
+          padding-right: 15px;
+        }
+        .label-header {
+          background-color: #1c6381;
+        }
+        .label-md[floating] {
+          margin-bottom: 30px;
+          margin-top: 0;
+        }
+        label-floating .text-input-md {
+          margin-top: 10px !important;
+          margin-bottom: 12px !important;
+        }
+        .input-header {
+          input {
+            font-size: 14px;
+            padding: 15px;
+          }
+        }
+        .icon-qr-code {
+          background-image: url(../assets/images/qr-code-white.png);
+          background-repeat: no-repeat;
+          background-position: 95% center;
+          background-size: 100%;
+          width: 46px;
+          height: 46px;
+          right: 6px;
+          bottom: 1px;
+          position: absolute;
+        }
+        ::-webkit-input-placeholder {
+          /* WebKit, Blink, Edge */
+          color: #fff;
+        }
+        :-moz-placeholder {
+          /* Mozilla Firefox 4 to 18 */
+          color: #fff;
+          opacity: 1;
+        }
+        ::-moz-placeholder {
+          /* Mozilla Firefox 19+ */
+          color: #fff;
+          opacity: 1;
+        }
+        :-ms-input-placeholder {
+          /* Internet Explorer 10-11 */
+          color: #fff;
+        }
+        ::-ms-input-placeholder {
+          /* Microsoft Edge */
+          color: #fff;
+        }
+        ion-list-header {
+          background-color: #1c6381;
+          border-top: none;
+          ion-label {
+            color: #fff;
+            font: 16px 'avenir_demi';
+          }
+        }
+        ion-list {
+          margin: 0;
+          ion-list-header {
+            background-color: #1c6381;
+            border-top: none;
+            ion-label {
+              color: #fff;
+              font: 16px 'avenir_demi';
+            }
+          }
+          .item-label-floating {
+            background-color: #1c6381;
+          }
+          ion-item {
+            background-color: #06273f;
+            padding: 0;
+            .item-inner {
+              padding-left: 15px;
+              padding-right: 15px;
+              border-bottom: 1px solid transparent !important;
+              ion-label {
+                color: #fff;
+                font: 14px 'avenir_demi';
+              }
+              .icon-date-picker {
+                background-image: url("../assets/images/icon-date-picker.png");
+                background-repeat: no-repeat;
+                background-size: 39px 36px;
+              }
+              ion-select {
+                max-width: 85%;
+                .select-text {
+                  padding-right: 10px;
+                  color: #fff;
+                  font: 14px 'avenir_demi';
+                }
+              }
+            }
+          }
+          .individual {
+            border-bottom: 1px solid #153b56;
+          }
+        }
+      }
+      .form-novo-veiculo {
+        background-color: #06273f;
+        border-radius: 5px;
+        border: 1px solid transparent;
+        margin-bottom: 20px;
+        .form .form-group {
+          position: relative;
+          margin-bottom: 0;
+        }
+        h4 {
+          font: 16px 'avenir_demi';
+          color: #fff;
+          background-color: #1c6381;
+          padding: 15px;
+          margin: 0 !important;
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          width: 100%;
+        }
+        .select-input {
+          position: relative;
+          width: 100%;
+        }
+        label {
+          font: 16px 'avenir_demi';
+          bottom: 10px;
+          color: #fff;
+          position: absolute;
+          left: 15px;
+          display: inline-block;
+          max-width: 100%;
+          margin-bottom: 5px;
+        }
+        input {
+          font: 14px 'avenir_demi';
+          width: 100%;
+          background-color: #06273f;
+          border: none;
+          border-radius: 0;
+          background-color: #06273f;
+          color: #fff;
+          text-align: left;
+          padding-right: 15px;
+          text-transform: uppercase;
+        }
+        .label-header {
+          background-color: #1c6381;
+        }
+        .label-md[floating] {
+          margin-bottom: 30px;
+          margin-top: 0;
+        }
+        label-floating .text-input-md {
+          margin-top: 10px !important;
+          margin-bottom: 12px !important;
+        }
+        .input-header {
+          input {
+            font-size: 14px;
+            padding: 15px;
+          }
+        }
+        .icon-qr-code {
+          background-image: url(../assets/images/search.png);
+          background-repeat: no-repeat;
+          background-position: 95% center;
+          background-size: 100%;
+          width: 46px;
+          height: 46px;
+          right: 6px;
+          bottom: 5px;
+          position: absolute;
+        }
+        ::-webkit-input-placeholder {
+          /* WebKit, Blink, Edge */
+          color: #fff;
+        }
+        :-moz-placeholder {
+          /* Mozilla Firefox 4 to 18 */
+          color: #fff;
+          opacity: 1;
+        }
+        ::-moz-placeholder {
+          /* Mozilla Firefox 19+ */
+          color: #fff;
+          opacity: 1;
+        }
+        :-ms-input-placeholder {
+          /* Internet Explorer 10-11 */
+          color: #fff;
+        }
+        ::-ms-input-placeholder {
+          /* Microsoft Edge */
+          color: #fff;
+        }
+        ion-list {
+          margin: 0;
+          position: relative;
+          ion-grid {
+            background-color: #1c6381;
+            padding: 0;
+          }
+          ion-list-header {
+            background-color: #1c6381;
+            border-top: none;
+            ion-label {
+              color: #fff;
+              font: 16px 'avenir_demi';
+            }
+          }
+          .item-label-floating {
+            background-color: #1c6381;
+          }
+          ion-item {
+            background-color: #06273f;
+            padding: 0;
+            .item-inner {
+              padding-left: 15px;
+              padding-right: 15px;
+              border-bottom: 1px solid transparent !important;
+              ion-label {
+                color: #fff;
+              }
+              .input-cover {
+                width: 80% !important;
+              }
+              .icon-date-picker {
+                background-image: url("../assets/images/icon-date-picker.png");
+                background-repeat: no-repeat;
+                background-size: 39px 36px;
+                width: 39px;
+                height: 36px;
+              }
+              ion-select {
+                max-width: 85%;
+                .select-text {
+                  padding-right: 10px;
+                  color: #fff;
+                  font: 14px 'avenir_demi';
+                }
+              }
+            }
+          }
+        }
+        .form-carrega-veiculo {
+          .form-item {
+            padding-top: 20px;
+            border: 1px solid #1c6381;
+            position: relative;
+          }
+          .col-form-label {
+            position: static;
+            padding: 10px;
+            margin: 0;
+          }
+          input.form-control {
+            padding: 10px;
+            margin: 0;
+          }
+        }
+      }
+      .login-content {
+        margin-top: 15px;
+        padding: 0;
+        width: 100%;
+        text-align: center;
+        display: block;
+        p {
+          color: #fff;
+          text-align: center;
+          font: 16px 'avenir_demi';
+          margin: 30px 0;
+        }
+        .btn-receiving {
+          width: 45%;
+          height: auto;
+          .button-inner {
+            padding: 25px 15px 25px 15px;
+            font: 19px 'avenir_bold';
+          }
+        }
+        .btn-ok {
+          background-color: #1c6381;
+        }
+        .btn-cancel {
+          background-color: #06273f;
+        }
+      }
+    }
+  }
+  .list-md .item-input:last-child {
+    border-bottom: 1px solid #153b56;
+  }
+  .datetime-text {
+    color: #fff;
+  }
+}

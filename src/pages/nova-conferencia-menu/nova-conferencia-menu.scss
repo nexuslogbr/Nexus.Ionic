@@ -1,0 +1,33 @@
+page-nova-conferencia-menu {
+
+  ion-content {
+
+    background-color: color($colors, bgQrCode) !important;
+
+    ion-grid {
+      margin-top: -12px;
+    }
+
+    .row-botao-voltar {
+      margin-top: 70px;
+    }
+
+  }
+
+  ion-footer {
+    height: 100px;
+    background-color: white;
+
+    .grid-botao-wrapper {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+      padding-top: 0px;
+
+      .btn-menu-internal {
+        background-color: #DEDEDE;
+        color: black;
+      }
+    }
+  }
+
+}

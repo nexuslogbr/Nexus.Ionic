@@ -1,0 +1,93 @@
+page-menu-ce {
+    ion-content {
+        background-color: #00141b !important;
+        ion-list {
+            padding: 0 15px;
+            background-color: #00141b;
+            ion-item.item {
+                background-color: #00141b;
+                padding: 0;
+                border-radius: 28px;
+                margin-top: 15px;
+                border: 1px solid #1f384a !important;
+                ion-label.label-md {
+                    margin: 0;
+                    button {
+                        color: #fff;
+                        padding: 20px 0px;
+                        padding-left: 70px;
+                        width: 100%;
+                        height: 100%;
+                        text-align: left;
+                        display: inline-block;
+                        font: 17px 'avenir_regular';
+                        vertical-align: middle;
+                        text-decoration: none;
+                        background-color: #00141b;
+                        background-repeat: no-repeat;
+                        background-position: left center;
+                        background-size: 58px 58px;
+                    }
+                    button.reception {
+                        background-image: url("../assets/images/reception.png ");
+                    }
+                    button.storage {
+                        background-image: url("../assets/images/storage.png ");
+                    }
+                    button.movement {
+                        background-image: url("../assets/images/movement.png ");
+                    }
+                    button.load-truck {
+                        background-image: url("../assets/images/load-truck.png ");
+                    }
+                    button.storage-export {
+                        background-image: url("../assets/images/storage-export.png ");
+                    }
+                    button.load-export {
+                        background-image: url("../assets/images/load-export.png ");
+                    }
+                    button.romaneio {
+                        background-image: url("../assets/images/romaneio.png ");
+                    }
+                }
+            }
+        }
+    }
+}
+
+.header {
+    padding: 13px 0 12px 20px;
+    background-color: #06273f;
+    border-bottom: 1px solid #00141b;
+    ion-title {
+        float: left;
+        padding: 12px 10px 0 10px;
+        text-transform: uppercase;
+        .toolbar-title {
+            color: #fff;
+            text-align: left;
+            padding: 0;
+            font: 16px 'avenir_regular';
+        }
+    }
+}
+
+.icon {
+    display: block;
+}
+
+.icon-menu {
+    background-image: url("../assets/images/menu.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+    width: 38px;
+    height: 31px;
+    transition: all .4s ease-in-out;
+}
+
+
+.icon-menu.close-menu {
+    background-image: url("../assets/images/close.png");
+    transform: rotateY(180deg);
+}

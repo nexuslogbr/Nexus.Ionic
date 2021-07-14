@@ -1,0 +1,94 @@
+ion-footer {
+    background-color: #06273f;
+    height: 70px;
+    ion-toolbar.toolbar-md {
+        background-color: #06273f;
+        padding: 0;
+        ion-buttons {
+            padding: 0;
+            margin: 0;
+            button {
+                width: 18%;
+                height: 70px;
+                border-left: 1px solid #00141b;
+                margin: 0;
+                .button-inner {
+                    background-color: #06273f;
+                }
+                .icon-parking {
+                    background-image: url( ' ../assets/images/svg/parqueamento.svg' );
+                    width: 36px;
+                    height: 36px;
+                    background-size: 100%;
+                }
+                .icon-movement-white {
+                    background-image: url( ' ../assets/images/svg/movimentacao.svg' );
+                    width: 36px;
+                    height: 36px;
+                    background-size: 100%;
+                }
+                .icon-load-truck-white {
+                    background-image: url( ' ../assets/images/svg/carregamento.svg' );
+                    width: 40px;
+                    height: 40px;
+                    background-size: 100%;
+                }
+                .icon-PE {
+                    background-image: url( ' ../assets/images/svg/receber-parquear-transparente.svg' );
+                    width: 36px;
+                    height: 36px;
+                    background-size: 100%;
+                }
+                .icon-romaneio {
+                    background-image: url( ' ../assets/images/svg/romaneio.svg' );
+                    width: 36px;
+                    height: 36px;
+                    background-size: 100%;
+                }
+                .icon-load-export-white{
+                    background-image: url( ' ../assets/images/svg/carregamento-exportacao.svg' );
+                    width: 40px;
+                    height: 40px; 
+                    background-size: 100%;                   
+                }
+                .icon-reception-white {
+                    background-image: url( ' ../assets/images/svg/recebimento.svg' );
+                    width: 36px;
+                    height: 36px;
+                    background-size: 100%;
+                }                
+            }
+        }
+        .toolbar-background-md {
+            background-color: #06273f;
+        }
+    }
+    ul {
+        padding: 0;
+        margin: 0;
+        li {
+            height: 60px;
+            margin: 0;
+            width: 20%;
+            background-color: #fff;
+            float: left;
+            display: block;
+            position: relative;
+            border-left: 1px solid #06273f;
+            button {
+                padding: 0;
+                display: block;
+                background-color: #06273f;
+                .icon {
+                    background-color: #06273f;
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    margin: auto;
+                }
+            }
+        }
+    }
+}

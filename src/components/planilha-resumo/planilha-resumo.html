@@ -1,0 +1,49 @@
+<ion-grid class="grid-header-arquivo" *ngIf="arquivo">
+  <ion-row>
+    <ion-col>
+      <p>{{arquivo?.nomeOriginal}}</p>
+    </ion-col>
+    <ion-col col-2 text-right>
+      {{quantidadeConferida}}/{{quantidade}}
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+
+<ion-grid class="grid-conferencias" *ngIf="conferencias && conferencias.length">
+  <ion-row class="row-invoice-header">
+    <ion-col col-4 text-center>
+      Modelo
+    </ion-col>
+    <ion-col col-4 text-center>
+      Total
+    </ion-col>
+    <ion-col col-4 text-center>
+      Conferido
+    </ion-col>
+  </ion-row>
+  <ion-row *ngFor="let conferencia of conferencias" class="row-invoice">
+    <ion-col col-4 text-left>
+      {{conferencia.modeloNome}}
+    </ion-col>
+    <ion-col col-4 text-center>
+      {{conferencia.quantidade}}
+    </ion-col>
+    <ion-col col-4 text-center>
+      {{conferencia.quantidadeConferida}}
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<!-- <div *ngIf="arquivo">
+  <ion-list class="list-items"
+    *ngIf="navio.operacoes==null || (navio.operacoes!=null && navio.operacoes.length==0) || lotes==null || (lotes!=null && lotes.length==0)">
+    <ion-grid class="grid-header-navio">
+      <ion-row>
+        <ion-col>
+          <p>Nenhum lote encontrado</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+</div> -->

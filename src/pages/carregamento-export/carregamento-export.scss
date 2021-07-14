@@ -1,0 +1,304 @@
+page-carregamento-export {
+  background-color: #06273f;
+
+  ion-content {
+    background-color: color($colors, bgQrCode) !important;
+  }
+
+  #recebimento {
+    transition: all 0.4s ease-in-out;
+    background-color: color($colors, bgQrCode) !important;
+
+    // input {
+    //   border: 1px solid #153b56;
+    //   background-color: #06273f;
+    //   color: #fff;
+    //   font: 14px 'avenir_demi';
+    //   //padding: 15px;
+    //   border-radius: 4px;
+    //   //margin-bottom: 15px;
+    //   text-transform: uppercase;
+    // }
+
+    .login-content {
+      margin-top: 15px;
+      padding: 0 20px;
+      width: 100%;
+      text-align: center;
+
+      .btn {
+        background-color: #1c6381;
+        width: 100% !important;
+        padding: 25px;
+        border-radius: 45px;
+        color: #fff;
+        font: 17px 'avenir_demi';
+        text-transform: uppercase;
+        margin: 0 auto;
+      }
+
+      .btn-default {
+        background-color: #1c6381;
+        width: 100%;
+        height: auto;
+
+        span {
+          padding: 25px 15px 25px 15px;
+          font: 19px 'avenir_bold';
+        }
+      }
+    }
+  }
+
+  .btn-receiving {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+
+    .button-inner {
+      padding: 25px 15px 25px 15px;
+      font: 19px 'avenir_bold';
+    }
+  }
+
+  .btn-cancel {
+    background-color: #143B50;
+  }
+
+  .grid-lote {
+    border: 1px solid #143B50;
+
+    ion-row {
+      padding: 10px;
+    }
+
+    background-color: #06273f;
+    color: white;
+    font-size: 16px;
+
+    .bold {
+      font-weight: bold;
+    }
+
+    .row-lote-header {
+      background-color: #1C6482;
+      font-weight: bold;
+    }
+
+    .row-lote-data.show-line {
+
+      border-bottom: 1px solid #143B50;
+
+    }
+  }
+
+  .grid-scan {
+    margin-bottom: 10px;
+    background-color: #1C6482;
+
+    .row-header {
+      .col-header {
+        color: white;
+      }
+    }
+
+
+  }
+
+  .form {
+    
+    background-color: #06273f;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    margin-bottom: 20px;
+
+    .form .form-group {
+      position: relative;
+      margin-bottom: 0;
+    }
+
+    ion-grid {
+      background-color: #1c6381;
+      //margin-bottom: 20px;
+      padding: 0;
+    }
+
+    label {
+      font: 14px 'avenir_demi';
+      bottom: 10px;
+      color: #fff;
+      left: 15px;
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 5px;
+      padding-left: 15px;
+    }
+
+    label.title-header {
+      display: inline;
+      padding: 0;
+    }
+
+    input {
+      font: 12px 'avenir_demi';
+      width: 100%;
+      background-color: #06273f;
+      border: none;
+      border-radius: 0;
+      background-color: #06273f;
+      color: #fff;
+      text-align: left;
+      padding-right: 15px;
+      text-transform: uppercase;
+    }
+
+    .label-header {
+      background-color: #1c6381;
+    }
+
+    .label-md[floating] {
+      margin-bottom: 30px;
+      margin-top: 0;
+    }
+
+    label-floating .text-input-md {
+      margin-top: 10px !important;
+      margin-bottom: 12px !important;
+    }
+
+    .input-header {
+      input {
+        font-size: 12px;
+        padding: 15px;
+        text-transform: uppercase;
+      }
+    }
+
+    .code {
+      background-image: url(../assets/images/code.png);
+      background-repeat: no-repeat;
+      background-position: 95% center;
+      background-size: 100%;
+      width: 46px;
+      height: 46px;
+      right: 6px;
+      bottom: 4px;
+      position: absolute;
+    }
+
+    .search {
+      background-image: url(../assets/images/search.png);
+      background-repeat: no-repeat;
+      background-position: 95% center;
+      background-size: 100%;
+      width: 46px;
+      height: 46px;
+      right: 6px;
+      bottom: 4px;
+      position: absolute;
+    }
+
+    ::-webkit-input-placeholder {
+      /* WebKit, Blink, Edge */
+      color: #fff;
+    }
+
+    :-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 */
+      color: #fff;
+      opacity: 1;
+    }
+
+    ::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      color: #fff;
+      opacity: 1;
+    }
+
+    :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #fff;
+    }
+
+    ::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: #fff;
+    }
+
+    ion-list {
+      margin: 0;
+
+      ion-list-header {
+        background-color: #1c6381;
+        border-top: none;
+        margin: 0;
+        border-bottom: 1px solid #153b56;
+
+        ion-label {
+          color: #fff;
+          font-size: 14px;
+        }
+      }
+
+      .item-label-floating {
+        background-color: #1c6381;
+      }
+
+      ion-item {
+        background-color: #06273f;
+        padding: 0;
+        border-bottom: 1px solid #153b56;
+
+        .item-inner {
+          padding-left: 15px;
+          padding-right: 15px;
+          border-bottom: 1px solid transparent !important;
+
+          ion-label {
+            color: #fff;
+          }
+
+          .icon-date-picker {
+            background-image: url("../assets/images/icon-date-picker.png");
+            background-repeat: no-repeat;
+            background-size: 39px 36px;
+          }
+
+          ion-select {
+            max-width: 85%;
+
+            .select-text {
+              padding-right: 10px;
+              color: #fff;
+              font: 14px 'avenir_demi';
+            }
+          }
+        }
+
+      }
+
+      .remove-chassi {
+        padding: 5px;
+      }
+
+      .change-chassi {
+        padding: 5px;
+      }
+
+      .chassis-nao-carregados {
+        margin: 0;
+        padding: 15px;
+      }
+
+      .chassis-carregados {
+        margin: 0;
+        padding: 15px;
+        background-image: url("../assets/images/remove-chassi.png");
+        background-repeat: no-repeat;
+        background-size: 36px 36px;
+        background-position: right center;
+      }
+    }
+  }
+
+}

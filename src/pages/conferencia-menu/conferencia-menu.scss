@@ -1,0 +1,17 @@
+page-conferencia-menu {
+  //background-color: #06273f;
+
+  ion-content {
+
+    background-color: color($colors, bgQrCode) !important;
+
+    ion-grid {
+      margin-top: -12px;
+    }
+
+    .row-botao-voltar {
+      margin-top: 70px;
+    }
+
+  }
+}

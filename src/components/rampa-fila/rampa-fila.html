@@ -1,0 +1,29 @@
+<div class="rampa-fila-component">
+  <ion-list>
+    <ion-list-header>
+        Seleção/Fila
+    </ion-list-header>
+
+    <ion-item>
+        <ion-label label-ios>Rampa:</ion-label>
+        <ion-select  (ionChange)="onRampaChange($event)" okText="Confirmar" cancelText="Cancelar">
+            <ion-option *ngFor="let rampa of rampas" value="{{rampa.id}}" id="{{rampa.id}}">{{rampa.nome}}</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <ion-label label-ios>Fila:</ion-label>
+        <ion-select  (ionChange)="onFilaChange($event)" okText="Confirmar" cancelText="Cancelar">
+            <ion-option *ngFor="let fila of filas" value="{{fila.id}}" id="{{fila.id}}">{{fila.nome}}</ion-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <div class="login-content">
+            <button ion-button round class="btn-default" (click)="voltar()">voltar</button>
+            <button ion-button round class="btn-default" (click)="finalizar()">ok</button>
+        </div>
+    </ion-item>  
+  </ion-list>
+</div>
+<modal-loading></modal-loading>

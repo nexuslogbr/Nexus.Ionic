@@ -1,0 +1,178 @@
+carregamento-list {
+    ion-content{
+        background-color: #00141b !important;  
+        .lines-content{
+            background-color: #00141b;
+            padding: 0 15px 25px 15px;  
+            ion-list-header{
+                background-color: #1c6381;
+                border-top: none;
+                margin: 0;
+                margin-top: 15px;
+                ion-label{
+                    color: #fff;
+                    font: 16px 'avenir_demi';
+                }
+            }                        
+            .form-loading{
+                padding: 0;
+                width: 100%;
+                .line-list{
+                    padding: 10px;
+                    background-color: #06273f;
+                    margin: 0;
+                    list-style: none;
+                    
+                    display: -webkit-box;
+                    display: -moz-box;
+                    display: -ms-flexbox;
+                    display: -webkit-flex;
+                    display: flex;
+                    
+                    -webkit-flex-flow: row wrap;
+                    justify-content: flex-start;
+
+                    .line-item.border-blue{
+                        border: 3px solid #0077d3;
+                    }
+                    .line-item.border-green{
+                        border: 3px solid #77bd5d;
+                    }                    
+                    .line-item{
+                        padding: 5px;
+                        width: 25%;
+                        margin: 10px 10px;
+                        text-align: center;
+                        background-color: #fff;
+                        position: relative;
+                        border: 3px solid #c74748;
+                        strong{
+                            display: block;
+                            color: #06273f;
+                        }
+                        .circle-flag{
+                            position: absolute;
+                            top: -15px;
+                            right: -10px;
+                            z-index: 10;
+                            border-radius: 50%;
+                            text-align: center;
+                            padding: 5px 0px;
+                            color: #fff;
+                            width: 26px;
+                        }
+                        .circle-flag.checked{
+                            background-color: #c74748;
+                        }                        
+                        .circle-flag.loaded{
+                            background-color: #77bd5d;
+                            background-image: url('../assets/images/icon-check.png');
+                            color: transparent;
+                        }
+                        .circle-flag.loading{
+                            background-color: #0077d3;
+                        }
+                    }
+                }
+               
+            }              
+        }
+    }
+    .shipping-company{
+        padding-top: 10px;
+        background-color: #06273f;
+        h6{
+            display: block;
+            color: #fff;
+            width: 100%;
+            padding: 5px 15px;
+            background-color: #153b56;
+            margin: 0px;
+        }
+
+    }
+    .shipping-company.temporary-wrapper{
+        height: 55px;
+    }
+    .login-content {
+        padding: 0 20px;
+        width: 100%;
+        text-align: center;
+        margin-top: 25px;
+        .btn-login {
+            width: 100%;
+            height: auto;
+            background-color: #1c6381;
+            span {
+                padding: 25px 15px 25px 15px;
+                font: 19px 'avenir_bold';
+            }
+        }
+    }	
+    modal-loading{
+        background-color: rgba(6, 39, 63, 0.2) !important;
+    }				
+}
+.line-item.border-blue.gu-mirror{
+    border: 3px solid #0077d3;
+}
+.line-item.border-green.gu-mirror{
+    border: 3px solid #77bd5d;
+} 
+.gu-mirror {
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+    padding: 5px;
+    width: 25%;
+    margin: 10px 10px;
+    text-align: center;
+    background-color: #fff;
+    font-weight: 700;
+    list-style: none;
+    strong{
+        display: block;
+        color: #06273f;
+        font: 14px 'avenir_regular';
+    }
+    .circle-flag{
+        position: absolute;
+        top: -15px;
+        right: -10px;
+        z-index: 10;
+        border-radius: 50%;
+        text-align: center;
+        padding: 5px 0px;
+        color: #fff;
+        width: 26px;
+        font: 14px 'avenir_regular';
+    }
+    .circle-flag.checked{
+        background-color: #c74748;
+    }                        
+    .circle-flag.loaded{
+        background-color: #77bd5d;
+        background-image: url('../assets/images/icon-check.png');
+        color: transparent;
+    }
+    .circle-flag.loading{
+        background-color: #0077d3;
+    }    
+  }
+  .gu-hide {
+    display: none !important;
+  }
+  .gu-unselectable {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+  .gu-transit {
+    opacity: 0.2;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+    filter: alpha(opacity=20);
+  }

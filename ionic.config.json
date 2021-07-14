@@ -1,0 +1,14 @@
+{
+  "name": "patio-automotivo-app",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://localhost:9945/api"
+    }
+  ],
+  "id": "b21333fe"
+}

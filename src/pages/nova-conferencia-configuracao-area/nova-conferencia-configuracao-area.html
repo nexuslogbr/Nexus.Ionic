@@ -1,0 +1,123 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" class="conferencia-header">
+  <button class="btn-menu">
+    <i class="icon icon-menu-gray"></i>
+  </button>
+  <ion-title>
+    Configurar
+  </ion-title>
+</ion-header>
+
+<ion-content padding class="conferencia-content">
+  <ion-grid class="grid-item grid-navio" [ngClass]="{
+      'navio-andamento': navio.statusData == 'andamento',
+      'navio-esperado': navio.statusData == 'esperado'
+    }" *ngIf="navio">
+    <ion-row class="row-navio">
+      <ion-col col-8 class="col-navio">
+        <div class="div-navio-nome">{{ navio.nome }}</div>
+        <div class="div-navio-viagem">{{ navio.viagem }}</div>
+      </ion-col>
+      <ion-col col-4 class="col-status">
+        <div>{{ navio.statusConfiguracao }}</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="grid-areas" *ngFor="let configuracao of configuracoes; let i = index;"
+    [ngClass]="{ 'grid-enabled': configuracao.area.selecionado, 'grid-cais': configuracao.area.tipo == 1 }">
+    <ion-row class="row-area" >
+      <ion-col col-8 class="col-area">
+        <div class="div-area">
+          <strong>Área:</strong> {{ configuracao.area.nome }}
+        </div>
+        <div class="div-area-status" *ngIf="configuracao.conferenciaConfiguracaoStatusID">
+          {{getConferenciaConfiguracaoStatus(configuracao.conferenciaConfiguracaoStatusID)}}
+          <div class="label-tipo-conferencia">Tipo de Fluxo: {{configuracao.area.tipo == 1? 'Cais & Navio' : 'Pátio Portuário'}}</div>
+        </div>
+      </ion-col>
+      <ion-col col-4 class="col-check">
+        <!-- <ion-checkbox [(ngModel)]="configuracao.area.selecionado" (ionChange)="changeAreaSelection(configuracao)" mode="md"></ion-checkbox> -->
+        <ion-toggle [(ngModel)]="configuracao.area.selecionado" (ionChange)="changeAreaSelection(configuracao)" mode="ios" color="secondary" id="bg"></ion-toggle>
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-selecao">
+      <ion-col>
+        <ion-grid class="grid-config">
+          <ion-row class="grid-config-row-tipo">
+            <ion-col>
+              <ion-item class="itemks" color="azulCeleste" no-lines>
+                <ion-label>Tipo de Conferência</ion-label>
+                <ion-select
+                  disabled="{{ !configuracao.area.selecionado || configuracao.conferenciaConfiguracaoStatusID>1 }}"
+                  [(ngModel)]="configuracao.conferenciaTiposSelecionadaId" [selectOptions]="selectOptionsTipo"
+                  (ionChange)="changeTipoSelection(configuracao, i)">
+                  <ion-option [value]="tipo.id" *ngFor="let tipo of configuracao.conferenciaTipos">{{ tipo.nome }}
+                  </ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="grid-config-row-dispositivos">
+            <ion-col>
+              <ion-item class="item" color="azulCeleste" no-lines>
+                <ion-label>Dispositivos</ion-label>
+                <ion-select disabled="{{ !configuracao.area.selecionado }}" multiple="true"
+                  [(ngModel)]="configuracao.dispositivosSelecionados" [selectOptions]="selectOptionsDispositivo"
+                  (ionChange)="changeDispositivoSelection(configuracao)">
+                  <ion-option [value]="dispositivo.id" [disabled]="
+                      (!dispositivo.disponivel &&
+                      configuracao.area.id != dispositivo.areaIdOndeSelecionado)
+                    " *ngFor="let dispositivo of configuracao.dispositivos">{{ dispositivo.nome }}
+                    {{
+                      dispositivo.areaSelecionada
+                        ? '[' + dispositivo.areaSelecionada.nome + ']'
+                        : ''
+                    }}
+                  </ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<ion-footer no-border [ngClass]="{'big-footer': (arquivo?.statusConfiguracao == 'pendente' || navio?.statusConfiguracao == 'pendente') || (arquivo?.statusConfiguracao == 'configurada' || navio?.statusConfiguracao == 'configurada')}">
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row class="row-botao-margin-top-50" *ngIf="
+      arquivo?.statusConfiguracao == 'pendente' ||
+      navio?.statusConfiguracao == 'pendente'
+    ">
+      <ion-col>
+        <button ion-button class="btn-menu-internal btn-confirmar" (click)="salvarNovaConfiguracoes()" type="button">
+          Disponibilizar Conferência
+        </button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="row-botao-margin-top-50" *ngIf="
+      arquivo?.statusConfiguracao == 'configurada' ||
+      navio?.statusConfiguracao == 'configurada'
+    ">
+      <ion-col>
+        <button ion-button class="btn-menu-internal btn-confirmar" (click)="atualizarConfiguracoes()" type="button">
+          Confirmar
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="voltar()" type="button">
+          Voltar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<modal-loading-white></modal-loading-white>

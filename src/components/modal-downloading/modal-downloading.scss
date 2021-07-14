@@ -1,0 +1,59 @@
+modal-downloading {
+  display: none;
+  background-color: #447DA2;
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+
+  ion-content.content {
+    background-color: #447DA2;
+    position: relative;
+    color: white;
+
+  }
+
+  ion-content {
+    div.scroll-content {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .grid-modal {
+
+    .row-icon {
+
+
+      .col-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .img-icon {
+          height: 170px;
+        }
+      }
+    }
+
+    .row-padding-text {
+      height: 40px;
+    }
+
+    .row-primary-text {
+      .col-primary-text {
+        text-align: center;
+
+        .p-primary-text {
+          margin: 0px;
+          font-weight: bold;
+          font-size: 30px;
+          color: white;
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+}

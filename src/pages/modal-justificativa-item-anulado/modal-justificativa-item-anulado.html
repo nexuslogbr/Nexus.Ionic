@@ -1,0 +1,48 @@
+<ion-content no-padding>
+
+  <ion-grid class="grid-content" no-paddinksg>
+    <ion-row>
+      <ion-col>
+        <div class="form-geral">
+          <ion-list>
+            <ion-list-header>
+              Anular item conferido
+            </ion-list-header>
+
+            <ion-item>
+              <ion-label label-ios>Motivo:</ion-label>
+              <ion-input name="motivo" class="form-control" type="text" value="" placeholder="informe"
+                [(ngModel)]="motivo">
+              </ion-input>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>
+
+<ion-footer no-border>
+  <ion-grid class="grid-botao-wrapper">
+
+    <ion-row class="row-botao-primeiralinha">
+      <ion-col>
+        <button ion-button class="btn-menu-internal azul" (click)="continuar()" type="button" [disabled]="!motivo">
+          Confirmar
+        </button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="voltar()" type="button">
+          Voltar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<modal-loading></modal-loading>

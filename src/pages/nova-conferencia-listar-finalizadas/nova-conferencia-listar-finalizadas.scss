@@ -1,0 +1,106 @@
+page-nova-conferencia-listar-finalizadas {
+  div.scroll-content {
+    padding-top: 0px !important;
+  }
+
+  .grid-base {
+    color: white;
+    height: 40px;
+  }
+
+  .grid-cais {
+    background-color: color($colors, areaCais) !important;
+  }
+
+  .grid-header {
+    background-color: #1d6482;
+    margin-bottom: 10px;
+
+    .text-selecao {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  .grid-header-planilha {
+    margin-top: 30px;
+  }
+
+  .grid-noreg {
+    background-color: #1d6482;
+  }
+
+  .grid-error {
+    background-color: red;
+  }
+
+  .grid-configuracao {
+    background-color: #5d5d5d;
+    min-height: 60px;
+    margin-bottom: 10px;
+
+    .row-configuracao {
+      .col-configuracao {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-transform: uppercase;
+        align-items: flex-start;
+
+        .div-status {
+          font-size: 10px;
+          margin-top: 4px;
+        }
+      }
+
+      .col-totais {
+        display: flex;
+        justify-content: flex-end !important;
+
+        .div-totais {
+          display: flex;
+          .sync-icon {
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+
+    ion-row {
+      height: 100%;
+
+      ion-col {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .row-botao-voltar {
+    margin-top: 50px;
+  }
+
+  .swiper-pagination {
+    bottom: 0px;
+  }
+
+  .separador {
+    height: 10px;
+  }
+
+  ion-footer {
+    height: 100px;
+    background-color: white;
+
+    .grid-botao-wrapper {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+      padding-top: 0px;
+
+      .btn-menu-internal {
+        background-color: #dedede;
+        color: black;
+      }
+    }
+  }
+}

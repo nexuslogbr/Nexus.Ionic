@@ -1,0 +1,60 @@
+<side-menu *ngIf="!clienteExterno"></side-menu>
+<side-menu-ce *ngIf="clienteExterno"></side-menu-ce>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+
+<ion-content padding id="romaneio" class="romaneio">
+  <div class="romaneio-container">
+    <div class="login-content">
+        <button ion-button round class="btn-default" (click)="novoRomaneio()">Criar Romaneio</button>
+    </div>
+    <!-- <div class="login-content">
+        <button ion-button round class="btn-default" (click)="ordenarRomaneio()">Ordenar Romaneio</button>
+    </div>               -->
+    <div class="login-content">
+        <button ion-button round class="btn-default" (click)="listarRomaneio()">Listar Romaneio</button>
+    </div>
+  </div>
+
+  <ion-grid *ngIf="parametros">
+        <ion-row>
+            <ion-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 class="grid-header border-r">
+                <h6>Nº Romaneio</h6>
+            </ion-col>
+            <ion-col col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5 class="grid-header border-r border-l">
+                <h6>Transportadora</h6>
+            </ion-col>
+            <ion-col col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 class="grid-header border-l">
+                <h6>Status</h6>
+            </ion-col>
+        </ion-row>
+
+        <div *ngFor="let item of parametros">
+            <ion-row *ngFor="let romaneio of item.detalhes" >
+                <ion-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 class="grid-content">
+                    <p>{{romaneio.id}}</p>
+                </ion-col>
+                <ion-col col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5 class="grid-content">
+                    <p>{{romaneio.transportadora}}</p>
+                </ion-col>
+                <ion-col col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 class="grid-content" >
+                    <ion-icon name="ios-checkmark-circle">
+                        <img *ngIf="item.status == 4" src="assets/images/icon-check.png" alt="" (click)="analiseRomaneio($event, item.id, romaneio.id)" id="{{romaneio.id}}">
+                        <img *ngIf="item.status == 1" src="assets/images/clock.png" alt="" (click)="editarRomaneio($event, item.id, romaneio.id)" id="{{romaneio.id}}">
+                        <img *ngIf="item.status == 3 || item.status == 2" src="assets/images/icon-ex.png" alt="" (click)="analiseRomaneio($event, item.id, romaneio.id)" id="{{romaneio.id}}">
+                    </ion-icon>
+                </ion-col>
+            </ion-row>
+        </div>
+
+      </ion-grid>
+
+</ion-content>
+<modal-error></modal-error>
+<modal-loading></modal-loading>

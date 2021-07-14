@@ -1,0 +1,69 @@
+input-chassi {
+    background-color: #06273f;
+    ion-content {
+        background-color: color($colors, bgQrCode) !important;
+    }
+    #recebimento {
+        transition: all 0.4s ease-in-out;
+        background-color: color($colors, bgQrCode) !important;
+        input {
+            border: 1px solid #153b56;
+            background-color: #06273f;
+            color: #fff;
+            font: 14px 'avenir_demi';
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .login-content {
+            margin-top: 15px;
+            padding: 0;
+            width: 100%;
+            text-align: center; 
+            .btn-del{
+                background-color: #c74748;
+            }   
+            .btn-aprove{
+                background-color: #77bd5d;
+            } 
+            .btn-back{
+                background-color: #1c6381;
+                width: 90%;
+                height: auto;
+                .button-inner {
+                    padding: 25px 15px 25px 15px;
+                    font: 19px 'avenir_bold';
+                }            
+            }                      
+            .btn-receiving {
+                width: 45%;
+                height: auto;
+                .button-inner {
+                    padding: 25px 15px 25px 15px;
+                    font: 19px 'avenir_bold';
+                }
+            }        
+            .btn-ok {
+                background-color: #1c6381;
+            }
+            .btn-cancel {
+                background-color: #06273f;
+            } 
+        }                     
+    }     
+    modal-loading{
+        background-color: rgba(6, 39, 63, 0.2) !important;
+    }
+}
+
+.btn {
+    background-color: #1c6381;
+    width: 100% !important;
+    padding: 25px;
+    border-radius: 45px;
+    color: #fff;
+    font: 17px 'avenir_demi';
+    text-transform: uppercase;
+    margin: 0 auto;
+}

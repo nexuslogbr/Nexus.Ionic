@@ -1,0 +1,211 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" class="conferencia-header">
+  <button class="btn-menu">
+    <i class="icon icon-menu-gray"></i>
+  </button>
+  <ion-title>
+    Detalhes
+  </ion-title>
+</ion-header>
+
+<ion-content no-padding #pageTop class="conferencia-content">
+  <ion-grid no-padding class="fixed">
+    <ion-row>
+      <ion-col>
+        <conferencia-header
+          [configuracao]="configuracao"
+          [totalConferidos]="totalConferidos"
+          [totalVeiculos]="totalVeiculos"
+        >
+        </conferencia-header>
+
+        <ion-grid class="grid-destinos" *ngIf="!fechamento">
+          <ion-row class="row-destinos">
+            <ion-col>
+              <ion-item>
+                <ion-label label-ios>Destino:</ion-label>
+                <ion-select
+                  (ionChange)="onDestinoChange($event)"
+                  okText="Confirmar"
+                  cancelText="Cancelar"
+                  #selectDestino
+                  placeholder="Selecione um destino"
+                  [ngClass]="{
+                    selecionado: destino != null
+                  }"
+                >
+                  <ion-option value="0" id="0">Todos</ion-option>
+                  <ion-option
+                    *ngFor="let destino of destinos"
+                    value="{{ destino.id }}"
+                    id="{{ destino.id }}"
+                  >
+                    {{ destino.nome }}</ion-option
+                  >
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <input-chassi-controller
+          (onChassiInputed)="onChassiChanged($event)"
+          (onChassiScanned)="onChassiScannedChanged($event)"
+          (onScannerShowed)="changeBackBehavior(false)"
+        >
+        </input-chassi-controller>
+
+        <ion-grid
+          class="grid-filtro"
+          *ngIf="filtroChassi.length"
+          (click)="limparFiltro()"
+        >
+          <ion-row>
+            <ion-col class="col-texto-filtro">
+              <span>Filtrando por:</span> <strong>{{ filtroChassi }}</strong>
+            </ion-col>
+            <ion-col col-2 class="col-icone">
+              <ion-icon md="md-close-circle" class="icone-close"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-grid class="grid-select-wrapper">
+          <ion-row>
+            <ion-col>
+              <ion-grid class="grid-select">
+                <ion-row>
+                  <ion-col
+                    class="col-left"
+                    [ngClass]="{ selected: slideLeftSelected }"
+                    (click)="changeSlideToLeft()"
+                  >
+                    <span>CONFERIDOS</span>
+                  </ion-col>
+                  <ion-col
+                    class="col-center"
+                    [ngClass]="{ selected: slideCenterSelected }"
+                    (click)="changeSlideToCenter()"
+                  >
+                    <span>À CONFERIR</span>
+                  </ion-col>
+                  <ion-col
+                    class="col-right"
+                    [ngClass]="{ selected: slideRightSelected }"
+                    (click)="changeSlideToRight()"
+                  >
+                    <span>TODOS</span>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="grid-slide-wrapper">
+    <ion-row [hidden]="!slideLeftSelected">
+      <ion-col class="col-slide-wrapper">
+        <conferencia-veiculos
+          [fechamento]="fechamento"
+          [configuracao]="configuracao"
+          [carregarSomenteConferidos]="true"
+          [filtroChassi]="filtroChassi"
+          [refresh]="forceRefresh"
+          [destino]="destino"
+        >
+        </conferencia-veiculos>
+      </ion-col>
+    </ion-row>
+
+    <ion-row [hidden]="!slideCenterSelected">
+      <ion-col class="col-slide-wrapper">
+        <ion-col class="col-slide-wrapper">
+          <conferencia-veiculos
+            [fechamento]="fechamento"
+            [configuracao]="configuracao"
+            [carregarSomenteNaoConferidos]="true"
+            [filtroChassi]="filtroChassi"
+            [refresh]="forceRefresh"
+            [destino]="destino"
+          >
+          </conferencia-veiculos>
+        </ion-col>
+      </ion-col>
+    </ion-row>
+
+    <ion-row [hidden]="!slideRightSelected">
+      <ion-col class="col-slide-wrapper">
+        <conferencia-veiculos
+          [fechamento]="fechamento"
+          [disableCheckboxes]="true"
+          [configuracao]="configuracao"
+          [carregarTodos]="true"
+          [filtroChassi]="filtroChassi"
+          [refresh]="forceRefresh"
+          [destino]="destino"
+        >
+        </conferencia-veiculos>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer
+  no-border
+  *ngIf="!(fechamento && configuracao.conferenciaConfiguracaoStatusID==2)"
+>
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+        <button
+          ion-button
+          class="btn-menu-internal"
+          (click)="voltar()"
+          type="button"
+        >
+          Voltar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<ion-footer
+  no-border
+  *ngIf="fechamento && configuracao.conferenciaConfiguracaoStatusID==2"
+  class="high-footer"
+>
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+        <button
+          ion-button
+          class="btn-menu-internal btn-justificar"
+          (click)="justificar()"
+          type="button"
+        >
+          Justificar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+        <button
+          ion-button
+          class="btn-menu-internal"
+          (click)="voltar()"
+          type="button"
+        >
+          Voltar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<modal-loading-white></modal-loading-white>

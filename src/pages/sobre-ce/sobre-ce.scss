@@ -1,0 +1,72 @@
+page-sobre-ce {
+    .header ion-title{
+        padding-top: 16px;
+        font: 19px 'avenir_regular';
+    } 
+    .icon-arrow {
+        background-image: url("../assets/images/arrow-back.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 100%;
+        width: 24px;
+        height: 43px;
+        transition: all .4s ease-in-out;
+    }
+    .content{
+        background-color: #00141b;
+        ion-card-content{
+            background-color: #00141b;
+            color: #fff;
+            font: 15px 'avenir_regular';
+            text-align: justify;
+        }
+
+        .item-md.item-block .item-inner{
+            border: 1px solid transparent;
+        }
+        ion-item{
+            text-align: center;
+            background-color: #00141b;
+            .item-inner{
+                border: 1px solid transparent;
+                ion-label{
+                    a{
+                        color: #1c6381;
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+        .scroll-content{
+            text-align: center;
+            ion-img{
+                background-color: transparent;
+                margin: 0 auto;
+                margin-top: 80px;
+            }
+        }
+    }
+    ion-footer{
+        background-color: #061f31;
+        .item-md{
+            background-color: #061f31;
+            height: 100%;
+            .item-inner{
+                border: 0 !important;
+            }
+        }
+        ion-item{
+            background-color: #061f31;
+            .logo-callidus{
+                background-image: url("../assets/images/icon-callidus.png");
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: 100%;
+                width: 118px;
+                height: 25px;   
+                margin: 0 auto;         
+            }
+        }
+
+    }
+}

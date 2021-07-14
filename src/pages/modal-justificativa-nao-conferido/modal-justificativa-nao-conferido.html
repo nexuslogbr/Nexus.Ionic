@@ -1,0 +1,56 @@
+<ion-content no-padding>
+
+  <ion-grid class="grid-content" no-paddinksg>
+    <ion-row>
+      <ion-col>
+        <form class="form-geral">
+          <ion-list>
+            <ion-list-header>
+              Confirmar como item não conferido
+            </ion-list-header>
+
+            <!-- <ion-item>
+              <ion-label label-ios>Motivo:</ion-label>
+              <ion-select (ionChange)="onChangeMotivo($event)" okText="Confirmar" cancelText="Cancelar"
+                placeholder="Selecione o motivo" [ngClass]="{ selecionado: motivo != null }">
+                <ion-option *ngFor="let motivo of motivos" value="{{motivo.id}}">{{motivo.motivo}}</ion-option>
+              </ion-select>
+            </ion-item> -->
+
+            <ion-item>
+              <ion-label label-ios>Motivo:</ion-label>
+              <ion-input name="motivo" class="form-control" type="text" value="" placeholder="informe o motivo"
+                [(ngModel)]="motivo">
+              </ion-input>
+            </ion-item>
+
+          </ion-list>
+        </form>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>
+
+<ion-footer no-border>
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row class="row-botao-primeiralinha">
+      <ion-col>
+        <button ion-button class="btn-menu-internal azul" (click)="continuar()" type="button"
+          [disabled]="!motivo || motivo.length==0">
+          Confirmar
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="voltar()" type="button">
+          Voltar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<modal-loading-white></modal-loading-white>

@@ -1,0 +1,38 @@
+modal-sucesso {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.9);
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+    ion-content.content {
+        background-color: rgba(0, 0, 0, 0.1);
+        position: relative;
+        .qr-code-container {
+            padding: 50% 10px 10% 10px;
+            h3 {
+                color: #fff;
+                font: 32px 'avenir_demi';
+                text-align: center;
+                margin-bottom: 0;
+                text-transform: uppercase;
+            }
+            p {
+                color: #fff;
+                text-align: center;
+                font: 16px 'avenir_demi';
+                margin-top: 20px;
+            }
+        }
+    }
+    .icon-load-export{
+       
+        background-image: url( ' ../assets/images/icon-load-export.png' );
+        width: 172px;
+        height: 172px; 
+        background-size: 100%;                   
+        background-repeat: no-repeat;
+        margin: 0 auto;
+    }
+}

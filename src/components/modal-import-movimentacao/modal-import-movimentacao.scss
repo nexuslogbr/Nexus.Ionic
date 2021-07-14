@@ -1,0 +1,121 @@
+modal-import-movimentacao {
+    transition: all 0.4s ease-in-out;
+    background-color: #00141b !important;
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+    .charts-content {
+        background-color: #06273f;
+        border-radius: 5px;
+        border: 1px solid transparent;
+        .charts-content .form-group {
+            position: relative;
+            margin-bottom: 0;
+        }
+        h4 {
+            font: 16px 'avenir_demi';
+            color: #fff;
+            background-color: #1c6381;
+            padding: 15px;
+            margin: 0 !important;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            width: 100%;
+        }
+        .select-input {
+            position: relative;
+            width: 100%;
+        }
+        label {
+            font: 16px 'avenir_demi';
+            bottom: 10px;
+            color: #fff;
+            position: absolute;
+            left: 15px;
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+        }
+        .label-md{
+            margin: 0;
+        }
+        input {
+            font: 14px 'avenir_demi';
+            width: 100%;
+            background-color: #06273f;
+            border: none;
+            border-radius: 0;
+            background-color: #06273f;
+            color: #fff;
+            text-align: left;
+            padding-right: 15px;
+        }
+        ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+            color:    #fff;
+        }
+        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color:    #fff;
+        opacity:  1;
+        }
+        ::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color:    #fff;
+        opacity:  1;
+        }
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color:    #fff;
+        }
+        ::-ms-input-placeholder { /* Microsoft Edge */
+        color:    #fff;
+        }
+        ion-list{
+            margin: 0;
+            ion-list-header{
+                background-color: #1c6381;
+                border-top: none;
+                margin: 0;
+                ion-label{
+                    color: #fff;
+                    font: 16px 'avenir_demi';
+                }
+            }
+            ion-item{
+                background-color: #06273f;
+                padding: 0;
+                border-bottom: 1px solid #153b56;
+                .item-inner{
+                    padding-left: 15px;
+                    border-bottom: 1px solid transparent !important;
+                    ion-label{
+                        color: #fff;
+                    }
+                    ion-select{
+                        max-width: 85%;
+                        .select-text{
+                            padding-right: 10px;
+                            color: #fff;
+                            font: 14px 'avenir_demi';
+                        }
+                    }
+                }
+
+            }            
+        }              
+    }
+    .close-modal-chart{
+        background-image: url( '../assets/images/close-modal.png' );
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 19px 19px;
+        width: 19px;
+        height: 19px;
+        background-color: transparent;
+        position: absolute;
+        right: 0;
+        top: 15px;
+        z-index: 10;
+        border: none;
+        box-shadow: none;        
+    }    
+}

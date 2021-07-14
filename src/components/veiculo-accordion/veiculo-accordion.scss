@@ -1,0 +1,41 @@
+veiculo-accordion {
+    ion-card.card-md{
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+        box-shadow: none;
+        background: transparent;
+        margin-top: 20px;
+        ion-card-content{
+            .form-novo-veiculo{
+                height: 0px;
+                transition: all 0.4s ease-in-out;
+            }
+        }
+        ion-card-content.open{
+            .form-novo-veiculo{
+                height: auto;
+            } 
+        }
+    }
+    .icon-arrow{
+        background-image: url( "../assets/images/arrow-down.png" );
+        transition: background-image 0.4s ease-in-out; 
+        background-position: 95% center; 
+        background-repeat: no-repeat; 
+        background-size: 23px 14px;
+        color: #fff;
+        background-color: #1c6381;
+        padding: 15px;
+        font: 16px 'avenir_demi';
+    }
+    .icon-arrow.extraClass{
+        background-image: url( "../assets/images/arrow-up.png" ); 
+    }
+    .card-content{
+        padding: 0px;
+        // background-color: #06273f;
+        transition: all 0.4s ease-in-out;
+    }
+    
+}

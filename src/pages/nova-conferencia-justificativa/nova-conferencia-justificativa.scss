@@ -1,0 +1,26 @@
+page-nova-conferencia-justificativa {
+
+  .grid-opcao {
+    margin-top: -20px;
+  }
+
+  .botao-primeiralinha {
+    margin-top: 20px;
+  }
+
+  ion-footer {
+    height: 100px;
+    background-color: white;
+
+    .grid-botao-wrapper {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+      padding-top: 0px;
+
+      .btn-menu-internal {
+        background-color: #DEDEDE;
+        color: black;
+      }
+    }
+  }
+}

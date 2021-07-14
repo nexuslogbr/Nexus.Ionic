@@ -1,0 +1,42 @@
+<ion-content padding (click)="dismiss()">
+
+  <ion-grid class="grid-modal">
+
+    <ion-row class="row-icon">
+      <ion-col class="col-icon">
+        <img src="assets/icons/icon-alert.png" class="img-icon">
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="row-padding-text">
+      <ion-col>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="row-primary-text">
+      <ion-col class="col-primary-text">
+        <p class="p-primary-text">{{primaryMessage}}</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="row-secundary-text" *ngIf="secundaryMessage">
+      <ion-col class="col-secundary-text">
+        <p class="p-secundary-text">{{secundaryMessage}}</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="row-button-confirmar" *ngIf="onConfirm">
+      <ion-col class="col-button-confirmar">
+          <button ion-button class="btn-confirmar" block (click)="onConfirmClick()">Confirmar</button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="row-button-cancelar" *ngIf="onCancel">
+        <ion-col class="col-button-cancelar">
+            <button ion-button class="btn-cancelar" block (click)="onCancelClick()">Cancelar</button>
+        </ion-col>
+      </ion-row>
+
+  </ion-grid>
+
+</ion-content>

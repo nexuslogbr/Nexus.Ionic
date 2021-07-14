@@ -1,0 +1,111 @@
+<side-menu *ngIf="!clienteExterno"></side-menu>
+<side-menu-ce *ngIf="clienteExterno"></side-menu-ce>
+<ion-header (click)="toggleMenu()">
+    <button  class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+<ion-content padding id="form-novo-romaneio" class="form-novo-romaneio">
+    <div class="form">
+        <ion-list>
+            <ion-list-header>
+                Cadastro de Romaneio
+            </ion-list-header>
+            <ion-item>
+                <ion-label>Porto:</ion-label>
+                <ion-input class="form-control" type="text" name="porto" value="" [(ngModel)]="parametros.local"></ion-input>
+            </ion-item>
+
+            <ion-item class="item-block item-ios item-select">
+                <ion-label>Tipo:</ion-label>
+                <ion-input class="form-control" type="text" name="tipo" value="" [(ngModel)]="parametros.tipo"></ion-input>
+            </ion-item>
+
+            <ion-item class="item-block item-ios item-select icon-clock">
+                <ion-label>Data:</ion-label>
+                <ion-datetime min="2017" max="2030-10-31" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" [(ngModel)]="formData.data" cancelText="Cancelar" doneText="Confirmar"></ion-datetime>
+            </ion-item>
+
+        </ion-list>
+    </div>
+
+    <div class="form form-romaneio" *ngFor="let transportadora of parametros.detalhes; let i = index" [class.hidden]="transportadora.hidden">
+        <ion-list>
+            <ion-list-header>
+                Romaneio #{{transportadora.id}}
+            </ion-list-header>
+
+            <ion-item class="item-block item-ios item-select">
+                <ion-label>Placa do caminhão:</ion-label>
+                <ion-input class="form-control text-upper" type="text" name="placa" value="" [(ngModel)]="formData.placa" placeholder=""></ion-input>
+            </ion-item>
+
+            <ion-item class="item-block item-ios item-select">
+                <ion-label>Frota:</ion-label>
+                <ion-input class="form-control" type="text" name="frota" value="" [(ngModel)]="formData.frota" placeholder=""></ion-input>
+            </ion-item>
+
+        </ion-list>
+
+        <div class="form-novo-veiculo" >
+            <ion-list>
+                <ion-list-header class="new-vehicle">
+                    Novo veículo(chassi ou nota fiscal)
+                </ion-list-header>
+
+                <ion-grid>
+                    <ion-row justify-content-start>
+                        <ion-col col-9>
+                                <ion-input class="input-header" type="text"  [(ngModel)]="inputChassi" placeholder=""></ion-input>
+                        </ion-col>
+                        <ion-col col-3>
+                                <ion-label class="icon-qr-code" (click)="ConsultarChassiNf()"></ion-label>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+
+            </ion-list>
+
+            <div class="add-novo-veiculo" *ngFor="let veiculo of transportadora.veiculos; let j = index">
+                <div class="form-item {{veiculo.chassi}}">
+                    <i class="icon icon-remove-chassi" id="{{veiculo.chassi}}" (click)="removeVeiculo(veiculo, i, j)"></i>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-2 col-form-label">NFE:</label>
+                        <div class="col-10">
+                            <input type="text" class="form-control" value="" placeholder="{{veiculo.nota}}" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-2 col-form-label">Chassi:</label>
+                        <div class="col-10">
+                            <input type="text" class="form-control" name="" value="" placeholder="{{veiculo.chassi}}" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-2 col-form-label">Modelo:</label>
+                        <div class="col-10">
+                            <input type="text" class="form-control" name="" value="" placeholder="{{veiculo.modelo}}" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-2 col-form-label">Posição:</label>
+                        <div class="col-10">
+                            <input type="text" class="form-control" name="" id="" value="" placeholder="{{veiculo.posicao}}" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="login-content">
+        <button ion-button round class="btn-default" type="submit" (click)="salvarRomaneio()">Salvar Romaneio</button>
+    </div>
+
+</ion-content>
+
+<modal-loading></modal-loading>

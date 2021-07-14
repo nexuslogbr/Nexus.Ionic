@@ -1,0 +1,43 @@
+page-modal-cancelar-chassi {
+    ion-content {
+        background-color: #00141b !important;
+        color: white !important;
+        // ion-grid,
+        // ion-row,
+        // ion-col {
+        //     //border: 1px solid red;
+        // }
+        .img-alerta {
+            width: 200px;
+        }
+        ion-row {
+            text-align: center;
+        }
+        .btn-operacao {
+            width: 92%;
+            max-width: 240px;
+            height: auto;
+            background-color: #1c6381;
+            span {
+                padding: 25px 15px 25px 15px;
+                font: 19px 'avenir_bold';
+            }
+        }
+
+        .negacao {
+            background-color: rgb(6, 39, 63);
+        }
+        .texto {
+            font-size: 20px;
+            text-align: center;
+            line-height: 1.2;
+            font-family: avenir_regular;
+        }
+        .texto-destaque {
+            font-size: 32px;
+            text-align: center;
+            font-family: avenir_bold;
+        }
+        
+    }
+}

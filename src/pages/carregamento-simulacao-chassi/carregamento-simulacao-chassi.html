@@ -1,0 +1,34 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+
+<ion-content padding id="recebimento" class="recebimento show">
+  <!-- <div *ngIf="scanData">
+        <button class="btn btn-cancel">CANCELAR</button>
+    </div> -->
+  <div class="qr-code-container">
+    <i class="icon icon-qr-code-black" (click)="scan()"></i>
+    <div class="line"></div>
+    <form (ngSubmit)="ConsultarChassi()">
+      <ion-label>Chassi:</ion-label>
+      <ion-input type="text" (keyup)="onKey($event)" [(ngModel)]="formData.chassi" name="chassi" id="chassi" placeholder="" value=""
+        required></ion-input>
+    </form>
+  </div>
+
+  <div class="login-content">
+    <button ion-button round class="btn-default" (click)="inserirChassi()">Inserir</button>
+  </div>
+
+</ion-content>
+<ion-footer>
+  <carregamento-tab [exibirRecebimento]="false"></carregamento-tab>
+</ion-footer>
+<modal-error></modal-error>
+<modal-loading></modal-loading>

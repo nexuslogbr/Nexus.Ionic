@@ -1,0 +1,72 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    Configuração
+  </ion-title>
+</ion-header>
+
+<ion-content padding>
+
+  <header-navio [navio]="navio"></header-navio>
+
+  <form class="form-recebe-chassis">
+    <ion-list>
+      <ion-list-header>
+        Selecionar Destino
+      </ion-list-header>
+
+      <ion-item *ngIf="userData.confereOnline || userData.confereOffline">
+        <ion-label>Nome:</ion-label>
+        <ion-input class="form-control" type="text" value="" placeholder="" [(ngModel)]="usuario" name="usuario">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label label-ios>Área:</ion-label>
+        <ion-select (ionChange)="onChangeArea($event)" okText="Confirmar" cancelText="Cancelar" [disabled]="conferenciaNavioLote">
+          <ion-option *ngFor="let area of areas" value="{{area.id}}" id="{{area.id}}" [selected]="conferenciaNavioLote && (area.id==conferenciaNavioLote.areaID)">{{area.nome}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="!userData.confereOnline && !userData.confereOffline">
+        <ion-label label-ios>Tipo de conferência:</ion-label>
+        <ion-select (ionChange)="onChangeTipoConferencia($event)" okText="Confirmar" cancelText="Cancelar" [disabled]="conferenciaNavioLote">
+          <ion-option *ngFor="let tipo of tipoConferencias" value="{{tipo.id}}" id="{{tipo.id}}" [selected]="conferenciaNavioLote && (tipo.id==conferenciaNavioLote.conferenciaID)">{{tipo.nome}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="userData.confereOnline || userData.confereOffline">
+        <ion-label label-ios>Turno:</ion-label>
+        <ion-select (ionChange)="onChangeTurno($event)" okText="Confirmar" cancelText="Cancelar" [disabled]="conferenciaNavioLote">
+          <ion-option *ngFor="let turno of turnos" value="{{turno.id}}" id="{{turno.id}}" [selected]="conferenciaNavioLote && (turno.id==conferenciaNavioLote.turnoID)">{{turno.nome}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="showDestino">
+        <ion-label label-ios>Destino:</ion-label>
+        <ion-select (ionChange)="onChangeDestino($event)" okText="Confirmar" cancelText="Cancelar" [disabled]="conferenciaNavioLote">
+          <ion-option *ngFor="let destino of destinos" value="{{destino.id}}" id="{{destino.id}}" [selected]="conferenciaNavioLote && (destino.id==conferenciaNavioLote.destinoID)">{{destino.nome}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+
+    </ion-list>
+  </form>
+
+  <ion-row class="row-botao-first">
+    <ion-col>
+      <button ion-button class="btn-menu-internal" (click)="continuar()" type="button" *ngIf="conferenciaNavioLote">Continuar</button>
+      <button ion-button class="btn-menu-internal btn-finalizar" (click)="finalizar()" type="button" *ngIf="conferenciaNavioLote">Finalizar</button>
+      <button ion-button class="btn-menu-internal btn-iniciar" (click)="iniciarNovaConferencia()" type="button" [disabled]="destino==null || tipoConferencia==null" *ngIf="!conferenciaNavioLote">Iniciar Conferência</button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()"
+        type="button">Voltar</button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
+
+<modal-loading></modal-loading>

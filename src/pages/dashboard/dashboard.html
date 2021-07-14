@@ -1,0 +1,155 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+
+<ion-content padding>
+
+  <section class="charts-content" [class.statusVagasClass]="statusVagasClass">
+    <ion-list>
+      <ion-list-header>
+      Status de Vagas
+      </ion-list-header>
+    </ion-list>
+    <div class="inner-charts-content" style="position: relative;">
+      <div style="font-weight: 700; color: #fff; text-align: center; margin-top: 40%; position: absolute; left: 0; right: 0;">
+          Total Vacancies <br>
+          <span style="font-weight: 400;"> {{posisoesTotal}} </span>
+      </div>
+      
+      <canvas id="statusVagas" width="400" height="400">
+
+      </canvas>
+    </div>    
+  </section> 
+
+  <section class="charts-content" [class.statusTempoClass]="statusTempoClass">
+    <ion-list>
+      <ion-list-header>
+          Tempo do Veículo no Pátio
+      </ion-list-header>
+    </ion-list>
+    <div class="inner-charts-content" style="position: relative;">
+      <div style="font-weight: 700; color: #fff; text-align: center; margin-top: 40%; position: absolute; left: 0; right: 0;">
+          Time
+      </div>
+        
+      <canvas id="tempoPatio" width="400" height="400"></canvas>
+
+    </div>            
+  </section> 
+
+  <section class="charts-content">
+    <ion-list>
+      <ion-list-header>
+          Status de Veículos
+      </ion-list-header>
+
+      <ion-item  *ngFor="let item of modelos; let i = index" class="inner-charts-content" style="width: 50%; display: inline-block; border: none;">
+        <canvas id='statusVeiculo{{i}}'></canvas>
+        <div style="text-align: center; color: #fff; margin-top: -20px;">{{item.percentagem}}%</div>
+        <div style="text-align: center; color: #fff;">{{item.modelo}}</div>
+      </ion-item>      
+    </ion-list>
+  </section>  
+
+  <section class="charts-content" style="padding-right: 10px;">
+    <ion-list>
+      <ion-list-header>
+          Próximos Carregamentos e Descargas
+      </ion-list-header>
+
+      <dashboard-accordion *ngFor="let navio of navios" [navioNome]="navio.navioNome">
+
+        <ion-item>
+          <ion-label>ETA:</ion-label>
+          <ion-input type="text" placeholder="{{navio.etaFormatado}}" id="eta" [disabled]="true"></ion-input>
+        </ion-item> 
+    
+        <ion-item>
+            <ion-label>ETB:</ion-label>
+            <ion-input type="text" placeholder="{{navio.etbFormatado}}" id="etb" [disabled]="true"></ion-input>
+        </ion-item> 
+  
+        <ion-item>
+            <ion-label>ETS:</ion-label>
+            <ion-input type="text" placeholder="{{navio.etsFormatado}}" id="ets" [disabled]="true"></ion-input>
+        </ion-item>  
+    
+        <ion-item>
+            <ion-label>Quantity:</ion-label>
+            <ion-input type="text" placeholder="{{navio.quantidade}}" id="quantity" [disabled]="true"></ion-input>
+        </ion-item> 
+  
+        <!-- <ion-item class="hidden">
+            <ion-label>Status:</ion-label>
+            <ion-input type="text" placeholder="25%" id="status" [disabled]="true"></ion-input>
+        </ion-item>  -->
+    
+        <ion-item>
+            <ion-label>Type:</ion-label>
+            <ion-input type="text" placeholder="{{navio.sTipoOperacao}}" id="type" [disabled]="true"></ion-input>
+        </ion-item> 
+      </dashboard-accordion>   
+       
+    </ion-list>            
+  </section> 
+
+  <section class="charts-content" [class.volumeImportExport]="volumeImportExport">
+    <ion-list>
+      <ion-list-header>
+          Volume de Importação e Exportação
+      </ion-list-header>
+    </ion-list>
+    <div class="inner-charts-content" style="position: relative;" >
+      <button ion-button class="expand-chart" end id="volumeImport" (click)="modalvolumeImport($event)"></button>
+        
+      <canvas id="importVolume" width="400" height="400"></canvas>
+
+    </div>  
+    
+    <div class="inner-charts-content" style="position: relative;">
+      <button ion-button class="expand-chart" end id="volumeExport" (click)="modalvolumeImport($event)"></button>
+        
+      <canvas id="exportVolume" width="400" height="400"></canvas>
+
+    </div>         
+
+  </section>  
+  <section class="charts-content">
+    <ion-list>
+      <ion-list-header>
+      Histórico de Movimentação de Navios
+      </ion-list-header>
+    </ion-list>
+    <div class="inner-charts-content" style="position: relative;">
+      <button ion-button class="expand-chart" end (click)="modalMovImport($event)"></button>
+      
+      <canvas id="historicoMovimentacaoImport">
+
+      </canvas>
+    </div>  
+    
+    <div class="inner-charts-content" style="position: relative;">
+
+      <button ion-button class="expand-chart" end (click)="modalMovExport($event)"></button>
+      
+      <canvas id="historicoMovimentacaoExport">
+
+      </canvas>
+    </div>     
+  </section> 
+
+    <div class="login-content">
+        <button ion-button round class="btn-default" (click)="Voltar()">Voltar</button>
+    </div>      
+
+</ion-content>
+
+<modal-error></modal-error>  
+<modal-loading></modal-loading>

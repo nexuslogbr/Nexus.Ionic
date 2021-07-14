@@ -1,0 +1,49 @@
+conferencia-header {
+  color: white;
+
+  .grid-navio {
+    background-color: #8e897e;
+  }
+  .row-navio {
+    .col-navio {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      text-transform: uppercase;
+      align-items: flex-start;
+
+      .div-navio-nome {
+        font-size: 16px;
+        word-break: break-word;
+        text-align: left;
+        font-weight: bold;
+      }
+
+      .div-navio-viagem {
+        margin-top: 4px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+
+    .col-status {
+      display: flex;
+      flex-flow: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      text-transform: uppercase;
+      font-size: 16px;
+
+      .legenda {
+        margin-bottom: 6px;
+        font-style: italic;
+        font-size: 9px;
+        text-transform: none;
+      }
+    }
+  }
+
+  .divtotais {
+    display: flex;
+  }
+}

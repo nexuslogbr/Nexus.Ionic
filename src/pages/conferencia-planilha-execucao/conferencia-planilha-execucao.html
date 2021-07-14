@@ -1,0 +1,50 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    Resumo do Conferente
+  </ion-title>
+</ion-header>
+
+<ion-content padding>
+
+  <div class="form">
+    <ion-grid>
+
+      <ion-row justify-content-start>
+        <ion-col col-9>
+            <!-- <ion-input class="input-header" type="text" (keyup)="onKey($event)" [(ngModel)]="chassi"
+            placeholder="chassi" name="chassi" id="chassi" required></ion-input> -->
+            <ion-input class="input-header" (keyup)="onKey($event)" [(ngModel)]="chassi"
+            placeholder="chassi" name="chassi" id="chassi" required type="text"></ion-input>
+        </ion-col>
+        <ion-col col-3>
+          <ion-label class="code" (click)="scan()"></ion-label>
+          <!-- <ion-label class="search hidden" (click)="buscaChassi()"></ion-label> -->
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <planilha-resumo [arquivo]="planilha" [conferencias]="conferencias"></planilha-resumo>
+
+  <ion-grid>
+    <ion-row class="first-row">
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="conferir()"
+          type="button" [disabled]="chassi.length!=17">Conferir</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()"
+          type="button">Voltar</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<modal-loading></modal-loading>

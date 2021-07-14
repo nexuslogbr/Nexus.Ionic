@@ -1,0 +1,99 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+
+<ion-content padding>
+        
+  <form class="form-parking">
+        
+    <ion-list>
+        <ion-item class="qr-code-container">
+            <i class="icon icon-parking-blue"></i>
+            <p text-uppercase text-center>Parqueamento realizado com</p>
+            <h3 text-uppercase text-center>Sucesso</h3>            
+        </ion-item>  
+
+        <ion-item *ngIf="dados.fila">
+        
+            <ion-card>
+                <ion-card-header text-center>
+                    {{dados.message}}
+                </ion-card-header>
+                <ion-card-content text-center>
+                        {{dados.messageTitle}}
+                </ion-card-content>
+            </ion-card>  
+
+        </ion-item> 
+
+        <ion-item>
+            <ion-label>Local:</ion-label>
+            <ion-input class="form-control" type="text" value="" placeholder="{{ formData.localAtual }}"  [disabled]="true"></ion-input>
+        </ion-item>
+
+        <ion-item class="item-block item-ios item-select">
+            <ion-label>Layout:</ion-label>
+            <ion-input class="form-control" type="text" value="" placeholder="{{ formData.layoutAtual }}" [disabled]="true"></ion-input>
+        </ion-item>
+      
+        <ion-item class="item-block item-ios item-select">
+            <ion-label>Bolsão:</ion-label>
+            <ion-input class="form-control" type="text" value="" placeholder="{{ formData.bolsaoAtual }}" [disabled]="true"></ion-input>
+        </ion-item>  
+
+        <ion-item class="item-block item-ios item-select">
+            <ion-label>Chassi:</ion-label>
+            <ion-input class="form-control" type="text" value="" placeholder="{{ formData.chassi }}" [disabled]="true"></ion-input>
+        </ion-item> 
+
+        <ion-item class="item-block item-ios item-select">
+            <ion-label>Posição:</ion-label>
+            <ion-input class="form-control" type="text"  value="" placeholder="{{ formData.posicaoAtual }}" [disabled]="false"></ion-input>
+            <button ion-button item-end class="btn-forcar" (click)="forcarNovaPosicao()">{{forcarText}}</button>
+        </ion-item> 
+
+        <ion-item *ngIf="forcarPosicao">
+            <ion-label>Nova Posição</ion-label> 
+                <ion-select  (ionChange)="onPosicaoChange($event)" okText="Confirmar" cancelText="Cancelar" #select4>
+                    <ion-option *ngFor="let posicao of posicoes" value="{{posicao.id}}" id="{{posicao.id}}">{{posicao.nome}}</ion-option>
+                </ion-select>
+        </ion-item>        
+
+    </ion-list>
+  </form>
+
+    <div class="login-content">
+        <button ion-button round first class="btn-receiving btn-cancel" (click)="Finalizar()" type="button">FINALIZAR</button>
+        <button ion-button round end class="btn-receiving btn-ok" (click)="ProximoVeiculo()" type="button" *ngIf="dados.layout">PRÓXIMO</button>
+    </div>
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-buttons>
+            <button ion-button icon-only (click)="toRecebimento()" class="reception">
+                <ion-icon class="icon icon-reception-white"></ion-icon>
+            </button>            
+            <button ion-button icon-only (click)="toParqueamento()" class="parking">
+                <ion-icon class="icon icon-parking"></ion-icon>
+            </button>
+            <button ion-button icon-only (click)="toMovimentacao()" class="movement">
+                <ion-icon class="icon icon-movement-white"></ion-icon>
+            </button>
+            <button ion-button icon-only (click)="toCarregamento()" class="load-truck">
+                <ion-icon class="icon icon-load-truck-white"></ion-icon>
+            </button>
+            <button ion-button icon-only  (click)="toCarregamentoExport()" class=" load-export">
+                <ion-icon class="icon icon-load-export-white"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-footer>  
+<modal-loading></modal-loading>

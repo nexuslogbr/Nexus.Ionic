@@ -1,0 +1,50 @@
+<ion-grid
+  class="grid-item grid-navio"
+  [ngClass]="{
+    'navio-andamento': configuracao.navio.statusData == 'andamento',
+    'navio-esperado': configuracao.navio.statusData == 'esperado'
+  }"
+  *ngIf="configuracao.navio"
+  (click)="gotoPageClick()"
+>
+  <ion-row class="row-navio">
+    <ion-col col-8 class="col-navio">
+      <div class="div-navio-nome">{{ configuracao.navio.nome }}</div>
+      <div class="div-navio-viagem">{{ configuracao.navio.viagem }}</div>
+    </ion-col>
+    <ion-col col-4 class="col-status">
+      <div class="legenda">
+        Conferido/Total (Saldo)
+      </div>
+      <div class="divtotais">
+        <sincronizacao-info
+          [conferenciaConfiguracaoId]="configuracao.id"
+        ></sincronizacao-info>
+        {{ totalConferidos }}/{{ totalVeiculos }}
+        <strong>({{totalVeiculos - totalConferidos}})</strong>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-grid
+  class="grid-item grid-navio"
+  [ngClass]="{
+    'navio-andamento': configuracao.arquivo.statusData == 'andamento',
+    'navio-esperado': configuracao.arquivo.statusData == 'esperado'
+  }"
+  *ngIf="configuracao.arquivo"
+  (click)="gotoPageClick()"
+>
+  <ion-row class="row-navio">
+    <ion-col col-8 class="col-navio">
+      <div class="div-navio-nome">{{ configuracao.arquivo.nomeOriginal }}</div>
+    </ion-col>
+    <ion-col col-4 class="col-status">
+      <div>
+        {{ totalConferidos }}/{{ totalVeiculos }}
+        <strong>({{ totalVeiculos - totalConferidos }})</strong>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>

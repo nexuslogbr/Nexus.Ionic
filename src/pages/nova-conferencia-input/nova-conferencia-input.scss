@@ -1,0 +1,135 @@
+page-nova-conferencia-input {
+  ion-input {
+    ::placeholder {
+      opacity: 0.5;
+      color: black !important;
+    }
+  }
+
+  .select-text {
+    opacity: 0.5;
+  }
+
+  .selecionado {
+    .select-text {
+      opacity: 1;
+    }
+  }
+
+  .row-botao-primeiralinha {
+    margin-top: 50px;
+  }
+
+  ion-content.content .form-geral ion-list ion-item .item-inner {
+    box-shadow: none !important;
+  }
+
+  .form-geral {
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid transparent;
+
+    .form .form-group {
+      position: relative;
+      margin-bottom: 0;
+    }
+
+    h4 {
+      font: 16px 'avenir_demi';
+      color: #fff;
+      background-color: #5D5D5D;
+      padding: 15px;
+      margin: 0 !important;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      width: 100%;
+    }
+
+    .select-input {
+      position: relative;
+      width: 100%;
+    }
+
+    label {
+      font: 16px 'avenir_demi';
+      bottom: 10px;
+      color: #fff;
+      position: absolute;
+      left: 15px;
+      display: inline-block;
+      max-width: 100%;
+      margin-bottom: 5px;
+    }
+
+    input {
+      font: 14px 'avenir_demi';
+      width: 100%;      
+      border: none;
+      border-radius: 0;
+      color:black !important;
+      text-align: left;
+      padding-right: 15px;
+    }
+
+    ion-list {
+      margin: 0;
+
+      ion-list-header {
+        background-color: #5D5D5D;
+        border-top: none;
+
+        ion-label {
+          color: #fff;
+          font: 16px 'avenir_demi';
+        }
+      }
+
+      ion-item {
+        background-color: white;
+        color: black !important;
+        padding: 0;
+        border-bottom: 1px solid black;
+
+        .item-inner {
+          padding-left: 15px;
+          border-bottom: 1px solid transparent !important;
+
+          ion-label {
+            color: black;
+          }
+
+          ion-select {
+            max-width: 85%;
+
+            .select-text {
+              padding-right: 10px;
+              color: black;
+              font: 14px 'avenir_demi';
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .btn-menu-verde {
+    background-color: #A7FF8D !important;
+    color: black !important;
+  }
+
+  ion-footer {
+    height: 190px;
+    background-color: white;
+
+    .grid-botao-wrapper {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+      padding-top: 0px;      
+  
+      .btn-menu-internal {
+        background-color: #DEDEDE;
+        color: black;
+      }
+    }
+  }
+}

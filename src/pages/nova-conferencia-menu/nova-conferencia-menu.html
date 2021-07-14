@@ -1,0 +1,50 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" class="conferencia-header">
+  <button class="btn-menu">
+    <i class="icon icon-menu-gray"></i>
+  </button>
+  <ion-title>
+    Conferência
+  </ion-title>
+</ion-header>
+
+<ion-content padding class="conferencia-content">
+
+  <ion-grid class="first-row">
+
+    <ion-row *ngIf="userData.confereOnline || (!userData.confereOnline && !userData.confereOffline)">
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="navigateToConfiguracao()" type="button">Configurar
+          Conferência</button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="navigateToRealizar()" type="button">Realizar
+          Conferência</button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="userData.confereOnline || (!userData.confereOnline && !userData.confereOffline)">
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="navigateToFinalizar()" type="button">Concluir
+          Conferência</button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>
+
+<ion-footer no-border>
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="voltar()" type="button">
+          Voltar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

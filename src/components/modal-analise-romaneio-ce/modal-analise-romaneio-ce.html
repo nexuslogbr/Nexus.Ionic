@@ -1,0 +1,84 @@
+<side-menu-ce></side-menu-ce>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-list-header class="chassis-header">
+            <ion-label>#{{romaneio.romaneioID}} </ion-label> 
+    </ion-list-header>
+
+    <ion-list>
+    
+        <ion-item>
+            <ion-label>Porto:</ion-label>
+            <ion-input class="form-control" type="text" [(ngModel)]="romaneio.porto" id="porto" name="porto" value="" placeholder=""  [disabled]="true"></ion-input>
+        </ion-item>
+
+        <ion-item>
+                <ion-label>Tipo:</ion-label>
+                <ion-input class="form-control" type="text" [(ngModel)]="romaneio.tipo" id="tipo" name="tipo" value="" placeholder=""  [disabled]="true"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+                <ion-label>Data:</ion-label>
+                <ion-input class="form-control" type="text" [(ngModel)]="romaneio.data" id="data" name="data" value="" placeholder=""  [disabled]="true"></ion-input>
+        </ion-item>
+
+        <ion-item>
+                <ion-label>Transportadora:</ion-label>
+                <ion-input class="form-control" type="text" [(ngModel)]="romaneio.transportadora" id="transportadora" name="transportadora" value="" placeholder=""  [disabled]="true"></ion-input>
+        </ion-item>   
+        
+        <ion-item>
+                <ion-label>Placa do caminhão:</ion-label>
+                <ion-input class="form-control" type="text" [(ngModel)]="romaneio.placa" id="placa" name="placa" value="" placeholder=""  [disabled]="true"></ion-input>
+        </ion-item>  
+
+        <ion-item>
+            <ion-label>Frota:</ion-label>
+            <ion-input class="form-control" type="text" [(ngModel)]="romaneio.frota" id="{{ frota }}" name="frota" value="" placeholder=""  [disabled]="true"></ion-input>
+        </ion-item>         
+
+        <ion-list-header class="chassis-header">
+                Lista de Chassis
+        </ion-list-header>     
+           
+        <div *ngFor="let item of chassis">
+
+                <ion-item class="no-border">
+                        <ion-label>NFE:</ion-label>
+                        <ion-input class="form-control" type="text"  id="{{ item.nota }}"  value="" placeholder="{{ item.nota }}"  [disabled]="true"></ion-input>
+                </ion-item>  
+                
+                <ion-item class="no-border">
+                        <ion-label>Chassi:</ion-label>
+                        <ion-input class="form-control" type="text"  id="{{ item.chassi }}"  value="" placeholder="{{ item.chassi }}"  [disabled]="true"></ion-input>
+                </ion-item>
+
+                <ion-item class="no-border">
+                        <ion-label>Modelo:</ion-label>
+                        <ion-input class="form-control" type="text"  id="{{ item.modelo }}"  value="" placeholder="{{ item.modelo }}"  [disabled]="true"></ion-input>
+                </ion-item> 
+                
+                <ion-item>
+                        <ion-label>Posição:</ion-label>
+                        <ion-input class="form-control" type="text"  id="{{ item.posicao }}"  value="" placeholder="{{ item.posicao }}"  [disabled]="true"></ion-input>
+                </ion-item>   
+        </div>   
+    </ion-list>  
+
+    <div class="login-content editarRomaneio {{classe}}">
+        <button ion-button round first class="btn-receiving btn-cancel" (click)="voltar()" type="button">Voltar</button>
+        <button ion-button round end class="btn-receiving btn-ok" (click)="editar()" type="button">Editar</button>
+    </div>
+    <div class="login-content aprovadoRomaneio  {{classe}}" >
+        <button ion-button round class="btn-back" (click)="voltar()" type="button">Voltar</button>
+    </div>
+</ion-content>

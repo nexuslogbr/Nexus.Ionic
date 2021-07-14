@@ -1,0 +1,113 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+
+<ion-content padding id="recebimento" class="recebimento show">
+
+  <!-- <div class="qr-code-container">
+    <i class="icon icon-qr-code-black" (click)="scan()"></i>
+    <div class="line"></div>
+    <form (ngSubmit)="buscarChassi()">
+      <ion-label>Chassi:</ion-label>
+      <ion-input type="text" (keyup)="onKey($event)" [(ngModel)]="formData.chassi" name="chassi" id="chassi"
+        placeholder="" value="" required></ion-input>
+    </form>
+  </div> -->
+
+  <div class="form">
+    <ion-grid>
+      <!-- <ion-row class="row-header">
+        <ion-col class="col-header">
+          <h2>Chassi</h2>
+        </ion-col>
+      </ion-row> -->
+      <ion-row justify-content-start>
+        <ion-col col-9>
+          <ion-input class="input-header" type="text" (keyup)="onKey($event)" [(ngModel)]="formData.chassi"
+            placeholder="chassi" name="chassi" id="chassi" required></ion-input>
+        </ion-col>
+        <ion-col col-3>
+          <ion-label class="code" (click)="scan()"></ion-label>
+          <ion-label class="search hidden" (click)="buscaChassi()"></ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- <form (ngSubmit)="buscarChassi()">
+    <ion-grid class="grid-scan" no-padding>
+      <ion-row class="row-header">
+        <ion-col class="col-header">Chassi</ion-col>
+      </ion-row>
+      <ion-row class="row-chassi">
+        <ion-col col-10 class="col-chassi">
+          <ion-input type="text" (keyup)="onKey($event)" [(ngModel)]="formData.chassi" name="chassi" id="chassi"
+            placeholder="000000" value="" required></ion-input>
+        </ion-col>
+        <ion-col col2 class="col-icone"></ion-col>
+      </ion-row>
+    </ion-grid>
+  </form> -->
+
+  <ion-grid class="grid-lote">
+    <ion-row class="row-lote-header">
+      <ion-col>
+        Operação
+      </ion-col>
+    </ion-row>
+    <!-- <ion-row class="row-lote-data show-line">
+      <ion-col>
+        <span class="bold">Origem:</span> {{lote.origem.nome}}
+      </ion-col>
+    </ion-row> -->
+    <ion-row class="row-lote-data show-line">
+      <ion-col>
+        <span class="bold">Destino:</span> {{destino.nome}}
+      </ion-col>
+    </ion-row>
+    <!-- <ion-row class="row-lote-data show-line">
+      <ion-col>
+        <span class="bold">Local:</span> {{lote.portoDescarga.nome}}
+      </ion-col>
+    </ion-row> -->
+    <ion-row class="row-lote-data show-line">
+      <ion-col>
+        <span class="bold">Data:</span> {{navio.etb | date: 'dd/MM/yyyy'}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-lote-data show-line">
+      <ion-col>
+        <span class="bold">Navio:</span> {{navio.nome}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-lote-data show-line">
+      <ion-col>
+        <span class="bold">Viagem:</span> {{navio.viagem}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-lote-data show-line">
+      <ion-col>
+        <span class="bold">Previsto:</span> {{totalDeVeiculos}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-lote-data">
+      <ion-col>
+        <span class="bold">Carregado:</span> {{totalDeVeiculosCarregados}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <button ion-button round first class="btn-receiving btn-cancel" (click)="voltar()" type="button">VOLTAR</button>
+
+</ion-content>
+<!-- <ion-footer>
+  <carregamento-tab [exibirCarregamentoExport]="false"></carregamento-tab>
+</ion-footer> -->
+<modal-error></modal-error>
+<modal-loading></modal-loading>

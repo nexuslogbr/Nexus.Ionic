@@ -1,0 +1,48 @@
+page-model-error {
+
+  ion-content {
+    background-color: #CE2222 !important;
+
+    div.scroll-content {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .grid-modal {
+
+    .row-icon {
+
+
+      .col-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .img-icon {
+          height: 170px;
+        }
+      }
+    }
+
+    .row-padding-text {
+      height: 40px;
+    }
+
+    .row-primary-text {
+      .col-primary-text {
+        text-align: center;
+
+        .p-primary-text {
+          margin: 0px;
+          font-weight: bold;
+          font-size: 30px;
+          color: white;
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+
+}

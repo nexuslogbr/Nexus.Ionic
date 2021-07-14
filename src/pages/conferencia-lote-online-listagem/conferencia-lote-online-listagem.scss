@@ -1,0 +1,107 @@
+page-conferencia-listagem {
+  background-color: #06273f;
+
+  .grid-base {
+    color: white;
+    height: 40px;
+  }
+
+  .grid-planilha {
+    margin-top: 20px;
+  }
+
+  .grid-header {
+    //font-weight: bold;
+    background-color: #1d6482;
+
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .grid-noreg {
+    background-color: #1d6482;
+  }
+
+  .grid-error {
+    background-color: red;
+  }
+
+  .grid-navio {
+    margin-top: 5px;
+    background-color: #072740;
+    height: 60px;
+
+    .col-icon {
+      justify-content: center;
+
+      .icon-check {
+        color: green;
+        font-size: 2.2rem;
+      }
+    }
+
+    ion-row {
+      height: 100%;
+
+      ion-col {
+        //background-color: red;
+        display: flex;
+        align-items: center;
+        //height: 100%;
+      }
+    }
+  }
+
+  .row-botao-voltar {
+    margin-top: 50px;
+  }
+
+  ion-content {
+    background-color: color($colors, bgQrCode) !important;
+  }
+
+  .conferencia-item {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    ion-label {
+      margin: 0px;
+    }
+    .conferencia-grid {
+      font-size: 16px;
+      //border: 1px solid red;
+
+      .conferencia-area-row {
+        .div-icon {
+          text-align: right;
+        }
+        .icon-alert {
+          color: yellow;
+          font-size: 24px;
+        }
+
+        .icon-check {
+          color: green;
+          font-size: 24px;
+        }
+      }
+
+      .conferencia-turno-row {
+        p {
+          font-size: 12px;
+        }
+
+        .conferencia-turno-usuario {
+          font-size: 9px;
+        }
+
+        .conferencia-turno-totais {
+          font-size: 14px;
+        }
+
+        .conferencia-turno-totais {
+          text-align: right;
+        }
+      }
+    }
+  }
+}

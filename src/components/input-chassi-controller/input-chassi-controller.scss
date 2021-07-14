@@ -1,0 +1,179 @@
+input-chassi-controller {
+
+  ion-input {
+    ::placeholder {
+      opacity: 0.5;
+      color: black !important;
+    }
+
+    input {
+      
+    }
+  }
+
+  .form {
+    background-color: #F84042;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    margin-bottom: 20px;
+
+    .form .form-group {
+      position: relative;
+      margin-bottom: 0;
+    }
+
+    ion-grid {
+      background-color: #F84042;
+      //margin-bottom: 20px;
+      padding: 0;
+    }
+
+    ion-col.col {
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+
+    label {
+      font: 14px 'avenir_demi';
+      bottom: 10px;
+      color: #fff;
+      left: 15px;
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 5px;
+      padding-left: 15px;
+    }
+
+    label.title-header {
+      display: inline;
+      padding: 0;
+    }
+
+    input {
+      font: 12px 'avenir_demi';
+      width: 100%;
+      background-color: white;
+      border: none;
+      border-radius: 0;
+      color: black !important;
+      text-align: left;
+      padding-right: 15px;
+      text-transform: uppercase;
+      padding: 6px !important;
+    }
+
+    .label-header {
+      background-color: #1c6381;
+    }
+
+    .label-md[floating] {
+      margin-bottom: 30px;
+      margin-top: 0;
+    }
+
+    label-floating .text-input-md {
+      margin-top: 10px !important;
+      margin-bottom: 12px !important;
+    }
+
+    .input-header {
+      input {
+        font-size: 12px;
+        padding: 15px;
+        text-transform: uppercase;
+        color: black;
+      }
+    }
+
+    .code {
+      background-image: url(../assets/images/code-gray.png);
+      background-repeat: no-repeat;
+      background-position: 95% center;
+      background-size: 100%;
+      width: 40px;
+      height: 40px;
+      right: 16px;
+      top: -8px;
+      bottom: 0px;
+      position: absolute;
+    }
+
+    ion-list {
+      margin: 0;
+
+      ion-list-header {
+        background-color: #1c6381;
+        border-top: none;
+        margin: 0;
+        border-bottom: 1px solid #153b56;
+
+        ion-label {
+          color: #fff;
+          font-size: 14px;
+        }
+      }
+
+      .item-label-floating {
+        background-color: #1c6381;
+      }
+
+      ion-item {
+        background-color: #06273f;
+        padding: 0;
+        border-bottom: 1px solid #153b56;
+
+        .item-inner {
+          padding-left: 15px;
+          padding-right: 15px;
+          border-bottom: 1px solid transparent !important;
+
+          ion-label {
+            color: #fff;
+          }
+
+          .icon-date-picker {
+            background-image: url('../assets/images/icon-date-picker.png');
+            background-repeat: no-repeat;
+            background-size: 39px 36px;
+          }
+
+          ion-select {
+            max-width: 85%;
+
+            .select-text {
+              padding-right: 10px;
+              color: #fff;
+              font: 14px 'avenir_demi';
+            }
+          }
+        }
+      }
+
+      .remove-chassi {
+        padding: 5px;
+      }
+
+      .change-chassi {
+        padding: 5px;
+      }
+
+      .chassis-nao-carregados {
+        margin: 0;
+        padding: 15px;
+      }
+
+      .chassis-carregados {
+        margin: 0;
+        padding: 15px;
+        background-image: url('../assets/images/remove-chassi.png');
+        background-repeat: no-repeat;
+        background-size: 36px 36px;
+        background-position: right center;
+      }
+    }
+  }
+
+  .desativado {
+    opacity: 0.8;
+  }
+}

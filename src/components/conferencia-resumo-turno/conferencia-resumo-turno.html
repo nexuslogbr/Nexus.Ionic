@@ -1,0 +1,34 @@
+<ion-grid class="grid-resumo-turno" *ngFor="let resumo of resumos">
+  <ion-row>
+    <ion-col col-8>
+      <div class="data">Data: {{resumo.dataFormatada}}</div>
+      <div class="turno">Turno: {{resumo.turnoHoraInicioFormatado}}-{{resumo.turnoHoraFimFormatado}}</div>
+    </ion-col>
+    <ion-col class="col-resumo-quantidade"><span>450</span></ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col class="col-grid-modelos">
+      <ion-grid class="grid-resumo-destino-modelos">
+        <ion-row>
+          <ion-col col-8> <strong>Onix</strong> </ion-col>
+          <ion-col class="col-resumo-quantidade">
+            75
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="col-grid-modelos">
+      <ion-grid class="grid-resumo-destino-modelos">
+        <ion-row>
+          <ion-col> <strong>Cobalt</strong> </ion-col>
+          <ion-col class="col-resumo-quantidade">
+            75
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-col>
+  </ion-row>
+</ion-grid>

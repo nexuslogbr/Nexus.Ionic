@@ -1,0 +1,685 @@
+// http://ionicframework.com/docs/v2/theming/
+@font-face {
+  font-family: 'avenir_bold';
+  src: url('../assets/fonts/AvenirNextLTPro-Bold.ttf');
+  src: url('../assets/fonts/AvenirNextLTPro-Bold.otf');
+}
+
+@font-face {
+  font-family: 'avenir_regular';
+  src: url('../assets/fonts/AvenirNextLTPro-Regular.ttf');
+  src: url('../assets/fonts/AvenirNextLTPro-Regular.otf');
+}
+
+@font-face {
+  font-family: 'avenir_demi';
+  src: url('../assets/fonts/AvenirNextLTPro-Demi.ttf');
+  src: url('../assets/fonts/AvenirNextLTPro-Demi.otf');
+}
+
+@font-face {
+  font-family: 'open_sanssemibold';
+  src: url('../fonts/opensans-semibold-webfont.eot');
+  src: url('../fonts/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype');
+  src: url('../fonts/opensans-semibold-webfont.woff') format('woff');
+  src: url('../fonts/opensans-semibold-webfont.ttf') format('truetype');
+  src: url('../fonts/opensans-semibold-webfont.svg#open_sanssemibold_italic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'open_sansbold';
+  src: url('../fonts/opensans-bold-webfont.eot');
+  src: url('../fonts/opensans-bold-webfont.eot?#iefix') format('embedded-opentype');
+  src: url('../fonts/opensans-bold-webfont.woff') format('woff');
+  src: url('../fonts/opensans-bold-webfont.ttf') format('truetype');
+  src: url('../fonts/opensans-bold-webfont.svg#open_sansbold_italic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icon {
+  display: inline-block;
+}
+
+.icon-qr-code-black {
+  background-image: url('../assets/images/qr-code-black.png');
+  background-size: 100%;
+  background-position: center center;
+  width: 172px;
+  height: 172px;
+  margin: 0 auto;
+  display: block;
+}
+
+.icon-loading {
+  background-image: url('../assets/images/qr-code-black.png');
+  background-size: 100%;
+  background-position: center center;
+  width: 172px;
+  height: 172px;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.icon-error {
+  background-image: url('../assets/images/error-modal.png');
+  background-size: 100%;
+  background-position: center center;
+  width: 172px;
+  height: 172px;
+  margin: 0 auto;
+}
+
+.menu {
+  button {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    color: #fff;
+    font: 17px 'avenir_regular';
+    padding-left: 70px;
+    text-align: left;
+  }
+}
+
+ion-button {
+  padding: 25px;
+  background-color: #1c6381;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+ion-label {
+  color: #fff;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.line {
+  background-color: #06273f;
+  height: 3px;
+  margin: 50px 0 20px;
+}
+
+.item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner,
+.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.list-md .item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child,
+.list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child {
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+}
+
+::-webkit-input-placeholder {
+  /* WebKit, Blink, Edge */
+  color: #fff;
+}
+
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #fff;
+  opacity: 1;
+}
+
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #fff;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #fff;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #fff;
+}
+
+.text-upper {
+  input {
+    text-transform: uppercase;
+  }
+}
+
+input {
+  color: #fff !important;
+}
+
+input::-webkit-input-placeholder {
+  color: #fff !important;
+}
+
+input:-moz-placeholder {
+  color: #fff !important;
+}
+
+input:-ms-input-placeholder {
+  color: #fff !important;
+}
+
+.text-input[disabled] {
+  opacity: 1 !important;
+  color: #fff !important;
+}
+
+.arrow-down {
+  background-image: url(../assets/images/arrow-down.png );
+  background-position: center center;
+  background-size: 15px 8px;
+  background-repeat: no-repeat;
+  transition: all .4s ease-in-out;
+  position: absolute;
+  right: 10px;
+  width: 15px;
+  height: 8px;
+  top: 15px;
+}
+
+.arrow-up {
+  background-image: url(../assets/images/arrow-down.png );
+  background-position: center center;
+  background-size: 15px 8px;
+  background-repeat: no-repeat;
+  transition: all .4s ease-in-out;
+  transform: rotate(180deg);
+  position: absolute;
+  right: 10px;
+  width: 15px;
+  height: 8px;
+  top: 15px;
+
+}
+
+.select-md .select-icon {
+  width: 15px;
+  height: 8px;
+}
+
+.select-md .select-icon .select-icon-inner {
+  background-image: url(../assets/images/arrow-down.png );
+  background-position: center center;
+  background-size: 15px 8px;
+  background-repeat: no-repeat;
+  transition: all .4s ease-in-out;
+  position: absolute;
+  right: 10px;
+  width: 15px;
+  height: 8px;
+  top: 6px;
+  border: none;
+}
+
+.icon-close {
+  background-image: url(../assets/images/icon-close.png );
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 999;
+}
+
+.icon-remove-chassi {
+  background-image: url(../assets/images/icon-ex.png );
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 999;
+}
+
+.datetime-text {
+  color: #fff;
+}
+
+.icon-parking-blue {
+  background-image: url('../assets/images/parking-blue.png');
+  background-size: 100%;
+  background-position: center center;
+  width: 172px;
+  height: 172px;
+  margin: 0 auto;
+}
+
+.icon-movement-blue {
+  background-image: url('../assets/images/movement-blue.png');
+  background-size: 100%;
+  background-position: center center;
+  width: 172px;
+  height: 172px;
+  margin: 0 auto;
+}
+
+.icon-chassi-substituir {
+  background-image: url('../assets/images/icon-chassi-substituir.png');
+  background-size: 100%;
+  background-position: center center;
+  width: 172px;
+  height: 172px;
+  margin: 0 auto;
+}
+
+.icon-romaneio {
+  background-image: url('../assets/images/icon-romaneio.png');
+  background-size: 100%;
+  background-position: center center;
+  width: 172px;
+  height: 172px;
+  margin: 0 auto;
+}
+
+.icon-sucesso {
+  background-image: url('../assets/images/icon-success.png');
+  background-size: 100%;
+  background-position: center center;
+  width: 172px;
+  height: 172px;
+  margin: 0 auto;
+}
+
+side-menu-ce.show {
+  left: 0;
+}
+
+.alert-md {
+  .alert-wrapper {
+    background-color: #fff;
+
+    .alert-input-group {
+      padding: 0 24px 12px;
+    }
+
+    .alert-input {
+      color: #488aff !important;
+      text-transform: uppercase;
+    }
+
+    input::-webkit-input-placeholder {
+      color: #488aff !important;
+    }
+
+    input:-moz-placeholder {
+      color: #488aff !important;
+    }
+
+    input:-ms-input-placeholder {
+      color: #488aff !important;
+    }
+
+    .alert-button-group {
+      text-align: center;
+      padding: 8px;
+
+      .alert-button {
+        background-color: #1c6381;
+        color: #fff;
+        border-radius: 20px;
+        padding: 10px 25px;
+        margin: 0 auto;
+        margin-bottom: 15px;
+      }
+    }
+
+  }
+
+  .alert-title {
+    color: #000;
+
+  }
+
+}
+
+component-menu {
+  ion-content {
+    background-color: #00141b !important;
+    margin-top: 63px;
+
+    ion-list {
+      padding: 0 15px;
+      background-color: #00141b;
+
+      ion-item.item {
+        background-color: #00141b;
+        padding: 0;
+        border-radius: 28px;
+        margin-top: 12px;
+        border: 1px solid #1f384a !important;
+
+        ion-label.label-md {
+          margin: 0;
+
+          button {
+            color: #fff;
+            padding: 17px 0px;
+            padding-left: 70px;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            display: inline-block;
+            font: 17px 'avenir_regular';
+            vertical-align: middle;
+            text-decoration: none;
+            background-color: #00141b;
+            background-repeat: no-repeat;
+            background-position: 1px center;
+            background-size: 16%;
+          }
+
+          button.reception {
+            background-image: url("../assets/images/svg/recebimento-principal.svg ");
+          }
+
+          button.trimming {
+            background-image: url("../assets/images/svg/recebimento-principal.svg ");
+          }
+
+          button.storage {
+            background-image: url("../assets/images/svg/parqueamento-principal.svg ");
+          }
+
+          button.movement {
+            background-image: url("../assets/images/svg/movimentacao-principal.svg ");
+          }
+
+          button.load-truck {
+            background-image: url("../assets/images/svg/carregamento-principal.svg");
+          }
+
+          button.receber-parquear {
+            background-image: url("../assets/images/receber-parquear.png");
+          }
+
+          button.conferir {
+            background-image: url("../assets/images/conferir.png");
+          }
+
+          button.load-export {
+            background-image: url("../assets/images/svg/carregamento-expo-principal.svg");
+          }
+
+          button.romaneio {
+            background-image: url("../assets/images/svg/romaneio-principal.svg");
+          }
+
+          button.historico-chassi {
+            background-image: url("../assets/images/historico-chassi.png ");
+          }
+        }
+      }
+    }
+  }
+}
+
+.header {
+  padding: 13px 0 12px 20px;
+  background-color: #06273f;
+  border-bottom: 1px solid #00141b;
+
+  ion-title {
+    float: left;
+    padding: 12px 10px 0 10px;
+    text-transform: uppercase;
+
+    .toolbar-title {
+      color: #fff;
+      text-align: left;
+      padding: 0;
+      font: 14px 'avenir_regular';
+    }
+  }
+}
+
+.icon {
+  display: block;
+}
+
+.icon-menu {
+  background-image: url("../assets/images/menu.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
+  width: 38px;
+  height: 31px;
+  transition: all .4s ease-in-out;
+}
+
+.icon-menu-gray {
+  background-image: url("../assets/images/menu_gray.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
+  width: 38px;
+  height: 31px;
+  transition: all .4s ease-in-out;
+}
+
+
+.icon-menu.close-menu {
+  background-image: url("../assets/images/close.png");
+  transform: rotateY(180deg);
+}
+
+ion-footer {
+  background-color: #06273f;
+  height: 70px;
+
+  ion-toolbar.toolbar-md {
+    background-color: #06273f;
+    padding: 0;
+
+    ion-buttons {
+      padding: 0;
+      margin: 0;
+
+      button {
+        width: 18%;
+        height: 70px;
+        border-left: 1px solid #00141b;
+        margin: 0;
+
+        .button-inner {
+          background-color: #06273f;
+        }
+
+        .icon-parking {
+          background-image: url(' ../assets/images/svg/parqueamento.svg');
+          width: 36px;
+          height: 36px;
+          background-size: 100%;
+        }
+
+        .icon-movement-white {
+          background-image: url(' ../assets/images/svg/movimentacao.svg');
+          width: 36px;
+          height: 36px;
+          background-size: 100%;
+        }
+
+        .icon-load-truck-white {
+          background-image: url(' ../assets/images/svg/carregamento.svg');
+          width: 40px;
+          height: 40px;
+          background-size: 100%;
+        }
+
+        .icon-PE {
+          background-image: url(' ../assets/images/svg/receber-parquear-transparente.svg');
+          width: 36px;
+          height: 36px;
+          background-size: 100%;
+        }
+
+        .icon-romaneio {
+          background-image: url(' ../assets/images/svg/romaneio.svg');
+          width: 36px;
+          height: 36px;
+          background-size: 100%;
+        }
+
+        .icon-load-export-white {
+          background-image: url(' ../assets/images/svg/carregamento-exportacao.svg');
+          width: 40px;
+          height: 40px;
+          background-size: 100%;
+        }
+
+        .icon-reception-white {
+          background-image: url(' ../assets/images/svg/recebimento.svg');
+          width: 36px;
+          height: 36px;
+          background-size: 100%;
+        }
+      }
+    }
+
+    .toolbar-background-md {
+      background-color: #06273f;
+    }
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+
+    li {
+      height: 60px;
+      margin: 0;
+      width: 20%;
+      background-color: #fff;
+      float: left;
+      display: block;
+      position: relative;
+      border-left: 1px solid #06273f;
+
+      button {
+        padding: 0;
+        display: block;
+        background-color: #06273f;
+
+        .icon {
+          background-color: #06273f;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
+        }
+      }
+    }
+  }
+}
+
+.btn-menu-internal {
+  background-color: #1c6381;
+  width: 100%;
+  height: 73px;
+  border-radius: 64px !important;
+  font: 19px 'avenir_bold';
+  font-weight: 500;
+  text-transform: uppercase;
+  color: white;
+}
+
+.btn-menu-internal-azul-forte {
+  background-color: #06273f;
+}
+
+
+.grid-navio.navio-andamento {
+  background-color: #0fb708 !important;
+}
+
+.grid-navio.navio-esperado {
+  background-color: #dbaa33 !important;
+}
+
+.grid-navio.navio-finalizado {
+  background-color: gray !important;
+}
+
+//////////////////////////////
+// Novo módulo de conferência.
+//////////////////////////////
+ion-header.conferencia-header {
+  background-color: #F5F5F5;
+  color: black; 
+  border-bottom: 1px solid transparent;  
+
+  ion-title > div {
+    color: black !important; 
+    font-weight: bold !important;
+  }
+
+  button.btn-menu {
+    background-color: #F5F5F5;
+  }
+  
+}
+
+ion-content.conferencia-content{
+  background-color: white !important;
+
+  button.btn-menu-internal {
+    background-color: white;
+    color: black;
+  }
+
+  button.btn-menu-internal-azul-forte {
+    background-color: #DEDEDE;
+  }
+}
+
+.alert-md {
+
+  .alert-wrapper .alert-button-group .alert-button {
+    background-color: #DEDEDE !important;
+    color: black !important;
+  }
+
+  [aria-checked=true] .alert-radio-label {
+    color: black !important;
+    font-weight: bold;
+  }
+
+  [aria-checked=true] .alert-radio-icon {
+    border-color: black !important;
+  }
+
+  .alert-radio-inner {
+    background-color: black !important;
+  }
+
+  [aria-checked=true] .alert-checkbox-icon  {
+    border-color: black !important;
+    background-color: black !important;
+  }
+
+  [aria-checked=true] .alert-checkbox-label {
+    font-weight: bold;
+  }
+}
+
+// FIX do PRIMEIRO INPUT NO ANDROID 9
+.md .input-cover {
+  display: none;
+}

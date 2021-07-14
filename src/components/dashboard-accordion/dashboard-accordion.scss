@@ -1,0 +1,20 @@
+dashboard-accordion {
+    ion-list-header{
+        background-position: 95% center; 
+        background-repeat: no-repeat; 
+        background-size: 23px 14px; 
+    }
+    .icon-arrow{
+        background-image: url( "../assets/images/arrow-down.png" );
+        transition: background-image 0.4s ease-in-out; 
+    }
+    .icon-arrow.extraClass{
+        background-image: url( "../assets/images/arrow-up.png" ); 
+    }
+    .card-content{
+        padding: 0px;
+        height: 0;
+        background-color: #06273f;
+        transition: all 0.4s ease-in-out;
+    }
+}

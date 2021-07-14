@@ -1,0 +1,199 @@
+page-nova-conferencia-listar-concluir {
+  ion-content {
+    background-color: color($colors, bgQrCode) !important;
+  }
+
+  div.scroll-content {
+    padding-top: 0px !important;
+  }
+
+  .grid-base {
+    color: white;
+    height: 40px;
+  }
+
+  .grid-header {
+    background-color: #1d6482;
+    margin-bottom: 10px;
+
+    .text-selecao {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  .grid-header-planilha {
+    margin-top: 30px;
+  }
+
+  .grid-noreg {
+    background-color: #1d6482;
+  }
+
+  .grid-error {
+    background-color: red;
+  }
+
+  .grid-select-wrapper {
+    padding: 0px;
+    background-color: white !important;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+  }
+
+  .grid-select {
+    margin-top: 10px;
+    padding: 0px;
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    color: black;
+    text-transform: uppercase;
+
+    ion-row {
+      border: 1px solid #5D5D5D;
+      border-radius: 12px;
+    }
+
+    ion-col {
+      display: flex;
+      align-items: center;
+      min-height: 40px;
+    }
+
+    ion-col.col-left {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+
+    ion-col.col-right {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    ion-col.selected {
+      background-color: #5D5D5D;
+      color: white;
+    }
+
+    ion-col {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .grid-navio {
+    background-color: #072740;
+    min-height: 60px;
+    margin-bottom: 2px;
+
+    .row-navio {
+      .col-navio {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-transform: uppercase;
+        align-items: flex-start;
+
+        .div-navio-nome {
+          margin-left: 10px;
+          font-size: 16px;
+          word-break: break-word;
+          text-align: left;
+        }
+
+        .div-navio-viagem {
+          margin-left: 10px;
+          margin-top: 4px;
+          font-size: 14px;
+        }
+      }
+
+      .col-status {
+        justify-content: center;
+        text-transform: uppercase;
+        font-size: 16px;
+      }
+    }
+
+    ion-row {
+      height: 100%;
+
+      ion-col {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .footer-legenda {
+
+    color: #707070;
+    height: 170px;
+    background-color: white;
+
+    .grid-botao-voltar {
+
+      .btn-menu-internal-azul-forte {
+        color: black;
+        background-color: #DEDEDE;
+      }
+    }
+
+    .grid-legenda {
+      .row-legenda-texto {
+        font-size: 12px;
+      }
+
+      .row-legendas {
+        font-size: 14px;
+
+        .col-legendas {
+          display: flex;
+          align-items: center;
+
+          .legenda-andamento {
+            margin-left: 12px;
+            background-color: #0fb708;
+            height: 20px;
+            width: 4px;
+          }
+
+          .legenda-andamento-texto {
+            margin-left: 6px;
+          }
+
+          .legenda-finalizado {
+            background-color: gray;
+            height: 20px;
+            width: 4px;
+          }
+
+          .legenda-finalizado-texto {
+            margin-left: 6px;
+          }
+        }
+      }
+    }
+  }
+
+  .andamento {
+    background-color: #0fb708;
+  }
+
+  .finalizado {
+    background-color: gray;
+  }
+
+  //https://stackoverflow.com/questions/45342639/ionic-3-angular-ion-slide-vertical-align-top
+  ion-slides.slides {
+    height: auto;
+  }
+
+  .swiper-pagination {
+    bottom: 0px;
+  }
+}

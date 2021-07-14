@@ -1,0 +1,44 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+<ion-content padding id="recebimento" class="recebimento show">
+  <div class="qr-code-container">
+    <i class="icon icon-qr-code-black" (click)="scan()"></i>
+    <div class="line"></div>
+    <form>
+      <ion-label>Chassi:</ion-label>
+      <ion-input type="text" [(ngModel)]="chassi" [formControl]="formControlChassi" placeholder="" value="" required
+        #chassiInput></ion-input>
+    </form>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons>
+      <button ion-button icon-only (click)="toRecebimento()" class="reception">
+        <ion-icon class="icon icon-reception-white"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="toParqueamento()" class="parking">
+        <ion-icon class="icon icon-parking"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="toMovimentacao()" class="movement">
+        <ion-icon class="icon icon-movement-white"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="toCarregamento()" class="load-truck">
+        <ion-icon class="icon icon-load-truck-white"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="toCarregamentoExport()" class=" load-export">
+        <ion-icon class="icon icon-load-export-white"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+<modal-loading></modal-loading>

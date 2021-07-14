@@ -1,0 +1,77 @@
+side-menu-ce {
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    z-index: 999;
+    top: 64px;
+    left: -100%;
+    transition: all .4s ease-in-out;
+    ion-content.menu-body {
+        display: block;
+        left: -100%;
+        width: 85%;
+        transition: all .4s ease-in-out;
+        background-color: transparent;
+        nav {
+            ul {
+                padding: 0;
+                margin-top: 0;
+                li {
+                    list-style: none;
+                    background-position: 15px center;
+                    background-repeat: no-repeat;
+                    margin: 0;
+                    height: 62px;
+                    border-bottom: 1px solid #00141b;
+                    a {
+                        padding-top: 20px;
+                        padding-left: 70px;
+                        font: 17px 'avenir_regular';
+                        color: #fff;
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: 100%;
+                        text-decoration: none;
+                        span {
+                            font: 11px 'avenir_regular';
+                            display: block;
+                            color: #fff;
+                        }
+                    }
+                }
+                li.user {
+                    background-image: url("../assets/images/user-blue.png");
+                    a {
+                        padding-top: 10px;
+                    }
+                }
+                li.home {
+                    background-image: url("../assets/images/home.png");
+                }
+                li.about {
+                    background-image: url("../assets/images/about.png");
+                }
+                li.log-out {
+                    background-image: url("../assets/images/log-out.png");
+                }
+                li.local {
+                    background-image: url("../assets/images/local.png");
+                }
+                li.language {
+                    background-image: url("../assets/images/language.png");
+                }
+            }
+        }
+        .scroll-content {
+            background-color: #06273f;
+            padding: 0;
+            .list {
+                .item {
+                    background-color: #06273f;
+                    color: #fff;
+                }
+            }
+        }
+    }    
+}
+

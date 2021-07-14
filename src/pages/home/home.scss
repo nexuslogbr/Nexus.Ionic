@@ -1,0 +1,216 @@
+page-home {
+  background-color: #00141b;
+
+  .tabbar {
+    display: none;
+  }
+
+  .fixed-content {
+    margin-bottom: 0 !important;
+  }
+
+  ion-content {
+    .scroll-content {
+      background-color: #00141b;
+    }
+
+    ion-list {
+      padding: 0 15px;
+      background-color: #00141b;
+
+      ion-item.item {
+        background-color: #00141b;
+        padding: 0;
+        border-radius: 28px;
+        margin-top: 12px;
+        border: 1px solid #1f384a !important;
+
+        ion-label.label-md {
+          margin: 0;
+
+          button {
+            color: #fff;
+            padding: 17px 0px;
+            padding-left: 70px;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            display: inline-block;
+            font: 17px 'avenir_regular';
+            vertical-align: middle;
+            text-decoration: none;
+            background-color: #00141b;
+            background-repeat: no-repeat;
+            background-position: 1px center;
+            background-size: 16%;
+          }
+
+          button.reception {
+            background-image: url("../assets/images/svg/recebimento-principal.svg ");
+          }
+
+          button.trimming {
+            background-image: url("../assets/images/svg/rechego.svg ");
+          }
+
+          button.storage {
+            background-image: url("../assets/images/svg/parqueamento-principal.svg ");
+          }
+
+          button.movement {
+            background-image: url("../assets/images/svg/movimentacao-principal.svg ");
+          }
+
+          button.load-truck {
+            background-image: url("../assets/images/svg/carregamento-principal.svg");
+          }
+
+          button.receber-parquear {
+            background-image: url("../assets/images/receber-parquear.png ");
+          }
+
+          button.conferir {
+            background-image: url("../assets/images/conferir.png");
+          }
+
+          button.load-export {
+            background-image: url("../assets/images/svg/carregamento-expo-principal.svg ");
+          }
+
+          button.romaneio {
+            background-image: url("../assets/images/svg/romaneio-principal.svg ");
+          }
+
+          button.historico-chassi {
+            background-image: url("../assets/images/historico-chassi.png ");
+          }
+
+          button.parquear-bloco {
+            background-image: url("../assets/images/svg/parqueamento-bloco.svg ");
+          }
+        }
+      }
+    }
+
+    @media #{$tablet} {
+      ion-header.header {
+        padding: 0;
+      }
+
+      ion-label {
+        margin: 0;
+      }
+
+      ion-list {
+        height: 100%;
+
+        ion-item.item {
+          height: calc(100% / 10);
+          border-radius: 50px !important;
+
+          ion-label {
+            height: 100%;
+            width: 100%;
+          }
+        }
+      }
+
+      .header {
+        display: flex;
+
+        ion-title {
+          padding: 0 15px;
+        }
+      }
+
+      button {
+        color: #fff;
+        padding: 17px 0px;
+        padding-left: 100px;
+        width: 75%;
+        height: 100%;
+        text-align: left;
+        display: inline-block;
+        font: 25px 'avenir_regular';
+        vertical-align: middle;
+        text-decoration: none;
+        background-color: #00141b;
+        background-repeat: no-repeat;
+        background-position: 1px center;
+        background-size: 16%;
+        height: 100%;
+      }
+
+      button.btn-menu {
+        width: auto;
+        padding: 15px;
+      }
+
+      button.reception {
+        background-image: url("../assets/images/svg/recebimento-principal.svg ");
+      }
+
+      button.trimming {
+        background-image: url("../assets/images/svg/rechego.svg ");
+      }
+
+      button.storage {
+        background-image: url("../assets/images/svg/parqueamento-principal.svg ");
+      }
+
+      button.movement {
+        background-image: url("../assets/images/svg/movimentacao-principal.svg ");
+      }
+
+      button.load-truck {
+        background-image: url("../assets/images/svg/carregamento-principal.svg");
+      }
+
+      button.receber-parquear {
+        background-image: url("../assets/images/receber-parquear.png ");
+      }
+
+      button.conferir {
+        background-image: url("../assets/images/conferir.png");
+      }
+
+      button.load-export {
+        background-image: url("../assets/images/svg/carregamento-expo-principal.svg ");
+      }
+
+      button.romaneio {
+        background-image: url("../assets/images/svg/romaneio-principal.svg ");
+      }
+
+      button.historico-chassi {
+        background-image: url("../assets/images/historico-chassi.png ");
+      }
+
+      button.parquear-bloco {
+        background-image: url("../assets/images/svg/parqueamento-bloco.svg ");
+      }
+    }
+  }
+}
+
+
+ion-content.content {
+  .scroll-content {
+    margin-bottom: 0;
+  }
+
+}
+
+.menu-body.show-menu {
+  left: 0%;
+}
+
+.menu-inner.show {
+  transform: translateX(-312px);
+}
+
+.btn-menu {
+  background-color: #06273f;
+  float: left;
+  margin-top: 5px;
+}

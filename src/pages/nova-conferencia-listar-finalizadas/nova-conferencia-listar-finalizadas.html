@@ -1,0 +1,81 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" class="conferencia-header">
+  <button class="btn-menu">
+    <i class="icon icon-menu-gray"></i>
+  </button>
+  <ion-title>
+    Fechamento
+  </ion-title>
+</ion-header>
+
+<ion-content padding class="conferencia-content">
+  <div class="separador"></div>
+
+  <ion-grid
+    class="grid-base grid-configuracao"
+    *ngFor="let configuracao of configuracoes"
+    (click)="consultarConfiguracacao(configuracao)"
+    [ngClass]="{ 'grid-cais': configuracao.area.tipo == 1 }"
+  >
+    <ion-row class="row-configuracao">
+      <ion-col col class="col-configuracao">
+        <div class="div-area">
+          <strong>Área:</strong> {{ configuracao.area.nome }}
+        </div>
+        <div
+          *ngIf="configuracao.conferenciaConfiguracaoStatusID == 1"
+          class="div-status"
+        >
+          Não Iniciada
+        </div>
+        <div
+          *ngIf="configuracao.conferenciaConfiguracaoStatusID == 2"
+          class="div-status"
+        >
+          Em Andamento
+        </div>
+        <div
+          *ngIf="configuracao.conferenciaConfiguracaoStatusID == 3"
+          class="div-status"
+        >
+          Finalizada
+        </div>
+        <div
+          *ngIf="configuracao.conferenciaConfiguracaoStatusID == 4"
+          class="div-status"
+        >
+          Cancelada
+        </div>
+      </ion-col>
+
+      <ion-col col-4 class="col-totais">
+        <div class="div-totais">
+          <sincronizacao-info
+            [conferenciaConfiguracaoId]="configuracao.id"
+          ></sincronizacao-info>
+          {{configuracao.totalConferidos}}/{{configuracao.totalVeiculos}}
+          ({{configuracao.totalVeiculos-configuracao.totalConferidos}})
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer no-border>
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+        <button
+          ion-button
+          class="btn-menu-internal"
+          (click)="voltar()"
+          type="button"
+        >
+          Voltar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<modal-loading-white></modal-loading-white>

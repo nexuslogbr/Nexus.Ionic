@@ -1,0 +1,84 @@
+modal-analise-romaneio {
+    background-color: #00141b;
+    ion-content{
+        background-color: #00141b;
+        .scroll-content{
+            background-color: #00141b;
+            .list-md{
+                border-bottom-left-radius: 4px;
+                border-bottom-right-radius: 4px;               
+            }
+        }
+        .list-header-md{
+            background-color: #1c6381;
+            margin-bottom: 0;
+            border: 1px solid transparent;
+            font: 16px avenir_regular;
+            
+        }
+        .list-header-md.chassis-header{
+            margin-top: 0px;
+        }
+        ion-item.item-md{
+            background-color: #06273f;
+            border: 1px solid #1c6381;
+            border-top: none;
+            font: 16px avenir_regular;
+            color: #fff;
+        }
+
+        .list-md .item-block .item-inner{
+            border-bottom: 1px solid transparent;
+        }
+        .label-md{
+            color: #fff !important;
+        }        
+    }
+    .login-content {
+        margin-top: 15px;
+        padding: 0;
+        width: 100%;
+        text-align: center; 
+        .btn-del{
+            background-color: #c74748;
+        }   
+        .btn-aprove{
+            background-color: #77bd5d;
+        } 
+        .btn-back{
+            background-color: #1c6381;
+            width: 90%;
+            height: auto;
+            .button-inner {
+                padding: 25px 15px 25px 15px;
+                font: 19px 'avenir_bold';
+            }            
+        }                      
+        .btn-receiving {
+            width: 45%;
+            height: auto;
+            .button-inner {
+                padding: 25px 15px 25px 15px;
+                font: 19px 'avenir_bold';
+            }
+        }        
+        .btn-ok {
+            background-color: #1c6381;
+        }
+        .btn-cancel {
+            background-color: #06273f;
+        } 
+    }
+    .aprovadoRomaneio.editar{
+        display: none;
+    }
+    .editarRomaneio.aprovar{
+        display: none;
+    }
+    .list-md .item-input:last-child{
+        border-bottom: 1px solid #1c6381 !important;
+    }   
+    .no-border{
+        border-bottom: 1px solid transparent !important;
+    }           
+}

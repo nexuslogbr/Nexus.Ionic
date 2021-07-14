@@ -1,0 +1,61 @@
+conferencia-veiculos {
+  .grid-veiculos {
+    background-color: white;
+    color: #06273f;
+    margin-top: -14px;
+
+    .row-header {
+      font-size: 12px;
+      font-weight: bold;
+      padding-bottom: 6px;
+      padding: 6px;
+      background-color: white;
+      color: black;
+      border-bottom: 1px solid black;
+    }
+
+    .row-veiculo {
+      font-size: 14px;
+      background-color: white;
+      padding: 6px;
+      border-bottom: 1px solid black;
+
+      ion-col {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .icon-veiculo-status {
+        font-size: 26px;
+        color: #ceb200;
+      }
+
+      .icon-veiculo-status-verificado {
+        color: #008E00;
+      }
+
+      .icon-veiculo-status-justificado {
+        color: #06273f;
+      }
+    }
+  }
+
+  .grid-botao-justificar-wrapper {
+    padding: 0px;
+  }
+
+  .btn-justificar {
+    margin-top: 20px;
+  }
+
+  .col-chassi {
+    
+    .chassi {
+      text-transform: uppercase;
+      display: flex;
+      flex-flow: column;
+      align-items: flex-end;
+    }
+  }
+}

@@ -1,0 +1,117 @@
+page-conferencia-configuracao-planilha {
+
+
+  ion-content {
+    background-color: color($colors, bgQrCode) !important;
+    // background-color: rgba(0, 0, 0, 0.8);
+    //position: relative;
+
+    .login-content {
+
+      .btn-receiving {
+        width: 45%;
+        height: auto;
+
+        .button-inner {
+          padding: 25px 15px 25px 15px;
+          font: 19px 'avenir_bold';
+        }
+      }
+
+      .btn-ok {
+        background-color: #1c6381;
+      }
+
+      .btn-cancel {
+        background-color: #06273f;
+      }
+    }
+  }
+
+  .grid-header-navio {
+    background-color: #1c6381;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 10px;
+    border: 1px solid #06273f;
+
+    p {
+      margin: 2px;
+    }
+  }
+
+  .list-items {
+    //border: 1px solid #06273f;
+
+    .list-header {
+      //border: 1px solid red;
+      //border: 1px solid #06273f;
+      background-color: #1c6381;
+      margin-bottom: 10px;
+      //border-top: 0px none;
+      color: white;
+
+      ion-label {
+        margin: 0px;
+      }
+
+      .grid-header {
+        padding: 12px;
+      }
+
+    }
+
+    ion-label {
+      //background-color: red;
+      //margin-top: 4px;
+      //margin-bottom: 0px;
+    }
+
+    .col-opener {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+
+      ion-icon {
+        margin-left: 12px;
+      }
+    }
+
+    .list-invoice {
+
+      margin: 0px;
+
+      ion-label {
+        font-size: 1.2rem;
+      }
+
+      .list-invoice-header {
+        padding: 0px;
+        background-color: #06273f;
+
+        .grid-invoice-header {
+          padding: 0px;
+
+          ion-row {
+            //border: 1px solid #1c6381;
+
+            ion-col {
+              padding: 6px;
+              //background-color: red;
+              border: 1px solid #1c6381;
+
+            }
+          }
+        }
+
+
+        margin: 0px;
+      }
+    }
+  }
+
+  .first-row {
+    margin-top: 50px;
+  }
+
+}
