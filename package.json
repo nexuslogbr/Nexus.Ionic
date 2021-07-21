@@ -37,7 +37,7 @@
     "angular2-uuid": "1.1.1",
     "brmasker-ionic-3": "^1.6.3",
     "chart.js": "2.7.2",
-    "cordova-android": "^7.1.0",
+    "cordova-android": "^10.0.0",
     "cordova-android-support-gradle-release": "^1.4.7",
     "cordova-browser": "5.0.3",
     "cordova-plugin-advanced-http": "^1.11.1",
@@ -105,8 +105,7 @@
       }
     },
     "platforms": [
-      "browser",
-      "android"
+      "browser"
     ]
   },
   "config": {
