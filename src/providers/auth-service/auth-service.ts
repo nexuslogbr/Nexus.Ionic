@@ -46,8 +46,10 @@ export class AuthService {
   //url: string = "http://app.nexuslogbr.com/webapi/api";
 
   //url: string = 'http://api-devpatio.validasistema.com.br/ ';
-  url: string = 'http://api-hlgpatio.validasistema.com.br/api';
+  //url: string = 'http://api-hlgpatio.validasistema.com.br/api';
   //url: string = "http://vm.trial.validasistema.com.br/webapi/api";
+  url: string = 'https://gdl.kline-brasil.com.br/webapi/api';
+
 
   // headers: any =  {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'};
 
