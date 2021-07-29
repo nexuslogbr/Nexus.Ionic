@@ -43,7 +43,7 @@ export class AuthService {
   //url: string = "http://192.168.4.157:8585/api";
   //url: string = 'http://192.168.4.157:1655/api';
   //url: string = 'api';
-  //url: string = "http://app.nexuslogbr.com/webapi/api";
+  //url: string = "https://app.nexuslogbr.com/webapi/api";
 
   //url: string = 'http://api-devpatio.validasistema.com.br/ ';
   //url: string = 'http://api-hlgpatio.validasistema.com.br/api';
@@ -110,7 +110,7 @@ export class AuthService {
       '/Dispositivo/Consultar?code=' +
       code +
       '&version=' +
-      version;
+      version +'/';
     return this.http
       .get(url)
       .do((res: Response) => console.log(res))

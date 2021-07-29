@@ -113,7 +113,7 @@ export class LoginPage {
       this.authService.getUrl() +
       '/Dispositivo/Consultar?code=' +
       code +
-      '&version=1.0.0';
+      '&version=1.0.0/';
 
     this.httpClient
       .get(consultarDispositivo)
