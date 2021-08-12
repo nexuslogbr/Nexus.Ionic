@@ -65,7 +65,7 @@ export class FormRecebimentoComponent {
   }
 
   ionViewWillLoad() {
-    debugger;
+    ;
     const data = this.navParam.get('data');
     this.formRecebimentoData = data;
     this.layouts = this.formRecebimentoData.layout;
@@ -247,7 +247,7 @@ export class FormRecebimentoComponent {
   };
 
   ParquearVeiculo() {
-    debugger;
+    ;
     this.authService.showLoading();
 
     let parquearVeiculo =

@@ -105,7 +105,7 @@ export class ModalChassisComponent {
 
     this.http.get(uriConsultarChassi).subscribe(
       (res: any) => {
-        debugger;
+        ;
         if (res.sucesso) {
           this.receberVeiculo(res);
         } else {
@@ -134,7 +134,7 @@ export class ModalChassisComponent {
   }
 
   cadastraVeiculo() {
-    debugger;
+    ;
     let urlCadastrarVeiculo =
       this.url +
       '/Receber/CadastrarVeiculo?token=' +
@@ -147,7 +147,7 @@ export class ModalChassisComponent {
 
     this.http.post(urlCadastrarVeiculo, {}, httpOptions).subscribe(
       (res: any) => {
-        debugger;
+        ;
         if (res.sucesso) {
           this.authService.hideLoading();
           this.select.close();

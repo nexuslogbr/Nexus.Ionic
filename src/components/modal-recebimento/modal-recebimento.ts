@@ -37,7 +37,7 @@ export class ModalRecebimentoComponent {
   }
 
   ionViewWillLoad() {
-    debugger;
+    ;
     console.log('ionViewWillLoad ModalRecebimentoComponent');
     const data = this.navParam.get('data');
     this.formRecebimentoData = data;
@@ -76,7 +76,7 @@ export class ModalRecebimentoComponent {
   };
 
   parqueamento() {
-    debugger;
+    ;
     this.authService.showLoading();
 
     if (!this.formRecebimentoData.id) {
@@ -91,7 +91,7 @@ export class ModalRecebimentoComponent {
 
       this.http.get(uriConsultarChassi).subscribe(
         (res: any) => {
-          debugger;
+          ;
           if (res.sucesso) {
             this.formRecebimentoData.id = res.retorno.id;
             this.buscarLayout();

@@ -86,19 +86,19 @@ export class RecebimentoPage {
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
-    this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
-      if (value && value.length) {
-        {
-          if (value.length >= 6) {
-            let chassi = value.replace(/[\W_]+/g, '');
-            setTimeout(() => {
-              this.buscarChassi(chassi, false);
-              this.formData.chassi = '';
-            }, 500);
-          }
-        }
-      }
-    });
+    // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+    //   if (value && value.length) {
+    //     {
+    //       if (value.length >= 6) {
+    //         let chassi = value.replace(/[\W_]+/g, '');
+    //         setTimeout(() => {
+    //           this.buscarChassi(chassi, false);
+    //           this.formData.chassi = '';
+    //         }, 500);
+    //       }
+    //     }
+    //   }
+    // });
   }
 
   ionViewDidEnter() {
@@ -118,23 +118,26 @@ export class RecebimentoPage {
   }
 
   scan() {
+
+    
     this.options = {
       showTorchButton: true,
       prompt: '',
       resultDisplayDuration: 0,
     };
 
+
     this.authService.showLoading();
 
     this.barcodeScanner.scan(this.options).then(
       (barcodeData) => {
         this.qrCodeText = barcodeData.text;
-
         if (this.qrCodeText && this.qrCodeText.length) {
           let partChassi = this.qrCodeText.substr(
-            this.qrCodeText.length - 6,
-            6
+            this.qrCodeText.length - 17,
+            17
           );
+         // this.openModalErro(partChassi, true);
           this.formData['chassi'] = partChassi;
           this.buscarChassi(partChassi, true);
         }
@@ -148,6 +151,9 @@ export class RecebimentoPage {
   }
 
   buscarChassi(partChassi, byScanner: boolean) {
+
+    this.openModalErro(partChassi, true);
+
     this.formRecebimentoData.chassi = partChassi;
     let uriBuscaChassi =
       '/Receber/BuscarChassi?token=' +
@@ -199,7 +205,7 @@ export class RecebimentoPage {
   };
 
   openModalRecebimento(data, byScanner: boolean) {
-    debugger;
+    ;
     const recModal: Modal = this.modal.create(ModalRecebimentoComponent, {
       data: data,
     });

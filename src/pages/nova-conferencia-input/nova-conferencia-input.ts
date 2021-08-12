@@ -37,7 +37,7 @@ export class NovaConferenciaInputPage {
     //   .loadTurnos(this.configuracao.id)
     //   .subscribe(res => {
     //     if (res.rows) {
-    //       debugger;
+    //       ;
     //       this.turnos = new Array<Turno>();
     //       for (let i = 0; i < res.rows.length; i++) {
     //         let row = res.rows[i];

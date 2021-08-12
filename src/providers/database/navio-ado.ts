@@ -10,7 +10,7 @@ export class NavioADO {
   // ) {}
 
   // public addNavio(navio: Navio, usuarioId: number) {
-  //   debugger;
+  //   ;
   //   const sql = "INSERT INTO Navio (usuarioId, id, nome, ets, viagem) VALUES (?,?,?,?,?)";
   //   let params = [usuarioId, navio.id, navio.nome, navio.ETS, navio.viagem];
   //   return this.dbProvider
@@ -22,7 +22,7 @@ export class NavioADO {
   // }
 
   // public getAllNavios(usuarioId: number) {
-  //   debugger;
+  //   ;
 
   //   const sql = 'SELECT * FROM Navio WHERE UsuarioId=?';
   //   let params = [usuarioId];
