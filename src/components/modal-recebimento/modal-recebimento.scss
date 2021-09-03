@@ -1,5 +1,5 @@
 modal-recebimento {
-  background-color: #06273f;
+  background-color: #404040;
   opacity: 0.2;
   position: fixed;
   top: 0;
@@ -13,7 +13,7 @@ modal-recebimento {
 
     .qr-code-container {
       .icon-reception {
-        background-image: url("../assets/images/reception-large.png");
+        background-image: url("../assets/images/recebimento.png");
         background-size: 100%;
         background-position: center center;
         width: 172px;
@@ -51,16 +51,16 @@ modal-recebimento {
       }
 
       .btn-ok {
-        background-color: #1c6381;
+        background-color: #595959;
       }
 
       .btn-continuar {
-        background-color: #1c6381;
+        background-color: #595959;
         width: 100% !important;
       }
 
       .btn-cancel {
-        background-color: #06273f;
+        background-color: #404040;
       }
     }
   }

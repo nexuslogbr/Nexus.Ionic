@@ -63,7 +63,7 @@ input-chassi-controller {
     }
 
     .label-header {
-      background-color: #1c6381;
+      background-color: #595959;
     }
 
     .label-md[floating] {
@@ -102,10 +102,10 @@ input-chassi-controller {
       margin: 0;
 
       ion-list-header {
-        background-color: #1c6381;
+        background-color: #595959;
         border-top: none;
         margin: 0;
-        border-bottom: 1px solid #153b56;
+        border-bottom: 1px solid #747474;
 
         ion-label {
           color: #fff;
@@ -114,13 +114,13 @@ input-chassi-controller {
       }
 
       .item-label-floating {
-        background-color: #1c6381;
+        background-color: #595959;
       }
 
       ion-item {
-        background-color: #06273f;
+        background-color: #404040;
         padding: 0;
-        border-bottom: 1px solid #153b56;
+        border-bottom: 1px solid #747474;
 
         .item-inner {
           padding-left: 15px;
@@ -132,7 +132,7 @@ input-chassi-controller {
           }
 
           .icon-date-picker {
-            background-image: url('../assets/images/icon-date-picker.png');
+            background-image: url('../assets/images/icon-date-picker-white.png');
             background-repeat: no-repeat;
             background-size: 39px 36px;
           }

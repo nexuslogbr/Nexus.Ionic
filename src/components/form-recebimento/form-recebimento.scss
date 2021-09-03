@@ -1,11 +1,11 @@
 form-recebimento {
     transition: all 0.4s ease-in-out;
-    background-color: #00141b !important;
+    background-color: #404040 !important;
     ion-content {
         background-color: color($colors, bgQrCode) !important;
         .scroll-content {
             form {
-                background-color: #06273f;
+                background-color: #404040;
                 border-radius: 5px;
                 border: 1px solid transparent;
                 .form .form-group {
@@ -15,7 +15,7 @@ form-recebimento {
                 h4 {
                     font: 16px 'avenir_demi';
                     color: #fff;
-                    background-color: #1c6381;
+                    background-color: #595959;
                     padding: 15px;
                     margin: 0 !important;
                     border-top-left-radius: 5px;
@@ -39,10 +39,10 @@ form-recebimento {
                 input {
                     font: 14px 'avenir_demi';
                     width: 100%;
-                    background-color: #06273f;
+                    background-color: #404040;
                     border: none;
                     border-radius: 0;
-                    background-color: #06273f;
+                    background-color: #404040;
                     color: #fff;
                     text-align: right;
                     padding-right: 15px;
@@ -67,7 +67,7 @@ form-recebimento {
                 ion-list{
                     margin: 0;
                     ion-list-header{
-                        background-color: #1c6381;
+                        background-color: #595959;
                         border-top: none;
                         ion-label{
                             color: #fff;
@@ -75,9 +75,9 @@ form-recebimento {
                         }
                     }
                     ion-item{
-                        background-color: #06273f;
+                        background-color: #404040;
                         padding: 0;
-                        border-bottom: 1px solid #153b56;
+                        border-bottom: 1px solid #747474;
                         .item-inner{
                             padding-left: 15px;
                             border-bottom: 1px solid transparent !important;
@@ -103,7 +103,7 @@ form-recebimento {
                 width: 100%;
                 text-align: center;
                 .btn {
-                    background-color: #1c6381;
+                    background-color: #595959;
                     width: 100% !important;
                     padding: 25px;
                     border-radius: 45px;
@@ -113,7 +113,7 @@ form-recebimento {
                     margin: 0 auto;
                 }            
                 .btn-default {
-                    background-color: #1c6381;
+                    background-color: #595959;
                     width: 100%;
                     height: auto;
                     span {

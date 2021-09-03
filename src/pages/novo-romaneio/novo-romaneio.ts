@@ -11,6 +11,7 @@ import { ModalMultiplosRomaneiosComponent } from '../../components/modal-multipl
 import * as moment from 'moment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as $ from 'jquery';
+import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -76,7 +77,9 @@ export class NovoRomaneioPage {
   transportadoraNome: any;
   clienteExterno: boolean;
 
-  constructor(public http: HttpClient, private navParam: NavParams, public viewCtrl: ViewController, public appCtrl: App, private modal: ModalController, public navCtrl: NavController, public navParams: NavParams, public authService: AuthService ) {
+  options: BarcodeScannerOptions;
+
+  constructor(public http: HttpClient, private navParam: NavParams, public viewCtrl: ViewController,  private barcodeScanner: BarcodeScanner,public appCtrl: App, private modal: ModalController, public navCtrl: NavController, public navParams: NavParams, public authService: AuthService ) {
     this.clienteExterno = this.authService.getUserData().clienteExterno;
     this.title = "NOVO ROMANEIO";
     this.formData.data = new Date().toISOString();
@@ -125,10 +128,35 @@ export class NovoRomaneioPage {
     this.transportadoraCNPJID = this.select1.value;
 
   }
-  ConsultarChassiNfCarregados(id , i){
 
-    this.romaneioIDinterno = id;
-    this.romaneioIndex = i;
+  scan() {
+    this.options = {
+      showTorchButton: true,
+      prompt: "",
+      resultDisplayDuration: 0
+    };
+
+    this.barcodeScanner.scan(this.options).then(
+      barcodeData => {
+        //this.qrCodeText = barcodeData.text;
+        debugger
+        this.chassiNfCarregado=barcodeData.text;
+        this.ConsultarChassiNfCarregados();
+      },
+      err => {
+        var data = "Erro de qr code!";
+        this.openModalErro(data);
+      }
+    );
+  }
+
+
+
+
+  ConsultarChassiNfCarregados(){
+
+  //  this.romaneioIDinterno = id;
+  //  this.romaneioIndex = i;
 
     this.authService.showLoading();
     this.urlTipos = this.url+"/Romaneio/ConsultarChassiNF?token="+ this.authService.getToken()+"&chassiNF="+this.chassiNfCarregado;

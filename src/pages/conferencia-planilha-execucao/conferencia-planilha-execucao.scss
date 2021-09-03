@@ -1,5 +1,5 @@
 page-conferencia-planilha-execucao {
-  background-color: #06273f;
+  background-color: #404040;
 
   ion-content {
     background-color: color($colors, bgQrCode) !important;
@@ -16,7 +16,7 @@ page-conferencia-planilha-execucao {
       text-align: center;
 
       .btn {
-        background-color: #1c6381;
+        background-color: #595959;
         width: 100% !important;
         padding: 25px;
         border-radius: 45px;
@@ -27,7 +27,7 @@ page-conferencia-planilha-execucao {
       }
 
       .btn-default {
-        background-color: #1c6381;
+        background-color: #595959;
         width: 100%;
         height: auto;
 
@@ -61,7 +61,7 @@ page-conferencia-planilha-execucao {
       padding: 10px;
     }
 
-    background-color: #06273f;
+    background-color: #404040;
     color: white;
     font-size: 16px;
 
@@ -96,7 +96,7 @@ page-conferencia-planilha-execucao {
 
   .form {
 
-    background-color: #06273f;
+    background-color: #404040;
     border-radius: 5px;
     border: 1px solid transparent;
     margin-bottom: 20px;
@@ -107,7 +107,7 @@ page-conferencia-planilha-execucao {
     }
 
     ion-grid {
-      background-color: #1c6381;
+      background-color: #595959;
       //margin-bottom: 20px;
       padding: 0;
     }
@@ -131,10 +131,10 @@ page-conferencia-planilha-execucao {
     input {
       font: 12px 'avenir_demi';
       width: 100%;
-      background-color: #06273f;
+      background-color: #404040;
       border: none;
       border-radius: 0;
-      background-color: #06273f;
+      background-color: #404040;
       color: #fff;
       text-align: left;
       padding-right: 15px;
@@ -142,7 +142,7 @@ page-conferencia-planilha-execucao {
     }
 
     .label-header {
-      background-color: #1c6381;
+      background-color: #595959;
     }
 
     .label-md[floating] {
@@ -164,7 +164,7 @@ page-conferencia-planilha-execucao {
     }
 
     .code {
-      background-image: url(../assets/images/code.png);
+      background-image: url(../assets/images/code-gray.png);
       background-repeat: no-repeat;
       background-position: 95% center;
       background-size: 100%;
@@ -176,7 +176,7 @@ page-conferencia-planilha-execucao {
     }
 
     .search {
-      background-image: url(../assets/images/search.png);
+      background-image: url(../assets/images/search-red.png);
       background-repeat: no-repeat;
       background-position: 95% center;
       background-size: 100%;
@@ -218,10 +218,10 @@ page-conferencia-planilha-execucao {
       margin: 0;
 
       ion-list-header {
-        background-color: #1c6381;
+        background-color: #595959;
         border-top: none;
         margin: 0;
-        border-bottom: 1px solid #153b56;
+        border-bottom: 1px solid #747474;
 
         ion-label {
           color: #fff;
@@ -230,13 +230,13 @@ page-conferencia-planilha-execucao {
       }
 
       .item-label-floating {
-        background-color: #1c6381;
+        background-color: #595959;
       }
 
       ion-item {
-        background-color: #06273f;
+        background-color: #404040;
         padding: 0;
-        border-bottom: 1px solid #153b56;
+        border-bottom: 1px solid #747474;
 
         .item-inner {
           padding-left: 15px;
@@ -248,7 +248,7 @@ page-conferencia-planilha-execucao {
           }
 
           .icon-date-picker {
-            background-image: url("../assets/images/icon-date-picker.png");
+            background-image: url("../assets/images/icon-date-picker-white.png");
             background-repeat: no-repeat;
             background-size: 39px 36px;
           }
@@ -307,11 +307,11 @@ page-conferencia-planilha-execucao {
       }
 
       .btn-ok {
-        background-color: #1c6381;
+        background-color: #595959;
       }
 
       .btn-cancel {
-        background-color: #06273f;
+        background-color: #404040;
       }
     }
   }

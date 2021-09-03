@@ -1,12 +1,12 @@
 page-recebimento-information {
-    background-color: #00141b;
+    background-color: #404040;
     ion-content {
-        background-color: #00141b !important;
+        background-color: #404040 !important;
         .scroll-content {
             form {
-                background-color: #06273f;
+                background-color: #404040;
                 border-radius: 5px;
-                border: 1px solid #1c6381;
+                border: 1px solid #595959;
                 .form .form-group {
                     position: relative;
                     margin-bottom: 0;
@@ -14,7 +14,7 @@ page-recebimento-information {
                 h4 {
                     font: 16px 'avenir_demi';
                     color: #fff;
-                    background-color: #1c6381;
+                    background-color: #595959;
                     padding: 15px;
                     margin: 0 !important;
                     border-top-left-radius: 5px;
@@ -40,11 +40,11 @@ page-recebimento-information {
                     padding: 15px;
                     padding-left: 80px;
                     width: 100%;
-                    background-color: #06273f;
+                    background-color: #404040;
                     border: none;
-                    border-bottom: 1px solid #153b56;
+                    border-bottom: 1px solid #747474;
                     border-radius: 0;
-                    background-color: #06273f;
+                    background-color: #404040;
                     color: #fff;
                 }
             }
@@ -56,7 +56,7 @@ page-recebimento-information {
         width: 100%;
         text-align: center;
         .btn-default {
-            background-color: #1c6381;
+            background-color: #595959;
             width: 100%;
             height: auto;
             span {

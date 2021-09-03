@@ -112,14 +112,14 @@ export class ModalChassiParqueamentoComponent {
             const recForm: Modal = this.modal.create(FormParqueamentoComponent, {data: this.formParqueamentoData });
             recForm.present();
 
-            recForm.onDidDismiss((data) => {
-              this.select1.close();
-              console.log(data);
-            })
-            recForm.onWillDismiss((data) =>{
-              console.log('data');
-              console.log(data);
-            })
+            // recForm.onDidDismiss((data) => {
+            //   this.select1.close();
+            //   console.log(data);
+            // })
+            // recForm.onWillDismiss((data) =>{
+            //   console.log('data');
+            //   console.log(data);
+            // })
 
           }else{
             this.authService.hideLoading();
@@ -163,6 +163,7 @@ export class ModalChassiParqueamentoComponent {
     $('.icon-menu').toggleClass('close-menu');
     $('side-menu').toggleClass('show');
   }
+  
   openModalSucesso(data){
     this.select1.close();
     const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {data: data });

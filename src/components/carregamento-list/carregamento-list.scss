@@ -1,11 +1,11 @@
 carregamento-list {
     ion-content{
-        background-color: #00141b !important;  
+        background-color: #404040 !important;  
         .lines-content{
-            background-color: #00141b;
+            background-color: #404040;
             padding: 0 15px 25px 15px;  
             ion-list-header{
-                background-color: #1c6381;
+                background-color: #595959;
                 border-top: none;
                 margin: 0;
                 margin-top: 15px;
@@ -19,7 +19,7 @@ carregamento-list {
                 width: 100%;
                 .line-list{
                     padding: 10px;
-                    background-color: #06273f;
+                    background-color: #404040;
                     margin: 0;
                     list-style: none;
                     
@@ -48,7 +48,7 @@ carregamento-list {
                         border: 3px solid #c74748;
                         strong{
                             display: block;
-                            color: #06273f;
+                            color: #404040;
                         }
                         .circle-flag{
                             position: absolute;
@@ -80,13 +80,13 @@ carregamento-list {
     }
     .shipping-company{
         padding-top: 10px;
-        background-color: #06273f;
+        background-color: #404040;
         h6{
             display: block;
             color: #fff;
             width: 100%;
             padding: 5px 15px;
-            background-color: #153b56;
+            background-color: #747474;
             margin: 0px;
         }
 
@@ -102,7 +102,7 @@ carregamento-list {
         .btn-login {
             width: 100%;
             height: auto;
-            background-color: #1c6381;
+            background-color: #595959;
             span {
                 padding: 25px 15px 25px 15px;
                 font: 19px 'avenir_bold';
@@ -135,7 +135,7 @@ carregamento-list {
     list-style: none;
     strong{
         display: block;
-        color: #06273f;
+        color: #404040;
         font: 14px 'avenir_regular';
     }
     .circle-flag{

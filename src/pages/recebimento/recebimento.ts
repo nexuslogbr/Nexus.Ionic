@@ -152,8 +152,6 @@ export class RecebimentoPage {
 
   buscarChassi(partChassi, byScanner: boolean) {
 
-    this.openModalErro(partChassi, true);
-
     this.formRecebimentoData.chassi = partChassi;
     let uriBuscaChassi =
       '/Receber/BuscarChassi?token=' +
@@ -166,6 +164,7 @@ export class RecebimentoPage {
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
+        debugger
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
@@ -182,7 +181,7 @@ export class RecebimentoPage {
           ) {
             this.openModalChassis([partChassi], byScanner);
           } else {
-            this.openModalErro(this.responseData.mensagem, byScanner);
+           this.openModalErro(this.responseData.mensagem, byScanner);
           }
         }
       },

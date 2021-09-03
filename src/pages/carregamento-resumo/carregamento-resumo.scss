@@ -1,17 +1,17 @@
 page-carregamento-resumo {
     transition: all 0.4s ease-in-out;
-    background-color: #00141b !important;
+    background-color: #404040 !important;
     ion-content {
         background-color: color($colors, bgQrCode) !important;
         .scroll-content {
             .header-item{
-                background-color: #1c6381 !important;
+                background-color: #595959 !important;
             }
             .new-vehicle{
                 margin-bottom: -1px;
             }
             .form {
-                background-color: #06273f;
+                background-color: #404040;
                 border-radius: 5px;
                 border: 1px solid transparent;
                 margin-bottom: 20px;
@@ -22,7 +22,7 @@ page-carregamento-resumo {
                 h4 {
                     font: 16px 'avenir_demi';
                     color: #fff;
-                    background-color: #1c6381;
+                    background-color: #595959;
                     padding: 15px;
                     margin: 0 !important;
                     border-top-left-radius: 5px;
@@ -46,16 +46,16 @@ page-carregamento-resumo {
                 input {
                     font: 14px 'avenir_demi';
                     width: 100%;
-                    background-color: #06273f;
+                    background-color: #404040;
                     border: none;
                     border-radius: 0;
-                    background-color: #06273f;
+                    background-color: #404040;
                     color: #fff;
                     text-align: left;
                     padding-right: 15px;
                 }
                 .label-header{
-                    background-color: #1c6381;
+                    background-color: #595959;
                 }
                 .label-md[floating]{
                     margin-bottom: 30px;
@@ -102,22 +102,22 @@ page-carregamento-resumo {
                 ion-list{
                     margin: 0;
                     ion-list-header{
-                        background-color: #1c6381;
+                        background-color: #595959;
                         border-top: none;
                         margin: 0;
-                        border-bottom: 1px solid #153b56;
+                        border-bottom: 1px solid #747474;
                         ion-label{
                             color: #fff;
                             font-size: 16px;
                         }
                     }
                     .item-label-floating{
-                        background-color: #1c6381;
+                        background-color: #595959;
                     }
                     ion-item{
-                        background-color: #06273f;
+                        background-color: #404040;
                         padding: 0;
-                        border-bottom: 1px solid #153b56;
+                        border-bottom: 1px solid #747474;
                         .item-inner{
                             padding-left: 15px;
                             padding-right: 15px;
@@ -126,7 +126,7 @@ page-carregamento-resumo {
                                 color: #fff;
                             }
                             .icon-date-picker{
-                                background-image: url("../assets/images/icon-date-picker.png");
+                                background-image: url("../assets/images/icon-date-picker-white.png");
                                 background-repeat: no-repeat;
                                 background-size: 39px 36px;                               
                             }
@@ -170,7 +170,7 @@ page-carregamento-resumo {
                 width: 100%;
                 text-align: center;
                 .btn {
-                    background-color: #1c6381;
+                    background-color: #595959;
                     width: 100% !important;
                     padding: 25px;
                     border-radius: 45px;
@@ -180,7 +180,7 @@ page-carregamento-resumo {
                     margin: 0 auto;
                 }            
                 .btn-default {
-                    background-color: #1c6381;
+                    background-color: #595959;
                     width: 100%;
                     height: auto;
                     span {
@@ -193,7 +193,7 @@ page-carregamento-resumo {
       
     }  
     .list-md .item-input:last-child{
-        border-bottom: 1px solid #153b56;
+        border-bottom: 1px solid #747474;
     }  
     .datetime-text{
         color: #fff;

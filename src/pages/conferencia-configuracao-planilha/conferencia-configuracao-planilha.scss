@@ -19,21 +19,21 @@ page-conferencia-configuracao-planilha {
       }
 
       .btn-ok {
-        background-color: #1c6381;
+        background-color: #595959;
       }
 
       .btn-cancel {
-        background-color: #06273f;
+        background-color: #404040;
       }
     }
   }
 
   .grid-header-navio {
-    background-color: #1c6381;
+    background-color: #595959;
     color: white;
     font-weight: 500;
     margin-bottom: 10px;
-    border: 1px solid #06273f;
+    border: 1px solid #404040;
 
     p {
       margin: 2px;
@@ -41,12 +41,12 @@ page-conferencia-configuracao-planilha {
   }
 
   .list-items {
-    //border: 1px solid #06273f;
+    //border: 1px solid #404040;
 
     .list-header {
       //border: 1px solid red;
-      //border: 1px solid #06273f;
-      background-color: #1c6381;
+      //border: 1px solid #404040;
+      background-color: #595959;
       margin-bottom: 10px;
       //border-top: 0px none;
       color: white;
@@ -87,18 +87,18 @@ page-conferencia-configuracao-planilha {
 
       .list-invoice-header {
         padding: 0px;
-        background-color: #06273f;
+        background-color: #404040;
 
         .grid-invoice-header {
           padding: 0px;
 
           ion-row {
-            //border: 1px solid #1c6381;
+            //border: 1px solid #595959;
 
             ion-col {
               padding: 6px;
               //background-color: red;
-              border: 1px solid #1c6381;
+              border: 1px solid #595959;
 
             }
           }

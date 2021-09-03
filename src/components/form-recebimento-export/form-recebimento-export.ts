@@ -186,7 +186,7 @@ export class FormRecebimentoExportComponent {
 
         var data = {
           message : "Parqueamento realizado com",
-          iconClass : "icon-parking-blue"
+          iconClass : "parking-green"
         }
         this.openModalSucesso(data);
       }

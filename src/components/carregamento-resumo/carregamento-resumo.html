@@ -48,7 +48,7 @@
         </ion-list-header>
 
         <div *ngFor="let chassi of detalhes.chassisCarregados" data-id="{{ chassi }}" id="{{ chassi }}" (click)="removeCarregados($event, chassi)"
-          style="border: 1px solid #1c6381;">
+          style="border: 1px solid #595959;">
           <div style="display: inline-block; width: 25%;">
             <label>Chassi2: </label>
           </div>
@@ -67,7 +67,7 @@
           </div>
         </ion-list-header>
 
-        <div *ngFor="let chassi of detalhes.chassisNaoCarregados" data-id="{{ chassi }}" id="{{ chassi }}" style="border: 1px solid #1c6381; display: flex; align-items: center;justify-content: space-around;">
+        <div *ngFor="let chassi of detalhes.chassisNaoCarregados" data-id="{{ chassi }}" id="{{ chassi }}" style="border: 1px solid #595959; display: flex; align-items: center;justify-content: space-around;">
           <div>
             <label>Chassi: </label>
           </div>

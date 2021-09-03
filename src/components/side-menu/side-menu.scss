@@ -22,7 +22,7 @@ side-menu {
           background-repeat: no-repeat;
           margin: 0;
           height: 62px;
-          border-bottom: 1px solid #00141b;
+          border-bottom: 1px solid #404040;
           a {
             padding-top: 20px;
             padding-left: 70px;
@@ -40,7 +40,7 @@ side-menu {
           }
         }
         li.user {
-          background-image: url("../assets/images/user-blue.png");
+          background-image: url("../assets/images/user-red.png");
           background-size: 38px 38px;
           height: auto;
           padding-bottom: 5px;
@@ -49,7 +49,7 @@ side-menu {
           }
         }
         li.home {
-          background-image: url("../assets/images/home.png");
+          background-image: url("../assets/images/home-red.png");
           background-size: 38px 38px;
         }
         li.dashboard {
@@ -57,15 +57,15 @@ side-menu {
           background-size: 38px 38px;
         }
         li.about {
-          background-image: url("../assets/images/about.png");
+          background-image: url("../assets/images/about-red.png");
           background-size: 38px 38px;
         }
         li.log-out {
-          background-image: url("../assets/images/log-out.png");
+          background-image: url("../assets/images/log-out-red.png");
           background-size: 38px 38px;
         }
         li.remove-device {
-          background-image: url("../assets/images/reset-dispositivo.png");
+          background-image: url("../assets/images/reset-dispositivo-red.png");
           background-size: 38px 38px;
         }
         li.local {
@@ -73,7 +73,7 @@ side-menu {
           background-size: 38px 38px;
         }
         li.flashlight {
-          background-image: url("../assets/images/flashlight.png");
+          background-image: url("../assets/images/flashlight-red.png");
           background-size: 38px 38px;
         }
         li.language {
@@ -81,17 +81,17 @@ side-menu {
           background-size: 38px 38px;
         }
         li.vagas {
-          background-image: url("../assets/images/road-cone.png");
+          background-image: url("../assets/images/road-cone-red.png");
           background-size: 38px 38px;
         }
       }
     }
     .scroll-content {
-      background-color: #06273f;
+      background-color: #404040;
       padding: 0;
       .list {
         .item {
-          background-color: #06273f;
+          background-color: #404040;
           color: #fff;
         }
       }

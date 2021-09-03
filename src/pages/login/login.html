@@ -8,27 +8,30 @@
               <ion-icon class="icon icon-kline"></ion-icon>
           </ion-col> -->
       <ion-col col-12 col-sm-12>
-        <img src="./assets/images/nexus_croped.png" class="img-nexus">
+        <!-- <img src="./assets/images/kline_croped.png" class="img-nexus"> -->
+        <br> <br> <br>
       </ion-col>
     </ion-row>
   </ion-grid>
   <div class="title-content">
-    <ion-title>SISTEMA PÁTIO AUTOMOTIVO</ion-title>
+    <!-- <ion-title>SISTEMA PÁTIO AUTOMOTIVO</ion-title> -->
   </div>
   <form (ngSubmit)="Login()">
     <ion-list>
 
       <ion-item>
-        <ion-input type="text" placeholder="Usuário" [(ngModel)]="formData.user" id="user" name='user'></ion-input>
+        <ion-label floating color="dark" id="label" name="label">USUÁRIO</ion-label>
+        <ion-input type="text"  [(ngModel)]="formData.user" id="user" name='user'></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input type="password" placeholder="Senha" [(ngModel)]="formData.pass" id="pass" name='pass'></ion-input>
+        <ion-label floating color="dark" id="label" name="label">SENHA</ion-label>
+        <ion-input type="password" [(ngModel)]="formData.pass" id="pass" name='pass'></ion-input>
       </ion-item>
-
+      <!-- <a id="esqueci" name="esqueci"><span style="color: #fff;">ESQUECI MINHA SENHA</span></a> -->
     </ion-list>
     <div class="login-content">
-      <button ion-button round class="btn-login" type="submit">Entrar</button>
+      <button ion-button class="btn-login" type="submit">OK</button>
     </div>
   </form>
   <ion-footer>

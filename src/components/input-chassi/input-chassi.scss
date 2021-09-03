@@ -1,5 +1,5 @@
 input-chassi {
-    background-color: #06273f;
+    background-color: #404040;
     ion-content {
         background-color: color($colors, bgQrCode) !important;
     }
@@ -7,8 +7,8 @@ input-chassi {
         transition: all 0.4s ease-in-out;
         background-color: color($colors, bgQrCode) !important;
         input {
-            border: 1px solid #153b56;
-            background-color: #06273f;
+            border: 1px solid #747474;
+            background-color: #404040;
             color: #fff;
             font: 14px 'avenir_demi';
             padding: 15px;
@@ -28,7 +28,7 @@ input-chassi {
                 background-color: #77bd5d;
             } 
             .btn-back{
-                background-color: #1c6381;
+                background-color: #595959;
                 width: 90%;
                 height: auto;
                 .button-inner {
@@ -45,10 +45,10 @@ input-chassi {
                 }
             }        
             .btn-ok {
-                background-color: #1c6381;
+                background-color: #595959;
             }
             .btn-cancel {
-                background-color: #06273f;
+                background-color: #404040;
             } 
         }                     
     }     
@@ -58,7 +58,7 @@ input-chassi {
 }
 
 .btn {
-    background-color: #1c6381;
+    background-color: #595959;
     width: 100% !important;
     padding: 25px;
     border-radius: 45px;

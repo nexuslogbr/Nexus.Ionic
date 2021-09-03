@@ -13,9 +13,9 @@ page-sobre {
         transition: all .4s ease-in-out;
     }
     .content{
-        background-color: #00141b;
+        background-color: #404040;
         ion-card-content{
-            background-color: #00141b;
+            background-color: #404040;
             color: #fff;
             font: 15px 'avenir_regular';
             text-align: justify;
@@ -26,12 +26,12 @@ page-sobre {
         }
         ion-item{
             text-align: center;
-            background-color: #00141b;
+            background-color: #404040;
             .item-inner{
                 border: 1px solid transparent;
                 ion-label{
                     a{
-                        color: #1c6381;
+                        color: #595959;
                         text-decoration: none;
                     }
                 }

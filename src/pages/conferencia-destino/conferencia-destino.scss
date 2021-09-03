@@ -4,7 +4,7 @@ page-conferencia-destino {
     box-shadow: none !important;
    }
 
-  background-color: #06273f;
+  background-color: #404040;
   opacity: 0.2;
   position: fixed;
   top: 0;
@@ -17,7 +17,7 @@ page-conferencia-destino {
     position: relative;
 
     .form-recebe-chassis {
-      background-color: #06273f;
+      background-color: #404040;
       border-radius: 5px;
       border: 1px solid transparent;
       //height: 100%;
@@ -30,7 +30,7 @@ page-conferencia-destino {
       h4 {
         font: 16px 'avenir_demi';
         color: #fff;
-        background-color: #1c6381;
+        background-color: #595959;
         padding: 15px;
         margin: 0 !important;
         border-top-left-radius: 5px;
@@ -57,10 +57,10 @@ page-conferencia-destino {
       input {
         font: 14px 'avenir_demi';
         width: 100%;
-        background-color: #06273f;
+        background-color: #404040;
         border: none;
         border-radius: 0;
-        background-color: #06273f;
+        background-color: #404040;
         color: #fff;
         text-align: left;
         padding-right: 15px;
@@ -70,7 +70,7 @@ page-conferencia-destino {
         margin: 0;
 
         ion-list-header {
-          background-color: #1c6381;
+          background-color: #595959;
           border-top: none;
 
           ion-label {
@@ -80,9 +80,9 @@ page-conferencia-destino {
         }
 
         ion-item {
-          background-color: #06273f;
+          background-color: #404040;
           padding: 0;
-          border-bottom: 1px solid #153b56;
+          border-bottom: 1px solid #747474;
 
           .item-inner {
             padding-left: 15px;
@@ -134,7 +134,7 @@ page-conferencia-destino {
       }
 
       .btn-ok {
-        background-color: #1c6381;
+        background-color: #595959;
       }
 
       .btn-cancel {

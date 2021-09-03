@@ -55,7 +55,7 @@ export class ModalCarregamentoExportOkComponent {
     if(this.responseData.sucesso){
 
       var data = {
-        iconClass : 'icon-parking-blue',
+        iconClass : 'parking-green',
         message : 'Parqueamento realizado com sucesso'
       };
 

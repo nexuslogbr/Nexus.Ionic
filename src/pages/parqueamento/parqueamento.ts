@@ -74,37 +74,37 @@ export class ParqueamentoPage {
       this.title = 'Parqueamento';
       this.url = this.authService.getUrl();
 
-      this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
-        console.log("debounced", value);
-        if (value && value.length) {
-          {
-            if (value.length >= 6) {
-              let chassi = value.replace(/[\W_]+/g, "");
-              setTimeout(() => {
-                this.buscarChassi(chassi, false);
-                this.formData.chassi = '';
-              }, 500);
-            }
-          }
-        }
-      });
+      // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+      //   console.log("debounced", value);
+      //   if (value && value.length) {
+      //     {
+      //       if (value.length >= 6) {
+      //         let chassi = value.replace(/[\W_]+/g, "");
+      //         setTimeout(() => {
+      //           this.buscarChassi(chassi, false);
+      //           this.formData.chassi = '';
+      //         }, 500);
+      //       }
+      //     }
+      //   }
+      // });
   }
 
   ionViewDidEnter() {
-    console.log('ionViewDidEnter ParqueamentoPage');
-    setTimeout(() => {
-      this.chassiInput.setFocus();
-    }, 1000);
+    // console.log('ionViewDidEnter ParqueamentoPage');
+    // setTimeout(() => {
+    //   this.chassiInput.setFocus();
+    // }, 1000);
   }
 
   cleanInput(byScanner: boolean) {
     console.log("byScanner", byScanner);
-    if (!byScanner) {
-      setTimeout(() => {
-        this.chassiInput.setFocus();
-      }, 1000);
-    }
-    this.formData.chassi = "";
+    // if (!byScanner) {
+    //   setTimeout(() => {
+    //     this.chassiInput.setFocus();
+    //   }, 1000);
+    //}
+ //   this.formData.chassi = "";
   }
 
 

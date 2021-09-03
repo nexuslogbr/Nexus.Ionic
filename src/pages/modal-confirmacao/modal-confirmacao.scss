@@ -1,13 +1,13 @@
 page-modal-confirmacao {
   display: none;
-  background-color: #06273f;
+  background-color: #404040;
   position: fixed;
   top: 0;
   height: 100%;
   width: 100%;
   z-index: 10;
   ion-content.content {
-    background-color: #06273f;
+    background-color: #404040;
     position: relative;
     .qr-code-container {
       padding: 50% 10px 10% 10px;

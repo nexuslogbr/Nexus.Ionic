@@ -1,16 +1,16 @@
 modal-romaneio {
-    background-color: #00141b;
+    background-color: #404040;
     position: fixed;
     top: 0;
     height: 100%;
     width: 100%;
     z-index: 10;
     ion-content.content {
-        background-color: #00141b;
+        background-color: #404040;
         position: relative;
         .qr-code-container {
             .icon-reception {
-                background-image: url('../assets/images/icon-romaneio.png');
+                background-image: url('../assets/images/icon-romaneio-new.png');
                 background-size: 100%;
                 background-position: center center;
                 width: 172px;
@@ -44,10 +44,10 @@ modal-romaneio {
                 }
             }
             .btn-ok {
-                background-color: #1c6381;
+                background-color: #595959;
             }
             .btn-cancel {
-                background-color: #06273f;
+                background-color: #404040;
             }
         }
     }

@@ -1,8 +1,8 @@
 ion-footer {
-    background-color: #06273f;
+    background-color: #404040;
     height: 70px;
     ion-toolbar.toolbar-md {
-        background-color: #06273f;
+        background-color: #404040;
         padding: 0;
         ion-buttons {
             padding: 0;
@@ -10,10 +10,10 @@ ion-footer {
             button {
                 width: 18%;
                 height: 70px;
-                border-left: 1px solid #00141b;
+                border-left: 1px solid #404040;
                 margin: 0;
                 .button-inner {
-                    background-color: #06273f;
+                    background-color: #404040;
                 }
                 .icon-parking {
                     background-image: url( ' ../assets/images/svg/parqueamento.svg' );
@@ -60,7 +60,7 @@ ion-footer {
             }
         }
         .toolbar-background-md {
-            background-color: #06273f;
+            background-color: #404040;
         }
     }
     ul {
@@ -74,13 +74,13 @@ ion-footer {
             float: left;
             display: block;
             position: relative;
-            border-left: 1px solid #06273f;
+            border-left: 1px solid #404040;
             button {
                 padding: 0;
                 display: block;
-                background-color: #06273f;
+                background-color: #404040;
                 .icon {
-                    background-color: #06273f;
+                    background-color: #404040;
                     position: absolute;
                     top: 0;
                     bottom: 0;

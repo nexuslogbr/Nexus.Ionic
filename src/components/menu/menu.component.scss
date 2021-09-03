@@ -1,14 +1,14 @@
 component-menu {
   ion-content {
-    background-color: #00141b !important;
+    background-color: #404040 !important;
     margin-top: 63px;
 
     ion-list {
       padding: 0 15px;
-      background-color: #00141b;
+      background-color: #404040;
 
       ion-item.item {
-        background-color: #00141b;
+        background-color: #404040;
         padding: 0;
         border-radius: 28px;
         margin-top: 12px;
@@ -28,7 +28,7 @@ component-menu {
             font: 17px 'avenir_regular';
             vertical-align: middle;
             text-decoration: none;
-            background-color: #00141b;
+            background-color: #404040;
             background-repeat: no-repeat;
             background-position: 1px center;
             background-size: 16%;
@@ -81,8 +81,8 @@ component-menu {
 
 .header {
   padding: 13px 0 12px 20px;
-  background-color: #06273f;
-  border-bottom: 1px solid #00141b;
+  background-color: #404040;
+  border-bottom: 1px solid #404040;
 
   ion-title {
     float: left;

@@ -74,11 +74,14 @@
 
             <ion-grid>
                 <ion-row justify-content-start>
-                    <ion-col col-9>
+                    <ion-col col-8>
+                           <!-- <ion-label class="code" (click)="scan()"></ion-label> -->
                             <ion-input class="input-header" type="text"  [(ngModel)]="chassiNf" placeholder=""></ion-input>
                     </ion-col>
                     <ion-col col-3>
-                            <ion-label class="icon-qr-code" (click)="ConsultarChassiNf()"></ion-label>
+                          
+                        <ion-label class="icon-qr-code" (click)="scan()"></ion-label>
+                            <ion-label class="icon-search" (click)="ConsultarChassiNf()"></ion-label>
                     </ion-col>
                 </ion-row>
             </ion-grid>

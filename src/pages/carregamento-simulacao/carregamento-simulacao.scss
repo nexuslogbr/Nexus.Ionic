@@ -4,7 +4,7 @@ page-carregamento-simulacao {
     background-color: color($colors, bgQrCode) !important; // background-color: rgba(0, 0, 0, 0.8);
     position: relative;
     .form-recebe-chassis {
-      background-color: #06273f;
+      background-color: #404040;
       border-radius: 5px;
       border: 1px solid transparent;
       height: auto;
@@ -15,7 +15,7 @@ page-carregamento-simulacao {
       h4 {
         font: 16px 'avenir_demi';
         color: #fff;
-        background-color: #1c6381;
+        background-color: #595959;
         padding: 15px;
         margin: 0 !important;
         border-top-left-radius: 5px;
@@ -39,10 +39,10 @@ page-carregamento-simulacao {
       input {
         font: 14px 'avenir_demi';
         width: 100%;
-        background-color: #06273f;
+        background-color: #404040;
         border: none;
         border-radius: 0;
-        background-color: #06273f;
+        background-color: #404040;
         color: #fff;
         text-align: left;
         padding-right: 15px;
@@ -50,7 +50,7 @@ page-carregamento-simulacao {
       ion-list {
         margin: 0;
         ion-list-header {
-          background-color: #1c6381;
+          background-color: #595959;
           border-top: none;
           ion-label {
             color: #fff;
@@ -58,9 +58,9 @@ page-carregamento-simulacao {
           }
         }
         ion-item {
-          background-color: #06273f;
+          background-color: #404040;
           padding: 0;
-          border-bottom: 1px solid #153b56;
+          border-bottom: 1px solid #747474;
           .item-inner {
             padding-left: 15px;
             border-bottom: 1px solid transparent !important;
@@ -92,7 +92,7 @@ page-carregamento-simulacao {
         margin: 30px 0;
       }
       .btn-default {
-        background-color: #1c6381;
+        background-color: #595959;
         width: 100%;
         height: auto;
         span {

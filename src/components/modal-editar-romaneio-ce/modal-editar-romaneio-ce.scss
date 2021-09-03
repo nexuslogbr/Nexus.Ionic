@@ -1,17 +1,17 @@
 modal-editar-romaneio-ce {
     transition: all 0.4s ease-in-out;
-    background-color: #00141b !important;
+    background-color: #404040 !important;
     ion-content {
         background-color: color($colors, bgQrCode) !important;
         .scroll-content {
             .header-item{
-                background-color: #1c6381 !important;
+                background-color: #595959 !important;
             }
             .new-vehicle{
                 margin-bottom: -1px;
             }
             .form {
-                background-color: #06273f;
+                background-color: #404040;
                 border-radius: 5px;
                 border: 1px solid transparent;
                 margin-bottom: 20px;
@@ -22,7 +22,7 @@ modal-editar-romaneio-ce {
                 h4 {
                     font: 16px 'avenir_demi';
                     color: #fff;
-                    background-color: #1c6381;
+                    background-color: #595959;
                     padding: 15px;
                     margin: 0 !important;
                     border-top-left-radius: 5px;
@@ -46,16 +46,16 @@ modal-editar-romaneio-ce {
                 input {
                     font: 14px 'avenir_demi';
                     width: 100%;
-                    background-color: #06273f;
+                    background-color: #404040;
                     border: none;
                     border-radius: 0;
-                    background-color: #06273f;
+                    background-color: #404040;
                     color: #fff;
                     text-align: left;
                     padding-right: 15px;
                 }
                 .label-header{
-                    background-color: #1c6381;
+                    background-color: #595959;
                 }
                 .label-md[floating]{
                     margin-bottom: 30px;
@@ -103,7 +103,7 @@ modal-editar-romaneio-ce {
                     margin: 0;
                     position: relative;
                     ion-list-header{
-                        background-color: #1c6381;
+                        background-color: #595959;
                         border-top: none;
                         ion-label{
                             color: #fff;
@@ -111,12 +111,12 @@ modal-editar-romaneio-ce {
                         }
                     }
                     .item-label-floating{
-                        background-color: #1c6381;
+                        background-color: #595959;
                     }
                     ion-item{
-                        background-color: #06273f;
+                        background-color: #404040;
                         padding: 0;
-                        border-bottom: 1px solid #153b56;
+                        border-bottom: 1px solid #747474;
                         .item-inner{
                             padding-left: 15px;
                             padding-right: 15px;
@@ -125,7 +125,7 @@ modal-editar-romaneio-ce {
                                 color: #fff;
                             }
                             .icon-date-picker{
-                                background-image: url("../assets/images/icon-date-picker.png");
+                                background-image: url("../assets/images/icon-date-picker-white.png");
                                 background-repeat: no-repeat;
                                 background-size: 39px 36px;
                                 width: 39px;
@@ -145,7 +145,7 @@ modal-editar-romaneio-ce {
                 }              
             }
             .form-novo-veiculo{
-                background-color: #06273f;
+                background-color: #404040;
                 border-radius: 5px;
                 border: 1px solid transparent;
                 margin-bottom: 20px;
@@ -156,7 +156,7 @@ modal-editar-romaneio-ce {
                 h4 {
                     font: 16px 'avenir_demi';
                     color: #fff;
-                    background-color: #1c6381;
+                    background-color: #595959;
                     padding: 15px;
                     margin: 0 !important;
                     border-top-left-radius: 5px;
@@ -180,17 +180,17 @@ modal-editar-romaneio-ce {
                 input {
                     font: 14px 'avenir_demi';
                     width: 100%;
-                    background-color: #06273f;
+                    background-color: #404040;
                     border: none;
                     border-radius: 0;
-                    background-color: #06273f;
+                    background-color: #404040;
                     color: #fff;
                     text-align: left;
                     padding-right: 15px;
                     text-transform: uppercase;
                 }
                 .label-header{
-                    background-color: #1c6381;
+                    background-color: #595959;
                 }
                 .label-md[floating]{
                     margin-bottom: 30px;
@@ -207,7 +207,7 @@ modal-editar-romaneio-ce {
                     }
                 }
                 .icon-qr-code{
-                    background-image: url(../assets/images/search.png);
+                    background-image: url(../assets/images/search-red.png);
                     background-repeat: no-repeat;
                     background-position: 95% center;
                     background-size: 100%;
@@ -238,11 +238,11 @@ modal-editar-romaneio-ce {
                     margin: 0;
                     position: relative;
                     ion-grid{
-                        background-color: #1c6381;
+                        background-color: #595959;
                         padding: 0;
                     }
                     ion-list-header{
-                        background-color: #1c6381;
+                        background-color: #595959;
                         border-top: none;
                         ion-label{
                             color: #fff;
@@ -250,10 +250,10 @@ modal-editar-romaneio-ce {
                         }
                     }
                     .item-label-floating{
-                        background-color: #1c6381;
+                        background-color: #595959;
                     }
                     ion-item{
-                        background-color: #06273f;
+                        background-color: #404040;
                         padding: 0;
                         .item-inner{
                             padding-left: 15px;
@@ -266,7 +266,7 @@ modal-editar-romaneio-ce {
                                 width: 80% !important;
                             }
                             .icon-date-picker{
-                                background-image: url("../assets/images/icon-date-picker.png");
+                                background-image: url("../assets/images/icon-date-picker-white.png");
                                 background-repeat: no-repeat;
                                 background-size: 39px 36px;
                                 width: 39px;
@@ -287,7 +287,7 @@ modal-editar-romaneio-ce {
                 .add-novo-veiculo{
                     .form-item{
                         padding-top: 20px;
-                        border: 1px solid #1c6381;
+                        border: 1px solid #595959;
                         position: relative;
                     }
                     .col-form-label{
@@ -307,7 +307,7 @@ modal-editar-romaneio-ce {
                 width: 100%;
                 text-align: center;
                 .btn {
-                    background-color: #1c6381;
+                    background-color: #595959;
                     width: 100% !important;
                     padding: 25px;
                     border-radius: 45px;
@@ -317,7 +317,7 @@ modal-editar-romaneio-ce {
                     margin: 0 auto;
                 }            
                 .btn-default {
-                    background-color: #1c6381;
+                    background-color: #595959;
                     width: 100%;
                     height: auto;
                     span {
@@ -330,10 +330,10 @@ modal-editar-romaneio-ce {
       
     }  
     .list-md .item-input:last-child{
-        border-bottom: 1px solid #153b56;
+        border-bottom: 1px solid #747474;
     }  
     .icon-clock{
-        background-image: url("../assets/images/icon-date-picker.png");
+        background-image: url("../assets/images/icon-date-picker-white.png");
         background-repeat: no-repeat;
         background-position: 95% center;
         background-size: 39px 36px;       

@@ -1,16 +1,16 @@
 page-romaneio-fila {
-    background-color: #00141b;
+    background-color: #404040;
     ion-content{
-        background-color: #00141b;
+        background-color: #404040;
         .scroll-content{
-            background-color: #00141b;
+            background-color: #404040;
             .list-md{
                 border-bottom-left-radius: 4px;
                 border-bottom-right-radius: 4px;               
             }
         }
         .list-header-md{
-            background-color: #1c6381;
+            background-color: #595959;
             margin-bottom: 0;
             border: 1px solid transparent;
             font: 16px avenir_regular;
@@ -20,8 +20,8 @@ page-romaneio-fila {
             margin-top: 0px;
         }
         ion-item.item-md{
-            background-color: #06273f;
-            border: 1px solid #1c6381;
+            background-color: #404040;
+            border: 1px solid #595959;
             border-top: none;
             font: 16px avenir_regular;
             color: #fff;
@@ -43,7 +43,7 @@ page-romaneio-fila {
         width: 100%;
         text-align: center;
         .btn {
-            background-color: #1c6381;
+            background-color: #595959;
             width: 100% !important;
             padding: 25px;
             border-radius: 45px;
@@ -53,7 +53,7 @@ page-romaneio-fila {
             margin: 0 auto;
         }            
         .btn-default {
-            background-color: #1c6381;
+            background-color: #595959;
             width: 100%;
             height: auto;
             span {
@@ -63,7 +63,7 @@ page-romaneio-fila {
         }
     }
     .list-md .item-input:last-child{
-        border-bottom: 1px solid #1c6381 !important;
+        border-bottom: 1px solid #595959 !important;
     }   
     .no-border{
         border-bottom: 1px solid transparent !important;

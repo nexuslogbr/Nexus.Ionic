@@ -3,7 +3,7 @@ rampa-fila {
     padding-top: 25%;
     background-color: rgba(0, 20, 27, 0.9);
     .list-header-md{
-        background-color: #1c6381;
+        background-color: #595959;
         margin-bottom: 0;
         border: 1px solid transparent;
         font: 16px avenir_regular;
@@ -21,8 +21,8 @@ rampa-fila {
         margin: 13px 8px 13px 0;
     }
     ion-item.item-md{
-        background-color: #06273f;
-        border: 1px solid #1c6381;
+        background-color: #404040;
+        border: 1px solid #595959;
         border-top: none;
         font: 16px avenir_regular;
         color: #fff;
@@ -33,7 +33,7 @@ rampa-fila {
         width: 100%;
         text-align: center;
         .btn {
-            background-color: #1c6381;
+            background-color: #595959;
             width: 50% !important;
             padding: 25px;
             border-radius: 45px;
@@ -43,7 +43,7 @@ rampa-fila {
             margin: 0 auto;
         }            
         .btn-default {
-            background-color: #1c6381;
+            background-color: #595959;
             width: 50%;
             height: auto;
             span {

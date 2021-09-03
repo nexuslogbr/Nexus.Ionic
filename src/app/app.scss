@@ -91,7 +91,7 @@
 
 ion-button {
   padding: 25px;
-  background-color: #1c6381;
+  background-color: #595959;
   color: #fff;
   text-transform: uppercase;
 }
@@ -105,7 +105,7 @@ ion-label {
 }
 
 .line {
-  background-color: #06273f;
+  background-color: #404040;
   height: 3px;
   margin: 50px 0 20px;
 }
@@ -251,8 +251,8 @@ input:-ms-input-placeholder {
   color: #fff;
 }
 
-.icon-parking-blue {
-  background-image: url('../assets/images/parking-blue.png');
+.parking-green {
+  background-image: url('../assets/images/parking-blue-green.png');
   background-size: 100%;
   background-position: center center;
   width: 172px;
@@ -279,7 +279,7 @@ input:-ms-input-placeholder {
 }
 
 .icon-romaneio {
-  background-image: url('../assets/images/icon-romaneio.png');
+  background-image: url('../assets/images/icon-romaneio-new.png');
   background-size: 100%;
   background-position: center center;
   width: 172px;
@@ -330,7 +330,7 @@ side-menu-ce.show {
       padding: 8px;
 
       .alert-button {
-        background-color: #1c6381;
+        background-color: #595959;
         color: #fff;
         border-radius: 20px;
         padding: 10px 25px;
@@ -350,15 +350,15 @@ side-menu-ce.show {
 
 component-menu {
   ion-content {
-    background-color: #00141b !important;
+    background-color: #404040 !important;
     margin-top: 63px;
 
     ion-list {
       padding: 0 15px;
-      background-color: #00141b;
+      background-color: #404040;
 
       ion-item.item {
-        background-color: #00141b;
+        background-color: #404040;
         padding: 0;
         border-radius: 28px;
         margin-top: 12px;
@@ -378,7 +378,7 @@ component-menu {
             font: 17px 'avenir_regular';
             vertical-align: middle;
             text-decoration: none;
-            background-color: #00141b;
+            background-color: #404040;
             background-repeat: no-repeat;
             background-position: 1px center;
             background-size: 16%;
@@ -431,8 +431,8 @@ component-menu {
 
 .header {
   padding: 13px 0 12px 20px;
-  background-color: #06273f;
-  border-bottom: 1px solid #00141b;
+  background-color: #595959 !important;
+  border-bottom: 1px solid #fff;
 
   ion-title {
     float: left;
@@ -443,7 +443,7 @@ component-menu {
       color: #fff;
       text-align: left;
       padding: 0;
-      font: 14px 'avenir_regular';
+      font: 20px 'avenir_regular';
     }
   }
 }
@@ -479,11 +479,11 @@ component-menu {
 }
 
 ion-footer {
-  background-color: #06273f;
+  background-color: #404040;
   height: 70px;
 
   ion-toolbar.toolbar-md {
-    background-color: #06273f;
+    background-color: #404040;
     padding: 0;
 
     ion-buttons {
@@ -493,11 +493,11 @@ ion-footer {
       button {
         width: 18%;
         height: 70px;
-        border-left: 1px solid #00141b;
+        border-left: 1px solid #404040;
         margin: 0;
 
         .button-inner {
-          background-color: #06273f;
+          background-color: #404040;
         }
 
         .icon-parking {
@@ -552,7 +552,7 @@ ion-footer {
     }
 
     .toolbar-background-md {
-      background-color: #06273f;
+      background-color: #404040;
     }
   }
 
@@ -568,15 +568,15 @@ ion-footer {
       float: left;
       display: block;
       position: relative;
-      border-left: 1px solid #06273f;
+      border-left: 1px solid #404040;
 
       button {
         padding: 0;
         display: block;
-        background-color: #06273f;
+        background-color: #404040;
 
         .icon {
-          background-color: #06273f;
+          background-color: #404040;
           position: absolute;
           top: 0;
           bottom: 0;
@@ -590,7 +590,7 @@ ion-footer {
 }
 
 .btn-menu-internal {
-  background-color: #1c6381;
+  background-color: #595959;
   width: 100%;
   height: 73px;
   border-radius: 64px !important;
@@ -601,7 +601,7 @@ ion-footer {
 }
 
 .btn-menu-internal-azul-forte {
-  background-color: #06273f;
+  background-color: #595959;
 }
 
 

@@ -19,7 +19,7 @@
 		</i:pgfRef>
 	</foreignObject>
 	<g i:extraneous="self">
-		<circle fill="#1F384A" cx="32" cy="31.999" r="31.5"/>
+		<circle fill="#D0322F" cx="32" cy="31.999" r="31.5"/>
 		<g>
 			<path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M41.345,44.959c-3.275,3.177-6.413,6.219-9.551,9.263
 				c-2.887-2.983-5.982-6.181-8.964-9.259c1.724,0,3.797,0,5.931,0c0-3.289,0-6.467,0-9.703c-3.224,0-6.404,0-9.656,0

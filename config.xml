@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.nexus.pym" version="5.4.2" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="br.com.kline_patioautomotivo" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Pátio Automotivo</name>
     <description>Pátio Automotivo</description>
-    <author email="leonardo.lindermann@callidustecnologia.com.br" href="http://callidustecnologia.com.br/">Pátio Automotivo</author>
+    <author email="layza.santos@nexuslogbr.com" href="http://nexuslogbr.com/">Pátio Automotivo</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -26,7 +26,7 @@
     <platform name="android">
         <preference name="loadUrlTimeoutValue" value="700000" />
         <preference name="android-minSdkVersion" value="21" />
-        <preference name="android-targetSdkVersion" value="28" />
+        <preference name="android-targetSdkVersion" value="30" />
         <allow-intent href="market:*" />
         <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:usesCleartextTraffic="true" />
@@ -142,5 +142,5 @@
     </plugin>
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <engine name="browser" spec="5.0.3" />
-    <engine name="android" spec="~7.1.1" />
+    <engine name="android" spec="^8.1.0" />
 </widget>

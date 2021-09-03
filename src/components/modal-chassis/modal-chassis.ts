@@ -117,7 +117,7 @@ export class ModalChassisComponent {
             this.cadastraVeiculo();
           } else {
             this.authService.hideLoading();
-            this.openModalErro(res.mensagem);
+          //  this.openModalErro(res.mensagem);
             this.select.close();
             this.view.dismiss();
           }
@@ -125,7 +125,7 @@ export class ModalChassisComponent {
       },
       (error) => {
         this.authService.hideLoading();
-        this.openModalErro(error.mensagem);
+    //    this.openModalErro(error.mensagem);
         console.log(error.mensagem);
         this.select.close();
         this.view.dismiss();
@@ -155,7 +155,7 @@ export class ModalChassisComponent {
           this.openModalRecebimento(this.formRecebimentoData);
         } else {
           this.authService.hideLoading();
-          this.openModalErro(res.mensagem);
+        //  this.openModalErro(res.mensagem);
           console.log(res.mensagem);
           this.select.close();
           this.view.dismiss();
@@ -163,7 +163,7 @@ export class ModalChassisComponent {
       },
       (error) => {
         this.authService.hideLoading();
-        this.openModalErro(error.mensagem);
+        //this.openModalErro(error.mensagem);
         console.log(error.mensagem);
         this.select.close();
         this.view.dismiss();
@@ -188,14 +188,14 @@ export class ModalChassisComponent {
           this.openModalRecebimento(this.formRecebimentoData);
         } else {
           this.authService.hideLoading();
-          this.openModalErro(res.mensagem);
+       //   this.openModalErro(res.mensagem);
           this.select.close();
           this.view.dismiss();
         }
       },
       (error) => {
         this.authService.hideLoading();
-        this.openModalErro(error.mensagem);
+      //  this.openModalErro(error.mensagem);
         this.select.close();
         this.view.dismiss();
       }
