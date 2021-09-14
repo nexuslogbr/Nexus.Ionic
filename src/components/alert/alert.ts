@@ -17,11 +17,9 @@ export class AlertComponent {
     this.messageTitle = "Sucesso!";
     this.iconClass = '';
 
-    console.log('AlertComponent');
   }
   ionViewWillLoad(){
     const data = this.navParam.get('data');
-    console.log(data);
     this.message = data.message;
     this.iconClass = data.iconClass;
   }

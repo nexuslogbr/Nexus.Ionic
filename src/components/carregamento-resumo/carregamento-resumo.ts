@@ -116,11 +116,9 @@ export class CarregamentoResumoComponent {
   ) {
     this.title = "Resumo Carregamento";
     this.exibirBotaoFinalizar = false;
-    //console.log("CarregamentoResumoComponent");
   }
 
   ionViewWillEnter() {
-    console.log("CarregamentoResumoComponent ionViewWillEnter");
     this.authService.hideLoading();
     const dados = this.navParam.get("data");
     this.isConferencia =
@@ -132,13 +130,10 @@ export class CarregamentoResumoComponent {
     } else {
       this.textSituacao = "Carregados";
     }
-    //console.log("dados", dados);
-
+   
     if (!this.isEmpty(dados)) {
       this.result = dados;
 
-      //console.log(dados);
-      //console.log(this.result);
       this.url = this.authService.getUrl();
 
       this.romaneioID = this.result.id;
@@ -206,7 +201,6 @@ export class CarregamentoResumoComponent {
         let data = res;
         this.authService.hideLoading();
         if (data.sucesso) {
-          //console.log(data);
           this.preCarregar(data.retorno);
         } else {
           this.openModalErro(data.mensagem);
@@ -215,7 +209,6 @@ export class CarregamentoResumoComponent {
       error => {
         this.authService.hideLoading();
         this.openModalErro(error.status + " - " + error.statusText);
-        //console.log(error);
       }
     );
   }
@@ -240,7 +233,6 @@ export class CarregamentoResumoComponent {
         let data = res;
 
         if (data.sucesso) {
-          //console.log(data);
           let consultarRomaneio =
             this.url +
             "/Carregar/ConsultarRomaneio?token=" +
@@ -266,7 +258,6 @@ export class CarregamentoResumoComponent {
             error => {
               this.authService.hideLoading();
               this.openModalErro(error.status + " - " + error.statusText);
-              console.log(error);
             }
           );
         } else {
@@ -277,7 +268,6 @@ export class CarregamentoResumoComponent {
       error => {
         this.authService.hideLoading();
         this.openModalErro(error.status + " - " + error.statusText);
-        console.log(error);
       }
     );
   }
@@ -306,7 +296,6 @@ export class CarregamentoResumoComponent {
 
   ///
   trocaCarregados(event, chassi) {
-    //console.log(chassi);
     // let chassi = this.changeChassi.nativeElement.id;
     // this.oldChassi = chassi.toLowerCase();
     // this.romaneioID = this.result.id;
@@ -317,7 +306,6 @@ export class CarregamentoResumoComponent {
       chassi: chassi,
       chassiNovo: ""
     };
-    //console.log(this.trocarChassi);
     this.view.dismiss();
     this.openInputChassi(this.trocarChassi);
   }
@@ -353,15 +341,12 @@ export class CarregamentoResumoComponent {
         error => {
           this.openModalErro(error.status + " - " + error.statusText);
           this.authService.hideLoading();
-          console.log(error);
         }
       );
   }
 
   ///
   CarregamentoResumo(id, romaneioID) {
-    //console.log(id);
-    //console.log(romaneioID);
     this.authService.showLoading();
     let consultarRomaneio =
       this.url +
@@ -388,7 +373,6 @@ export class CarregamentoResumoComponent {
       error => {
         this.openModalErro(error.status + " - " + error.statusText);
         this.authService.hideLoading();
-        console.log(error);
       }
     );
   }
@@ -411,14 +395,12 @@ export class CarregamentoResumoComponent {
 
         this.dataService.cancelarChassi(romaneio).subscribe(
           data => {
-            //console.log("data", data);
             if (data.sucesso) {
               this.dataService.consultarRomaneio(romaneio).subscribe(
                 data => {
                   this.authService.hideLoading();
                   if (data.sucesso) {
                     data.retorno.conferido = true;
-                    //console.log("data.retorno", data.retorno);
                     //this.result = data.retorno;
                     this.carregarResumoCarregamento(data.retorno);
                   } else {
@@ -428,17 +410,14 @@ export class CarregamentoResumoComponent {
                 error => {
                   this.openModalErro(error.status + " - " + error.statusText);
                   this.authService.hideLoading();
-                  console.log(error);
                 }
               );
             } else {
               this.authService.hideLoading();
-              console.log("falhou", data);
             }
           },
           err => {
             this.authService.hideLoading();
-            console.log("err", err);
           }
         );
       }
@@ -450,11 +429,9 @@ export class CarregamentoResumoComponent {
     //   this.romaneioDetalheID.valueOf(), chassi).subscribe(
     //     res => {
     //       let data = res;
-    //       console.log('data', 'data');
     //     }, error => {
     //       this.openModalErro(error.status + " - " + error.statusText);
     //       this.authService.hideLoading();
-    //       console.log(error);
     //     }
     //   );
 
@@ -473,7 +450,6 @@ export class CarregamentoResumoComponent {
 
   ///
   carregarResumoCarregamento(resultado) {
-    console.log("resultado2", resultado);
     this.result = resultado;
 
     if (this.result.detalhes[0].quantidadeNaoCarregados > 0) {
@@ -538,12 +514,10 @@ export class CarregamentoResumoComponent {
               this.navCtrl.setRoot(CarregamentoPage);
             } else {
               this.authService.hideLoading();
-              console.log("falhou", data);
             }
           },
           err => {
             this.authService.hideLoading();
-            console.log("err", err);
           }
         );
       }
@@ -589,7 +563,6 @@ export class CarregamentoResumoComponent {
       this.romaneioID +
       "&romaneioDetalheID=" +
       this.romaneioDetalheID;
-    //console.log(finalizarCarregamento);
     this.http
       .put<dataRetorno>(finalizarCarregamento, {}, httpOptions)
       .subscribe(
@@ -597,7 +570,6 @@ export class CarregamentoResumoComponent {
           let data = res;
 
           if (data.sucesso) {
-            //console.log(data);
             this.authService.hideLoading();
             this.chassi = "";
             // this.view.dismiss();
@@ -610,7 +582,6 @@ export class CarregamentoResumoComponent {
         error => {
           this.openModalErro(error.status + " - " + error.statusText);
           this.authService.hideLoading();
-          console.log(error);
         }
       );
   }
@@ -625,7 +596,6 @@ export class CarregamentoResumoComponent {
         res => {
           if (res.sucesso) {
             this.exibirBotaoFinalizar = false;
-            //console.log(data);
             this.authService.hideLoading();
             this.chassi = "";
             // this.view.dismiss();
@@ -638,7 +608,6 @@ export class CarregamentoResumoComponent {
         error => {
           this.openModalErro(error.status + " - " + error.statusText);
           this.authService.hideLoading();
-          console.log(error);
         }
       );
   }

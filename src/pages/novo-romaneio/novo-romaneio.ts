@@ -129,7 +129,7 @@ export class NovoRomaneioPage {
 
   }
 
-  scan() {
+  scan(id,i) {
     this.options = {
       showTorchButton: true,
       prompt: "",
@@ -141,7 +141,8 @@ export class NovoRomaneioPage {
         //this.qrCodeText = barcodeData.text;
         debugger
         this.chassiNfCarregado=barcodeData.text;
-        this.ConsultarChassiNfCarregados();
+        this.chassiNf=barcodeData.text;
+        this.ConsultarChassiNf();
       },
       err => {
         var data = "Erro de qr code!";
@@ -153,10 +154,10 @@ export class NovoRomaneioPage {
 
 
 
-  ConsultarChassiNfCarregados(){
+  ConsultarChassiNfCarregados(id,i){
 
-  //  this.romaneioIDinterno = id;
-  //  this.romaneioIndex = i;
+    this.romaneioIDinterno = id;
+    this.romaneioIndex = i;
 
     this.authService.showLoading();
     this.urlTipos = this.url+"/Romaneio/ConsultarChassiNF?token="+ this.authService.getToken()+"&chassiNF="+this.chassiNfCarregado;
@@ -183,6 +184,7 @@ export class NovoRomaneioPage {
        console.log(error);
      });
   }
+  
   ConsultarChassiNf(){
 
     this.authService.showLoading();
@@ -202,6 +204,7 @@ export class NovoRomaneioPage {
          }else{
          this.authService.hideLoading();
          this.openModalErro(this.responseData.mensagem);
+         console.log(this.responseData.mensagem)
          }
      }, (error) => {
        this.authService.hideLoading();
@@ -304,6 +307,8 @@ export class NovoRomaneioPage {
       console.log(error);
     });
   }
+
+
   ListarRomaneios(data){
 
     this.authService.showLoading();
@@ -333,6 +338,8 @@ export class NovoRomaneioPage {
       console.log(error);
     });
   }
+
+  
   CarregarRomaneio(romaneioID){
     this.authService.showLoading();
 
@@ -344,6 +351,7 @@ export class NovoRomaneioPage {
       this.responseData = "";
       this.responseData = res;
 
+      console.log('carregar romaneios', res)
       if(this.responseData.sucesso){
 
         this.romaneios = {
@@ -358,7 +366,9 @@ export class NovoRomaneioPage {
       //LISTAR ROMANEIOS
       this.romaneios = this.responseData.retorno;
       this.romaneioID = this.responseData.retorno['id'];
-
+      
+      debugger
+      
       for(let i = 0; i < this.romaneios.detalhes.length; i++){
         this.chassis = new Array();
         this.transportadoraNome = this.romaneios.detalhes[i].transportadora;
@@ -367,6 +377,9 @@ export class NovoRomaneioPage {
           this.chassis.push(this.romaneios.detalhes[i].veiculos[j].chassi);
         }
         this.romaneios.detalhes[i].chassis = this.chassis;
+
+        console.log('pega chassi')
+        console.log(this.chassis)
 
       }
       this.formData.detalhes.splice(0, 1);

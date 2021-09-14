@@ -110,12 +110,7 @@ export class CarregamentoListComponent {
     });
 
     dragulaService.drop.subscribe(value => {
-      // console.log("---------->");
-      // console.log("dragulaService.drop.subscribe chamado!!");
-      // console.log("drop.this", this);
-      // console.log("drop.value", value);
-      console.log("this.RampaFila", this.RampaFila);
-
+      
       this.onDrop(value.slice(1));
 
       if (this.RampaFila.tipoCarregamento == "previsto") {
@@ -125,7 +120,6 @@ export class CarregamentoListComponent {
         chassiModal.present();
 
         chassiModal.onDidDismiss(data => {
-          console.log("onDidDismiss.data", data);
           if (data == "sucesso") {
             this.salvarEmConferencia(
               this.RampaFila.romaneioID,
@@ -137,15 +131,11 @@ export class CarregamentoListComponent {
           this.limpaRampaFila();
         });
       } else if (this.RampaFila.tipoCarregamento == "emCarregamento") {
-        //console.log("conferido");
-        //console.log(this.RampaFila);
         this.CarregamentoResumo(
           this.RampaFila.romaneioDetalheID,
           this.RampaFila.romaneioID
         );
       } else if (this.RampaFila.tipoCarregamento == "conferido") {
-        //console.log("conferido");
-        //console.log(this.RampaFila);
         this.salvarEmCarregamento(
           this.RampaFila.romaneioID,
           this.RampaFila.romaneioDetalheID
@@ -155,14 +145,10 @@ export class CarregamentoListComponent {
   }
 
   ionViewWillEnter() {
-    console.log("find:", this.dragulaService.find("nested-bag"));
-    console.log("CarregamentoListComponent ionViewWillEnter");
-    //console.log("this.carregamntos", this.carregamentos);
     this.authService.hideLoading();
   }
 
   ionViewDidLoad() {
-    console.log("CarregamentoListComponent ionViewDidLoad");
     const dados = this.navParam.get("data");
     this.carregamentos = dados;
     this.previstos = this.carregamentos.previstos;
@@ -176,39 +162,30 @@ export class CarregamentoListComponent {
   verificarCarregamentos() {
     if (this.previstos.length > 0) {
       this.previstoTrue = false;
-      //console.log(this.previstos.length);
     } else {
       this.previstoTrue = true;
-      //console.log(this.previstos.length);
     }
 
     if (this.conferidos.length > 0) {
       this.conferidoTrue = false;
-      //console.log(this.conferidos.length);
     } else {
       this.conferidoTrue = true;
-      //console.log(this.conferidos.length);
     }
 
     if (this.emCarregamento.length > 0) {
       this.emCarregamentoTrue = false;
-      //console.log(this.emCarregamento.length);
     } else {
       this.emCarregamentoTrue = true;
-      //console.log(this.emCarregamento.length);
     }
 
     if (this.carregados.length > 0) {
       this.carregadoTrue = false;
-      //console.log(this.carregados.length);
     } else {
       this.carregadoTrue = true;
-      //console.log(this.carregados.length);
     }
   }
 
   salvarEmConferencia(romaneioID, romaneioDetalheID) {
-    console.log("salvarEmConferencia");
     this.authService.showLoading();
     this.dataService
       .salvarCarregamentoEmConferencia(romaneioID, romaneioDetalheID)
@@ -226,7 +203,6 @@ export class CarregamentoListComponent {
         error => {
           this.openModalErro(error.status + " - " + error.statusText);
           this.authService.hideLoading();
-          console.log(error);
         }
       );
   }
@@ -260,13 +236,11 @@ export class CarregamentoListComponent {
         error => {
           this.openModalErro(error.status + " - " + error.statusText);
           this.authService.hideLoading();
-          console.log(error);
         }
       );
   }
 
   configuraSelecionado(indice, romaneio, tipoCarregamento) {
-    //console.log('configuraSelecionado', indice, romaneio, tipoCarregamento);
     this.RampaFila.romaneioID = romaneio.romaneioID;
     this.RampaFila.romaneioDetalheID = romaneio.id;
     this.RampaFila.tipoCarregamento = tipoCarregamento;
@@ -283,7 +257,7 @@ export class CarregamentoListComponent {
 
   // // Processa o evento de drag quando um elemento de EmCarregamento é selecionado.
   // EmCarregamento(indice, romaneio, tipoCarregamento) {
-  //   console.log('EmCarregamento', indice, romaneio, tipoCarregamento);
+  // 
   //   this.RampaFila.romaneioID = romaneio.romaneioID;
   //   this.RampaFila.romaneioDetalheID = romaneio.id;
   //   this.RampaFila.tipoCarregamento = tipoCarregamento;
@@ -299,9 +273,7 @@ export class CarregamentoListComponent {
   // }
 
   CarregamentoResumoConferido(id, romaneioID, conferido) {
-    // console.log(id);
-    // console.log(romaneioID);
-    // console.log(status);
+   
     this.authService.showLoading();
     let consultarRomaneio =
       this.url +
@@ -318,7 +290,6 @@ export class CarregamentoListComponent {
 
         if (data.sucesso) {
           data.retorno.conferido = true;
-          console.log(data.retorno);
           this.navCtrl.push(CarregamentoResumoComponent, {
             data: data.retorno,
             isConferencia: true
@@ -331,15 +302,12 @@ export class CarregamentoListComponent {
       error => {
         this.openModalErro(error.status + " - " + error.statusText);
         this.authService.hideLoading();
-        console.log(error);
       }
     );
   }
 
   CarregamentoConsultaResumo(id, romaneioID) {
-    console.log(id);
-    console.log(romaneioID);
-    console.log(status);
+   
     this.authService.showLoading();
     let consultarRomaneio =
       this.url +
@@ -366,14 +334,12 @@ export class CarregamentoListComponent {
       error => {
         this.openModalErro(error.status + " - " + error.statusText);
         this.authService.hideLoading();
-        console.log(error);
+       
       }
     );
   }
 
   CarregamentoResumo(romaneioDetalheId, romaneioID) {
-    console.log(romaneioDetalheId);
-    console.log(romaneioID);
     this.authService.showLoading();
     let consultarRomaneio =
       this.url +
@@ -400,16 +366,14 @@ export class CarregamentoListComponent {
       error => {
         this.openModalErro(error.status + " - " + error.statusText);
         this.authService.hideLoading();
-        console.log(error);
+        
       }
     );
   }
 
   private onDrag(args) {
-    console.log("onDrag.args", args);
   }
   private onDrop(args) {
-    console.log("onDrop.args", args);
   }
 
   toggleMenu = function(this) {

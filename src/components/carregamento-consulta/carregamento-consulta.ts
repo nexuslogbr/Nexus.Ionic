@@ -107,25 +107,18 @@ export class CarregamentoConsultaComponent {
     this.title = "Resumo Carregamento";
     this.tShow = false;
 
-    //console.log("CarregamentoResumoComponent");
     const dados = this.navParam.get("data");
-    //console.log(dados);
   }
 
   ionViewDidLoad() {
-    console.log('CarregamentoConsultaComponent ionViewDidLoad');
   }
 
 
   ionViewWillEnter() {
-    console.log('CarregamentoConsultaComponent ionViewWillEnter');
     const dados = this.navParam.get("data");
-    console.log(dados);
     if (!this.isEmpty(dados)) {
       this.result = dados;
 
-      console.log(dados);
-      console.log(this.result);
       this.url = this.authService.getUrl();
 
       this.romaneioID = this.result.id;
@@ -153,7 +146,6 @@ export class CarregamentoConsultaComponent {
         let data = res;
 
         if (data.sucesso) {
-          console.log(data);
           this.PreCarregar(data.retorno);
           this.authService.hideLoading();
         } else {
@@ -164,7 +156,6 @@ export class CarregamentoConsultaComponent {
       error => {
         this.openModalErro(error.status + " - " + error.statusText);
         this.authService.hideLoading();
-        console.log(error);
       }
     );
   }
@@ -191,7 +182,6 @@ export class CarregamentoConsultaComponent {
           let data = res;
 
           if (data.sucesso) {
-            console.log(data);
             let consultarRomaneio =
               this.url +
               "/Carregar/ConsultarRomaneio?token=" +
@@ -219,7 +209,6 @@ export class CarregamentoConsultaComponent {
               error => {
                 this.openModalErro(error.status + " - " + error.statusText);
                 this.authService.hideLoading();
-                console.log(error);
               }
             );
           } else {
@@ -230,7 +219,6 @@ export class CarregamentoConsultaComponent {
         error => {
           this.openModalErro(error.status + " - " + error.statusText);
           this.authService.hideLoading();
-          console.log(error);
         }
       );
   }
@@ -249,7 +237,6 @@ export class CarregamentoConsultaComponent {
       chassi: chassi,
       chassiNovo: ""
     };
-    console.log(this.trocarChassi);
     this.view.dismiss();
     this.openInputChassi(this.trocarChassi);
   }
@@ -284,14 +271,11 @@ export class CarregamentoConsultaComponent {
         error => {
           this.openModalErro(error.status + " - " + error.statusText);
           this.authService.hideLoading();
-          console.log(error);
         }
       );
   }
 
   CarregamentoResumo(id, romaneioID) {
-    console.log(id);
-    console.log(romaneioID);
     this.authService.showLoading();
     let consultarRomaneio =
       this.url +
@@ -318,7 +302,6 @@ export class CarregamentoConsultaComponent {
       error => {
         this.openModalErro(error.status + " - " + error.statusText);
         this.authService.hideLoading();
-        console.log(error);
       }
     );
   }
@@ -364,7 +347,6 @@ export class CarregamentoConsultaComponent {
       this.romaneioID +
       "&romaneioDetalheID=" +
       this.romaneioDetalheID;
-    console.log(finalizarCarregamento);
     this.http
       .put<dataRetorno>(finalizarCarregamento, {}, httpOptions)
       .subscribe(
@@ -372,7 +354,6 @@ export class CarregamentoConsultaComponent {
           let data = res;
 
           if (data.sucesso) {
-            console.log(data);
             this.authService.hideLoading();
             this.chassi = "";
 
@@ -385,7 +366,6 @@ export class CarregamentoConsultaComponent {
         error => {
           this.openModalErro(error.status + " - " + error.statusText);
           this.authService.hideLoading();
-          console.log(error);
         }
       );
   }
@@ -435,7 +415,6 @@ export class CarregamentoConsultaComponent {
     this.http.get<dataRetorno>(carregamentosPrevistos).subscribe(
       res => {
         let data = res;
-        console.log(data);
         if (data.sucesso) {
           this.carregamentos.previstos = data.retorno;
           this.carregamentos.data = this.result.data;
@@ -448,7 +427,6 @@ export class CarregamentoConsultaComponent {
       error => {
         this.openModalErro(error.status + " - " + error.statusText);
         this.authService.hideLoading();
-        console.log(error);
       }
     );
   }
@@ -475,7 +453,6 @@ export class CarregamentoConsultaComponent {
       error => {
         this.openModalErro(error.status + " - " + error.statusText);
         this.authService.hideLoading();
-        console.log(error);
       }
     );
   }
@@ -502,7 +479,6 @@ export class CarregamentoConsultaComponent {
       error => {
         this.openModalErro(error.status + " - " + error.statusText);
         this.authService.hideLoading();
-        console.log(error);
       }
     );
   }
@@ -541,7 +517,6 @@ export class CarregamentoConsultaComponent {
       error => {
         this.openModalErro(error.status + " - " + error.statusText);
         this.authService.hideLoading();
-        console.log(error);
       }
     );
   }

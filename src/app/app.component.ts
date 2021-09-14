@@ -37,9 +37,7 @@ export class PatioAutomotivo {
 
     platform.registerBackButtonAction(() => {
       let nav = this.app.getActiveNavs()[0];
-      console.log('nav', nav);
-      console.log('cangoback', nav.canGoBack());
-      if (nav.canGoBack()) {
+     if (nav.canGoBack()) {
         nav.pop();
       } else {
         nav.popToRoot();
@@ -55,7 +53,6 @@ export class PatioAutomotivo {
   };
 
   // iniciarThreadSincronizacao() {
-  //   console.log('iniciando a Thread de sincronização...')
   //   setInterval(async () => {
   //     try {
   //       await this.sicronizaConferenicaNavio();
@@ -80,18 +77,15 @@ export class PatioAutomotivo {
   //     if (conferenciasPendentes && conferenciasPendentes.length) {
   //       for (let i = 0; i < conferenciasPendentes.length; i++) {
   //         let conferencia = conferenciasPendentes[i];
-  //         console.log('conferencia', conferencia);
   //         try {
   //           let result = await this.conferenciaDataService
   //             .conferirChassiNavio(conferencia)
   //             .toPromise();
-  //           console.log('result', result);
   //           if (result.sucesso) {
   //             let deleteSucesso = await this.conferenciaStorageProvider.deleteConferenciaByKey(
   //               conferencia.key
   //             );
   //             if (deleteSucesso) {
-  //               console.log('sucesso ao exluir: ' + conferencia.key);
   //             }
   //           } else {
   //             console.error(result.mensagem);
@@ -122,18 +116,15 @@ export class PatioAutomotivo {
   //     if (conferenciasPendentes && conferenciasPendentes.length) {
   //       for (let i = 0; i < conferenciasPendentes.length; i++) {
   //         let conferencia = conferenciasPendentes[i];
-  //         console.log('conferencia', conferencia);
   //         try {
   //           let result = await this.conferenciaDataService
   //             .conferirChassiPlanilha(conferencia)
   //             .toPromise();
-  //           console.log('result', result);
   //           if (result.sucesso) {
   //             let deleteSucesso = await this.conferenciaStorageProvider.deleteConferenciaByKey(
   //               conferencia.key
   //             );
   //             if (deleteSucesso) {
-  //               console.log('sucesso ao exluir: ' + conferencia.key);
   //             }
   //           } else {
   //             console.error(result.mensagem);
