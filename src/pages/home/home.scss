@@ -88,6 +88,10 @@ page-home {
             background-image: url("../assets/images/svg/romaneio-principal.svg ");
           }
 
+          button.bloqueio {
+            background-image: url("../assets/images/svg/romaneio-principal.svg ");
+          }
+
           button.historico-chassi {
             background-image: url("../assets/images/historico-chassi-red.png ");
           }
@@ -197,6 +201,11 @@ page-home {
 
       button.romaneio {
         background-image: url("../assets/images/svg/romaneio-principal.svg ");
+        margin-left: 13px;
+      }
+
+      button.bloqueio {
+        background-image: url("../assets/images/svg/bloqueio.png ");
         margin-left: 13px;
       }
 

@@ -178,6 +178,11 @@ import { ModalLoadingWhiteComponent } from '../components/modal-loading-white/mo
 import { ModalDownloadingComponent } from '../components/modal-downloading/modal-downloading';
 import { ModalSincronizandoComponent } from '../components/modal-sincronizando/modal-sincronizando';
 import { ModalDatabasePage } from '../components/modal-database/modal-database';
+import { BloqueioPage } from '../pages/bloqueio/bloqueio';
+import { BloquearPage } from '../pages/bloquear/bloquear';
+import { DesbloquearPage } from '../pages/desbloquear/desbloquear';
+import { FormBloqueioComponent } from '../components/form-bloqueio/form-bloqueio';
+import { ModalChassisBloqueioComponent } from '../components/modal-chassis-bloqueio/modal-chassis-bloqueio';
 
 @NgModule({
   declarations: [
@@ -317,6 +322,11 @@ import { ModalDatabasePage } from '../components/modal-database/modal-database';
     ModelAlertPage,
     ModelErrorPage,
     SincronizacaoInfoComponent,
+    BloqueioPage,
+    BloquearPage,
+    DesbloquearPage,
+    FormBloqueioComponent,
+    ModalChassisBloqueioComponent
   ],
   imports: [
     BrowserModule,
@@ -509,6 +519,11 @@ import { ModalDatabasePage } from '../components/modal-database/modal-database';
     ModelErrorPage,
     ModalSelecaoChassiPage,
     SincronizacaoInfoComponent,
+    BloqueioPage,
+    BloquearPage,
+    DesbloquearPage,
+    FormBloqueioComponent,
+    ModalChassisBloqueioComponent
   ],
   providers: [
     AuthService,

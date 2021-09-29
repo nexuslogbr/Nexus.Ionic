@@ -114,7 +114,7 @@ export class FormParqueamentoComponent {
 
     //console.log(this.layouts_[this.layouts_.length -1])
     //console.log('posicao 0', this.layouts_[0])
-    this.carregaCampos();
+  //  this.carregaCampos();
 
   }
 

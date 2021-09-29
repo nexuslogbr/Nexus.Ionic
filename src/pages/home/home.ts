@@ -16,6 +16,7 @@ import { CarregamentoSimulacaoPage } from '../carregamento-simulacao/carregament
 import { CarregamentoExportOperacaoPage } from '../carregamento-export-operacao/carregamento-export-operacao';
 import { ConferenciaMenuPage } from '../conferencia-menu/conferencia-menu';
 import { NovaConferenciaMenuPage } from '../nova-conferencia-menu/nova-conferencia-menu';
+import { BloqueioPage } from '../bloqueio/bloqueio';
 
 const menus = [
   {
@@ -69,10 +70,15 @@ const menus = [
     id: 3110,
   },
   {
-    texto: 'Histórico de Chassi',
-    cssClass: 'historico-chassi',
+    texto: 'Bloqueio',
+    cssClass: 'bloqueio',
     id: 3111,
   },
+  // {
+  //   texto: 'Histórico de Chassi',
+  //   cssClass: 'historico-chassi',
+  //   id: 3111,
+  // }
 ];
 @Component({
   selector: 'page-home',
@@ -192,12 +198,14 @@ export class HomePage {
     } else if (menu.id == 3108) {
       this.navCtrl.setRoot(CarregamentoPage);
     } else if (menu.id == 3109) {
-      this.navCtrl.setRoot(CarregamentoExportOperacaoPage);
+      this.navCtrl.setRoot(CarregamentoExportOperacaoPage);   
     } else if (menu.id == 3110) {
       this.authService.limparRomaneio();
       this.navCtrl.setRoot(RomaneioPage);
     } else if (menu.id == 3111) {
-      this.navCtrl.setRoot(HistoricoChassiPage);
+      this.navCtrl.setRoot(BloqueioPage);
+    // }  else if (menu.id == 3111) {
+    //   this.navCtrl.setRoot(HistoricoChassiPage);
     }
   }
 }

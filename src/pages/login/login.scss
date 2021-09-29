@@ -2,7 +2,7 @@ page-login {
   padding-top: 75px;
 
   ion-content {
-    background-image: url(" ../assets/images/bg-login.png");
+    background-image: url(' ../assets/images/bg-login.png');
     background-size: cover;
     background-position: center center;
 
@@ -10,9 +10,8 @@ page-login {
       padding-top: 10px;
     }
 
-  
     ion-icon.icon-orion {
-      background-image: url("../assets/images/orion.png");
+      background-image: url('../assets/images/orion.png');
       background-repeat: no-repeat;
       width: 69px;
       height: 69px;
@@ -22,45 +21,28 @@ page-login {
     }
 
     ion-icon.icon-kline {
-      background-image: url("../assets/images/kline.png");
+      background-image: url('../assets/images/kline.png');
       background-repeat: no-repeat;
       width: 69px;
       height: 69px;
       margin: 0 auto;
       float: left;
       margin-left: 15px;
-      margin-top: 10%;
     }
 
     .img-nexus {
-      width: 100%;
+      width: 60%;
       display: block;
       margin-left: auto;
       margin-right: auto;
-      margin-top: 15%;
-      margin-bottom: 25%;
-    }
-
-    #esqueci {
-      color: #fff;
-      position: relative;
-      top: -28px;
-      left: 41%;
-      background: #fff;
-      padding: 6px;
-      border-radius: 8px;
-      opacity: 0.5;
-    }
-    .text-input {
-        margin: -10px 0px 0px 0 !important;
     }
 
     ion-icon.icon-nexus {
-      background-image: url("../assets/images/nexus.png");
+      background-image: url('../assets/images/nexus.png');
       background-repeat: no-repeat;
       width: 80px;
       height: 80px;
-      margin: 100px auto;
+      margin: 0 auto;
     }
 
     .list {
@@ -69,66 +51,48 @@ page-login {
       .item {
         background-color: transparent;
         border-bottom: none;
-        padding: 10px 20px;
+        padding: 0 20px;
         margin-bottom: 30px;
 
         .item-inner {
           padding: 0;
           border-bottom: 0;
-        
-          .input-wrapper {
-            // border: 1px solid #1f384a;
-            // background-color: #404040;
-            // border-radius: 45px;
 
-            border: 1px solid transparent;
-            background-color: transparent;
-            border-radius: 8px;
-            background-image: url('../assets/images/input.png');
-            background-repeat: no-repeat;
-            background-size: 100% 70px;
+          .input-wrapper {
+            border: 1px solid #1f384a;
+            background-color: #00141b;
+            border-radius: 45px;
 
             input {
-              font: 23px avenir_regular;
-              color: #000;
+              font: 19px avenir_regular;
+              color: #fff;
             }
 
             input::-webkit-input-placeholder {
-              color: #000;
+              color: #fff;
             }
 
             input:-moz-placeholder {
-              color: #000;
+              color: #fff;
             }
 
             input:-ms-input-placeholder {
-              color: #000;
+              color: #fff;
             }
           }
 
-          #label {
-            padding: 0px 0px 0px 20px;
-            font:18px avenir_regular;
-          }
-
-          #label::focus {
-            color: #000;
-          }
-
           #user {
-            //   background-image: url('../assets/images/user.png');
+            background-image: url('../assets/images/user.png');
             background-position: 18px center;
             background-repeat: no-repeat;
-            padding: 0px 0px 0px 15px;
-            margin: 0px 0px 0px 0px;
+            padding: 15px 15px 15px 50px;
           }
 
           #pass {
-            // background-image: url('../assets/images/pass.png');
+            background-image: url('../assets/images/pass.png');
             background-position: 18px center;
             background-repeat: no-repeat;
-            padding: 0px 5px 5px 15px;
-            margin: 0px 0px 0px 0px;
+            padding: 15px 15px 15px 50px;
           }
         }
       }
@@ -144,38 +108,33 @@ page-login {
       }
     }
 
-    input {
-      color: #000 !important;
-    }
-
     .title-content {
       text-align: center;
       margin-bottom: 50px;
-      margin-top: 50%;
+      margin-top: 35px;
 
       ion-title {
         .toolbar-title {
           background-color: transparent;
-          color: #000 !important;
-          font: 17px "avenir_bold";
+          color: #fff !important;
+          font: 14px 'avenir_bold';
         }
       }
     }
 
     .login-content {
-      padding: 0 17px;
+      padding: 0 20px;
       width: 100%;
       text-align: center;
 
       .btn-login {
-        width: 40%;
-        height: 60px;
-        background-color: #078e35;
-        border-radius: 10px;
+        width: 100%;
+        height: auto;
+        background-color: #1c6381;
 
         span {
           padding: 25px 15px 25px 15px;
-          font: 19px "avenir_bold";
+          font: 19px 'avenir_bold';
         }
       }
     }
@@ -187,7 +146,7 @@ page-login {
       display: none;
 
       .icon-callidus {
-        background-image: url(" ../assets/images/logo-callidus.png ");
+        background-image: url(' ../assets/images/logo-callidus.png ');
         background-repeat: no-repeat;
         width: 90px;
         height: 19px;
@@ -224,4 +183,5 @@ page-login {
   .alert-button {
     background-color: #488aff;
   }
+
 }
