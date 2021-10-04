@@ -7,24 +7,27 @@ import { NavController, Modal, ModalController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { ModalRecebimentoComponent } from '../../components/modal-recebimento/modal-recebimento';
 import { ModalChassisComponent } from '../../components/modal-chassis/modal-chassis';
-import { ParqueamentoPage } from '../../pages/parqueamento/parqueamento';
-import { RomaneioPage } from '../../pages/romaneio/romaneio';
-import { MovimentacaoPage } from '../../pages/movimentacao/movimentacao';
-import { HomePage } from '../../pages/home/home';
-import { ReceberParquearPage } from '../../pages/receber-parquear/receber-parquear';
-import { CarregamentoExportPage } from '../../pages/carregamento-export/carregamento-export';
-import { CarregamentoPage } from '../../pages/carregamento/carregamento';
+import { ParqueamentoPage } from '../parqueamento/parqueamento';
+import { RomaneioPage } from '../romaneio/romaneio';
+import { MovimentacaoPage } from '../movimentacao/movimentacao';
+import { HomePage } from '../home/home';
+import { ReceberParquearPage } from '../receber-parquear/receber-parquear';
+import { CarregamentoExportPage } from '../carregamento-export/carregamento-export';
+import { CarregamentoPage } from '../carregamento/carregamento';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { Storage } from '@ionic/storage';
 import * as $ from 'jquery';
 import { HttpClient } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
+import { ModalChassisBloqueioComponent } from '../../components/modal-chassis-bloqueio/modal-chassis-bloqueio';
+import { ModalSucessoComponent } from '../../components/modal-sucesso/modal-sucesso';
+import { ModalObservacoesComponent } from '../../components/modal-observacoes/modal-observacoes';
 
 @Component({
-  selector: 'page-recebimento',
-  templateUrl: 'recebimento.html',
+  selector: 'page-observacoes',
+  templateUrl: 'observacoes.html',
 })
-export class RecebimentoPage {
+export class ObservacoesPage {
   title: string;
   scanData: {};
   data: any;
@@ -43,7 +46,7 @@ export class RecebimentoPage {
   url: string;
   qrCodeText: string;
   formData = { chassi: '' };
-  formRecebimentoData = {
+  formBloqueioData = {
     token: '',
     empresaID: '1',
     id: '',
@@ -54,7 +57,7 @@ export class RecebimentoPage {
     fila: '',
     posicao: '',
   };
-  recebimentoData = {
+  bloqueioData = {
     token: '',
     empresaID: '1',
     id: '',
@@ -81,31 +84,34 @@ export class RecebimentoPage {
     public storage: Storage,
     public authService: AuthService
   ) {
-    this.title = 'Recebimento';
+    this.title = 'Observações';
     this.url = this.authService.getUrl();
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
-    // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
-    //   if (value && value.length) {
-    //     {
-    //       if (value.length >= 6) {
-    //         let chassi = value.replace(/[\W_]+/g, '');
-    //         setTimeout(() => {
-    //           this.buscarChassi(chassi, false);
-    //           this.formData.chassi = '';
-    //         }, 500);
-    //       }
-    //     }
-    //   }
-    // });
+    this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+      if (value && value.length) {
+        {
+          if (value.length >= 6) {
+            let chassi = value.replace(/[\W_]+/g, '');
+            setTimeout(() => {
+              this.buscarChassi(chassi, false);
+              this.formData.chassi = '';
+            }, 500);
+          }
+        }
+      }
+    });
   }
 
   ionViewDidEnter() {
-    console.log('ionViewDidEnter RecebimentoPage');
+    console.log('ionViewDidEnter observacoes page');
     setTimeout(() => {
       this.chassiInput.setFocus();
     }, 1000);
+
+    this.authService.hideLoading();
+    
   }
 
   cleanInput(byScanner: boolean) {
@@ -139,6 +145,8 @@ export class RecebimentoPage {
           );
          // this.openModalErro(partChassi, true);
           this.formData['chassi'] = partChassi;
+            
+
           this.buscarChassi(partChassi, true);
         }
       },
@@ -152,23 +160,25 @@ export class RecebimentoPage {
 
   buscarChassi(partChassi, byScanner: boolean) {
 
-    this.formRecebimentoData.chassi = partChassi;
+    this.formBloqueioData.chassi = partChassi;
     let uriBuscaChassi =
-      '/Receber/BuscarChassi?token=' +
+      '/veiculos/ConsultarChassi?token=' +
       this.authService.getToken() +
-      '&partChassi=' +
+      '&chassi=' +
       partChassi;
 
     this.authService.showLoading();
-    this.formRecebimentoData.token = this.authService.getToken();
+    this.formBloqueioData.token = this.authService.getToken();
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-        
+        debugger
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
           this.openModalChassis(this.responseData.retorno, byScanner);
+         //var veiculoId = this.responseData.retorno.id;
+       //  this.consultarChassi(veiculoId, partChassi, byScanner);
         } else {
           this.authService.hideLoading();
           if (this.modoOperacao == 1 || partChassi.length < 17) {
@@ -191,6 +201,8 @@ export class RecebimentoPage {
       }
     );
   }
+
+ 
 
   navigateToHomePage() {
     this.navCtrl.push(HomePage);
@@ -216,7 +228,9 @@ export class RecebimentoPage {
   }
 
   openModalChassis(data, byScanner: boolean) {
-    const chassiModal: Modal = this.modal.create(ModalChassisComponent, {
+
+    
+    const chassiModal: Modal = this.modal.create(ModalObservacoesComponent, {
       data: data,
     });
     chassiModal.present();
@@ -226,6 +240,17 @@ export class RecebimentoPage {
     });
   }
 
+
+  openModalSucesso(data){
+    const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {data: data });
+    chassiModal.present();  
+
+    chassiModal.onDidDismiss((data) => {
+      console.log(data);
+      this.navCtrl.push(MovimentacaoPage);
+      
+    })    
+  }  
   openModalErro(data, byScanner: boolean) {
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
       data: data,

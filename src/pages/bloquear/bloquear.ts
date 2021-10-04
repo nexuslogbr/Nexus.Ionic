@@ -20,6 +20,7 @@ import * as $ from 'jquery';
 import { HttpClient } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
 import { ModalChassisBloqueioComponent } from '../../components/modal-chassis-bloqueio/modal-chassis-bloqueio';
+import { ModalSucessoComponent } from '../../components/modal-sucesso/modal-sucesso';
 
 @Component({
   selector: 'page-bloquear',
@@ -87,19 +88,19 @@ export class BloquearPage {
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
-    this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
-      if (value && value.length) {
-        {
-          if (value.length >= 6) {
-            let chassi = value.replace(/[\W_]+/g, '');
-            setTimeout(() => {
-              this.buscarChassi(chassi, false);
-              this.formData.chassi = '';
-            }, 500);
-          }
-        }
-      }
-    });
+    // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+    //   if (value && value.length) {
+    //     {
+    //       if (value.length >= 6) {
+    //         let chassi = value.replace(/[\W_]+/g, '');
+    //         setTimeout(() => {
+    //           this.buscarChassi(chassi, false);
+    //           this.formData.chassi = '';
+    //         }, 500);
+    //       }
+    //     }
+    //   }
+    // });
   }
 
   ionViewDidEnter() {
@@ -107,6 +108,9 @@ export class BloquearPage {
     setTimeout(() => {
       this.chassiInput.setFocus();
     }, 1000);
+
+    this.authService.hideLoading();
+    
   }
 
   cleanInput(byScanner: boolean) {
@@ -140,7 +144,7 @@ export class BloquearPage {
           );
          // this.openModalErro(partChassi, true);
           this.formData['chassi'] = partChassi;
-            debugger
+            
 
           this.buscarChassi(partChassi, true);
         }
@@ -167,7 +171,52 @@ export class BloquearPage {
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-        debugger
+        
+        this.responseData = res;
+        if (this.responseData.sucesso) {
+          this.authService.hideLoading();
+          this.openModalChassis(this.responseData.retorno, byScanner);
+         //var veiculoId = this.responseData.retorno.id;
+       //  this.consultarChassi(veiculoId, partChassi, byScanner);
+        } else {
+          this.authService.hideLoading();
+          if (this.modoOperacao == 1 || partChassi.length < 17) {
+            this.openModalErro(this.responseData.mensagem, byScanner);
+          } else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
+            this.openModalErro(this.responseData.mensagem, byScanner);
+          } else if (
+            this.modoOperacao == 2 &&
+            this.responseData.dataErro == 'CHASSI_NOT_FOUND'
+          ) {
+            this.openModalChassis([partChassi], byScanner);
+          } else {
+           this.openModalErro(this.responseData.mensagem, byScanner);
+          }
+        }
+      },
+      (error) => {
+        this.authService.hideLoading();
+        this.openModalErro(error.status + ' - ' + error.statusText, byScanner);
+      }
+    );
+  }
+
+  consultarChassi(veiculoID, partChassi, byScanner: boolean) {
+
+
+    this.formBloqueioData.chassi = partChassi;
+    let uriBuscaChassi =
+      '/Bloqueio/Bloqueios?token=' +
+      this.authService.getToken() +
+      '&veiculoID=' +
+      veiculoID;
+
+    this.authService.showLoading();
+    this.formBloqueioData.token = this.authService.getToken();
+
+    this.http.get(this.url + uriBuscaChassi).subscribe(
+      (res) => {
+        
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
@@ -220,7 +269,7 @@ export class BloquearPage {
 
   openModalChassis(data, byScanner: boolean) {
 
-    debugger
+    
     const chassiModal: Modal = this.modal.create(ModalChassisBloqueioComponent, {
       data: data,
     });
@@ -231,6 +280,17 @@ export class BloquearPage {
     });
   }
 
+
+  openModalSucesso(data){
+    const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {data: data });
+    chassiModal.present();  
+
+    chassiModal.onDidDismiss((data) => {
+      console.log(data);
+      this.navCtrl.push(MovimentacaoPage);
+      
+    })    
+  }  
   openModalErro(data, byScanner: boolean) {
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
       data: data,

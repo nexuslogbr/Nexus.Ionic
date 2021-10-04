@@ -15,10 +15,10 @@ const httpOptions = {
 };
 
 @Component({
-  selector: 'form-bloqueio',
-  templateUrl: 'form-bloqueio.html'
+  selector: 'form-desbloqueio',
+  templateUrl: 'form-desbloqueio.html'
 })
-export class FormBloqueioComponent {
+export class FormDesbloqueioComponent {
   @ViewChild('select1') select1: Select;
 
   title: string;
@@ -45,10 +45,15 @@ export class FormBloqueioComponent {
 
   FormBloqueioData = {
     "id": '',
-    "chassi": '',
-    "data_hora": '',
-    "tipo": '',
-    "razao": ''
+    "veiculoID": '',
+    "tipoBloqueioID": '',
+    "dataBloqueio": '',
+    "dataDesbloqueio": '',
+    "descricaoBloqueio": '',
+    "observacaoDesbloqueio": '',
+    "usuarioBloqueio": '',
+    "usuarioDesbloqueio": '',
+    "chassi":''
   };
   chassi: string;
   data_hora:string;
@@ -66,7 +71,7 @@ export class FormBloqueioComponent {
   bolsoes: any;
   filas: any;
   posicoes: any;
-  dadosBloqueio: any; 
+  dadosDesbloqueio: any; 
   responseData2: any; 
   responseData3: any; 
   responseData4: any; 
@@ -76,44 +81,17 @@ export class FormBloqueioComponent {
 
   constructor(public http: HttpClient, private modal: ModalController, public navCtrl: NavController, private navParam: NavParams, public authService: AuthService, private view: ViewController) {
     // console.log('Hello FormMovimentacaoComponent Component');
-    this.title = "Bloqueio"; 
+    this.title = "Desbloqueio"; 
     
     console.log('FormBloqueioComponent');
     this.url = this.authService.getUrl();
 
-
-    this.loadTiposBloqueio();
   }
   ionViewDidEnter() {
 
     if( this.authService.getLayout() ){
       this.tShow = false;
-      //this.novoFormMovimentacaoData.layout = this.authService.getLayout(); 
-      //this.novoFormMovimentacaoData.layoutNome = this.authService.getLayoutNome(); 
       this.authService.showLoading();
-      // let listarBolsoes = this.url+"/Movimentar/ListarBolsoes?token="+ this.authService.getToken() +"&layoutID="+this.novoFormMovimentacaoData.layout;
-      
-      // this.http.get<dataRetorno>( listarBolsoes, {})
-      // .subscribe(res => {
-        
-      //   this.responseData3 = res;
-      //   if(this.responseData3.sucesso){
-
-      //   //PREENCHER O SELECT DO BOLSAO
-        
-      //   this.bolsoes = this.responseData3.retorno;
-      //   this.authService.hideLoading();
-      //   }else{
-      //   this.authService.hideLoading();
-      //   this.openModalErro(this.responseData3.mensagem);
-      //   }
-
-      // }, (error) => {
-        
-      //   this.openModalErro(error.status+' - '+error.statusText);
-      //   this.authService.hideLoading();
-      //   console.log(error);
-      // });
 
     }else{
       this.tShow = true; 
@@ -125,19 +103,10 @@ export class FormBloqueioComponent {
     
     console.log(data)
     
-    
-      this.FormBloqueioData = data;
-      this.FormBloqueioData.data_hora = new Date().toLocaleDateString();
-    // // console.log(data);
-    // // console.log(this.formMovimentacaoData);
-    // this.chassi = data.chassi;
-    // this.localAtual = data.localAtual;
-    // this.layoutAtual = data.layoutAtual;
-    // this.posicaoAtual = data.posicaoAtual;
-    // this.bolsaoAtual = data.bolsaoAtual;
-    // this.novoFormMovimentacaoData.local = data.localAtual;
-    // this.id = data.id;
-    // this.loadLayout();
+    debugger
+      this.FormBloqueioData = data.retorno[0];
+      this.FormBloqueioData.dataDesbloqueio = new Date().toLocaleDateString();
+  
    
   }
   toggleMenu = function(this){
@@ -153,59 +122,54 @@ export class FormBloqueioComponent {
   cancelar(){
     this.navCtrl.push(MovimentacaoPage);
   }
-   loadTiposBloqueio(){
+  //  loadTiposBloqueio(){
     
-    this.authService.showLoading();
+  //   this.authService.showLoading();
 
-    let listarBloqueios = this.url+"/Bloqueio/TiposDesbloqueio?token="+ this.authService.getToken();
+  //   let listarBloqueios = this.url+"/Bloqueio/TiposDesbloqueio?token="+ this.authService.getToken();
 
-    this.http.get<dataRetorno>( listarBloqueios)
-    .subscribe(res => {
+  //   this.http.get<dataRetorno>( listarBloqueios)
+  //   .subscribe(res => {
       
-      this.responseData2 = res;
+  //     this.responseData2 = res;
 
-        if(this.responseData2.sucesso){
-          this.tipos = this.responseData2.retorno;
-          //this.novoFormMovimentacaoData.id = this.id;
-          //PREENCHER O SELECT DO LAYOUT    
-        //  this.layouts = this.responseData2.retorno;
-          this.authService.hideLoading();
+  //       if(this.responseData2.sucesso){
+  //         this.tipos = this.responseData2.retorno;
+  //         //this.novoFormMovimentacaoData.id = this.id;
+  //         //PREENCHER O SELECT DO LAYOUT    
+  //       //  this.layouts = this.responseData2.retorno;
+  //         this.authService.hideLoading();
 
-          // console.log(this.responseData2.retorno);
-          // console.log(this.novoFormMovimentacaoData);
+  //         // console.log(this.responseData2.retorno);
+  //         // console.log(this.novoFormMovimentacaoData);
 
-        }else{
-          this.authService.hideLoading();
-          this.openModalErro(this.responseData2.mensagem);
-        }
+  //       }else{
+  //         this.authService.hideLoading();
+  //         this.openModalErro(this.responseData2.mensagem);
+  //       }
 
-    }, (error) => {
+  //   }, (error) => {
       
-      this.openModalErro(error.status+' - '+error.statusText);
-      this.authService.hideLoading();
-      console.log(error);
-    });
-  } 
+  //     this.openModalErro(error.status+' - '+error.statusText);
+  //     this.authService.hideLoading();
+  //     console.log(error);
+  //   });
+  // } 
 
 
-onTipoBloqueioChange(selectedValue){
-  this.FormBloqueioData.tipo = selectedValue;
   
-}
-  
-  Bloquear(){
+  Desbloquear(){
 
     
     this.authService.showLoading();
-    let bloquearVeiculo = this.url+"/Bloqueio/Bloquear?token="+ this.authService.getToken();
+    let desbloquearVeiculo = this.url+"/Bloqueio/Desbloquear?token="+ this.authService.getToken();
   
-    this.dadosBloqueio = {
-      "veiculoID": this.FormBloqueioData.id,
-      "tipoBloqueioID":this.FormBloqueioData.tipo,
-      "descricaoBloqueio": this.FormBloqueioData.razao
+    this.dadosDesbloqueio = {
+      "id": this.FormBloqueioData.id,
+      "observacaoDesbloqueio": this.FormBloqueioData.descricaoBloqueio
     }
 
-    this.http.post<dataRetorno>( bloquearVeiculo, this.dadosBloqueio, httpOptions)
+    this.http.post<dataRetorno>( desbloquearVeiculo, this.dadosDesbloqueio, httpOptions)
     .subscribe(res => {
 
       this.retorno = '';
@@ -217,8 +181,8 @@ onTipoBloqueioChange(selectedValue){
 
         this.authService.hideLoading();
         var data = {
-          message : "Bloqueio realizada com",
-          iconClass : "icon-bloqueio"
+          message : "Desbloqueio realizada com",
+          iconClass : "icon-desbloqueio"
         }        
         this.openModalSucesso(data);
 

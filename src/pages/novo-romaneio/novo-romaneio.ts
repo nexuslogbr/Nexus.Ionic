@@ -139,7 +139,7 @@ export class NovoRomaneioPage {
     this.barcodeScanner.scan(this.options).then(
       barcodeData => {
         //this.qrCodeText = barcodeData.text;
-        debugger
+        
         this.chassiNfCarregado=barcodeData.text;
         this.chassiNf=barcodeData.text;
         this.ConsultarChassiNf();
@@ -367,7 +367,7 @@ export class NovoRomaneioPage {
       this.romaneios = this.responseData.retorno;
       this.romaneioID = this.responseData.retorno['id'];
       
-      debugger
+      
       
       for(let i = 0; i < this.romaneios.detalhes.length; i++){
         this.chassis = new Array();

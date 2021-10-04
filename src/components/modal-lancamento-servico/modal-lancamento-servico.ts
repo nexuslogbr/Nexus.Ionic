@@ -14,6 +14,7 @@ import { Select } from 'ionic-angular';
 import * as $ from 'jquery';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBloqueioComponent } from '../form-bloqueio/form-bloqueio';
+import { FormLancamentoServicoComponent } from '../form-lancamento-servico/form-lancamento-servico';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -22,17 +23,17 @@ const httpOptions = {
 };
 
 @Component({
-  selector: 'modal-chassis-bloqueio',
-  templateUrl: 'modal-chassis-bloqueio.html',
+  selector: 'modal-lancamento-servico',
+  templateUrl: 'modal-lancamento-servico.html',
 })
-export class ModalChassisBloqueioComponent {
+export class ModalLancamentoServicoComponent {
   @ViewChild('select') select: Select;
   title: string;
   chassis: any;
   novoChassi: string;
   url: string;
 
-  formBloqueioData = {
+  formLancamentoServico = {
     token: '',
     empresaID: '1',
     id: '',
@@ -71,7 +72,7 @@ export class ModalChassisBloqueioComponent {
     public navCtrl: NavController,
     public authService: AuthService
   ) {
-    this.title = 'Bloqueio';
+    this.title = 'Lançamento de Serviço';
     this.url = this.authService.getUrl();
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
@@ -79,7 +80,7 @@ export class ModalChassisBloqueioComponent {
     console.log(chassi_[0].chassi)
     this.chassis = Array.of(chassi_[0].chassi);
 
-    this.formBloqueioData.id = (chassi_[0].id);
+    this.formLancamentoServico.id = (chassi_[0].id);
 
 
 
@@ -112,22 +113,22 @@ export class ModalChassisBloqueioComponent {
     console.log(res);
 
 
-    this.formBloqueioData.chassi = this.novoChassi;
-   // this.openFormBloqueio(this.formBloqueioData);
+    this.formLancamentoServico.chassi = this.novoChassi;
+   // this.openFormBloqueio(this.formLancamentoServico);
 
-   this.consultarChassi();
+   this.consultarLancamentoServico();
   }
 
-  consultarChassi() {
+  consultarLancamentoServico() {
 
     let uriBuscaChassi =
-      '/Bloqueio/Bloqueios?token=' +
+      '/Servico/Servicos?token=' +
       this.authService.getToken() +
       '&veiculoID=' +
-      this.formBloqueioData.id;
+      this.formLancamentoServico.id;
 
     this.authService.showLoading();
-    this.formBloqueioData.token = this.authService.getToken();
+    this.formLancamentoServico.token = this.authService.getToken();
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
@@ -137,26 +138,26 @@ export class ModalChassisBloqueioComponent {
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
           //this.openModalChassis(this.responseData.retorno);
-          if(this.responseData.retorno.length > 0){
-            this.openModalErro('Chassi já bloqueado');
-          }else{
-            this.openFormBloqueio(this.formBloqueioData);
-          }
+          // if(this.responseData.retorno.length > 0){
+          //   this.openModalErro('Serviço já lançado');
+          // }else{
+            this.openFormLancamentoServico(this.formLancamentoServico);
+          //}
 
         } else {
           this.authService.hideLoading();
-          if (this.modoOperacao == 1 || this.novoChassi.length < 17) {
-            this.openModalErro(this.responseData.mensagem);
-          } else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
-            this.openModalErro(this.responseData.mensagem);
-          } else if (
-            this.modoOperacao == 2 &&
-            this.responseData.dataErro == 'CHASSI_NOT_FOUND'
-          ) {
-         //   this.openModalChassis([this.novoChassi], byScanner);
-          } else {
+        //   if (this.modoOperacao == 1 || this.novoChassi.length < 17) {
+        //     this.openModalErro(this.responseData.mensagem);
+        //   } else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
+        //     this.openModalErro(this.responseData.mensagem);
+        //   } else if (
+        //     this.modoOperacao == 2 &&
+        //     this.responseData.dataErro == 'CHASSI_NOT_FOUND'
+        //   ) {
+        //  //   this.openModalChassis([this.novoChassi], byScanner);
+        //   } else {
            this.openModalErro(this.responseData.mensagem);
-          }
+         //}
         }
       },
       (error) => {
@@ -167,9 +168,9 @@ export class ModalChassisBloqueioComponent {
   }
 
 
-  openFormBloqueio(data) {
+  openFormLancamentoServico(data) {
 
-    const recModal: Modal = this.modal.create(FormBloqueioComponent, {
+    const recModal: Modal = this.modal.create(FormLancamentoServicoComponent, {
       data: data,
     });
     recModal.present();

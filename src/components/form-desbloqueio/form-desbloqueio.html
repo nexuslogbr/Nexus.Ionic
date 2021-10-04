@@ -12,7 +12,7 @@
     <form class="form-movimentacao">
         <ion-list>
             <ion-list-header>
-                INFORMAÇÕES DE BLOQUEIO
+                INFORMAÇÕES DE DESBLOQUEIO
             </ion-list-header>
 
             <ion-item class="item-block item-ios item-select">
@@ -25,21 +25,21 @@
                 <ion-label label-ios>DATA/HORA BLOQUEIO:</ion-label>
 
                 <ion-datetime displayFormat="DD/MM/YYYY HH:mm " pickerFormat="DD/MM/YYYY HH:mm " id="data_hora"
-                    name="data_hora" [(ngModel)]="FormBloqueioData.data_hora" value="FormBloqueioData.data_hora"
+                    name="data_hora" [(ngModel)]="FormBloqueioData.data_hora" value="FormBloqueioData.dataDesbloqueio"
                     doneText="Confirmar" cancelText="Cancelar"></ion-datetime>
             </ion-item>
 
-            <ion-item>
+            <!-- <ion-item>
                 <ion-label label-ios>TIPO DE BLOQUEIO:</ion-label>
                 <ion-select (ionChange)="onTipoBloqueioChange($event)" okText="Confirmar" cancelText="Cancelar">
                     <ion-option *ngFor="let tipo of tipos" value="{{tipo.id}}" id="{{tipo.id}}">{{tipo.nome}}
                     </ion-option>
                 </ion-select>
-            </ion-item>
+            </ion-item> -->
 
             <ion-item>
-                <ion-label>DESCREVA A RAZÃO DO BLOQUEIO:</ion-label>
-                <ion-textarea id="razao" name="razao" [(ngModel)]="FormBloqueioData.razao" rows="6" cols="20"
+                <ion-label>DESCREVA A RAZÃO DO DESBLOQUEIO:</ion-label>
+                <ion-textarea id="razao" name="razao" [(ngModel)]="FormBloqueioData.observacaoDesbloqueio" rows="6" cols="20"
                     style="color: #fff;"></ion-textarea>
             </ion-item>
         </ion-list>
@@ -48,7 +48,7 @@
         <div class="login-content">
             <button ion-button round first class="btn-receiving btn-cancel" (click)="voltar()"
                 type="button">Voltar</button>
-            <button ion-button round end class="btn-receiving btn-ok" (click)="Bloquear()" type="button">Bloquear</button>
+            <button ion-button round end class="btn-receiving btn-ok" (click)="Desbloquear()" type="button">Desbloquear</button>
         </div>
     </div>
 </ion-content>

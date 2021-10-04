@@ -1,40 +1,40 @@
 // http://ionicframework.com/docs/v2/theming/
 @font-face {
-  font-family: 'avenir_bold';
-  src: url('../assets/fonts/AvenirNextLTPro-Bold.ttf');
-  src: url('../assets/fonts/AvenirNextLTPro-Bold.otf');
+  font-family: "avenir_bold";
+  src: url("../assets/fonts/AvenirNextLTPro-Bold.ttf");
+  src: url("../assets/fonts/AvenirNextLTPro-Bold.otf");
 }
 
 @font-face {
-  font-family: 'avenir_regular';
-  src: url('../assets/fonts/AvenirNextLTPro-Regular.ttf');
-  src: url('../assets/fonts/AvenirNextLTPro-Regular.otf');
+  font-family: "avenir_regular";
+  src: url("../assets/fonts/AvenirNextLTPro-Regular.ttf");
+  src: url("../assets/fonts/AvenirNextLTPro-Regular.otf");
 }
 
 @font-face {
-  font-family: 'avenir_demi';
-  src: url('../assets/fonts/AvenirNextLTPro-Demi.ttf');
-  src: url('../assets/fonts/AvenirNextLTPro-Demi.otf');
+  font-family: "avenir_demi";
+  src: url("../assets/fonts/AvenirNextLTPro-Demi.ttf");
+  src: url("../assets/fonts/AvenirNextLTPro-Demi.otf");
 }
 
 @font-face {
-  font-family: 'open_sanssemibold';
-  src: url('../fonts/opensans-semibold-webfont.eot');
-  src: url('../fonts/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype');
-  src: url('../fonts/opensans-semibold-webfont.woff') format('woff');
-  src: url('../fonts/opensans-semibold-webfont.ttf') format('truetype');
-  src: url('../fonts/opensans-semibold-webfont.svg#open_sanssemibold_italic') format('svg');
+  font-family: "open_sanssemibold";
+  src: url("../fonts/opensans-semibold-webfont.eot");
+  src: url("../fonts/opensans-semibold-webfont.eot?#iefix") format("embedded-opentype");
+  src: url("../fonts/opensans-semibold-webfont.woff") format("woff");
+  src: url("../fonts/opensans-semibold-webfont.ttf") format("truetype");
+  src: url("../fonts/opensans-semibold-webfont.svg#open_sanssemibold_italic") format("svg");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'open_sansbold';
-  src: url('../fonts/opensans-bold-webfont.eot');
-  src: url('../fonts/opensans-bold-webfont.eot?#iefix') format('embedded-opentype');
-  src: url('../fonts/opensans-bold-webfont.woff') format('woff');
-  src: url('../fonts/opensans-bold-webfont.ttf') format('truetype');
-  src: url('../fonts/opensans-bold-webfont.svg#open_sansbold_italic') format('svg');
+  font-family: "open_sansbold";
+  src: url("../fonts/opensans-bold-webfont.eot");
+  src: url("../fonts/opensans-bold-webfont.eot?#iefix") format("embedded-opentype");
+  src: url("../fonts/opensans-bold-webfont.woff") format("woff");
+  src: url("../fonts/opensans-bold-webfont.ttf") format("truetype");
+  src: url("../fonts/opensans-bold-webfont.svg#open_sansbold_italic") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -44,7 +44,7 @@
 }
 
 .icon-qr-code-black {
-  background-image: url('../assets/images/qr-code-black.png');
+  background-image: url("../assets/images/qr-code-black.png");
   background-size: 100%;
   background-position: center center;
   width: 172px;
@@ -54,7 +54,7 @@
 }
 
 .icon-loading {
-  background-image: url('../assets/images/qr-code-black.png');
+  background-image: url("../assets/images/qr-code-black.png");
   background-size: 100%;
   background-position: center center;
   width: 172px;
@@ -69,7 +69,7 @@
 }
 
 .icon-error {
-  background-image: url('../assets/images/error-modal.png');
+  background-image: url("../assets/images/error-modal.png");
   background-size: 100%;
   background-position: center center;
   width: 172px;
@@ -83,7 +83,7 @@
     height: 100%;
     background-color: transparent;
     color: #fff;
-    font: 17px 'avenir_regular';
+    font: 17px "avenir_regular";
     padding-left: 70px;
     text-align: left;
   }
@@ -177,11 +177,11 @@ input:-ms-input-placeholder {
 }
 
 .arrow-down {
-  background-image: url(../assets/images/arrow-down.png );
+  background-image: url(../assets/images/arrow-down.png);
   background-position: center center;
   background-size: 15px 8px;
   background-repeat: no-repeat;
-  transition: all .4s ease-in-out;
+  transition: all 0.4s ease-in-out;
   position: absolute;
   right: 10px;
   width: 15px;
@@ -190,18 +190,17 @@ input:-ms-input-placeholder {
 }
 
 .arrow-up {
-  background-image: url(../assets/images/arrow-down.png );
+  background-image: url(../assets/images/arrow-down.png);
   background-position: center center;
   background-size: 15px 8px;
   background-repeat: no-repeat;
-  transition: all .4s ease-in-out;
+  transition: all 0.4s ease-in-out;
   transform: rotate(180deg);
   position: absolute;
   right: 10px;
   width: 15px;
   height: 8px;
   top: 15px;
-
 }
 
 .select-md .select-icon {
@@ -210,11 +209,11 @@ input:-ms-input-placeholder {
 }
 
 .select-md .select-icon .select-icon-inner {
-  background-image: url(../assets/images/arrow-down.png );
+  background-image: url(../assets/images/arrow-down.png);
   background-position: center center;
   background-size: 15px 8px;
   background-repeat: no-repeat;
-  transition: all .4s ease-in-out;
+  transition: all 0.4s ease-in-out;
   position: absolute;
   right: 10px;
   width: 15px;
@@ -224,7 +223,7 @@ input:-ms-input-placeholder {
 }
 
 .icon-close {
-  background-image: url(../assets/images/icon-close.png );
+  background-image: url(../assets/images/icon-close.png);
   background-repeat: no-repeat;
   background-size: cover;
   width: 30px;
@@ -236,7 +235,7 @@ input:-ms-input-placeholder {
 }
 
 .icon-remove-chassi {
-  background-image: url(../assets/images/icon-ex.png );
+  background-image: url(../assets/images/icon-ex.png);
   background-repeat: no-repeat;
   background-size: cover;
   width: 30px;
@@ -252,7 +251,7 @@ input:-ms-input-placeholder {
 }
 
 .parking-green {
-  background-image: url('../assets/images/parking-green.png');
+  background-image: url("../assets/images/parking-green.png");
   background-size: 100%;
   background-position: center center;
   width: 172px;
@@ -261,7 +260,7 @@ input:-ms-input-placeholder {
 }
 
 .icon-movement-blue {
-  background-image: url('../assets/images/movement-blue.png');
+  background-image: url("../assets/images/movement-blue.png");
   background-size: 100%;
   background-position: center center;
   width: 172px;
@@ -270,7 +269,7 @@ input:-ms-input-placeholder {
 }
 
 .icon-chassi-substituir {
-  background-image: url('../assets/images/icon-chassi-substituir.png');
+  background-image: url("../assets/images/icon-chassi-substituir.png");
   background-size: 100%;
   background-position: center center;
   width: 172px;
@@ -279,7 +278,7 @@ input:-ms-input-placeholder {
 }
 
 .icon-romaneio {
-  background-image: url('../assets/images/icon-romaneio-new.png');
+  background-image: url("../assets/images/icon-romaneio-new.png");
   background-size: 100%;
   background-position: center center;
   width: 172px;
@@ -288,10 +287,50 @@ input:-ms-input-placeholder {
 }
 
 .icon-sucesso {
-  background-image: url('../assets/images/icon-success.png');
+  background-image: url("../assets/images/icon-success.png");
   background-size: 100%;
   background-position: center center;
   width: 172px;
+  height: 172px;
+  margin: 0 auto;
+}
+
+
+.icon-bloqueio {
+  background-image: url("../assets/images/bloqueio.png");
+  background-size: 100%;
+  background-position: center center;
+  width: 178px;
+  height: 172px;
+  margin: 0 auto;
+}
+
+
+.icon-desbloqueio {
+  background-image: url("../assets/images/desbloqueio.png");
+  background-size: 100%;
+  background-position: center center;
+  width: 178px;
+  height: 172px;
+  margin: 0 auto;
+}
+
+
+.icon-lancamento-servico {
+  background-image: url("../assets/images/icon-lancamento-servico.png");
+  background-size: 100%;
+  background-position: center center;
+  width: 171px;
+  height: 172px;
+  margin: 0 auto;
+}
+
+
+.icon-observacao {
+  background-image: url("../assets/images/icon-observacao.png");
+  background-size: 100%;
+  background-position: center center;
+  width: 171px;
   height: 172px;
   margin: 0 auto;
 }
@@ -338,14 +377,11 @@ side-menu-ce.show {
         margin-bottom: 15px;
       }
     }
-
   }
 
   .alert-title {
     color: #000;
-
   }
-
 }
 
 component-menu {
@@ -375,7 +411,7 @@ component-menu {
             height: 100%;
             text-align: left;
             display: inline-block;
-            font: 17px 'avenir_regular';
+            font: 17px "avenir_regular";
             vertical-align: middle;
             text-decoration: none;
             background-color: #404040;
@@ -443,7 +479,7 @@ component-menu {
       color: #fff;
       text-align: left;
       padding: 0;
-      font: 20px 'avenir_regular';
+      font: 20px "avenir_regular";
     }
   }
 }
@@ -459,7 +495,7 @@ component-menu {
   background-size: 100%;
   width: 38px;
   height: 31px;
-  transition: all .4s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 
 .icon-menu-gray {
@@ -469,9 +505,8 @@ component-menu {
   background-size: 100%;
   width: 38px;
   height: 31px;
-  transition: all .4s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
-
 
 .icon-menu.close-menu {
   background-image: url("../assets/images/close.png");
@@ -501,53 +536,55 @@ ion-footer {
         }
 
         .icon-parking {
-          background-image: url(' ../assets/images/svg/parqueamento.svg');
+          background-image: url(" ../assets/images/svg/parqueamento.svg");
           width: 36px;
           height: 36px;
           background-size: 100%;
         }
 
         .icon-movement-white {
-          background-image: url(' ../assets/images/svg/movimentacao.svg');
+          background-image: url(" ../assets/images/svg/movimentacao.svg");
           width: 36px;
           height: 36px;
           background-size: 100%;
         }
 
         .icon-load-truck-white {
-          background-image: url(' ../assets/images/svg/carregamento.svg');
+          background-image: url(" ../assets/images/svg/carregamento.svg");
           width: 40px;
           height: 40px;
           background-size: 100%;
         }
 
         .icon-PE {
-          background-image: url(' ../assets/images/svg/receber-parquear-transparente.svg');
+          background-image: url(" ../assets/images/svg/receber-parquear-transparente.svg");
           width: 36px;
           height: 36px;
           background-size: 100%;
         }
 
         .icon-romaneio {
-          background-image: url(' ../assets/images/svg/romaneio.svg');
+          background-image: url(" ../assets/images/svg/romaneio.svg");
           width: 36px;
           height: 36px;
           background-size: 100%;
         }
 
         .icon-load-export-white {
-          background-image: url(' ../assets/images/svg/carregamento-exportacao.svg');
+          background-image: url(" ../assets/images/svg/carregamento-exportacao.svg");
           width: 40px;
           height: 40px;
           background-size: 100%;
         }
 
         .icon-reception-white {
-          background-image: url(' ../assets/images/svg/recebimento.svg');
+          background-image: url(" ../assets/images/svg/recebimento.svg");
           width: 36px;
           height: 36px;
           background-size: 100%;
         }
+        
+        
       }
     }
 
@@ -594,7 +631,7 @@ ion-footer {
   width: 100%;
   height: 73px;
   border-radius: 64px !important;
-  font: 19px 'avenir_bold';
+  font: 19px "avenir_bold";
   font-weight: 500;
   text-transform: uppercase;
   color: white;
@@ -603,7 +640,6 @@ ion-footer {
 .btn-menu-internal-azul-forte {
   background-color: #595959;
 }
-
 
 .grid-navio.navio-andamento {
   background-color: #0fb708 !important;
@@ -621,22 +657,21 @@ ion-footer {
 // Novo módulo de conferência.
 //////////////////////////////
 ion-header.conferencia-header {
-  background-color: #F5F5F5;
-  color: black; 
-  border-bottom: 1px solid transparent;  
+  background-color: #f5f5f5;
+  color: black;
+  border-bottom: 1px solid transparent;
 
   ion-title > div {
-    color: black !important; 
+    color: black !important;
     font-weight: bold !important;
   }
 
   button.btn-menu {
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
   }
-  
 }
 
-ion-content.conferencia-content{
+ion-content.conferencia-content {
   background-color: white !important;
 
   button.btn-menu-internal {
@@ -645,23 +680,22 @@ ion-content.conferencia-content{
   }
 
   button.btn-menu-internal-azul-forte {
-    background-color: #DEDEDE;
+    background-color: #dedede;
   }
 }
 
 .alert-md {
-
   .alert-wrapper .alert-button-group .alert-button {
-    background-color: #DEDEDE !important;
+    background-color: #dedede !important;
     color: black !important;
   }
 
-  [aria-checked=true] .alert-radio-label {
+  [aria-checked="true"] .alert-radio-label {
     color: black !important;
     font-weight: bold;
   }
 
-  [aria-checked=true] .alert-radio-icon {
+  [aria-checked="true"] .alert-radio-icon {
     border-color: black !important;
   }
 
@@ -669,12 +703,12 @@ ion-content.conferencia-content{
     background-color: black !important;
   }
 
-  [aria-checked=true] .alert-checkbox-icon  {
+  [aria-checked="true"] .alert-checkbox-icon {
     border-color: black !important;
     background-color: black !important;
   }
 
-  [aria-checked=true] .alert-checkbox-label {
+  [aria-checked="true"] .alert-checkbox-label {
     font-weight: bold;
   }
 }

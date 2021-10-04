@@ -14,6 +14,7 @@ import { Select } from 'ionic-angular';
 import * as $ from 'jquery';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBloqueioComponent } from '../form-bloqueio/form-bloqueio';
+import { FormDesbloqueioComponent } from '../form-desbloqueio/form-desbloqueio';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -22,20 +23,21 @@ const httpOptions = {
 };
 
 @Component({
-  selector: 'modal-chassis-bloqueio',
-  templateUrl: 'modal-chassis-bloqueio.html',
+  selector: 'modal-chassis-desbloqueio',
+  templateUrl: 'modal-chassis-desbloqueio.html',
 })
-export class ModalChassisBloqueioComponent {
+export class ModalChassisDesbloqueioComponent {
   @ViewChild('select') select: Select;
   title: string;
   chassis: any;
   novoChassi: string;
   url: string;
-
+  responseData:any;
   formBloqueioData = {
     token: '',
     empresaID: '1',
     id: '',
+    veiculoID:'',
     chassi: '',
     local: '',
     layout: '',
@@ -60,8 +62,6 @@ export class ModalChassisBloqueioComponent {
   };
 
   modoOperacao: number;
-  responseData:any;
-
 
   constructor(
     public http: HttpClient,
@@ -71,7 +71,7 @@ export class ModalChassisBloqueioComponent {
     public navCtrl: NavController,
     public authService: AuthService
   ) {
-    this.title = 'Bloqueio';
+    this.title = 'Desbloqueio';
     this.url = this.authService.getUrl();
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
@@ -79,7 +79,7 @@ export class ModalChassisBloqueioComponent {
     console.log(chassi_[0].chassi)
     this.chassis = Array.of(chassi_[0].chassi);
 
-    this.formBloqueioData.id = (chassi_[0].id);
+    this.formBloqueioData.veiculoID = (chassi_[0].id);
 
 
 
@@ -114,9 +114,32 @@ export class ModalChassisBloqueioComponent {
 
     this.formBloqueioData.chassi = this.novoChassi;
    // this.openFormBloqueio(this.formBloqueioData);
-
-   this.consultarChassi();
+      this.consultarChassi();
   }
+
+  openFormBloqueio(data) {
+
+    const recModal: Modal = this.modal.create(FormDesbloqueioComponent, {
+      data: data,
+    });
+    recModal.present();
+
+    recModal.onDidDismiss((data) => {
+      console.log(data);
+    });
+    recModal.onWillDismiss((data) => {
+      console.log('data');
+      console.log(data);
+    });
+  }
+
+  openModalErro(data) {
+    const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
+      data: data,
+    });
+    chassiModal.present();
+  }
+
 
   consultarChassi() {
 
@@ -124,7 +147,7 @@ export class ModalChassisBloqueioComponent {
       '/Bloqueio/Bloqueios?token=' +
       this.authService.getToken() +
       '&veiculoID=' +
-      this.formBloqueioData.id;
+      this.formBloqueioData.veiculoID;
 
     this.authService.showLoading();
     this.formBloqueioData.token = this.authService.getToken();
@@ -133,14 +156,20 @@ export class ModalChassisBloqueioComponent {
       (res) => {
         
         this.responseData = res;
+
+        
         // this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
           //this.openModalChassis(this.responseData.retorno);
+          
           if(this.responseData.retorno.length > 0){
-            this.openModalErro('Chassi já bloqueado');
+
+            debugger
+            this.responseData.retorno[0].chassi = this.novoChassi;
+             this.openFormBloqueio(this.responseData);
           }else{
-            this.openFormBloqueio(this.formBloqueioData);
+            this.openModalErro('Chassi ainda não foi bloqueado');
           }
 
         } else {
@@ -165,31 +194,6 @@ export class ModalChassisBloqueioComponent {
       }
     );
   }
-
-
-  openFormBloqueio(data) {
-
-    const recModal: Modal = this.modal.create(FormBloqueioComponent, {
-      data: data,
-    });
-    recModal.present();
-
-    recModal.onDidDismiss((data) => {
-      console.log(data);
-    });
-    recModal.onWillDismiss((data) => {
-      console.log('data');
-      console.log(data);
-    });
-  }
-
-  openModalErro(data) {
-    const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
-      data: data,
-    });
-    chassiModal.present();
-  }
-
 
   closeModal() {
     const data = {

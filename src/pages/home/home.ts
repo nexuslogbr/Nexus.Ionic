@@ -17,6 +17,8 @@ import { CarregamentoExportOperacaoPage } from '../carregamento-export-operacao/
 import { ConferenciaMenuPage } from '../conferencia-menu/conferencia-menu';
 import { NovaConferenciaMenuPage } from '../nova-conferencia-menu/nova-conferencia-menu';
 import { BloqueioPage } from '../bloqueio/bloqueio';
+import { LancamentoServicoPage } from '../lancamento-servico/lancamento-servico';
+import { ObservacoesPage } from '../observacoes/observacoes';
 
 const menus = [
   {
@@ -74,6 +76,17 @@ const menus = [
     cssClass: 'bloqueio',
     id: 3111,
   },
+  {
+    texto: 'Lançamento de Serviço',
+    cssClass: 'lancamento-servico',
+    id: 3112,
+  },
+  
+  {
+    texto: 'Observações',
+    cssClass: 'observacoes',
+    id: 3113,
+  }
   // {
   //   texto: 'Histórico de Chassi',
   //   cssClass: 'historico-chassi',
@@ -101,9 +114,10 @@ export class HomePage {
     this.userData = this.authService.getUserData();
 
     if (this.userData && this.userData.menus) {
-      this.userMenus = menus.filter((m) =>
-        this.userData.menus.some((mm) => mm == m.id)
-      );
+      // this.userMenus = menus.filter((m) =>
+      //   this.userData.menus.some((mm) => mm == m.id)
+      // );
+      this.userMenus = menus;
     }
   }
 
@@ -178,6 +192,8 @@ export class HomePage {
   // }
 
   chamar(menu) {
+
+    console.log(menu)
     if (menu.id == 3101) {
       this.navCtrl.setRoot(RecebimentoPage);
     } else if (menu.id == 3102) {
@@ -204,6 +220,10 @@ export class HomePage {
       this.navCtrl.setRoot(RomaneioPage);
     } else if (menu.id == 3111) {
       this.navCtrl.setRoot(BloqueioPage);
+    } else if (menu.id == 3112) {
+      this.navCtrl.setRoot(LancamentoServicoPage);
+    } else if (menu.id == 3113) {
+      this.navCtrl.setRoot(ObservacoesPage);
     // }  else if (menu.id == 3111) {
     //   this.navCtrl.setRoot(HistoricoChassiPage);
     }

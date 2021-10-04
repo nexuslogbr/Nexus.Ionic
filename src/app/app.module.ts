@@ -183,6 +183,15 @@ import { BloquearPage } from '../pages/bloquear/bloquear';
 import { DesbloquearPage } from '../pages/desbloquear/desbloquear';
 import { FormBloqueioComponent } from '../components/form-bloqueio/form-bloqueio';
 import { ModalChassisBloqueioComponent } from '../components/modal-chassis-bloqueio/modal-chassis-bloqueio';
+import { ModalChassisDesbloqueioComponent } from '../components/modal-chassis-desbloqueio/modal-chassis-desbloqueio';
+import { formatUrlPart } from 'ionic-angular/umd/navigation/url-serializer';
+import { FormDesbloqueioComponent } from '../components/form-desbloqueio/form-desbloqueio';
+import { LancamentoServicoPage } from '../pages/lancamento-servico/lancamento-servico';
+import { ModalLancamentoServicoComponent } from '../components/modal-lancamento-servico/modal-lancamento-servico';
+import { FormLancamentoServicoComponent } from '../components/form-lancamento-servico/form-lancamento-servico';
+import { ObservacoesPage } from '../pages/observacoes/observacoes';
+import { ModalObservacoesComponent } from '../components/modal-observacoes/modal-observacoes';
+import { FormObservacoesComponent } from '../components/form-observacoes/form-observacoes';
 
 @NgModule({
   declarations: [
@@ -326,7 +335,15 @@ import { ModalChassisBloqueioComponent } from '../components/modal-chassis-bloqu
     BloquearPage,
     DesbloquearPage,
     FormBloqueioComponent,
-    ModalChassisBloqueioComponent
+    FormDesbloqueioComponent,
+    ModalChassisBloqueioComponent,
+    ModalChassisDesbloqueioComponent,
+    LancamentoServicoPage,
+    ModalLancamentoServicoComponent,
+    FormLancamentoServicoComponent,
+    ObservacoesPage,
+    ModalObservacoesComponent,
+    FormObservacoesComponent
   ],
   imports: [
     BrowserModule,
@@ -523,7 +540,16 @@ import { ModalChassisBloqueioComponent } from '../components/modal-chassis-bloqu
     BloquearPage,
     DesbloquearPage,
     FormBloqueioComponent,
-    ModalChassisBloqueioComponent
+    FormDesbloqueioComponent,
+    ModalChassisBloqueioComponent,
+    ModalChassisDesbloqueioComponent,
+    LancamentoServicoPage,
+    ModalLancamentoServicoComponent,
+    FormLancamentoServicoComponent,
+    ObservacoesPage,
+    ModalObservacoesComponent,
+    FormObservacoesComponent
+
   ],
   providers: [
     AuthService,

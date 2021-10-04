@@ -15,10 +15,10 @@ const httpOptions = {
 };
 
 @Component({
-  selector: 'form-bloqueio',
-  templateUrl: 'form-bloqueio.html'
+  selector: 'form-observacoes',
+  templateUrl: 'form-observacoes.html'
 })
-export class FormBloqueioComponent {
+export class FormObservacoesComponent {
   @ViewChild('select1') select1: Select;
 
   title: string;
@@ -43,12 +43,11 @@ export class FormBloqueioComponent {
     "layoutNome":''
   };
 
-  FormBloqueioData = {
-    "id": '',
-    "chassi": '',
-    "data_hora": '',
-    "tipo": '',
-    "razao": ''
+  FormObservacaoData = {
+    'chassi':'',
+    'veiculoID': '',
+    'tipoObservacaoID': '',
+    'descricao': ''
   };
   chassi: string;
   data_hora:string;
@@ -66,7 +65,7 @@ export class FormBloqueioComponent {
   bolsoes: any;
   filas: any;
   posicoes: any;
-  dadosBloqueio: any; 
+  dadosObservacao: any; 
   responseData2: any; 
   responseData3: any; 
   responseData4: any; 
@@ -76,7 +75,7 @@ export class FormBloqueioComponent {
 
   constructor(public http: HttpClient, private modal: ModalController, public navCtrl: NavController, private navParam: NavParams, public authService: AuthService, private view: ViewController) {
     // console.log('Hello FormMovimentacaoComponent Component');
-    this.title = "Bloqueio"; 
+    this.title = "Observações"; 
     
     console.log('FormBloqueioComponent');
     this.url = this.authService.getUrl();
@@ -126,8 +125,11 @@ export class FormBloqueioComponent {
     console.log(data)
     
     
-      this.FormBloqueioData = data;
-      this.FormBloqueioData.data_hora = new Date().toLocaleDateString();
+      this.FormObservacaoData = data;
+
+debugger
+
+     // this.FormBloqueioData.data_hora = new Date().toLocaleDateString();
     // // console.log(data);
     // // console.log(this.formMovimentacaoData);
     // this.chassi = data.chassi;
@@ -157,7 +159,7 @@ export class FormBloqueioComponent {
     
     this.authService.showLoading();
 
-    let listarBloqueios = this.url+"/Bloqueio/TiposDesbloqueio?token="+ this.authService.getToken();
+    let listarBloqueios = this.url+"/Observacao/TiposObservacao?token="+ this.authService.getToken();
 
     this.http.get<dataRetorno>( listarBloqueios)
     .subscribe(res => {
@@ -188,24 +190,27 @@ export class FormBloqueioComponent {
   } 
 
 
-onTipoBloqueioChange(selectedValue){
-  this.FormBloqueioData.tipo = selectedValue;
+onTipoChange(selectedValue){
+  this.FormObservacaoData.tipoObservacaoID = selectedValue;
   
+
 }
   
   Bloquear(){
 
     
     this.authService.showLoading();
-    let bloquearVeiculo = this.url+"/Bloqueio/Bloquear?token="+ this.authService.getToken();
+    let observacaoVeiculo = this.url+"/Observacao/Incluir?token="+ this.authService.getToken();
   
-    this.dadosBloqueio = {
-      "veiculoID": this.FormBloqueioData.id,
-      "tipoBloqueioID":this.FormBloqueioData.tipo,
-      "descricaoBloqueio": this.FormBloqueioData.razao
+
+    debugger
+    this.dadosObservacao = {
+      "veiculoID": this.FormObservacaoData.veiculoID,
+      "tipoObservacaoID":this.FormObservacaoData.tipoObservacaoID,
+      "descricao": this.FormObservacaoData.descricao
     }
 
-    this.http.post<dataRetorno>( bloquearVeiculo, this.dadosBloqueio, httpOptions)
+    this.http.post<dataRetorno>( observacaoVeiculo, this.dadosObservacao, httpOptions)
     .subscribe(res => {
 
       this.retorno = '';
@@ -217,8 +222,8 @@ onTipoBloqueioChange(selectedValue){
 
         this.authService.hideLoading();
         var data = {
-          message : "Bloqueio realizada com",
-          iconClass : "icon-bloqueio"
+          message : "Observação realizada com",
+          iconClass : "icon-observacao"
         }        
         this.openModalSucesso(data);
 

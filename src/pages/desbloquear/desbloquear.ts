@@ -19,6 +19,8 @@ import { Storage } from '@ionic/storage';
 import * as $ from 'jquery';
 import { HttpClient } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
+import { ModalChassisBloqueioComponent } from '../../components/modal-chassis-bloqueio/modal-chassis-bloqueio';
+import { ModalChassisDesbloqueioComponent } from '../../components/modal-chassis-desbloqueio/modal-chassis-desbloqueio';
 
 @Component({
   selector: 'page-desbloquear',
@@ -43,7 +45,7 @@ export class DesbloquearPage {
   url: string;
   qrCodeText: string;
   formData = { chassi: '' };
-  formRecebimentoData = {
+  formBloqueioData = {
     token: '',
     empresaID: '1',
     id: '',
@@ -54,7 +56,7 @@ export class DesbloquearPage {
     fila: '',
     posicao: '',
   };
-  recebimentoData = {
+  bloqueioData = {
     token: '',
     empresaID: '1',
     id: '',
@@ -86,23 +88,23 @@ export class DesbloquearPage {
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
-    this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
-      if (value && value.length) {
-        {
-          if (value.length >= 6) {
-            let chassi = value.replace(/[\W_]+/g, '');
-            setTimeout(() => {
-              this.buscarChassi(chassi, false);
-              this.formData.chassi = '';
-            }, 500);
-          }
-        }
-      }
-    });
+    // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+    //   if (value && value.length) {
+    //     {
+    //       if (value.length >= 6) {
+    //         let chassi = value.replace(/[\W_]+/g, '');
+    //         setTimeout(() => {
+    //           this.buscarChassi(chassi, false);
+    //           this.formData.chassi = '';
+    //         }, 500);
+    //       }
+    //     }
+    //   }
+    // });
   }
 
   ionViewDidEnter() {
-    console.log('ionViewDidEnter RecebimentoPage');
+    console.log('ionViewDidEnter Desbloquear');
     setTimeout(() => {
       this.chassiInput.setFocus();
     }, 1000);
@@ -139,6 +141,8 @@ export class DesbloquearPage {
           );
          // this.openModalErro(partChassi, true);
           this.formData['chassi'] = partChassi;
+            
+
           this.buscarChassi(partChassi, true);
         }
       },
@@ -152,19 +156,19 @@ export class DesbloquearPage {
 
   buscarChassi(partChassi, byScanner: boolean) {
 
-    this.formRecebimentoData.chassi = partChassi;
+    this.formBloqueioData.chassi = partChassi;
     let uriBuscaChassi =
-      '/Receber/BuscarChassi?token=' +
+      '/veiculos/ConsultarChassi?token=' +
       this.authService.getToken() +
-      '&partChassi=' +
+      '&chassi=' +
       partChassi;
 
     this.authService.showLoading();
-    this.formRecebimentoData.token = this.authService.getToken();
+    this.formBloqueioData.token = this.authService.getToken();
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-        debugger
+        
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
@@ -216,7 +220,9 @@ export class DesbloquearPage {
   }
 
   openModalChassis(data, byScanner: boolean) {
-    const chassiModal: Modal = this.modal.create(ModalChassisComponent, {
+
+    
+    const chassiModal: Modal = this.modal.create(ModalChassisDesbloqueioComponent, {
       data: data,
     });
     chassiModal.present();

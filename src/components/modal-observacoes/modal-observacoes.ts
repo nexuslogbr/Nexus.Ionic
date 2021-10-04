@@ -14,6 +14,7 @@ import { Select } from 'ionic-angular';
 import * as $ from 'jquery';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBloqueioComponent } from '../form-bloqueio/form-bloqueio';
+import { FormObservacoesComponent } from '../form-observacoes/form-observacoes';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -22,17 +23,17 @@ const httpOptions = {
 };
 
 @Component({
-  selector: 'modal-chassis-bloqueio',
-  templateUrl: 'modal-chassis-bloqueio.html',
+  selector: 'modal-observacoes',
+  templateUrl: 'modal-observacoes.html',
 })
-export class ModalChassisBloqueioComponent {
+export class ModalObservacoesComponent {
   @ViewChild('select') select: Select;
   title: string;
   chassis: any;
   novoChassi: string;
   url: string;
 
-  formBloqueioData = {
+  formObservacoesData = {
     token: '',
     empresaID: '1',
     id: '',
@@ -42,6 +43,7 @@ export class ModalChassisBloqueioComponent {
     bolsao: '',
     fila: '',
     posicao: '',
+    veiculoID:''
   };
 
   bloqueioData = {
@@ -71,15 +73,17 @@ export class ModalChassisBloqueioComponent {
     public navCtrl: NavController,
     public authService: AuthService
   ) {
-    this.title = 'Bloqueio';
+    this.title = 'Observações';
     this.url = this.authService.getUrl();
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
+
+    debugger
     var chassi_ = Array.of(this.navParam.get('data'));
     console.log(chassi_[0].chassi)
     this.chassis = Array.of(chassi_[0].chassi);
 
-    this.formBloqueioData.id = (chassi_[0].id);
+    this.formObservacoesData.id = (chassi_[0].id);
 
 
 
@@ -112,8 +116,8 @@ export class ModalChassisBloqueioComponent {
     console.log(res);
 
 
-    this.formBloqueioData.chassi = this.novoChassi;
-   // this.openFormBloqueio(this.formBloqueioData);
+    this.formObservacoesData.chassi = this.novoChassi;
+   // this.openFormBloqueio(this.formObservacoesData);
 
    this.consultarChassi();
   }
@@ -121,13 +125,13 @@ export class ModalChassisBloqueioComponent {
   consultarChassi() {
 
     let uriBuscaChassi =
-      '/Bloqueio/Bloqueios?token=' +
+      '/Observacao/Observacoes?token=' +
       this.authService.getToken() +
       '&veiculoID=' +
-      this.formBloqueioData.id;
+      this.formObservacoesData.id;
 
     this.authService.showLoading();
-    this.formBloqueioData.token = this.authService.getToken();
+    this.formObservacoesData.token = this.authService.getToken();
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
@@ -137,11 +141,11 @@ export class ModalChassisBloqueioComponent {
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
           //this.openModalChassis(this.responseData.retorno);
-          if(this.responseData.retorno.length > 0){
-            this.openModalErro('Chassi já bloqueado');
-          }else{
-            this.openFormBloqueio(this.formBloqueioData);
-          }
+          // if(this.responseData.retorno.length > 0){
+          //   this.openModalErro('Chassi já bloqueado');
+          // }else{
+            this.openFormObservacoes(this.formObservacoesData);
+         // }
 
         } else {
           this.authService.hideLoading();
@@ -167,9 +171,9 @@ export class ModalChassisBloqueioComponent {
   }
 
 
-  openFormBloqueio(data) {
+  openFormObservacoes(data) {
 
-    const recModal: Modal = this.modal.create(FormBloqueioComponent, {
+    const recModal: Modal = this.modal.create(FormObservacoesComponent, {
       data: data,
     });
     recModal.present();

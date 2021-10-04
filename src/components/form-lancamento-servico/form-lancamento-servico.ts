@@ -7,6 +7,7 @@ import { ModalSucessoComponent } from '../modal-sucesso/modal-sucesso';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as $ from 'jquery';
 import { BloqueioPage } from '../../pages/bloqueio/bloqueio';
+import { LancamentoServicoPage } from '../../pages/lancamento-servico/lancamento-servico';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -15,10 +16,10 @@ const httpOptions = {
 };
 
 @Component({
-  selector: 'form-bloqueio',
-  templateUrl: 'form-bloqueio.html'
+  selector: 'form-lancamento-servico',
+  templateUrl: 'form-lancamento-servico.html'
 })
-export class FormBloqueioComponent {
+export class FormLancamentoServicoComponent {
   @ViewChild('select1') select1: Select;
 
   title: string;
@@ -43,12 +44,11 @@ export class FormBloqueioComponent {
     "layoutNome":''
   };
 
-  FormBloqueioData = {
+  FormLancamentoServicoData = {
     "id": '',
-    "chassi": '',
-    "data_hora": '',
-    "tipo": '',
-    "razao": ''
+    'chassi':'',
+    "veiculoID": '',
+    "tipoServicoID": ''
   };
   chassi: string;
   data_hora:string;
@@ -66,7 +66,7 @@ export class FormBloqueioComponent {
   bolsoes: any;
   filas: any;
   posicoes: any;
-  dadosBloqueio: any; 
+  dadosLancamento: any; 
   responseData2: any; 
   responseData3: any; 
   responseData4: any; 
@@ -76,7 +76,7 @@ export class FormBloqueioComponent {
 
   constructor(public http: HttpClient, private modal: ModalController, public navCtrl: NavController, private navParam: NavParams, public authService: AuthService, private view: ViewController) {
     // console.log('Hello FormMovimentacaoComponent Component');
-    this.title = "Bloqueio"; 
+    this.title = "Lançamento de Servicos"; 
     
     console.log('FormBloqueioComponent');
     this.url = this.authService.getUrl();
@@ -126,8 +126,8 @@ export class FormBloqueioComponent {
     console.log(data)
     
     
-      this.FormBloqueioData = data;
-      this.FormBloqueioData.data_hora = new Date().toLocaleDateString();
+      this.FormLancamentoServicoData = data;
+      //this.FormLancamentoServicoData.data_hora = new Date().toLocaleDateString();
     // // console.log(data);
     // // console.log(this.formMovimentacaoData);
     // this.chassi = data.chassi;
@@ -157,9 +157,11 @@ export class FormBloqueioComponent {
     
     this.authService.showLoading();
 
-    let listarBloqueios = this.url+"/Bloqueio/TiposDesbloqueio?token="+ this.authService.getToken();
+debugger
 
-    this.http.get<dataRetorno>( listarBloqueios)
+    let listarTipos = this.url+"/Servico/TiposServico?token="+ this.authService.getToken();
+
+    this.http.get<dataRetorno>( listarTipos)
     .subscribe(res => {
       
       this.responseData2 = res;
@@ -188,8 +190,8 @@ export class FormBloqueioComponent {
   } 
 
 
-onTipoBloqueioChange(selectedValue){
-  this.FormBloqueioData.tipo = selectedValue;
+onTipoChange(selectedValue){
+  this.FormLancamentoServicoData.tipoServicoID = selectedValue;
   
 }
   
@@ -197,15 +199,14 @@ onTipoBloqueioChange(selectedValue){
 
     
     this.authService.showLoading();
-    let bloquearVeiculo = this.url+"/Bloqueio/Bloquear?token="+ this.authService.getToken();
+    let lancamento = this.url+"/Servico/Incluir?token="+ this.authService.getToken();
   
-    this.dadosBloqueio = {
-      "veiculoID": this.FormBloqueioData.id,
-      "tipoBloqueioID":this.FormBloqueioData.tipo,
-      "descricaoBloqueio": this.FormBloqueioData.razao
+    this.dadosLancamento = {
+      "veiculoID": this.FormLancamentoServicoData.id,
+      "tipoServicoID":this.FormLancamentoServicoData.tipoServicoID
     }
 
-    this.http.post<dataRetorno>( bloquearVeiculo, this.dadosBloqueio, httpOptions)
+    this.http.post<dataRetorno>( lancamento, this.dadosLancamento, httpOptions)
     .subscribe(res => {
 
       this.retorno = '';
@@ -217,8 +218,8 @@ onTipoBloqueioChange(selectedValue){
 
         this.authService.hideLoading();
         var data = {
-          message : "Bloqueio realizada com",
-          iconClass : "icon-bloqueio"
+          message : "Lançamento de serviço realizada com",
+          iconClass : "icon-lancamento-servico"
         }        
         this.openModalSucesso(data);
 
@@ -255,7 +256,7 @@ onTipoBloqueioChange(selectedValue){
 
     chassiModal.onDidDismiss((data) => {
       console.log(data);
-      this.navCtrl.push(BloqueioPage);
+      this.navCtrl.push(LancamentoServicoPage);
       
     })    
   }  

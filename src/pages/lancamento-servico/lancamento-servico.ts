@@ -7,24 +7,27 @@ import { NavController, Modal, ModalController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { ModalRecebimentoComponent } from '../../components/modal-recebimento/modal-recebimento';
 import { ModalChassisComponent } from '../../components/modal-chassis/modal-chassis';
-import { ParqueamentoPage } from '../../pages/parqueamento/parqueamento';
-import { RomaneioPage } from '../../pages/romaneio/romaneio';
-import { MovimentacaoPage } from '../../pages/movimentacao/movimentacao';
-import { HomePage } from '../../pages/home/home';
-import { ReceberParquearPage } from '../../pages/receber-parquear/receber-parquear';
-import { CarregamentoExportPage } from '../../pages/carregamento-export/carregamento-export';
-import { CarregamentoPage } from '../../pages/carregamento/carregamento';
+import { ParqueamentoPage } from '../parqueamento/parqueamento';
+import { RomaneioPage } from '../romaneio/romaneio';
+import { MovimentacaoPage } from '../movimentacao/movimentacao';
+import { HomePage } from '../home/home';
+import { ReceberParquearPage } from '../receber-parquear/receber-parquear';
+import { CarregamentoExportPage } from '../carregamento-export/carregamento-export';
+import { CarregamentoPage } from '../carregamento/carregamento';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { Storage } from '@ionic/storage';
 import * as $ from 'jquery';
 import { HttpClient } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
+import { ModalChassisBloqueioComponent } from '../../components/modal-chassis-bloqueio/modal-chassis-bloqueio';
+import { ModalSucessoComponent } from '../../components/modal-sucesso/modal-sucesso';
+import { ModalLancamentoServicoComponent } from '../../components/modal-lancamento-servico/modal-lancamento-servico';
 
 @Component({
-  selector: 'page-recebimento',
-  templateUrl: 'recebimento.html',
+  selector: 'page-lancamento-servico',
+  templateUrl: 'lancamento-servico.html',
 })
-export class RecebimentoPage {
+export class LancamentoServicoPage {
   title: string;
   scanData: {};
   data: any;
@@ -43,7 +46,7 @@ export class RecebimentoPage {
   url: string;
   qrCodeText: string;
   formData = { chassi: '' };
-  formRecebimentoData = {
+  formBloqueioData = {
     token: '',
     empresaID: '1',
     id: '',
@@ -54,7 +57,7 @@ export class RecebimentoPage {
     fila: '',
     posicao: '',
   };
-  recebimentoData = {
+  bloqueioData = {
     token: '',
     empresaID: '1',
     id: '',
@@ -81,7 +84,7 @@ export class RecebimentoPage {
     public storage: Storage,
     public authService: AuthService
   ) {
-    this.title = 'Recebimento';
+    this.title = 'Lançamento de Serviços';
     this.url = this.authService.getUrl();
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
@@ -106,6 +109,9 @@ export class RecebimentoPage {
     setTimeout(() => {
       this.chassiInput.setFocus();
     }, 1000);
+
+    this.authService.hideLoading();
+    
   }
 
   cleanInput(byScanner: boolean) {
@@ -139,6 +145,8 @@ export class RecebimentoPage {
           );
          // this.openModalErro(partChassi, true);
           this.formData['chassi'] = partChassi;
+            
+
           this.buscarChassi(partChassi, true);
         }
       },
@@ -152,15 +160,15 @@ export class RecebimentoPage {
 
   buscarChassi(partChassi, byScanner: boolean) {
 
-    this.formRecebimentoData.chassi = partChassi;
+    this.formBloqueioData.chassi = partChassi;
     let uriBuscaChassi =
-      '/Receber/BuscarChassi?token=' +
+      '/veiculos/ConsultarChassi?token=' +
       this.authService.getToken() +
-      '&partChassi=' +
+      '&chassi=' +
       partChassi;
 
     this.authService.showLoading();
-    this.formRecebimentoData.token = this.authService.getToken();
+    this.formBloqueioData.token = this.authService.getToken();
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
@@ -168,7 +176,9 @@ export class RecebimentoPage {
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
-          this.openModalChassis(this.responseData.retorno, byScanner);
+          this.openModalLancamentoServico(this.responseData.retorno, byScanner);
+         //var veiculoId = this.responseData.retorno.id;
+       //  this.consultarChassi(veiculoId, partChassi, byScanner);
         } else {
           this.authService.hideLoading();
           if (this.modoOperacao == 1 || partChassi.length < 17) {
@@ -179,7 +189,7 @@ export class RecebimentoPage {
             this.modoOperacao == 2 &&
             this.responseData.dataErro == 'CHASSI_NOT_FOUND'
           ) {
-            this.openModalChassis([partChassi], byScanner);
+            this.openModalLancamentoServico([partChassi], byScanner);
           } else {
            this.openModalErro(this.responseData.mensagem, byScanner);
           }
@@ -192,6 +202,49 @@ export class RecebimentoPage {
     );
   }
 
+  // consultarChassi(veiculoID, partChassi, byScanner: boolean) {
+
+
+  //   this.formBloqueioData.chassi = partChassi;
+  //   let uriBuscaChassi =
+  //     '/Bloqueio/Bloqueios?token=' +
+  //     this.authService.getToken() +
+  //     '&veiculoID=' +
+  //     veiculoID;
+
+  //   this.authService.showLoading();
+  //   this.formBloqueioData.token = this.authService.getToken();
+
+  //   this.http.get(this.url + uriBuscaChassi).subscribe(
+  //     (res) => {
+        
+  //       this.responseData = res;
+  //       if (this.responseData.sucesso) {
+  //         this.authService.hideLoading();
+  //         this.openModalChassis(this.responseData.retorno, byScanner);
+  //       } else {
+  //         this.authService.hideLoading();
+  //         if (this.modoOperacao == 1 || partChassi.length < 17) {
+  //           this.openModalErro(this.responseData.mensagem, byScanner);
+  //         } else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
+  //           this.openModalErro(this.responseData.mensagem, byScanner);
+  //         } else if (
+  //           this.modoOperacao == 2 &&
+  //           this.responseData.dataErro == 'CHASSI_NOT_FOUND'
+  //         ) {
+  //           this.openModalChassis([partChassi], byScanner);
+  //         } else {
+  //          this.openModalErro(this.responseData.mensagem, byScanner);
+  //         }
+  //       }
+  //     },
+  //     (error) => {
+  //       this.authService.hideLoading();
+  //       this.openModalErro(error.status + ' - ' + error.statusText, byScanner);
+  //     }
+  //   );
+  // }
+
   navigateToHomePage() {
     this.navCtrl.push(HomePage);
   }
@@ -203,20 +256,9 @@ export class RecebimentoPage {
     $('side-menu').toggleClass('show');
   };
 
-  openModalRecebimento(data, byScanner: boolean) {
-    ;
-    const recModal: Modal = this.modal.create(ModalRecebimentoComponent, {
-      data: data,
-    });
-    recModal.present();
 
-    recModal.onDidDismiss((data) => {
-      this.cleanInput(byScanner);
-    });
-  }
-
-  openModalChassis(data, byScanner: boolean) {
-    const chassiModal: Modal = this.modal.create(ModalChassisComponent, {
+  openModalLancamentoServico(data, byScanner: boolean) {
+  const chassiModal: Modal = this.modal.create(ModalLancamentoServicoComponent, {
       data: data,
     });
     chassiModal.present();
@@ -226,6 +268,17 @@ export class RecebimentoPage {
     });
   }
 
+
+  openModalSucesso(data){
+    const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {data: data });
+    chassiModal.present();  
+
+    chassiModal.onDidDismiss((data) => {
+      console.log(data);
+      this.navCtrl.push(MovimentacaoPage);
+      
+    })    
+  }  
   openModalErro(data, byScanner: boolean) {
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
       data: data,
