@@ -7,6 +7,7 @@ import { ModalSucessoComponent } from '../modal-sucesso/modal-sucesso';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as $ from 'jquery';
 import { BloqueioPage } from '../../pages/bloqueio/bloqueio';
+import { ObservacoesPage } from '../../pages/observacoes/observacoes';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -44,6 +45,7 @@ export class FormObservacoesComponent {
   };
 
   FormObservacaoData = {
+    'id':'',
     'chassi':'',
     'veiculoID': '',
     'tipoObservacaoID': '',
@@ -205,7 +207,7 @@ onTipoChange(selectedValue){
 
     debugger
     this.dadosObservacao = {
-      "veiculoID": this.FormObservacaoData.veiculoID,
+      "veiculoID": this.FormObservacaoData.id,
       "tipoObservacaoID":this.FormObservacaoData.tipoObservacaoID,
       "descricao": this.FormObservacaoData.descricao
     }
@@ -260,7 +262,7 @@ onTipoChange(selectedValue){
 
     chassiModal.onDidDismiss((data) => {
       console.log(data);
-      this.navCtrl.push(BloqueioPage);
+      this.navCtrl.push(ObservacoesPage);
       
     })    
   }  

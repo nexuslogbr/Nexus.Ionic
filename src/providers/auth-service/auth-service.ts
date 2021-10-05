@@ -48,7 +48,7 @@ export class AuthService {
   //url: string = 'http://api-devpatio.validasistema.com.br/ ';
   //url: string = 'http://api-hlgpatio.validasistema.com.br/api';
   //url: string = "http://vm.trial.validasistema.com.br/webapi/api";
-  // url: string = 'https://gdl.kline-brasil.com.br/webapi/api';
+   //url: string = 'https://gdl.kline-brasil.com.br/webapi/api';
 
    //url: string = 'http://api-nexus.luby.com.br/api';
    url: string = 'http://api-nexus.luby.com.br/api'
