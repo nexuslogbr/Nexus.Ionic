@@ -43,9 +43,11 @@ export class ModalDeviceComponent {
 
   // }
   ConfirmarDispositivo(){
+    debugger
     if(this.code){
       // this.authService.setUrl(this.url);
       this.authService.salvarDispositivo(this.code);
+      console.log(this.code)
       this.view.dismiss(this.code);
     }else{
       this.openModalErroCode("Preencha todos os campos!");

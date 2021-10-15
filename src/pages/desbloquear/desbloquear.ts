@@ -88,19 +88,19 @@ export class DesbloquearPage {
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
-    // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
-    //   if (value && value.length) {
-    //     {
-    //       if (value.length >= 6) {
-    //         let chassi = value.replace(/[\W_]+/g, '');
-    //         setTimeout(() => {
-    //           this.buscarChassi(chassi, false);
-    //           this.formData.chassi = '';
-    //         }, 500);
-    //       }
-    //     }
-    //   }
-    // });
+  //   this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+  //     if (value && value.length) {
+  //       {
+  //         if (value.length >= 6) {
+  //           let chassi = value.replace(/[\W_]+/g, '');
+  //           setTimeout(() => {
+  //             this.buscarChassi(chassi, false);
+  //             this.formData.chassi = '';
+  //           }, 500);
+  //         }
+  //       }
+  //     }
+  //   });
   }
 
   ionViewDidEnter() {

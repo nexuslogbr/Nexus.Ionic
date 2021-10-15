@@ -1,15 +1,43 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()" class="conferencia-header">
+<!-- <ion-header (click)="toggleMenu()" class="conferencia-header">
   <button class="btn-menu">
     <i class="icon icon-menu-gray"></i>
   </button>
   <ion-title>
     Conferência
   </ion-title>
+</ion-header> -->
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    Conferência
+  </ion-title>
 </ion-header>
 
-<ion-content padding class="conferencia-content">
 
+<!-- <ion-content padding class="conferencia-content"> -->
+
+
+<ion-content padding id="romaneio" class="romaneio">
+  <div class="romaneio-container">
+    <div class="login-content" *ngIf="userData.confereOnline || (!userData.confereOnline && !userData.confereOffline)">
+        <button ion-button round class="btn-default" (click)="navigateToConfiguracao()" type="button">Configurar
+          Conferência</button>
+    </div>            
+    <div class="login-content">
+        <button ion-button round class="btn-default" (click)="navigateToRealizar()" type="button">Realizar
+          Conferência</button>
+    </div>
+    <div class="login-content" *ngIf="userData.confereOnline || (!userData.confereOnline && !userData.confereOffline)">
+      <button ion-button round class="btn-default" (click)="navigateToFinalizar()" type="button">Concluir
+        Conferência</button>
+  </div>
+  </div>
+
+</ion-content>
+<!-- 
   <ion-grid class="first-row">
 
     <ion-row *ngIf="userData.confereOnline || (!userData.confereOnline && !userData.confereOffline)">
@@ -33,10 +61,9 @@
       </ion-col>
     </ion-row>
 
-  </ion-grid>
+  </ion-grid> -->
 
-</ion-content>
-
+<!-- 
 <ion-footer no-border>
   <ion-grid class="grid-botao-wrapper">
     <ion-row>
@@ -47,4 +74,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-</ion-footer>
+</ion-footer> -->

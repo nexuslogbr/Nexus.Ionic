@@ -251,7 +251,7 @@ input:-ms-input-placeholder {
 }
 
 .parking-green {
-  background-image: url("../assets/images/parking-green.png");
+  background-image: url("../assets/images/parking-green.svg");
   background-size: 100%;
   background-position: center center;
   width: 172px;
@@ -278,7 +278,7 @@ input:-ms-input-placeholder {
 }
 
 .icon-romaneio {
-  background-image: url("../assets/images/icon-romaneio-new.png");
+  background-image: url("../assets/images/icon-romaneio-new.svg");
   background-size: 100%;
   background-position: center center;
   width: 172px;
@@ -297,7 +297,7 @@ input:-ms-input-placeholder {
 
 
 .icon-bloqueio {
-  background-image: url("../assets/images/bloqueio.png");
+  background-image: url("../assets/images/bloqueio.svg");
   background-size: 100%;
   background-position: center center;
   width: 178px;
@@ -307,7 +307,7 @@ input:-ms-input-placeholder {
 
 
 .icon-desbloqueio {
-  background-image: url("../assets/images/desbloqueio.png");
+  background-image: url("../assets/images/desbloqueio.svg");
   background-size: 100%;
   background-position: center center;
   width: 178px;
@@ -317,20 +317,20 @@ input:-ms-input-placeholder {
 
 
 .icon-lancamento-servico {
-  background-image: url("../assets/images/icon-lancamento-servico.png");
+  background-image: url("../assets/images/icon-lancamento-servico.svg");
   background-size: 100%;
   background-position: center center;
-  width: 171px;
+  width: 173px;
   height: 172px;
   margin: 0 auto;
 }
 
 
 .icon-observacao {
-  background-image: url("../assets/images/icon-observacao.png");
+  background-image: url("../assets/images/icon-observacao.svg");
   background-size: 100%;
   background-position: center center;
-  width: 171px;
+  width: 173px;
   height: 172px;
   margin: 0 auto;
 }
@@ -584,6 +584,13 @@ ion-footer {
           background-size: 100%;
         }
         
+        .icon-parking-white {
+          background-image: url( ' ../assets/images/parking-green.png' );
+          width: 36px;
+          height: 36px;
+          background-size: 100%;
+      }
+   
         
       }
     }

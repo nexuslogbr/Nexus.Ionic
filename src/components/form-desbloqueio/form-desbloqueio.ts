@@ -7,6 +7,7 @@ import { ModalSucessoComponent } from '../modal-sucesso/modal-sucesso';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as $ from 'jquery';
 import { BloqueioPage } from '../../pages/bloqueio/bloqueio';
+import { DesbloquearPage } from '../../pages/desbloquear/desbloquear';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -201,6 +202,14 @@ export class FormDesbloqueioComponent {
     }); 
     
   } 
+
+  voltar() {
+    //this.dragulaService.find('nested-bag').drake.destroy();
+    const data = {};
+    this.view.dismiss();
+    this.navCtrl.push(BloqueioPage);
+  }
+
   openModalErro(data){
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, {data: data });
     chassiModal.present();

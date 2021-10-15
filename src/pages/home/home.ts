@@ -19,7 +19,7 @@ import { NovaConferenciaMenuPage } from '../nova-conferencia-menu/nova-conferenc
 import { BloqueioPage } from '../bloqueio/bloqueio';
 import { LancamentoServicoPage } from '../lancamento-servico/lancamento-servico';
 import { ObservacoesPage } from '../observacoes/observacoes';
-
+import { Storage } from '@ionic/storage';
 const menus = [
   {
     texto: 'Recebimento',
@@ -72,7 +72,7 @@ const menus = [
     id: 3110,
   },
   {
-    texto: 'Bloqueio',
+    texto: 'Bloqueio/Desbloqueio',
     cssClass: 'bloqueio',
     id: 3111,
   },
@@ -86,12 +86,12 @@ const menus = [
     texto: 'Observações',
     cssClass: 'observacoes',
     id: 3113,
+  },
+  {
+    texto: 'Histórico de Chassi',
+    cssClass: 'historico-chassi',
+    id: 3114,
   }
-  // {
-  //   texto: 'Histórico de Chassi',
-  //   cssClass: 'historico-chassi',
-  //   id: 3111,
-  // }
 ];
 @Component({
   selector: 'page-home',
@@ -108,6 +108,7 @@ export class HomePage {
     public authService: AuthService,
     public viewCtrl: ViewController,
     public appCtrl: App,
+    public storage: Storage,
     public platform: Platform
   ) {
     this.title = 'Sistema Pátio Automotivo';
@@ -118,6 +119,8 @@ export class HomePage {
       //   this.userData.menus.some((mm) => mm == m.id)
       // );
       this.userMenus = menus;
+
+     this.storage.set('parqueamento', null);
     }
   }
 
@@ -224,8 +227,8 @@ export class HomePage {
       this.navCtrl.setRoot(LancamentoServicoPage);
     } else if (menu.id == 3113) {
       this.navCtrl.setRoot(ObservacoesPage);
-    // }  else if (menu.id == 3111) {
-    //   this.navCtrl.setRoot(HistoricoChassiPage);
+    }  else if (menu.id == 3114) {
+      this.navCtrl.setRoot(HistoricoChassiPage);
     }
   }
 }

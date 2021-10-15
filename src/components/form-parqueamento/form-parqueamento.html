@@ -25,9 +25,9 @@
         
             <ion-item *ngIf="tShow; else elseBlock">
                 <ion-label label-ios>Layout:</ion-label>
-                <ion-select  (ionChange)="onLayoutChange($event)" okText="Confirmar" cancelText="Cancelar" #select1 > 
+                <ion-select  (ionChange)="onLayoutChange($event)" okText="Confirmar" cancelText="Cancelar" #select1 name="layout" id="layout" [(ngModel)]="formRecebimentoData.layout"> 
                     <!-- <ion-option *ngFor="let layout of layouts; let i = index" value="{{layout.id}}" id="{{layout.id}}" selected="{{i === 0}}">{{layout.nome}}</ion-option> -->
-                    <ion-option *ngFor="let layout of layouts; let i = index" value="{{layout.id}}" id="{{layout.id}}">{{layout.nome}}</ion-option>
+                    <ion-option *ngFor="let layout of layouts; let i = index" value="{{layout.id}}" id="{{layout.id}}" >{{layout.nome}}</ion-option>
         
                 </ion-select>
             </ion-item>
@@ -41,22 +41,22 @@
 
             <ion-item>
                 <ion-label label-ios>Bolsão:</ion-label>
-                <ion-select (ionChange)="onBolsaoChange($event)" okText="Confirmar" cancelText="Cancelar">
-                     <ion-option *ngFor="let bolsao of bolsoes; let i = index" value="{{bolsao.id}}" id="{{bolsao.id}}" selected="{{i === 0}}">{{bolsao.nome}}</ion-option> 
+                <ion-select (ionChange)="onBolsaoChange($event)" okText="Confirmar" cancelText="Cancelar" name="bolsao" id="bolsao" [(ngModel)]="formRecebimentoData.bolsao">
+                     <ion-option *ngFor="let bolsao of bolsoes; let i = index" value="{{bolsao.id}}" id="{{bolsao.id}}" >{{bolsao.nome}}</ion-option> 
                 </ion-select>
             </ion-item>                
         
             <ion-item>
                 <ion-label label-ios>Fila:</ion-label>
-                <ion-select (ionChange)="onFilaChange($event)" okText="Confirmar" cancelText="Cancelar">
-                    <ion-option *ngFor="let fila of filas; let i = index " value="{{fila.id}}" id="{{fila.id}}" selected="{{i === 0}}">{{fila.nome}}</ion-option>
+                <ion-select (ionChange)="onFilaChange($event)" okText="Confirmar" cancelText="Cancelar" name="fila" id="fila" [(ngModel)]="formRecebimentoData.fila">
+                    <ion-option *ngFor="let fila of filas; let i = index " value="{{fila.id}}" id="{{fila.id}}" >{{fila.nome}}</ion-option>
                 </ion-select>
             </ion-item> 
 
             <ion-item>
                 <ion-label label-ios>Posição:</ion-label>
-                    <ion-select (ionChange)="onPosicaoChange($event)" okText="Confirmar" cancelText="Cancelar">
-                        <ion-option *ngFor="let posicao of posicoes; let i = index" value="{{posicao.id}}" id="{{posicao.id}}" selected="{{i === 0}}">{{posicao.nome}}</ion-option>
+                    <ion-select (ionChange)="onPosicaoChange($event)" okText="Confirmar" cancelText="Cancelar"  name="posicao" id="posicao" [(ngModel)]="formRecebimentoData.posicao">
+                        <ion-option *ngFor="let posicao of posicoes; let i = index" value="{{posicao.id}}" id="{{posicao.id}}">{{posicao.nome}}</ion-option>
                     </ion-select>
             </ion-item> 
 

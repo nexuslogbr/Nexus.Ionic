@@ -19,6 +19,7 @@ import { Storage } from '@ionic/storage';
 import * as $ from 'jquery';
 import { HttpClient } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
+import { ModalSucessoComponent } from '../../components/modal-sucesso/modal-sucesso';
 
 @Component({
   selector: 'page-recebimento',
@@ -86,19 +87,24 @@ export class RecebimentoPage {
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
-    // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
-    //   if (value && value.length) {
-    //     {
-    //       if (value.length >= 6) {
-    //         let chassi = value.replace(/[\W_]+/g, '');
-    //         setTimeout(() => {
-    //           this.buscarChassi(chassi, false);
-    //           this.formData.chassi = '';
-    //         }, 500);
-    //       }
-    //     }
-    //   }
-    // });
+    // var data = {
+    //   message: 'Parqueamento realizado com',
+    //   iconClass: 'parking-green',
+    // };
+    //this.openModalSucesso(data);
+    this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+      if (value && value.length) {
+        {
+          if (value.length >= 6) {
+            let chassi = value.replace(/[\W_]+/g, '');
+            setTimeout(() => {
+              this.buscarChassi(chassi, false);
+              this.formData.chassi = '';
+            }, 500);
+          }
+        }
+      }
+    });
   }
 
   ionViewDidEnter() {
@@ -202,6 +208,18 @@ export class RecebimentoPage {
     $('.icon-menu').toggleClass('close-menu');
     $('side-menu').toggleClass('show');
   };
+
+
+  openModalSucesso(data) {
+    const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {
+      data: data,
+    });
+    chassiModal.present();
+    chassiModal.onDidDismiss((data) => {
+     // this.view.dismiss(data);
+      this.navCtrl.push(HomePage);
+    });
+  }
 
   openModalRecebimento(data, byScanner: boolean) {
     ;

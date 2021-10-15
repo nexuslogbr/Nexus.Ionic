@@ -1,11 +1,13 @@
 page-nova-conferencia-configuracao {
 
+  background-color: #404040;
   div.scroll-content {
     padding-top: 0px !important;
+    background-color: #595959;
   }
 
   .grid-base {
-    color: white;
+    color: #404040;
     height: 40px;
   }
 
@@ -33,7 +35,7 @@ page-nova-conferencia-configuracao {
 
   .grid-select-wrapper {
     padding: 0px;
-    background-color: white !important;
+    background-color: #595959 !important;
     position: sticky;
     top: 0;
     left: 0;
@@ -44,7 +46,7 @@ page-nova-conferencia-configuracao {
   .grid-select {
     margin-top: 10px;
     padding: 0px;
-    background-color: white;
+    background-color: #404040;
     border-radius: 10px;
     margin-bottom: 10px;
     color: black;
@@ -127,15 +129,15 @@ page-nova-conferencia-configuracao {
   }
 
   .footer-legenda {
-    color: #707070;
+    color: white;
     height: 170px;
-    background-color: white;
+    background-color: #404040;
 
     .grid-botao-voltar {
 
       .btn-menu-internal-azul-forte {
-        color: black;
-        background-color: #DEDEDE;
+        color: white;
+        background-color: #404040;
       }
     }
 

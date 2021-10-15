@@ -237,6 +237,14 @@ onTipoBloqueioChange(selectedValue){
     }); 
     
   } 
+
+  voltar() {
+    //this.dragulaService.find('nested-bag').drake.destroy();
+    const data = {};
+    this.view.dismiss();
+    this.navCtrl.push(BloqueioPage);
+  }
+
   openModalErro(data){
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, {data: data });
     chassiModal.present();

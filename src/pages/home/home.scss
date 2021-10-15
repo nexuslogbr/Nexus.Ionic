@@ -89,7 +89,7 @@ page-home {
           }
 
           button.bloqueio {
-            background-image: url("../assets/images/svg/romaneio-principal.svg ");
+            background-image: url("../assets/images/svg/bloqueio-icon.svg ");
           }
 
           button.historico-chassi {
@@ -205,7 +205,7 @@ page-home {
       }
 
       button.bloqueio {
-        background-image: url("../assets/images/svg/bloqueio.png ");
+        background-image: url("../assets/images/bloqueio-icon.png");
         margin-left: 13px;
       }
 
@@ -220,12 +220,12 @@ page-home {
       }
 
       button.lancamento-servico {
-        background-image: url("../assets/images/lancamento-servicos.png ");
+        background-image: url("../assets/images/svg/lancamento-servico.svg");
         margin-left: 13px;
       }
       
       button.observacoes {
-        background-image: url("../assets/images/observacoes.png ");
+        background-image: url("../assets/images/svg/observacoes-icon.svg");
         margin-left: 13px;
       }
     }
