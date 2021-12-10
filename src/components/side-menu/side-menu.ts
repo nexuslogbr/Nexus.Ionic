@@ -107,4 +107,8 @@ export class SideMenuComponent {
     this.navCtrl.setRoot(HomePage);
     this.navCtrl.push(DashboardVagasPage);
   }
+
+  toglleTheme(event){
+
+  }
 }

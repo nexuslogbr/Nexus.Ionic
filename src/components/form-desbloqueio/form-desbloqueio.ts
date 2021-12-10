@@ -182,7 +182,7 @@ export class FormDesbloqueioComponent {
 
         this.authService.hideLoading();
         var data = {
-          message : "Desbloqueio realizada com",
+          message : "Desbloqueio realizado com",
           iconClass : "icon-desbloqueio"
         }        
         this.openModalSucesso(data);

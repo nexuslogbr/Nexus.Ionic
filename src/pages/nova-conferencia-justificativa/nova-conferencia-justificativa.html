@@ -1,11 +1,20 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()" class="conferencia-header">
+<!-- <ion-header (click)="toggleMenu()" class="conferencia-header">
   <button class="btn-menu">
     <i class="icon icon-menu-gray"></i>
   </button>
   <ion-title>
     Justificativa
   </ion-title>
+</ion-header> -->
+<side-menu-ce *ngIf="clienteExterno"></side-menu-ce>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+      Justificativa
+    </ion-title>
 </ion-header>
 
 <ion-content no-padding #pageTop class="conferencia-content">
@@ -13,7 +22,7 @@
   <ion-grid class="grid-botao-wrapper">
     <ion-row>
       <ion-col>
-        <button ion-button class="btn-menu-internal" (click)="incluir()" type="button" [disabled]="!ativarBotaoIcluir">
+        <button ion-button class="btn-menu-internal btn-menu" (click)="incluir()" type="button" [disabled]="!ativarBotaoIcluir">
           Incluir item na conferência
         </button>
       </ion-col>

@@ -124,6 +124,7 @@ export class LoginPage {
       )
       .subscribe(
         (data) => {
+          debugger
           this.responseData = data;
           if (this.responseData.sucesso) {
             this.code = this.responseData.retorno;

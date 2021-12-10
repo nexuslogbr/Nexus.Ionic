@@ -39,6 +39,7 @@ export class NovaConferenciaListarConfiguracoesPage {
 
     if (navigator.onLine) {
       this.authService.showLoadingWhite();
+
       this.conferenciaDataService
         .listarConfiguracoesDisponiveisDispositivo()
         .pipe(

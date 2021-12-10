@@ -82,6 +82,8 @@ carregamento-resumo {
                     right: 6px;
                     bottom: 4px;
                     position: absolute;
+
+                    border: 1px solid #fff;
                 }
                 .search{
                     background-image: url(../assets/images/search-red.png);
@@ -166,7 +168,7 @@ carregamento-resumo {
                     .chassis-carregados{
                         margin: 0;
                         padding: 15px;
-                        background-image: url("../assets/images/remove-chassi.png");
+                        background-image: url("../assets/images/remove-chassi.svg");
                         background-repeat: no-repeat;
                         background-size: 36px 36px; 
                         background-position: right center;                        

@@ -29,7 +29,6 @@ page-nova-conferencia-execucao {
   // }
 
   .grid-destinos {
-
     padding-top: 0px;
     padding-bottom: 0px;
 
@@ -38,11 +37,11 @@ page-nova-conferencia-execucao {
       padding-top: 0px;
     }
 
-    background-color: #F84042 !important;
+    background-color: #f84042 !important;
 
     ion-item.item-md {
       //background-color: #404040;
-      background-color: #F84042;
+      background-color: #f84042;
       padding: 0;
       border-bottom: none;
       font-size: 1.4rem;
@@ -80,11 +79,10 @@ page-nova-conferencia-execucao {
   }
 
   .grid-header {
-    background-color: #FAFAFA;
-    color: black;
+    background-color: #404040;
+    color: #fff;
 
     .row-header {
-
       .turno {
         display: flex;
         justify-content: flex-end;
@@ -117,16 +115,15 @@ page-nova-conferencia-execucao {
     }
   }
 
-
   .grid-resumo-destino {
-    border: 1px solid #5D5D5D;
+    border: 1px solid #5d5d5d;
     background-color: white;
     color: black;
     margin-top: 10px;
     padding: 0px;
 
     .row-destino {
-      background-color: #5D5D5D;
+      background-color: #5d5d5d;
       font-weight: bold;
       color: white;
     }
@@ -140,7 +137,6 @@ page-nova-conferencia-execucao {
       justify-content: flex-end;
     }
 
-
     .col-grid-modelos {
       padding: 0px;
 
@@ -149,11 +145,10 @@ page-nova-conferencia-execucao {
         background-color: white;
 
         .row-grid-modelos {
-          border-top: 1px solid #5D5D5D;
+          border-top: 1px solid #5d5d5d;
         }
       }
     }
-
   }
 
   .text-left {
@@ -164,7 +159,7 @@ page-nova-conferencia-execucao {
     padding: 0px;
     padding-left: 4px;
     padding-right: 4px;
-    background-color: white;
+    background-color: #404040;
     position: sticky;
     top: 0;
     left: 0;
@@ -176,9 +171,9 @@ page-nova-conferencia-execucao {
       padding: 0px;
       background-color: white;
       border-radius: 12px;
-      border: 1px solid #5D5D5D;
+      border: 1px solid #5d5d5d;
       margin-bottom: 10px;
-      color: #5D5D5D;
+      color: #5d5d5d;
       text-transform: uppercase;
 
       ion-col {
@@ -193,8 +188,8 @@ page-nova-conferencia-execucao {
       }
 
       ion-col.col-center {
-        border-left: 1px solid #5D5D5D;
-        border-right: 1px solid #5D5D5D;
+        border-left: 1px solid #5d5d5d;
+        border-right: 1px solid #5d5d5d;
       }
 
       ion-col.col-right {
@@ -203,7 +198,7 @@ page-nova-conferencia-execucao {
       }
 
       ion-col.selected {
-        background-color: #5D5D5D;
+        background-color: #5d5d5d;
         color: white;
         font-weight: bold;
       }
@@ -216,18 +211,18 @@ page-nova-conferencia-execucao {
   }
 
   .grid-resumo-turno {
-    border: 1px solid #5D5D5D;
+    border: 1px solid #5d5d5d;
     background-color: white;
     color: black;
     margin-top: 10px;
     padding: 0px !important;
 
     .row-grid-resumo-turno {
-      border-top: 1px solid #5D5D5D;
+      border-top: 1px solid #5d5d5d;
     }
 
     .row-data-turno {
-      background-color: #5D5D5D;
+      background-color: #5d5d5d;
       color: white;
 
       .data {
@@ -271,6 +266,11 @@ page-nova-conferencia-execucao {
 
   .amarelo {
     background-color: #ffff8d !important;
+    color: black;
+
+    .grid-dados {
+      color: black;
+    }
   }
 
   .offline {
@@ -282,21 +282,19 @@ page-nova-conferencia-execucao {
   }
 
   .footer-sincronizacao {
-    background-color: white;
-    color: black;
+    background-color: #404040;
+    color: #fff;
     font-size: 14px;
     height: 190px;
-
 
     .grid-botao-finalizar {
       padding-top: 0px !important;
       padding-bottom: 0px !important;
 
       .btn-menu-internal {
-        background-color: #8DB7FF;
+        background-color: #8db7ff;
         color: black;
       }
-
     }
 
     .grid-botao-voltar {
@@ -305,9 +303,32 @@ page-nova-conferencia-execucao {
       padding-bottom: 0px !important;
 
       .btn-menu-internal-azul-forte {
-        background-color: #DEDEDE;
+        background-color: #dedede;
         color: black;
       }
+    }
+
+    .btn-menu-internal-ok {
+      background-color: #595959 !important; 
+      width: 48%;
+      height: 73px;
+      border-radius: 64px !important;
+      font: 19px "avenir_bold";
+      font-weight: 500;
+      text-transform: uppercase;
+      color: white;
+    }
+
+
+    .btn-menu-internal-voltar {
+      background-color: #595959;
+      width: 48%;
+      height: 73px;
+      border-radius: 64px !important;
+      font: 19px "avenir_bold";
+      font-weight: 500;
+      text-transform: uppercase;
+      color:white;
     }
 
     .grid-dados {
@@ -341,7 +362,7 @@ page-nova-conferencia-execucao {
 
     .icon-warning {
       margin-right: 6px;
-      color: #F5CA1E;
+      color: #f5ca1e;
       font-size: 22px;
     }
   }
@@ -354,5 +375,4 @@ page-nova-conferencia-execucao {
   .desabilitar {
     opacity: 0.5;
   }
-
 }

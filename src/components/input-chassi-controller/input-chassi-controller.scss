@@ -96,6 +96,8 @@ input-chassi-controller {
       top: -8px;
       bottom: 0px;
       position: absolute;
+
+      border: 1px solid #fff;
     }
 
     ion-list {
@@ -165,7 +167,7 @@ input-chassi-controller {
       .chassis-carregados {
         margin: 0;
         padding: 15px;
-        background-image: url('../assets/images/remove-chassi.png');
+        background-image: url('../assets/images/remove-chassi.svg');
         background-repeat: no-repeat;
         background-size: 36px 36px;
         background-position: right center;

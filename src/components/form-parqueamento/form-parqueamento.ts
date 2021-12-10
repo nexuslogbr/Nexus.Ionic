@@ -57,70 +57,76 @@ export class FormParqueamentoComponent {
 
 
 
-    this.storage.ready().then(() => {
-      this.storage.get('parqueamento').then((data) => {
-        if (data != null) {
-          this.formRecebimentoData = data;
-
-          console.log(data)
-          this.onLayoutChange(this.formRecebimentoData.layout);
-          this.onBolsaoChange(this.formRecebimentoData.bolsao);
-          this.onFilaChange(this.formRecebimentoData.fila);
-          this.onPosicaoChange(this.formRecebimentoData.posicao);
-          this.temValores=true;
-        }
-      });
-    });
+  
   }
 
 
 
 
-  carregar() {
+  // carregar() {
 
 
 
-    if (this.authService.getLayout()) {
+  //   if (this.authService.getLayout()) {
 
 
-      this.tShow = false;
-      this.formRecebimentoData.layout = this.authService.getLayout();
-      this.formRecebimentoData.layoutNome = this.authService.getLayoutNome();
-      this.authService.showLoading();
+  //     this.tShow = false;
+  //     this.formRecebimentoData.layout = this.authService.getLayout();
+  //     this.formRecebimentoData.layoutNome = this.authService.getLayoutNome();
+  //     this.authService.showLoading();
 
-      let listarBolsoes = this.url + "/Parquear/ListarBolsoes?token=" + this.authService.getToken() + "&layoutID=" + this.formRecebimentoData.layout;
+  //     let listarBolsoes = this.url + "/Parquear/ListarBolsoes?token=" + this.authService.getToken() + "&layoutID=" + this.formRecebimentoData.layout;
 
-      this.http.get<dataRetorno>(listarBolsoes)
-        .subscribe(res => {
+  //     this.http.get<dataRetorno>(listarBolsoes)
+  //       .subscribe(res => {
 
-          this.responseData3 = res;
-          if (this.responseData3.sucesso) {
+  //         this.responseData3 = res;
+  //         if (this.responseData3.sucesso) {
 
-            //PREENCHER O SELECT DO BOLSAO
+  //           //PREENCHER O SELECT DO BOLSAO
 
-            this.bolsoes = this.responseData3.retorno;
-            this.authService.hideLoading();
-          } else {
-            this.authService.hideLoading();
-            this.openModalErro(this.responseData3.mensagem);
-          }
+  //           this.bolsoes = this.responseData3.retorno;
+  //           this.authService.hideLoading();
+  //         } else {
+  //           this.authService.hideLoading();
+  //           this.openModalErro(this.responseData3.mensagem);
+  //         }
 
-        }, (error) => {
-          this.openModalErro(error.status + ' - ' + error.statusText);
-          this.authService.hideLoading();
-          console.log(error);
-        });
+  //       }, (error) => {
+  //         this.openModalErro(error.status + ' - ' + error.statusText);
+  //         this.authService.hideLoading();
+  //         console.log(error);
+  //       });
 
-    } else {
-      this.tShow = true;
-    }
-  }
+  //   } else {
+  //     this.tShow = true;
+  //   }
+  // }
 
 
   ionViewWillLoad() {
     const data = this.navParam.get('data');
     this.formRecebimentoData = data;
     this.layouts = this.formRecebimentoData.layout;
+
+    this.storage.ready().then(() => {
+      this.storage.get('parqueamento').then((data) => {
+        if (data != null) {
+          this.formRecebimentoData = data;
+
+          console.log(this.formRecebimentoData)
+          this.onLayoutChange(this.formRecebimentoData.layout);
+          this.onBolsaoChange(this.formRecebimentoData.bolsao);
+          this.onFilaChange(this.formRecebimentoData.fila);
+          this.onPosicaoChange(this.formRecebimentoData.posicao);
+
+          console.log(this.formRecebimentoData)
+          this.temValores=true;
+        }
+      });
+    });
+
+
 
   }
 
@@ -205,6 +211,8 @@ export class FormParqueamentoComponent {
           //PREENCHER O SELECT DA POSIÇÂO
 
           this.posicoes = this.responseData5.retorno;
+
+          this.formRecebimentoData.posicao=this.posicoes[0].id;
           this.authService.hideLoading();
         } else {
           this.authService.hideLoading();
@@ -218,14 +226,22 @@ export class FormParqueamentoComponent {
         console.log(error);
       });
   }
+  
+  
   onPosicaoChange(selectedValue) {
+    debugger
     this.authService.showLoading();
     this.formRecebimentoData.posicao = selectedValue;
     this.authService.hideLoading();
   }
+
+
+
   closeModal() {
     this.view.dismiss(this.formRecebimentoData);
   }
+
+
   toggleMenu = function (this) {
     $('.menu-body').toggleClass('show-menu');
     $('menu-inner').toggleClass('show');
@@ -262,7 +278,7 @@ export class FormParqueamentoComponent {
 
           this.storage.set('parqueamento', this.formRecebimentoData);
 
-          this.onPosicaoChange(null);
+         // this.onPosicaoChange(null);
           this.openModalSucesso(data);
         }
         else {

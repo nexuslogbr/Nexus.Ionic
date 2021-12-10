@@ -91,20 +91,20 @@ export class RecebimentoPage {
     //   message: 'Parqueamento realizado com',
     //   iconClass: 'parking-green',
     // };
-    //this.openModalSucesso(data);
-    this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
-      if (value && value.length) {
-        {
-          if (value.length >= 6) {
-            let chassi = value.replace(/[\W_]+/g, '');
-            setTimeout(() => {
-              this.buscarChassi(chassi, false);
-              this.formData.chassi = '';
-            }, 500);
-          }
-        }
-      }
-    });
+    // this.openModalSucesso(data);
+    // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+    //   if (value && value.length) {
+    //     {
+    //       if (value.length >= 6) {
+    //         let chassi = value.replace(/[\W_]+/g, '');
+    //         setTimeout(() => {
+    //           this.buscarChassi(chassi, false);
+    //           this.formData.chassi = '';
+    //         }, 500);
+    //       }
+    //     }
+    //   }
+    // });
   }
 
   ionViewDidEnter() {
@@ -160,7 +160,7 @@ export class RecebimentoPage {
 
     this.formRecebimentoData.chassi = partChassi;
     let uriBuscaChassi =
-      '/Receber/BuscarChassi?token=' +
+      '/Receber/ConsultarChassi?token=' +
       this.authService.getToken() +
       '&partChassi=' +
       partChassi;

@@ -218,7 +218,7 @@ onTipoChange(selectedValue){
 
         this.authService.hideLoading();
         var data = {
-          message : "Lançamento de serviço realizada com",
+          message : "Lançamento de serviço realizado com",
           iconClass : "icon-lancamento-servico"
         }        
         this.openModalSucesso(data);

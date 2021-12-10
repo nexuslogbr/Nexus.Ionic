@@ -217,7 +217,7 @@ onTipoBloqueioChange(selectedValue){
 
         this.authService.hideLoading();
         var data = {
-          message : "Bloqueio realizada com",
+          message : "Bloqueio realizado com",
           iconClass : "icon-bloqueio"
         }        
         this.openModalSucesso(data);

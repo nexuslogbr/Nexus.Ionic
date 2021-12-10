@@ -7,10 +7,13 @@ page-nova-conferencia-justificativa {
   .botao-primeiralinha {
     margin-top: 20px;
   }
-
+  .btn-menu-internal {
+    background-color: #595959  !important;
+    color: #fff !important;
+  }
   ion-footer {
     height: 100px;
-    background-color: white;
+    background-color: #494949;
 
     .grid-botao-wrapper {
       padding-left: 16px !important;
@@ -18,8 +21,8 @@ page-nova-conferencia-justificativa {
       padding-top: 0px;
 
       .btn-menu-internal {
-        background-color: #DEDEDE;
-        color: black;
+        background-color: #595959;
+        color: #FFF;
       }
     }
   }

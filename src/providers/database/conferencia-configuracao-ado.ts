@@ -140,6 +140,10 @@ export class ConferenciaConfiguracaoADO {
   public saveConferenciaConfiguracao2(
     conferenciaConfiguracao: ConferenciaConfiguracao
   ) {
+
+
+
+    debugger
     let params = [
       conferenciaConfiguracao.id,
       conferenciaConfiguracao.areaID,
@@ -1097,6 +1101,9 @@ export class ConferenciaConfiguracaoADO {
     var p = this.dbProvider
       .query(sql, params)
       .then((queryResult) => {
+
+        console.log('LOAD CONFERENCIA' ,  queryResult)
+
         let conferencias = new Array<Conferencia>();
         if (queryResult.rows && queryResult.rows.length) {
           for (let i = 0; i < queryResult.rows.length; i++) {

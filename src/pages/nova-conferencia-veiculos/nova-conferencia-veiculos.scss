@@ -52,7 +52,7 @@ page-nova-conferencia-veiculos {
     padding: 0px;
     padding-left: 4px;
     padding-right: 4px;
-    background-color: white;
+    background-color: #404040;
     position: sticky;
     top: 0;
     left: 0;
@@ -62,7 +62,7 @@ page-nova-conferencia-veiculos {
     .grid-select {
       margin-top: 10px;
       padding: 0px;
-      background-color: white;
+      background-color: #404040;
       border-radius: 12px;
       border: 1px solid #5D5D5D;
       margin-bottom: 10px;
@@ -147,11 +147,11 @@ page-nova-conferencia-veiculos {
 
   ion-footer {
     height: 100px;
-    background-color: white;
+    background-color: #595959;
 
     .btn-justificar {
-      color: black;
-      background-color: white !important;
+      color: #FFF;
+      background-color: #595959 !important;
     }
 
     .grid-botao-wrapper {
@@ -161,8 +161,8 @@ page-nova-conferencia-veiculos {
       margin-top: -10px;
 
       .btn-menu-internal {
-        background-color: #DEDEDE;
-        color: black;
+        background-color: #494949 !important;
+        color: #FFF;
       }
     }
 

@@ -20,6 +20,24 @@ import { BloqueioPage } from '../bloqueio/bloqueio';
 import { LancamentoServicoPage } from '../lancamento-servico/lancamento-servico';
 import { ObservacoesPage } from '../observacoes/observacoes';
 import { Storage } from '@ionic/storage';
+
+
+// 3101	mnu_mob_recebimento
+// 3102	mnu_mob_parqueamento
+// 3103	mnu_mob_receberparquear
+// 3104	mnu_mob_conferencia
+// 3105	mnu_mob_parquearbloco
+// 3106	mnu_mob_movimentacao
+// 3107	mnu_mob_rechego
+// 3108	mnu_mob_carregamento
+// 3109	mnu_mob_carregamentoexportacao
+// 3110	mnu_mob_romaneio
+// 3111	mnu_mob_historicochassi
+// 3122	mnu_mob_bloqueio
+// 3123	mnu_mob_observacao
+// 3124	mnu_mob_servico
+
+
 const menus = [
   {
     texto: 'Recebimento',
@@ -72,26 +90,28 @@ const menus = [
     id: 3110,
   },
   {
+    texto: 'Histórico de Chassi',
+    cssClass: 'historico-chassi',
+    id: 3111,
+  },
+  {
     texto: 'Bloqueio/Desbloqueio',
     cssClass: 'bloqueio',
-    id: 3111,
+    id: 3122,
+  },
+  {
+    texto: 'Observações',
+    cssClass: 'observacoes',
+    id: 3123,
   },
   {
     texto: 'Lançamento de Serviço',
     cssClass: 'lancamento-servico',
-    id: 3112,
+    id: 3124,
   },
-  
-  {
-    texto: 'Observações',
-    cssClass: 'observacoes',
-    id: 3113,
-  },
-  {
-    texto: 'Histórico de Chassi',
-    cssClass: 'historico-chassi',
-    id: 3114,
-  }
+
+
+
 ];
 @Component({
   selector: 'page-home',
@@ -115,13 +135,22 @@ export class HomePage {
     this.userData = this.authService.getUserData();
 
     if (this.userData && this.userData.menus) {
-      // this.userMenus = menus.filter((m) =>
-      //   this.userData.menus.some((mm) => mm == m.id)
-      // );
-      this.userMenus = menus;
-
-     this.storage.set('parqueamento', null);
+      this.userMenus = menus.filter((m) =>
+        this.userData.menus.some((mm) => mm == m.id)
+      );
     }
+
+    this.storage.set('parqueamento', null);
+
+
+    // if (this.userData && this.userData.menus) {
+    //   this.userMenus = menus.filter((m) =>
+    //     this.userData.menus.some((mm) => mm == m.id)
+    //   );
+    //   this.userMenus = menus;
+
+
+    // }
   }
 
   ionViewDidEnter() {
@@ -196,6 +225,21 @@ export class HomePage {
 
   chamar(menu) {
 
+    // 3101	mnu_mob_recebimento
+    // 3102	mnu_mob_parqueamento
+    // 3103	mnu_mob_receberparquear
+    // 3104	mnu_mob_conferencia
+    // 3105	mnu_mob_parquearbloco
+    // 3106	mnu_mob_movimentacao
+    // 3107	mnu_mob_rechego
+    // 3108	mnu_mob_carregamento
+    // 3109	mnu_mob_carregamentoexportacao
+    // 3110	mnu_mob_romaneio
+    // 3111	mnu_mob_historicochassi
+    // 3122	mnu_mob_bloqueio
+    // 3123	mnu_mob_observacao
+    // 3124	mnu_mob_servico
+
     console.log(menu)
     if (menu.id == 3101) {
       this.navCtrl.setRoot(RecebimentoPage);
@@ -217,18 +261,19 @@ export class HomePage {
     } else if (menu.id == 3108) {
       this.navCtrl.setRoot(CarregamentoPage);
     } else if (menu.id == 3109) {
-      this.navCtrl.setRoot(CarregamentoExportOperacaoPage);   
+      this.navCtrl.setRoot(CarregamentoExportOperacaoPage);
     } else if (menu.id == 3110) {
       this.authService.limparRomaneio();
       this.navCtrl.setRoot(RomaneioPage);
     } else if (menu.id == 3111) {
-      this.navCtrl.setRoot(BloqueioPage);
-    } else if (menu.id == 3112) {
-      this.navCtrl.setRoot(LancamentoServicoPage);
-    } else if (menu.id == 3113) {
-      this.navCtrl.setRoot(ObservacoesPage);
-    }  else if (menu.id == 3114) {
       this.navCtrl.setRoot(HistoricoChassiPage);
+    } else if (menu.id == 3122) {
+      this.navCtrl.setRoot(BloqueioPage);
+    } else if (menu.id == 3123) {
+      this.navCtrl.setRoot(ObservacoesPage);
+    } else if (menu.id == 3124) {
+      this.navCtrl.setRoot(ObservacoesPage);
     }
+
   }
 }

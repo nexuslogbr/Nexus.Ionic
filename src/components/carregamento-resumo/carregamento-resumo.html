@@ -75,10 +75,10 @@
             <input class="form-control" type="text" name="" value="{{chassi}}" placeholder="{{chassi}}" [disabled]="true" class="chassis-nao-carregados"
             />
           </div>
-          <div #deleteChassi class="change-chassi" id="{{ chassi }}" (click)="cancelarChassi($event, chassi)">
+          <div #deleteChassi class="change-chassi"  id="{{ chassi }}" (click)="cancelarChassi($event, chassi)">
             <img src="assets/images/remove-chassi.svg" alt="">
           </div>
-          <div #changeChassi class="remove-chassi" id="{{ chassi }}" (click)="trocaCarregados($event, chassi)">
+          <div #changeChassi class="remove-chassi"  id="{{ chassi }}" (click)="trocaCarregados($event, chassi)">
             <img src="assets/images/change-chassi.svg" alt="" >
           </div>
         </div>

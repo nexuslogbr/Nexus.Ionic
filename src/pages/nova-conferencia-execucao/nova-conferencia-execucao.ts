@@ -30,6 +30,7 @@ import { ModalSelecaoChassiPage } from '../modal-selecao-chassi/modal-selecao-ch
 import { ConferenciaVeiculoMotivos } from '../../model/conferencia-veiculo-motivos';
 import { InputChassiControllerComponent } from '../../components/input-chassi-controller/input-chassi-controller';
 import { Conferencia } from '../../model/Conferencia';
+import { NovaConferenciaMenuPage } from '../nova-conferencia-menu/nova-conferencia-menu';
 
 @Component({
   selector: 'page-nova-conferencia-execucao',
@@ -75,6 +76,8 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
   public totalUpload: number = 0;
 
   public fechamento: boolean = false;
+  public contador: number = 0;
+
 
   constructor(
     public navCtrl: NavController,
@@ -87,6 +90,7 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
     public conferenciaService: ConferenciaService,
     public alertCtrl: AlertController
   ) {
+
     this.fechamento = navParams.data.fechamento;
     this.tituloPagina = this.fechamento ? 'Fechamento' : 'Conferência';
     this.configuracao = navParams.data.configuracao;
@@ -100,6 +104,8 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
         this.showErrorAlert('Erro na conferência!', false);
       }
     );
+
+
 
     this.conferenciaService.saldoConferencia$.subscribe((saldo) => {
       this.saldoConferencia = saldo;
@@ -119,6 +125,7 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
           (res) => {
             this.destinos = res;
             if (this.configuracao.arquivo) {
+              debugger
               this.conferenciaService.destino = this.destinos[0];
             }
           },
@@ -143,6 +150,10 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
         }
       });
     }
+    // if (!localStorage.getItem("contador")) {
+    //   this.contador = parseInt(localStorage.getItem('contador'))
+    // }
+
   }
 
   ionViewDidEnter() {
@@ -186,6 +197,7 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
               if (res.length > 1) {
                 // mais de um chassi retornou...
 
+
                 if (res.some((v) => !v.conferido)) {
                   let veiculosNaoConferidos = res.filter((v) => !v.conferido);
 
@@ -196,6 +208,8 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
                         chassis: veiculosNaoConferidos.map((v) => v.chassi),
                       }
                     );
+
+
                     chassiModal.present();
 
                     chassiModal.onDidDismiss((data) => {
@@ -226,6 +240,7 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
                 let veiculo = res[0];
                 this.conferirVeiculo(veiculo, byScanner);
               }
+
             } else {
               this.conferenciaConfiguracaoADO
                 .loadVeiculosSemDestino(this.configuracao.id, chassi)
@@ -236,8 +251,8 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
                       byScanner
                         ? null
                         : () => {
-                            this.scanner.setFocus();
-                          }
+                          this.scanner.setFocus();
+                        }
                     );
                     if (byScanner) {
                       this.callScanner();
@@ -248,8 +263,8 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
                       byScanner
                         ? null
                         : () => {
-                            this.scanner.setFocus();
-                          }
+                          this.scanner.setFocus();
+                        }
                     );
                     if (byScanner) {
                       this.callScanner();
@@ -263,6 +278,10 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
           }
         );
     }
+
+    this.contador = this.contador + 1;
+
+    localStorage.setItem('contador', this.contador.toString())
   }
 
   openModalSelecaoChassi(chassis) {
@@ -294,8 +313,8 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
               byScanner
                 ? null
                 : () => {
-                    this.scanner.setFocus();
-                  }
+                  this.scanner.setFocus();
+                }
             );
             this.chassi = '';
             if (byScanner) {
@@ -313,8 +332,8 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
         byScanner
           ? null
           : () => {
-              this.scanner.setFocus();
-            }
+            this.scanner.setFocus();
+          }
       );
       if (byScanner) {
         this.callScanner();
@@ -359,6 +378,8 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
   }
 
   executarSincronizacao() {
+
+
     if (this.onLine) {
       if (this.totalUpload > 0) {
         this.authService.showSincronizacao();
@@ -367,17 +388,18 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
           .loadConferenciasPendentes(this.configuracao.id)
           .pipe(
             switchMap((conferencias: Conferencia[]) => {
+
               return this.conferenciaDataService.conferirChassisEmLote(
                 conferencias,
                 this.configuracao.id
               );
             }),
-            switchMap((guidLote: string) => {
-              console.log('guidLote', guidLote);
-              return this.conferenciaConfiguracaoADO.excluirConferencia(
-                this.configuracao.id
-              );
-            }),
+            // switchMap((guidLote: string) => {
+            //   console.log('guidLote', guidLote);
+            //   return this.conferenciaConfiguracaoADO.excluirConferencia(
+            //     this.configuracao.id
+            //   );
+            // }),
             switchMap((res) =>
               this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(
                 this.configuracao.id
@@ -401,7 +423,12 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
             (res) => {
               this.authService.showLoading();
               this.conferenciaService.update();
+
+              this.gotoListagemVeiculos();
               this.authService.hideLoading();
+
+              this.contador = 0;
+              localStorage.setItem('contador', this.contador.toString())
             },
             (err) => {
               console.error(err);
@@ -548,6 +575,19 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
         this.navCtrl.pop();
       }
     );
+  }
+
+
+
+  ok() {
+
+    if (this.contador > 0) {
+      this.alertService.showError(
+        'NÃO É POSSÍVEL REALIZAR OPERAÇÃO POIS HÁ SINCRONIZAÇÕES PENDENTES'
+      );
+    }else{
+      this.navCtrl.push(NovaConferenciaMenuPage);
+    }
   }
 
   showDelayAlert() {

@@ -74,7 +74,7 @@ export class NovaConferenciaConfiguracaoAreaPage {
         .pipe(
           tap(() => {}),
           switchMap((res) => {
-            console.log('res', res);
+        //    console.log('res---->', res);
             if (res.sucesso) {
               this.configuracoes = res.retorno.map(
                 (a) =>
@@ -143,7 +143,10 @@ export class NovaConferenciaConfiguracaoAreaPage {
           })
         )
         .subscribe((res) => {
-          if (res.sucesso) {
+console.log('---->>',res)
+debugger
+
+          if (res) {
             let configuracoesCadastradas = res.retorno;
             configuracoesCadastradas.forEach((cc) => {
               let configuracaoCriada = this.configuracoes

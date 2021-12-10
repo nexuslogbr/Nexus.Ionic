@@ -116,6 +116,8 @@ export class ConferenciaService implements OnDestroy {
 
           this.saldoConferencia$.next(
             quantidadeVeiculos - quantidadeConferidos
+
+            
           );
 
           res.forEach((d) => {

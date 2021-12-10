@@ -30,6 +30,7 @@ export class ConferenciaDataService {
       this.urlApi +
       '/conferencias/configuracoes?token=' +
       this.authService.getToken();
+
     return this.http.get<any>(url, { headers: headers });
   }
 

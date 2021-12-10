@@ -232,7 +232,7 @@ page-novo-romaneio{
                 }
                 
                 .icon-qr-code{
-                    background-image: url(../assets/images/qrcode-gray.png);
+                    background-image: url(../assets/images/code-gray.png);
                     background-repeat: no-repeat;
                     background-position: 95% center;
                     background-size: 100%;
@@ -241,6 +241,8 @@ page-novo-romaneio{
                     right: 35px;
                     bottom: 5px;
                     position: absolute;
+
+                    border: 1px solid #fff;
                 }
 
 

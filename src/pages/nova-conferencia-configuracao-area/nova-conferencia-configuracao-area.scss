@@ -1,8 +1,8 @@
 page-nova-conferencia-configuracao-area {
   ion-content {
-    background-color: color($colors, bgQrCode) !important;
+    background-color: #404040 !important;
   }
-
+  background-color: #404040;
   .label-tipo-conferencia {
     font-size: 0.9em;
     text-transform: none;
@@ -14,7 +14,7 @@ page-nova-conferencia-configuracao-area {
 
   .grid-item {
     margin-top: 5px;
-    background-color: #8E897E;
+    background-color: #404040;
     margin-bottom: 10px;
     color: white;
     height: 40px;
@@ -51,7 +51,7 @@ page-nova-conferencia-configuracao-area {
 
     ion-row {
       height: 100%;
-
+      color: #fff;
       ion-col {
         display: flex;
         align-items: center;
@@ -144,7 +144,7 @@ page-nova-conferencia-configuracao-area {
 
   ion-footer {
     height: 100px;
-    background-color: white;
+    background-color: #404040;
 
     .btn-confirmar {
       background-color: #A7FF8D !important;

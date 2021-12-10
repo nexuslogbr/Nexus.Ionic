@@ -1,12 +1,22 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()" class="conferencia-header">
+<!-- <ion-header (click)="toggleMenu()" class="conferencia-header">
   <button class="btn-menu">
     <i class="icon icon-menu-gray"></i>
   </button>
   <ion-title>
     {{tituloPagina}}
   </ion-title>
+</ion-header> -->
+<side-menu-ce *ngIf="clienteExterno"></side-menu-ce>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+      <i class="icon icon-menu" ></i>
+    </button>
+    <ion-title>
+       Conferência
+    </ion-title>
 </ion-header>
+
 
 <ion-content no-padding #pageTop class="conferencia-content">
   <ion-grid class="fixed">
@@ -271,23 +281,28 @@
   <ion-grid class="grid-botao-wrapper" no-padding>
     <ion-grid
       class="grid-dados"
-      [ngClass]="{'amarelo': (conferenciaService.totalUpload$ | async) > 0, 'offline': !onLine }"
+      [ngClass]="{'amarelo': (  contador ) > 0, 'offline': !onLine }"
       *ngIf="!fechamento"
       (click)="executarSincronizacao()"
     >
       <ion-row>
         <ion-col col-8>
           <div class="texto-sincronizacao">
-            SINCRONIZAÇÃO PENDENTES: {{ (conferenciaService.totalUpload$ |
-            async) }}
+            SINCRONIZAÇÃO PENDENTES:
           </div>
           <div class="resumo">
-            {{ (conferenciaService.totalConferidos$ | async) -
+
+          {{contador}} / {{conferenciaService.totalUpload$ | async}}
+            <!-- {{ (conferenciaService.totalConferidos$ | async) -
             (conferenciaService.totalUpload$ | async) }}/{{
-            conferenciaService.totalVeiculos$ | async }}
+            conferenciaService.totalVeiculos$ | async }} -->
             <strong
-              >({{ (conferenciaService.saldoConferencia$ | async) +
-              (conferenciaService.totalUpload$ | async) }})</strong
+              >
+
+              ({{ (conferenciaService.saldoConferencia$ | async) }})
+              <!-- ({{ (conferenciaService.saldoConferencia$ | async) +
+              (conferenciaService.totalUpload$ | async) }}) -->
+              </strong
             >
           </div>
         </ion-col>
@@ -326,12 +341,21 @@
             <ion-col>
               <button
                 ion-button
-                class="btn-menu-internal btn-menu-internal-azul-forte"
-                (click)="voltar()"
+                class="btn-menu-internal-ok btn-menu-internal-azul-forte"
+                (click)="ok()"
                 type="button"
+                size="small"
               >
-                Voltar
+                OK
               </button>
+              <button
+              ion-button
+              class="btn-menu-internal-voltar btn-menu-internal-azul-forte"
+              (click)="voltar()"
+              type="button"
+            >
+              Voltar
+            </button>
             </ion-col>
           </ion-row>
         </ion-grid>

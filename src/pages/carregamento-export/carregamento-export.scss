@@ -62,11 +62,11 @@ page-carregamento-export {
   }
 
   .btn-cancel {
-    background-color: #143B50;
+    background-color: #484848;
   }
 
   .grid-lote {
-    border: 1px solid #143B50;
+    border: 1px solid #484848;
 
     ion-row {
       padding: 10px;
@@ -81,20 +81,20 @@ page-carregamento-export {
     }
 
     .row-lote-header {
-      background-color: #1C6482;
+      background-color: #595959;
       font-weight: bold;
     }
 
     .row-lote-data.show-line {
 
-      border-bottom: 1px solid #143B50;
+      border-bottom: 1px solid #595959;
 
     }
   }
 
   .grid-scan {
     margin-bottom: 10px;
-    background-color: #1C6482;
+    background-color: #595959;
 
     .row-header {
       .col-header {
@@ -184,6 +184,8 @@ page-carregamento-export {
       right: 6px;
       bottom: 4px;
       position: absolute;
+
+      border: 1px solid #fff;
     }
 
     .search {
@@ -293,7 +295,7 @@ page-carregamento-export {
       .chassis-carregados {
         margin: 0;
         padding: 15px;
-        background-image: url("../assets/images/remove-chassi.png");
+        background-image: url("../assets/images/remove-chassi.svg");
         background-repeat: no-repeat;
         background-size: 36px 36px;
         background-position: right center;
