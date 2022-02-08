@@ -20,6 +20,7 @@ import { BloqueioPage } from '../bloqueio/bloqueio';
 import { LancamentoServicoPage } from '../lancamento-servico/lancamento-servico';
 import { ObservacoesPage } from '../observacoes/observacoes';
 import { Storage } from '@ionic/storage';
+import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
 
 
 // 3101	mnu_mob_recebimento
@@ -36,6 +37,7 @@ import { Storage } from '@ionic/storage';
 // 3122	mnu_mob_bloqueio
 // 3123	mnu_mob_observacao
 // 3124	mnu_mob_servico
+// 3141 mnu_mob_avaria
 
 
 const menus = [
@@ -109,9 +111,11 @@ const menus = [
     cssClass: 'lancamento-servico',
     id: 3124,
   },
-
-
-
+  {
+    texto: 'Lançamento de Avaria',
+    cssClass: 'lancamento-servico',
+    id: 3141,
+  }
 ];
 @Component({
   selector: 'page-home',
@@ -273,7 +277,10 @@ export class HomePage {
       this.navCtrl.setRoot(ObservacoesPage);
     } else if (menu.id == 3124) {
       this.navCtrl.setRoot(ObservacoesPage);
+    }else if (menu.id == 3141) {
+      this.navCtrl.setRoot(LancamentoAvariaPage);
     }
+
 
   }
 }

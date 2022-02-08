@@ -1,0 +1,39 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+    <button class="btn-menu">
+        <i class="icon icon-menu"></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+<ion-content padding id="form-movimentacao">
+
+    <form class="form-movimentacao">
+        <ion-list>
+            <ion-list-header>
+                <!-- INFORMAÇÕES DE LANCAMENTO DE AVARIAS -->
+            </ion-list-header>
+
+            <ion-item class="item-block item-ios item-select">
+                <ion-label>CHASSI:</ion-label>
+                <ion-input class="form-control" type="text" [(ngModel)]="FormLancamentoAvariaData.chassi" id="chassi"
+                    name="chassi" value="" placeholder="{{ chassi }}" [disabled]="isDisabled ? !'' : !null"></ion-input>
+            </ion-item>
+            
+            <ion-item>
+                <ion-label label-ios>OBSERVAÇÃO:</ion-label>
+                <ion-input class="form-control" type="text" [(ngModel)]="FormLancamentoAvariaData.observacao" id="observacao"
+                    name="observacao" value="" placeholder="{{ observacao }}" [disabled]="isDisabled ? !'' : !null"></ion-input>
+            </ion-item>
+        </ion-list>
+    </form>
+    <div class="login-content">
+        <div class="login-content">
+            <button ion-button round first class="btn-receiving btn-cancel" (click)="voltar()"
+                type="button">Voltar</button>
+            <button ion-button round end class="btn-receiving btn-ok" (click)="Bloquear()" type="button">OK</button>
+        </div>
+    </div>
+</ion-content>
+<modal-loading></modal-loading>
