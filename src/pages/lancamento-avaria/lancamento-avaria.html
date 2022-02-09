@@ -9,16 +9,49 @@
 </ion-header>
 
 <ion-content padding id="recebimento" class="recebimento show">
-  <!-- <div *ngIf="scanData">
-        <button class="btn btn-cancel">CANCELAR</button>
-    </div> -->
   <div class="qr-code-container">
-    <i class="icon icon-qr-code-black" (click)="scan()"></i>
-    <div class="line"></div>
-    <form>
-      <ion-label>Chassi:</ion-label>
-      <ion-input type="text" [(ngModel)]="formData.chassi" [formControl]="formControlChassi" placeholder="" value="" required #chassiInput></ion-input>
+    <form class="form-lancar-avaria">
+      <ion-list>
+
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;" color="dark">Lançamento de Avaria:</ion-label>
+        </ion-item>
+
+        <ion-item style="background-color: darkred;">
+          <ion-label label-ios  style="font-style: unset;">Local: Rio Grande</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label label-ios>Momento:</ion-label>
+          <ion-select  (ionChange)="onMomentoChange($event)" okText="Selecionar" cancelText="Cancelar">
+              <ion-option *ngFor="let momento of momentos" value="{{momento.id}}" id="{{momento.id}}">{{momento.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col col-10>
+            <ion-input type="text" [(ngModel)]="formData.chassi" [formControl]="formControlAvaria" placeholder="Chassi" value="" required #chassiInput></ion-input>
+          </ion-col>
+          <ion-col col-1 style="align-self: center;">
+            <i class="icon qrcode-gray" (click)="scan()"></i>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-list>
+        <ion-item>
+          <ion-label label-ios>Observação: </ion-label>
+        </ion-item>
+      </ion-list>
+
     </form>
+  </div>
+
+  <div class="login-content">
+    <button ion-button round first class="btn-receiving btn-cancel" (click)="voltar()" type="button">Voltar</button>
+    <button ion-button round end class="btn-receiving btn-ok" (click)="busca()" type="button">Busca</button>
   </div>
 
 </ion-content>

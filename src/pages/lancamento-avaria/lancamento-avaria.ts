@@ -2,13 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
-import { Modal, ModalController, NavController } from 'ionic-angular';
+import { Modal, ModalController, NavController, ViewController } from 'ionic-angular';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { ModalLancamentoAvariaComponent } from '../../components/modal-lancamento-avaria/modal-lancamento-avaria';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { HomePage } from '../home/home';
 import * as $ from 'jquery';
 import { Storage } from '@ionic/storage';
+import { MomentoDataService } from '../../providers/momento-data-service';
+import { Momento } from '../../model/Momento';
 
 @Component({
   selector: 'page-lancamento-avaria',
@@ -29,7 +31,8 @@ export class LancamentoAvariaPage {
   qrCodeText: string;
   ligado: boolean;
   modoOperacao: number;
-  
+  momentos: Array<Momento> = [];
+
   formData = { chassi: '' };
 
   erroData = {
@@ -60,8 +63,8 @@ export class LancamentoAvariaPage {
     fila: '',
     posicao: '',
   };
-  
-  formControlChassi = new FormControl('');
+
+  formControlAvaria = new FormControl('');
   @ViewChild('chassiInput') chassiInput;
 
   constructor(
@@ -71,15 +74,17 @@ export class LancamentoAvariaPage {
     private modal: ModalController,
     public navCtrl: NavController,
     public storage: Storage,
-    public authService: AuthService
-  ) 
+    public authService: AuthService,
+    private momentoService: MomentoDataService,
+    private view: ViewController,
+  )
   {
     this.title = 'Lançamento de Avaria';
     this.url = this.authService.getUrl();
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
-    this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+    this.formControlAvaria.valueChanges.debounceTime(500).subscribe((value) => {
       if (value && value.length) {
         {
           if (value.length >= 6) {
@@ -101,7 +106,12 @@ export class LancamentoAvariaPage {
     }, 1000);
 
     this.authService.hideLoading();
-    
+
+    this.momentoService.carregarMomentos().subscribe(result => {
+      this.momentos.push(result.retorno);
+      console.log(this.momentos);
+    });
+
   }
 
   cleanInput(byScanner: boolean) {
@@ -157,7 +167,7 @@ export class LancamentoAvariaPage {
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-        
+
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
@@ -167,16 +177,16 @@ export class LancamentoAvariaPage {
           this.authService.hideLoading();
           if (this.modoOperacao == 1 || partChassi.length < 17) {
             this.openModalErro(this.responseData.mensagem, byScanner);
-          } 
+          }
           else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
             this.openModalErro(this.responseData.mensagem, byScanner);
-          } 
+          }
           else if (
             this.modoOperacao == 2 &&
             this.responseData.dataErro == 'CHASSI_NOT_FOUND'
           ) {
             this.openModalLancamentoAvaria([partChassi], byScanner);
-          } 
+          }
           else {
            this.openModalErro(this.responseData.mensagem, byScanner);
           }
@@ -216,9 +226,21 @@ export class LancamentoAvariaPage {
         data: data,
       });
       chassiModal.present();
-  
+
       chassiModal.onDidDismiss((data) => {
         this.cleanInput(byScanner);
       });
   }
+
+  onMomentoChange(event: any){
+    console.log(event);
+  }
+
+  voltar(){
+    const data = {};
+    this.view.dismiss();
+    this.navCtrl.push(LancamentoAvariaPage);
+  }
+
+  busca() {}
 }
