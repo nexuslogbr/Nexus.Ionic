@@ -76,8 +76,8 @@ page-lancamento-avaria {
                         }
                     }
 
-                }            
-            }              
+                }
+            }
         }
     }
     #recebimento {
@@ -92,7 +92,7 @@ page-lancamento-avaria {
             border-radius: 4px;
             margin-bottom: 15px;
             text-transform: uppercase;
-        }  
+        }
         .login-content {
             margin-top: 15px;
             padding: 0;
@@ -104,7 +104,7 @@ page-lancamento-avaria {
                 text-align: center;
                 font: 16px 'avenir_demi';
                 margin: 30px 0;
-            }        
+            }
             .btn-receiving {
                 width: 45%;
                 height: auto;
@@ -112,7 +112,15 @@ page-lancamento-avaria {
                     padding: 25px 15px 25px 15px;
                     font: 19px 'avenir_bold';
                 }
-            }        
+            }
+            .btn-receiving-long {
+                width: 90%;
+                height: auto;
+                .button-inner {
+                    padding: 25px 15px 25px 15px;
+                    font: 19px 'avenir_bold';
+                }
+            }
             .btn-ok {
                 background-color: #747474;
                 border: 1px solid #fff;
@@ -120,8 +128,8 @@ page-lancamento-avaria {
             .btn-cancel {
                 background-color: #404040;
             }
-        }              
-    }     
+        }
+    }
 
 }
 

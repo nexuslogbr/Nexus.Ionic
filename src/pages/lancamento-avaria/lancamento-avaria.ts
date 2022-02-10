@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
-import { Modal, ModalController, NavController, ViewController } from 'ionic-angular';
+import { Modal, ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { ModalLancamentoAvariaComponent } from '../../components/modal-lancamento-avaria/modal-lancamento-avaria';
 import { AuthService } from '../../providers/auth-service/auth-service';
@@ -11,6 +11,8 @@ import * as $ from 'jquery';
 import { Storage } from '@ionic/storage';
 import { MomentoDataService } from '../../providers/momento-data-service';
 import { Momento } from '../../model/Momento';
+import { ModalBuscaChassiComponent } from '../modal-busca-chassi/modal-busca-chassi';
+import { ModalSelecionarChassiComponent } from '../../components/modal-selecionar-chassi/modal-selecionar-chassi';
 
 @Component({
   selector: 'page-lancamento-avaria',
@@ -18,22 +20,24 @@ import { Momento } from '../../model/Momento';
 })
 export class LancamentoAvariaPage {
   title: string;
-  scanData: {};
   data: any;
-  inputChassi: string = '';
-  carData: any;
   options: BarcodeScannerOptions;
   token: string;
   chassi: string;
   url: string;
   responseData: any;
-  responseCarData: any;
   qrCodeText: string;
-  ligado: boolean;
   modoOperacao: number;
   momentos: Array<Momento> = [];
+  userData = {};
+  showInfoCar = false;
 
-  formData = { chassi: '' };
+  formData = {
+    chassi: '',
+    modelo: '',
+    posicaoAtual: '',
+    cor: ''
+  };
 
   erroData = {
     messageTitle: '',
@@ -77,12 +81,21 @@ export class LancamentoAvariaPage {
     public authService: AuthService,
     private momentoService: MomentoDataService,
     private view: ViewController,
+    private navParam: NavParams,
   )
   {
     this.title = 'Lançamento de Avaria';
     this.url = this.authService.getUrl();
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
+    this.userData = this.authService.getUserData()
+
+    var chassi_ = (this.navParam.get('data'));
+    if (chassi_) {
+      this.formData = chassi_;
+      console.log(this.formData);
+      this.showInfoCar = true;
+    }
 
     this.formControlAvaria.valueChanges.debounceTime(500).subscribe((value) => {
       if (value && value.length) {
@@ -100,9 +113,8 @@ export class LancamentoAvariaPage {
   }
 
   ionViewDidEnter() {
-    console.log('ionViewDidEnter observacoes page');
     setTimeout(() => {
-      this.chassiInput.setFocus();
+      // this.chassiInput.setFocus();
     }, 1000);
 
     this.authService.hideLoading();
@@ -199,6 +211,15 @@ export class LancamentoAvariaPage {
     );
   }
 
+  modalBuscarChassi(){
+    const chassiModal: Modal = this.modal.create(ModalBuscaChassiComponent, { });
+    chassiModal.present();
+
+    chassiModal.onDidDismiss((data) => {
+      // this.cleanInput(byScanner);
+    });
+  }
+
   navigateToHomePage() {
     this.navCtrl.push(HomePage);
   }
@@ -237,10 +258,14 @@ export class LancamentoAvariaPage {
   }
 
   voltar(){
-    const data = {};
-    this.view.dismiss();
-    this.navCtrl.push(LancamentoAvariaPage);
+    // const data = {};
+    // this.view.dismiss();
+    this.navCtrl.push(HomePage);
   }
 
-  busca() {}
+  voltaConsultaChassi(){
+    const data = {};
+    this.view.dismiss();
+    this.navCtrl.push(ModalSelecionarChassiComponent);
+  }
 }
