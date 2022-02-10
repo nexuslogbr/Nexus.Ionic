@@ -5,13 +5,14 @@ import { AuthService } from '../../providers/auth-service/auth-service';
 import * as $ from 'jquery';
 import { FormLancamentoAvariaComponent } from '../form-lancamento-avaria/form-lancamento-avaria';
 import { ModalErrorComponent } from '../modal-error/modal-error';
+import { LancamentoAvariaPage } from '../../pages/lancamento-avaria/lancamento-avaria';
 
 @Component({
   selector: 'modal-lancamento-avaria',
   templateUrl: 'modal-lancamento-avaria.html'
 })
 export class ModalLancamentoAvariaComponent {
-  // @ViewChild('select') select: Select;
+  @ViewChild('select') select: Select;
   title: string;
   chassis: any;
   novoChassi: string;
@@ -53,8 +54,7 @@ export class ModalLancamentoAvariaComponent {
     private navParam: NavParams,
     private view: ViewController,
     public navCtrl: NavController,
-    public authService: AuthService,
-    private select: Select
+    public authService: AuthService
   ) {
     this.title = 'Lançamento de Avaria';
     this.url = this.authService.getUrl();
@@ -157,4 +157,14 @@ export class ModalLancamentoAvariaComponent {
     $('.icon-menu').toggleClass('close-menu');
     $('side-menu').toggleClass('show');
   };
+
+  onMomentoChange($event){}
+
+  busca(){}
+
+  voltar(){
+    const data = {};
+    this.view.dismiss();
+    this.navCtrl.push(LancamentoAvariaPage);
+  }
 }
