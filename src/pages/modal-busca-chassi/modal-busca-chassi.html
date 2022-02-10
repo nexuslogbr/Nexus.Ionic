@@ -1,4 +1,14 @@
-<!-- Generated template for the ModalBuscaChassiComponent component -->
-<div>
-  {{text}}
-</div>
+<ion-content padding id="busca-chassi" class="busca-chassi show">
+  <div class="qr-code-container">
+    <i class="icon icon-qr-code-black" (click)="scan()"></i>
+    <div class="line"></div>
+
+    <form>
+      <ion-label>Chassi:</ion-label>
+      <ion-input type="text" [(ngModel)]="formData.chassi" [formControl]="formControlChassi" placeholder="Chassi" value="" required #chassiInput></ion-input>
+    </form>
+  </div>
+
+</ion-content>
+<modal-error></modal-error>
+<modal-loading></modal-loading>
