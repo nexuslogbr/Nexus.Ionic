@@ -44,7 +44,8 @@
 
       <ion-list>
         <ion-item>
-          <ion-label label-ios>Observação: </ion-label>
+          <ion-label label-ios style="font-style: unset;"><b>Observação:</b></ion-label>
+          <ion-textarea label-ios style="font-style: unset; color: white;" [(ngModel)]="formData.observacao" name="observacao"></ion-textarea>
         </ion-item>
       </ion-list>
 

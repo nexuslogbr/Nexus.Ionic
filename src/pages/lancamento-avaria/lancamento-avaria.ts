@@ -13,6 +13,7 @@ import { MomentoDataService } from '../../providers/momento-data-service';
 import { Momento } from '../../model/Momento';
 import { ModalBuscaChassiComponent } from '../modal-busca-chassi/modal-busca-chassi';
 import { ModalSelecionarChassiComponent } from '../../components/modal-selecionar-chassi/modal-selecionar-chassi';
+import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 
 @Component({
   selector: 'page-lancamento-avaria',
@@ -36,7 +37,8 @@ export class LancamentoAvariaPage {
     chassi: '',
     modelo: '',
     posicaoAtual: '',
-    cor: ''
+    cor: '',
+    observacao: ''
   };
 
   erroData = {
@@ -93,7 +95,6 @@ export class LancamentoAvariaPage {
     var chassi_ = (this.navParam.get('data'));
     if (chassi_) {
       this.formData = chassi_;
-      console.log(this.formData);
       this.showInfoCar = true;
     }
 
@@ -263,11 +264,12 @@ export class LancamentoAvariaPage {
   }
 
   openModalSelecionarSuperficie(){
-    const chassiModal: Modal = this.modal.create(LancamentoAvariaPage, {
-      data: this.responseData[0],
+    const modal: Modal = this.modal.create(LancamentoAvariaSelecaoSuperficiePage, {
+      data: this.formData,
     });
-    chassiModal.present();
+    modal.present();
 
-    chassiModal.onDidDismiss((data) => { });
+    modal.onDidDismiss(data => {});
+    modal.onWillDismiss(data => {});
   }
 }
