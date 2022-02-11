@@ -258,14 +258,16 @@ export class LancamentoAvariaPage {
   }
 
   voltar(){
-    // const data = {};
     // this.view.dismiss();
     this.navCtrl.push(HomePage);
   }
 
-  voltaConsultaChassi(){
-    const data = {};
-    this.view.dismiss();
-    this.navCtrl.push(ModalSelecionarChassiComponent);
+  openModalSelecionarSuperficie(){
+    const chassiModal: Modal = this.modal.create(LancamentoAvariaPage, {
+      data: this.responseData[0],
+    });
+    chassiModal.present();
+
+    chassiModal.onDidDismiss((data) => { });
   }
 }

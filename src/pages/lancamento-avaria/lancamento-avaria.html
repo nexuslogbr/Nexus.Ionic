@@ -3,9 +3,7 @@
   <button class="btn-menu">
     <i class="icon icon-menu"></i>
   </button>
-  <ion-title>
-    {{title}}
-  </ion-title>
+  <ion-title>{{title}}</ion-title>
 </ion-header>
 
 <ion-content padding id="recebimento" class="recebimento show">
@@ -89,7 +87,7 @@
   </div>
 
   <div class="login-content" *ngIf="showInfoCar">
-    <button ion-button round end class="btn-receiving-long btn-ok" (click)="scan()" type="button">Selecione Superficie Avariada</button>
+    <button ion-button round end class="btn-receiving-long btn-ok" (click)="openModalSelecionarSuperficie()" type="button">Selecione Superficie Avariada</button>
   </div>
 
 </ion-content>
