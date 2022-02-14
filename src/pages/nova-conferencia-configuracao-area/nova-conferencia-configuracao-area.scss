@@ -1,20 +1,20 @@
 page-nova-conferencia-configuracao-area {
   ion-content {
-    background-color: #404040 !important;
+    // background-color: #404040 !important;
   }
-  background-color: #404040;
+  // background-color: #404040;
   .label-tipo-conferencia {
     font-size: 0.9em;
     text-transform: none;
   }
 
   .grid-cais {
-    background-color: color($colors, areaCais) !important;
+    // background-color: color($colors, areaCais) !important;
   }
 
   .grid-item {
     margin-top: 5px;
-    background-color: #404040;
+    // background-color: #404040;
     margin-bottom: 10px;
     color: white;
     height: 40px;
@@ -65,7 +65,7 @@ page-nova-conferencia-configuracao-area {
 
   .grid-areas {
     margin-bottom: 10px;
-    background-color: #5D5D5D;
+    // background-color: #5D5D5D;
     color: white;
 
     ion-item {
@@ -103,7 +103,7 @@ page-nova-conferencia-configuracao-area {
       }
 
       .toogle-area {
-        background-color: #404040;
+        // background-color: #404040;
 
         .item-inner {
           height: 22px;
@@ -144,7 +144,7 @@ page-nova-conferencia-configuracao-area {
 
   ion-footer {
     height: 100px;
-    background-color: #404040;
+    // background-color: #404040;
 
     .btn-confirmar {
       background-color: #A7FF8D !important;

@@ -1,19 +1,19 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-    <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': secondaryColor}">
       <i class="icon icon-menu" ></i>
     </button>
     <ion-title>
         {{title}}
     </ion-title>
 </ion-header>
-<ion-content padding id="form-novo-romaneio" class="form-novo-romaneio">
+<ion-content padding id="form-novo-romaneio" class="form-novo-romaneio" [ngStyle]="{'background-color': secondaryColor}">
     <div class="form">
         <ion-list>
 
                 <label class="hidden">{{result.id}}</label>
 
-                <div *ngFor="let detalhes of result.detalhes">
+                <div *ngFor="let detalhes of result.detalhes" [ngStyle]="{'background-color': secondaryColor}">
                     <ion-list-header>
                         <div float-start>
                             <label class="title-header">Romaneio: </label> <span> {{ detalhes.id }}</span>

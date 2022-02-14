@@ -1,5 +1,5 @@
 page-dashboard-vagas-bolsao {
-    background-color: #404040;
+    // background-color: #404040;
     ion-content {
       .vaga-ion-item-title {
         font-size: 12px !important;
@@ -20,10 +20,10 @@ page-dashboard-vagas-bolsao {
       .vaga-ion-item {
         //padding: 0px;
       }
-      background-color: color($colors, bgQrCode) !important; // background-color: rgba(0, 0, 0, 0.8);
+      // background-color: color($colors, bgQrCode) !important; // background-color: rgba(0, 0, 0, 0.8);
       position: relative;
       .form-recebe-chassis {
-        background-color: #404040;
+        // background-color: #404040;
         border-radius: 5px;
         border: 1px solid transparent;
         height: auto;
@@ -34,7 +34,7 @@ page-dashboard-vagas-bolsao {
         h4 {
           font: 16px 'avenir_demi';
           color: #fff;
-          background-color: #595959;
+          // background-color: #595959;
           padding: 15px;
           margin: 0 !important;
           border-top-left-radius: 5px;
@@ -58,10 +58,10 @@ page-dashboard-vagas-bolsao {
         input {
           font: 14px 'avenir_demi';
           width: 100%;
-          background-color: #404040;
+          // background-color: #404040;
           border: none;
           border-radius: 0;
-          background-color: #404040;
+          // background-color: #404040;
           color: #fff;
           text-align: left;
           padding-right: 15px;
@@ -69,7 +69,7 @@ page-dashboard-vagas-bolsao {
         ion-list {
           margin: 0;
           ion-list-header {
-            background-color: #595959;
+            // background-color: #595959;
             border-top: none;
             ion-label {
               color: #fff;
@@ -77,7 +77,7 @@ page-dashboard-vagas-bolsao {
             }
           }
           ion-item {
-            background-color: #404040;
+            background-color: transparent;
             font-size: 20px;
             text-align: right;
             padding: 0;
@@ -122,13 +122,13 @@ page-dashboard-vagas-bolsao {
           }
         }
         .btn-ok {
-          background-color: #595959;
+          // background-color: #595959;
         }
         .btn-cancel {
-          background-color: #404040;
+          background-color: transparent;
         }
         .btn-default {
-          background-color: #747474;
+          // background-color: #747474;
           width: 100%;
           height: auto; 
           border: 1px solid #ffffff;

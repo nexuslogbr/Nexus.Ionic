@@ -1,6 +1,6 @@
-<ion-content padding>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}"> 
 
-  <ion-grid style="height: 100%;">
+  <ion-grid style="height: 100%;" [ngStyle]="{'background-color': secondaryColor}">
     <ion-row style="height: 100%;" align-items-center>
       <ion-col>
         <ion-grid>
@@ -17,10 +17,10 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <button ion-button round class="btn-operacao " id="btn-voltar" (click)="fecharModal()">NÃO</button>
+              <button ion-button round class="btn-operacao " id="btn-voltar" (click)="fecharModal()" [ngStyle]="{'background-color': buttonColor}">NÃO</button>
             </ion-col>
             <ion-col>
-              <button ion-button round class="btn-operacao" id="btn-cancelar" (click)="removeDevice()">SIM</button>
+              <button ion-button round class="btn-operacao" id="btn-cancelar" (click)="removeDevice()" [ngStyle]="{'background-color': buttonColor}">SIM</button>
             </ion-col>
           </ion-row>
         </ion-grid>

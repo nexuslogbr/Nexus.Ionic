@@ -48,9 +48,44 @@ $colors: (
   azulClaro: #595959,
   azulCeleste:  #488aff,
   azulEscuro: #404040,
-  areaCais: darkorange
+  areaCais: darkorange,
+  primaryGray:#404040,
+  secondaryGray: #787878
 );
 
+body.dark {
+  --ion-color-primary: #151c27;
+  --ion-color-secondary: #50c8ff;
+}
+
+:root:not([data-theme="dark"]) {
+  --bg: #fff;
+}
+@media (prefers-color-scheme: dark) {
+   :root:not([data-theme="light"]) {
+    --bg: #000;
+  }
+}
+:root[data-theme="dark"] {
+  /* yep, you'll need to duplicate styles from above */
+  --bg: #000;
+}
+
+
+body {
+  background: var(--bg);
+}
+
+
+.theme-switch:after {
+  content: ': system';
+}
+:root[data-theme="dark"] .theme-switch:after {
+  content: ': dark';
+}
+:root[data-theme="light"] .theme-switch:after {
+  content: ': light';
+}
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here

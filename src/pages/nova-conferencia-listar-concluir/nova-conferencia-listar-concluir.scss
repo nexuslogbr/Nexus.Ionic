@@ -1,13 +1,13 @@
 page-nova-conferencia-listar-concluir {
 
-  background-color: #404040;
+  // background-color: #404040;
   ion-content {
-    background-color: #404040 !important;
+    // background-color: #404040 !important;
   }
 
   div.scroll-content {
     padding-top: 0px !important;
-    background-color: #404040 !important;
+    // background-color: #404040 !important;
   }
 
   .grid-base {
@@ -39,7 +39,7 @@ page-nova-conferencia-listar-concluir {
 
   .grid-select-wrapper {
     padding: 0px;
-    background-color: #404040 !important;
+    // background-color: #404040 !important;
     position: sticky;
     top: 0;
     left: 0;
@@ -50,14 +50,14 @@ page-nova-conferencia-listar-concluir {
   .grid-select {
     margin-top: 10px;
     padding: 0px;
-    background-color: #404040;
+    // background-color: #404040;
     border-radius: 10px;
     margin-bottom: 10px;
     color: black;
     text-transform: uppercase;
 
     ion-row {
-      border: 1px solid #5D5D5D;
+      // border: 1px solid #5D5D5D;
       border-radius: 12px;
     }
 
@@ -78,7 +78,7 @@ page-nova-conferencia-listar-concluir {
     }
 
     ion-col.selected {
-      background-color: #5D5D5D;
+      // background-color: #5D5D5D;
       color: white;
     }
 

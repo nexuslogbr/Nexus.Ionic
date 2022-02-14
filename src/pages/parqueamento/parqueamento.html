@@ -1,6 +1,6 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-  <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
   </button>
   <ion-title>
@@ -8,20 +8,20 @@
   </ion-title>
 </ion-header>
 
-<ion-content padding id="recebimento" class="recebimento show">
-  <div class="qr-code-container">
+<ion-content padding id="recebimento" class="recebimento show" [ngStyle]="{'background-color': secondaryColor}">
+  <div class="qr-code-container" [ngStyle]="{'background-color': secondaryColor}">
     <i class="icon icon-qr-code-black" (click)="scan()"></i>
     <div class="line"></div>
     <form>
       <ion-label>Chassi:</ion-label>
       <ion-input type="text" [(ngModel)]="formData.chassi" [formControl]="formControlChassi"
-        placeholder="" value="" required #chassiInput>
+        placeholder="" value="" required #chassiInput [ngStyle]="{'background-color': primaryColor}">
       </ion-input>
     </form>
   </div>
 
 </ion-content>
-<ion-footer>
+<ion-footer [ngStyle]="{'background-color': secondaryColor}">
 </ion-footer>
 <modal-error></modal-error>
 <modal-loading></modal-loading>

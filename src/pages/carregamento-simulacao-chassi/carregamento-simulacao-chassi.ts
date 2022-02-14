@@ -125,13 +125,20 @@ export class CarregamentoSimulacaoChassiPage {
           this.http.get(this.authService.getUrl() + receberVeiculo).subscribe(
             res => {
               this.responseCarData = res;
+              console.log(this.responseCarData)
+
+              debugger
               if (this.responseCarData.sucesso) {
+
+                debugger
                 // this.authService.getChassiData(this.responseCarData.retorno);
                 console.log(this.responseCarData);
                 this.authService.hideLoading();
                 this.openModalRecebimento(this.formRecebimentoData);
               } else {
                 this.authService.hideLoading();
+console.log('mostra erro')
+console.log(this.responseData.mensagem)
                 this.openModalErro(this.responseData.mensagem);
               }
             },

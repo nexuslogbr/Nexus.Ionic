@@ -1,11 +1,11 @@
 carregamento-list {
     ion-content{
-        background-color: #404040 !important;  
+        // background-color: #404040 !important;  
         .lines-content{
-            background-color: #404040;
+            // background-color: #404040;
             padding: 0 15px 25px 15px;  
             ion-list-header{
-                background-color: #595959;
+                // background-color: #595959;
                 border-top: none;
                 margin: 0;
                 margin-top: 15px;
@@ -19,7 +19,7 @@ carregamento-list {
                 width: 100%;
                 .line-list{
                     padding: 10px;
-                    background-color: #404040;
+                    // background-color: #404040;
                     margin: 0;
                     list-style: none;
                     
@@ -80,7 +80,7 @@ carregamento-list {
     }
     .shipping-company{
         padding-top: 10px;
-        background-color: #404040;
+        // background-color: #404040;
         h6{
             display: block;
             color: #fff;
@@ -102,7 +102,7 @@ carregamento-list {
         .btn-login {
             width: 100%;
             height: auto;
-            background-color: #595959;
+            // background-color: #595959;
             span {
                 padding: 25px 15px 25px 15px;
                 font: 19px 'avenir_bold';
@@ -110,7 +110,7 @@ carregamento-list {
         }
     }	
     modal-loading{
-        background-color: rgba(6, 39, 63, 0.2) !important;
+        // background-color: rgba(6, 39, 63, 0.2) !important;
     }				
 }
 .line-item.border-blue.gu-mirror{

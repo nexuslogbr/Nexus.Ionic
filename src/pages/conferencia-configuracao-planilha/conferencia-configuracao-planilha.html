@@ -1,6 +1,6 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-  <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
   </button>
   <ion-title>
@@ -8,13 +8,13 @@
   </ion-title>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
 
   <!-- <escala-resumo [navio]="navio"></escala-resumo> -->
-  <planilha-resumo [arquivo]="arquivo" [conferencias]="conferencias"></planilha-resumo>
+  <planilha-resumo [arquivo]="arquivo" [conferencias]="conferencias" [ngStyle]="{'background-color': primaryColor}"></planilha-resumo>
 
-  <ion-grid class="first-row">
-    <ion-row *ngIf="!onlyShow">
+  <ion-grid class="first-row" [ngStyle]="{'background-color': primaryColor}">
+    <ion-row *ngIf="!onlyShow" [ngStyle]="{'background-color': primaryColor}">
       <ion-col *ngIf="arquivo !=null && !arquivo.disponivelConferencia">
         <button ion-button class="btn-menu-internal" (click)="disponibilizar()" type="button"
           [disabled]="arquivo==null">Disponibilizar</button>
@@ -24,16 +24,16 @@
           [disabled]="arquivo==null">Remover</button>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row [ngStyle]="{'background-color': primaryColor}">
       <ion-col>
         <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()"
           type="button">Voltar</button>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="arquivo!=null && arquivo.conferenciaFinalizada">
+    <ion-row *ngIf="arquivo!=null && arquivo.conferenciaFinalizada" [ngStyle]="{'background-color': primaryColor}">
       <ion-col>
         <button ion-button class="btn-menu-internal" (click)="liberar()" type="button"
-          [disabled]="arquivo==null">Liberar Conferência</button>
+          [disabled]="arquivo==null" [ngStyle]="{'background-color': buttonColor}">Liberar Conferência</button>
       </ion-col>
     </ion-row>
   </ion-grid>

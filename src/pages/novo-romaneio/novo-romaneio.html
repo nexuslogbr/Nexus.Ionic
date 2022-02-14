@@ -1,43 +1,43 @@
 <side-menu *ngIf="!clienteExterno"></side-menu>
 <side-menu-ce *ngIf="clienteExterno"></side-menu-ce>
-<ion-header (click)="toggleMenu()">
-    <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
       <i class="icon icon-menu" ></i>
     </button>
     <ion-title>
         {{title}}
     </ion-title>
 </ion-header>
-<ion-content padding id="form-novo-romaneio" class="form-novo-romaneio">
+<ion-content padding id="form-novo-romaneio" class="form-novo-romaneio" [ngStyle]="{'background-color': secondaryColor}">
 <!-- INICIO NOVO ROMANEIO -->
-    <div class="form" style="margin-top: 0px;">
+    <div class="form" style="margin-top: 0px;" [ngStyle]="{'background-color': primaryColor}">
         <ion-list>
-            <ion-list-header>
+            <ion-list-header [ngStyle]="{'background-color': primaryColor}">
                 Cadastro de Romaneio
             </ion-list-header>
-            <ion-item>
+            <ion-item [ngStyle]="{'background-color': primaryColor}">
                 <ion-label>Porto:</ion-label>
                 <ion-input class="form-control" type="text" [(ngModel)]="formData.porto" id="porto" name="porto" value="" placeholder="{{ porto }}"  disabled></ion-input>
             </ion-item>
 
-            <ion-item class="item-block item-ios item-select icon-clock">
+            <ion-item class="item-block item-ios item-select icon-clock" [ngStyle]="{'background-color': primaryColor}">
                 <ion-label>Tipo:</ion-label>
                 <ion-input class="form-control" type="text" [(ngModel)]="formData.tipo" id="formData.tipoID" name="formData.tipoID" value="" placeholder="{{ tipo }}" disabled></ion-input>
             </ion-item>
 
-            <ion-item class="item-block item-ios item-select">
+            <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
                 <ion-label>Data:</ion-label>
                 <!-- <ion-input class="form-control" type="text" id="data" name="data" value="{{formData.data}}" placeholder="{{ data }}" [disabled]="true"></ion-input> -->
                 <ion-datetime min="2017" max="2030-10-31" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" [(ngModel)]="formData.data" cancelText="Cancelar" doneText="Confirmar"></ion-datetime>
             </ion-item>
 
-            <ion-item *ngIf="fixaTransportadora; else elseBlock">
+            <ion-item *ngIf="fixaTransportadora; else elseBlock" [ngStyle]="{'background-color': primaryColor}">
                 <ion-label label-ios>Transportadora:</ion-label>
                 <ion-select   (ionChange)="onTransportadoraChange($event)" okText="Confirmar" cancelText="Cancelar" #select1>
                     <ion-option *ngFor="let transportadora of transportadoras" value="{{transportadora.id}}" id="{{transportadora.id}}">{{transportadora.nome}}</ion-option>
                 </ion-select>
             </ion-item>
-            <ng-template #elseBlock>
+            <ng-template #elseBlock >
                 <ion-item>
                     <ion-label label-ios>Transportadora:</ion-label>
                     <ion-input class="form-control" type="text" [(ngModel)]="transportadoraNome" name="transportadoraNome" value="" id="{{transportadoraCNPJID}}" placeholder="{{transportadoraNome}}" disabled></ion-input>
@@ -46,18 +46,18 @@
         </ion-list>
     </div>
 
-    <form class="form standart-form">
+    <form class="form standart-form" [ngStyle]="{'background-color': primaryColor}">
         <ion-list>
-            <ion-list-header>
+            <ion-list-header [ngStyle]="{'background-color': primaryColor}">
                 Cadastro Frota
             </ion-list-header>
 
-            <ion-item class="item-block item-ios item-select">
+            <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
                 <ion-label>Placa do caminhão:</ion-label>
                 <ion-input class="form-control text-upper" type="text" name="placa" value="" [(ngModel)]="formData.detalhes[0].placa" [disabled]="isDisabled ? '' : null"></ion-input>
             </ion-item>
 
-            <ion-item class="item-block item-ios item-select">
+            <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
                 <ion-label>Frota:</ion-label>
                 <ion-input class="form-control" type="text" name="frota" value="" [(ngModel)]="formData.detalhes[0].frota" [disabled]="isDisabled ? '' : null"></ion-input>
 
@@ -66,9 +66,9 @@
         </ion-list>
     </form>
 
-    <div class="form-novo-veiculo" >
+    <div class="form-novo-veiculo"  [ngStyle]="{'background-color': primaryColor}">
         <ion-list>
-            <ion-list-header class="new-vehicle">
+            <ion-list-header class="new-vehicle" [ngStyle]="{'background-color': primaryColor}">
                 Novo veículo(chassi ou nota fiscal) 
             </ion-list-header>
 
@@ -89,9 +89,9 @@
         </ion-list>
     </div>
 
-    <div class="form-novo-veiculo" >
+    <div class="form-novo-veiculo" [ngStyle]="{'background-color': primaryColor}">
 
-        <form action="" class="form-carrega-veiculo">
+        <form action="" class="form-carrega-veiculo" [ngStyle]="{'background-color': primaryColor}">
 
             <div class="form-item {{veiculo.chassi}}" *ngFor="let veiculo of formData.detalhes[0].veiculos; let i = index" (click)="removeVeiculo(veiculo)">
                 <i class="icon icon-remove-chassi" id="{{veiculo.chassi}}" ></i>
@@ -126,24 +126,24 @@
 
     <div class="login-content">
         <button ion-button round class="btn-receiving btn-cancel" type="button" (click)="cancelar()">Cancelar</button>
-        <button ion-button round class="btn-receiving btn-ok" type="submit" (click)="salvarRomaneio()">Salvar</button>
+        <button ion-button round class="btn-receiving btn-ok" type="submit" (click)="salvarRomaneio()" [ngStyle]="{'background-color': buttonColor}">Salvar</button>
     </div>
 
 <!-- FIM NOVO ROMANEIO -->
 
 <!-- INICIO ROMANEIOS EXISTENTES -->
 
-    <veiculo-accordion *ngFor="let romaneio of romaneios.detalhes; let i = index" [arrayVeiculos]="romaneios" >
+    <veiculo-accordion *ngFor="let romaneio of romaneios.detalhes; let i = index" [arrayVeiculos]="romaneios" [ngStyle]="{'background-color': primaryColor}">
 
-        <form class="form">
+        <form class="form" [ngStyle]="{'background-color': primaryColor}">
 
-            <ion-list>
-                <ion-item class="item-block item-ios item-select">
+            <ion-list [ngStyle]="{'background-color': primaryColor}">
+                <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
                     <ion-label>Placa do caminhão:</ion-label>
                     <ion-input class="form-control text-upper" type="text" id="placa" name="placa" value="" placeholder="{{romaneio.placa}}" [disabled]="isDisabled ? '' : null"></ion-input>
                 </ion-item>
 
-                <ion-item class="item-block item-ios item-select">
+                <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
                     <ion-label>Frota:</ion-label>
                     <ion-input class="form-control" type="text" id="frota" name="frota" value="" placeholder="{{romaneio.frota}}" [disabled]="isDisabled ? '' : null"></ion-input>
                     <button ion-button clear item-end class="btn-excluir" (click)="excluirFrota(romaneio, i)"></button>
@@ -151,14 +151,14 @@
 
             </ion-list>
 
-            <div class="form-novo-veiculo">
+            <div class="form-novo-veiculo" [ngStyle]="{'background-color': primaryColor}">
                 <ion-list>
-                    <ion-list-header class="new-vehicle">
+                    <ion-list-header class="new-vehicle" [ngStyle]="{'background-color': primaryColor}">
                         Novo veículo(chassi ou nota fiscal)
                     </ion-list-header>
 
                     <ion-grid>
-                        <ion-row justify-content-start>
+                        <ion-row justify-content-start [ngStyle]="{'background-color': primaryColor}">
                             <ion-col col-9>
                                 <ion-input class="input-header" type="text" [(ngModel)]="chassiNfCarregado" name="chassiNfCarregado(romaneio.id, i)" placeholder=""></ion-input>
                             </ion-col>
@@ -170,29 +170,29 @@
 
                 </ion-list>
 
-                <div class="form-carrega-veiculo">
+                <div class="form-carrega-veiculo" [ngStyle]="{'background-color': primaryColor}">
 
-                    <div class="form-item" *ngFor="let veiculo of romaneio.veiculos; let j = index" (click)="removeVeiculoCarregado(veiculo, i, j)">
+                    <div class="form-item" *ngFor="let veiculo of romaneio.veiculos; let j = index" [ngStyle]="{'background-color': primaryColor}" (click)="removeVeiculoCarregado(veiculo, i, j)">
                         <i class="icon icon-remove-chassi"></i>
-                        <div class="form-group row">
+                        <div class="form-group row" [ngStyle]="{'background-color': primaryColor}">
                             <label for="example-text-input" class="col-2 col-form-label">NFE:</label>
                             <div class="col-10">
                                 <input type="text" class="form-control" name="" id="" value="" placeholder="{{veiculo.nota}}" disabled />
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row" [ngStyle]="{'background-color': primaryColor}">
                             <label for="" class="col-2 col-form-label">Chassi:</label>
                             <div class="col-10">
                                 <input type="text" class="form-control" name="" value="" placeholder="{{veiculo.chassi}}" disabled />
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row" [ngStyle]="{'background-color': primaryColor}">
                             <label for="" class="col-2 col-form-label">Modelo:</label>
                             <div class="col-10">
                                 <input type="text" class="form-control" name="" value="" placeholder="{{veiculo.modelo}}" disabled />
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row" [ngStyle]="{'background-color': primaryColor}">
                             <label for="" class="col-2 col-form-label">Posição:</label>
                             <div class="col-10">
                                 <input type="text" class="form-control" name="" value="" placeholder="{{veiculo.posicao}}" disabled />
@@ -205,7 +205,7 @@
 
         <div class="login-content hidden">
             <button ion-button round class="btn-receiving btn-cancel" type="button" (click)="cancelar()">Cancelar</button>
-            <button ion-button round class="btn-receiving btn-ok" type="submit" (click)="novoRomaneio()">Salvar</button>
+            <button ion-button round class="btn-receiving btn-ok" type="submit" (click)="novoRomaneio()" [ngStyle]="{'background-color': buttonColor}">Salvar</button>
         </div>
 
     </veiculo-accordion>

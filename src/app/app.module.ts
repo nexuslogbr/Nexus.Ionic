@@ -202,6 +202,7 @@ import { CommonModule } from '@angular/common';
 import { LancamentoAvariaSelecaoSuperficiePage } from '../pages/lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { AvariaDataService } from '../providers/avaria-data-service';
 import { GravidadeDataService } from '../providers/gravidade-data-service';
+import { AlterarCorPage } from '../pages/alterar-cor/alterarcor';
 
 @NgModule({
   declarations: [
@@ -359,7 +360,8 @@ import { GravidadeDataService } from '../providers/gravidade-data-service';
     ModalLancamentoAvariaComponent,
     ModalBuscaChassiComponent,
     ModalSelecionarChassiComponent,
-    LancamentoAvariaSelecaoSuperficiePage
+    LancamentoAvariaSelecaoSuperficiePage,
+    AlterarCorPage
   ],
   imports: [
     BrowserModule,
@@ -573,7 +575,9 @@ import { GravidadeDataService } from '../providers/gravidade-data-service';
     ModalLancamentoAvariaComponent,
     ModalBuscaChassiComponent,
     ModalSelecionarChassiComponent,
-    LancamentoAvariaSelecaoSuperficiePage
+    LancamentoAvariaSelecaoSuperficiePage,
+    AlterarCorPage
+
   ],
   providers: [
     AuthService,

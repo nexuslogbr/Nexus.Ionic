@@ -1,5 +1,5 @@
 modal-recebimento {
-  background-color: #404040;
+  // background-color: #404040;
   opacity: 0.2;
   position: fixed;
   top: 0;
@@ -8,7 +8,7 @@ modal-recebimento {
   z-index: 10;
 
   ion-content.content {
-    background-color: rgba(0, 0, 0, 0.8);
+    // background-color: rgba(0, 0, 0, 0.8);
     position: relative;
 
     .qr-code-container {
@@ -51,16 +51,16 @@ modal-recebimento {
       }
 
       .btn-ok {
-        background-color: #595959;
+        // background-color: #595959;
       }
 
       .btn-continuar {
-        background-color: #595959;
+        // background-color: #595959;
         width: 100% !important;
       }
 
       .btn-cancel {
-        background-color: #404040;
+        background-color: transparent;
       }
     }
   }

@@ -1,6 +1,6 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-  <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
   </button>
   <ion-title>
@@ -8,9 +8,9 @@
   </ion-title>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
 
-  <form class="form-recebe-chassis">
+  <form class="form-recebe-chassis" [ngStyle]="{'background-color': primaryColor}">
     <ion-list>
       <ion-list-header>
         Local
@@ -18,7 +18,7 @@
 
       <ion-item>
         <ion-label label-ios>Layout:</ion-label>
-        <ion-select (ionChange)="onLocalChange($event)" okText="Confirmar" cancelText="Cancelar" #select1>
+        <ion-select (ionChange)="onLocalChange($event)" okText="Confirmar" cancelText="Cancelar" #select1 [ngStyle]="{'background-color': primaryColor}" >
           <ion-option *ngFor="let layout of layouts" value="{{layout.id}}" id="{{layout.id}}">{{layout.local.nome}} - {{layout.nome}}</ion-option>
         </ion-select>
 
@@ -28,7 +28,7 @@
   </form>
 
   <div class="login-content">
-    <button ion-button round class="btn-default" (click)="listarVagas()">Buscar</button>
+    <button ion-button round class="btn-default" (click)="listarVagas()" [ngStyle]="{'background-color': buttonColor}">Buscar</button>
   </div>
 </ion-content>
 <modal-error></modal-error>

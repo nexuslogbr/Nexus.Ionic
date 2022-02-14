@@ -1,6 +1,6 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-  <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
   </button>
   <ion-title>
@@ -8,19 +8,19 @@
   </ion-title>
 </ion-header>
 
-<ion-content>
-  <ion-list no-lines>
-    <ion-item no-lines *ngFor="let menu of userMenus;">
+<ion-content [ngStyle]="{'background-color': secondaryColor}">
+  <ion-list no-lines [ngStyle]="{'background-color': secondaryColor}">
+    <ion-item no-lines *ngFor="let menu of userMenus;" [ngStyle]="{'background-color': primaryColor}">
       <button
         class="main-menu"
-        [ngClass]="menu.cssClass"
-        (click)="chamar(menu)"
+        [ngClass]="menu.cssClass "
+        (click)="chamar(menu)" 
+        [ngStyle]="{'background-color': primaryColor}"
       >
         {{menu.texto}}
       </button>
     </ion-item>
   </ion-list>
-
   <!-- <ion-list no-lines *ngIf="!userData.confereOffline && !userData.confereOnline">
 
     <ion-item no-lines>

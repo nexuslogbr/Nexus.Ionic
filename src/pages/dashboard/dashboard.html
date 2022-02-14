@@ -1,6 +1,6 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-    <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
       <i class="icon icon-menu" ></i>
     </button>
     <ion-title>
@@ -8,17 +8,17 @@
     </ion-title>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
 
-  <section class="charts-content" [class.statusVagasClass]="statusVagasClass">
+  <section class="charts-content" [class.statusVagasClass]="statusVagasClass" [ngStyle]="{'background-color': primaryColor}">
     <ion-list>
-      <ion-list-header>
+      <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
       Status de Vagas
       </ion-list-header>
     </ion-list>
     <div class="inner-charts-content" style="position: relative;">
       <div style="font-weight: 700; color: #fff; text-align: center; margin-top: 40%; position: absolute; left: 0; right: 0;">
-          Total Vacancies <br>
+          Total Vagas <br>
           <span style="font-weight: 400;"> {{posisoesTotal}} </span>
       </div>
       
@@ -28,15 +28,15 @@
     </div>    
   </section> 
 
-  <section class="charts-content" [class.statusTempoClass]="statusTempoClass">
+  <section class="charts-content" [class.statusTempoClass]="statusTempoClass" [ngStyle]="{'background-color': primaryColor}">
     <ion-list>
-      <ion-list-header>
+      <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
           Tempo do Veículo no Pátio
       </ion-list-header>
     </ion-list>
     <div class="inner-charts-content" style="position: relative;">
       <div style="font-weight: 700; color: #fff; text-align: center; margin-top: 40%; position: absolute; left: 0; right: 0;">
-          Time
+          Dias
       </div>
         
       <canvas id="tempoPatio" width="400" height="400"></canvas>
@@ -44,13 +44,13 @@
     </div>            
   </section> 
 
-  <section class="charts-content">
+  <section class="charts-content" [ngStyle]="{'background-color': primaryColor}">
     <ion-list>
-      <ion-list-header>
+      <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
           Status de Veículos
       </ion-list-header>
 
-      <ion-item  *ngFor="let item of modelos; let i = index" class="inner-charts-content" style="width: 50%; display: inline-block; border: none;">
+      <ion-item  *ngFor="let item of modelos; let i = index" class="inner-charts-content" ngStyle]="{'background-color': primaryColor}" style="width: 50%; display: inline-block; border: none;">
         <canvas id='statusVeiculo{{i}}'></canvas>
         <div style="text-align: center; color: #fff; margin-top: -20px;">{{item.percentagem}}%</div>
         <div style="text-align: center; color: #fff;">{{item.modelo}}</div>
@@ -58,9 +58,9 @@
     </ion-list>
   </section>  
 
-  <section class="charts-content" style="padding-right: 10px;">
+  <section class="charts-content" style="padding-right: 10px;" [ngStyle]="{'background-color': primaryColor}">
     <ion-list>
-      <ion-list-header>
+      <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
           Próximos Carregamentos e Descargas
       </ion-list-header>
 
@@ -100,9 +100,9 @@
     </ion-list>            
   </section> 
 
-  <section class="charts-content" [class.volumeImportExport]="volumeImportExport">
+  <section class="charts-content" [class.volumeImportExport]="volumeImportExport" [ngStyle]="{'background-color': primaryColor}">
     <ion-list>
-      <ion-list-header>
+      <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
           Volume de Importação e Exportação
       </ion-list-header>
     </ion-list>
@@ -121,9 +121,9 @@
     </div>         
 
   </section>  
-  <section class="charts-content">
+  <section class="charts-content" [ngStyle]="{'background-color': primaryColor}">
     <ion-list>
-      <ion-list-header>
+      <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
       Histórico de Movimentação de Navios
       </ion-list-header>
     </ion-list>
@@ -145,8 +145,8 @@
     </div>     
   </section> 
 
-    <div class="login-content">
-        <button ion-button round class="btn-default" (click)="Voltar()">Voltar</button>
+    <div class="login-content" [ngStyle]="{'background-color': secondaryColor}">
+        <button ion-button round class="btn-default" (click)="Voltar()" [ngStyle]="{'background-color': buttonColor}">Voltar</button>
     </div>      
 
 </ion-content>

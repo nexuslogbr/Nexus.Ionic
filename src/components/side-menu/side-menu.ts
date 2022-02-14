@@ -14,6 +14,7 @@ import { Flashlight } from '@ionic-native/flashlight';
 import * as $ from 'jquery';
 import { DashboardVagasPage } from '../../pages/dashboard-vagas/dashboard-vagas';
 import { DispositivoRemoverConfirmacaoPage } from '../../pages/dispositivo-remover-confirmacao/dispositivo-remover-confirmacao';
+import { AlterarCorPage } from '../../pages/alterar-cor/alterarcor';
 
 @Component({
   selector: 'side-menu',
@@ -28,6 +29,11 @@ export class SideMenuComponent {
   loginData: any;
   flashLightText: string;
   userData: any;
+  primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
+
 
   // nativeTransitionOptions: NativeTransitionOptions = {
   //   direction: 'up',
@@ -52,9 +58,21 @@ export class SideMenuComponent {
     this.getData();
     this.flashLightText = 'Lanterna';
     this.userData = this.authService.getUserData();
+
+    if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+      this.primaryColor = '#595959';
+      this.secondaryColor = '#484848';
+      this.inputColor = '#595959';
+      this.buttonColor = "#595959";
+    } else {
+      this.primaryColor = '#06273f';
+      this.secondaryColor = '#00141b';
+      this.inputColor = '#06273f';
+      this.buttonColor = "#1c6381";
+    }
   }
 
-  ionViewDidEnter() {}
+  ionViewDidEnter() { }
 
   getData() {
     setTimeout(() => {
@@ -101,6 +119,9 @@ export class SideMenuComponent {
     $('.icon-menu').removeClass('close-menu');
     $('side-menu').removeClass('show');
   }
+  navigateToChangeColor() {
+    this.navCtrl.push(AlterarCorPage);
+  }
 
   statusDeBolsao() {
     //this.nativePageTransitions.slide(this.nativeTransitionOptions);
@@ -108,7 +129,7 @@ export class SideMenuComponent {
     this.navCtrl.push(DashboardVagasPage);
   }
 
-  toglleTheme(event){
+  toglleTheme(event) {
 
   }
 }

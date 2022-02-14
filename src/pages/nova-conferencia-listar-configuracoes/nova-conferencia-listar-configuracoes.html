@@ -8,8 +8,8 @@
   </ion-title>
 </ion-header> -->
 <side-menu-ce *ngIf="clienteExterno"></side-menu-ce>
-<ion-header (click)="toggleMenu()">
-    <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
       <i class="icon icon-menu" ></i>
     </button>
     <ion-title>
@@ -17,18 +17,18 @@
     </ion-title>
 </ion-header>
 
-<ion-content padding class="conferencia-content">
+<ion-content padding class="conferencia-content" [ngStyle]="{'background-color': secondaryColor}">
 
   <configuracao-item [configuracao]="configuracao" *ngFor="let configuracao of configuracoes"
-    (gotoPage)="gotoPage(configuracao)"></configuracao-item>
+    (gotoPage)="gotoPage(configuracao)" [ngStyle]="{'background-color': primaryColor}"></configuracao-item>
 
 </ion-content>
 
-<ion-footer no-border>
+<ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
   <ion-grid class="grid-botao-wrapper">
     <ion-row>
       <ion-col>
-        <button ion-button class="btn-menu-internal" (click)="voltar()" type="button">
+        <button ion-button class="btn-menu-internal" [ngStyle]="{'background-color': buttonColor}" (click)="voltar()" type="button">
           Voltar
         </button>
       </ion-col>

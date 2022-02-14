@@ -1,36 +1,36 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-  <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
   </button>
   <ion-title>
     {{title}}
   </ion-title>
 </ion-header>
-<ion-content padding id="form-novo-romaneio" class="form-novo-romaneio">
-  <div class="form">
-    <ion-list>
-      <ion-list-header>
+<ion-content padding id="form-novo-romaneio" class="form-novo-romaneio" [ngStyle]="{'background-color': primaryColor}">
+  <div class="form" [ngStyle]="{'background-color': primaryColor}">
+    <ion-list [ngStyle]="{'background-color': primaryColor}">
+      <ion-list-header [ngStyle]="{'background-color': primaryColor}">
         Informações do Chassi
       </ion-list-header>
-      <ion-item class="individual">
+      <ion-item class="individual" [ngStyle]="{'background-color': primaryColor}">
         <ion-label>Chassi:</ion-label>
         <ion-input class="form-control" type="text" [(ngModel)]="formData.chassi" id="chassi" name="chassi" value=""
           disabled></ion-input>
       </ion-item>
-      <ion-item class="individual">
+      <ion-item class="individual" [ngStyle]="{'background-color': primaryColor}">
         <ion-label>Lote:</ion-label>
         <ion-input class="form-control" type="text" [(ngModel)]="formData.lote" id="lote" name="lote" value="" disabled>
         </ion-input>
       </ion-item>
 
-      <ion-item class="item-block individual">
+      <ion-item class="item-block individual" [ngStyle]="{'background-color': primaryColor}">
         <ion-label>Modelo:</ion-label>
         <ion-input class="form-control" type="text" [(ngModel)]="formData.modelo" id="formData.modelo"
           name="formData.modelo" value="" disabled></ion-input>
       </ion-item>
 
-      <ion-item class="item-block individual">
+      <ion-item class="item-block individual" [ngStyle]="{'background-color': primaryColor}">
         <ion-label>Local:</ion-label>
         <ion-input class="form-control" type="text" [(ngModel)]="formData.local" id="formData.local"
           name="formData.local" value="" disabled></ion-input>
@@ -38,58 +38,58 @@
     </ion-list>
   </div>
 
-  <div class="historico" *ngFor="let historico of historicos">
+  <div class="historico" *ngFor="let historico of historicos" [ngStyle]="{'background-color': primaryColor}">
     <!-- Status -->
-    <form class="form">
-      <ion-list-header>
+    <form class="form" [ngStyle]="{'background-color': primaryColor}">
+      <ion-list-header [ngStyle]="{'background-color': primaryColor}">
         Histórico (ciclo {{historico.ciclo}})
       </ion-list-header>
-      <ion-list *ngFor="let status of historico.lstStatus">
-        <ion-item class="item-block item-ios item-select">
+      <ion-list *ngFor="let status of historico.lstStatus" [ngStyle]="{'background-color': primaryColor}">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Status:</ion-label>
           <ion-input class="form-control text-upper" type="text" id="" name="" value="{{status.status}}"
             [disabled]="true"></ion-input>
         </ion-item>
 
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Data-Hora:</ion-label>
           <ion-input class="form-control" type="text" id="" name="" value=" {{status.dataHora}} " [disabled]="true">
           </ion-input>
         </ion-item>
 
-        <ion-item class="item-block item-ios item-select" *ngIf=" status.transportadora ">
+        <ion-item class="item-block item-ios item-select" *ngIf=" status.transportadora " [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Transportadora:</ion-label>
           <ion-input class="form-control" type="text" id="" name="" value="{{status.transportadora}}" [disabled]="true">
           </ion-input>
         </ion-item>
 
-        <ion-item class="item-block item-ios item-select" *ngIf="status.placa">
+        <ion-item class="item-block item-ios item-select" *ngIf="status.placa" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Placa:</ion-label>
           <ion-input class="form-control" type="text" id="" name="" value=" {{status.placa}} " [disabled]="true">
           </ion-input>
         </ion-item>
 
-        <ion-item class="item-block item-ios item-select" *ngIf="status.numeroRomaneio">
+        <ion-item class="item-block item-ios item-select" *ngIf="status.numeroRomaneio" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>N° Romaneio:</ion-label>
           <ion-input class="form-control" type="text" id="" name="" value="{{status.numeroRomaneio}}" [disabled]="true">
           </ion-input>
         </ion-item>
 
         <ion-item class="item-block item-ios item-select"
-          *ngIf="status.status=='Faturado' || status.status=='Carregamento Pendente' || status.status=='Chassi Conferido'">
+          *ngIf="status.status=='Faturado' || status.status=='Carregamento Pendente' || status.status=='Chassi Conferido'" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>NFS:</ion-label>
           <ion-input class="form-control" type="text" id="chassi.notaFiscal" name="chassi.notaFiscal"
             value="{{status.notaFiscal}}" [disabled]="true"></ion-input>
         </ion-item>
 
         <ion-item class="item-block item-ios item-select"
-          *ngIf="status.status=='Carregamento Pendente' || status.status=='Chassi Conferido'">
+          *ngIf="status.status=='Carregamento Pendente' || status.status=='Chassi Conferido'" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Frota:</ion-label>
           <ion-input class="form-control" type="text" id="chassi.frota" name="chassi.frota" value="{{status.frota}}"
             [disabled]="true"></ion-input>
         </ion-item>
 
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Usuário:</ion-label>
           <ion-input class="form-control" type="text" id="chassi.usuario" name="chassi.usuario"
             value="{{status.usuario}}" [disabled]="true"></ion-input>
@@ -99,23 +99,23 @@
     <!--/ Status -->
 
     <!-- Movimentações -->
-    <form class="form">
-      <ion-list-header>
+    <form class="form" [ngStyle]="{'background-color': primaryColor}">
+      <ion-list-header [ngStyle]="{'background-color': primaryColor}">
         Histórico de Parqueamento (ciclo {{historico.ciclo}})
       </ion-list-header>
-      <ion-list *ngFor="let movimentacao of historico.lstMovimentacoes">
-        <ion-item class="item-block item-ios item-select">
+      <ion-list *ngFor="let movimentacao of historico.lstMovimentacoes" [ngStyle]="{'background-color': primaryColor}">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Posição:</ion-label>
           <ion-input class="form-control text-upper" type="text" name="" value="{{movimentacao.posicao}}"
             [disabled]="true"></ion-input>
         </ion-item>
 
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Data:</ion-label>
           <ion-input class="form-control" type="text" name="" value="{{movimentacao.dataHora}}" [disabled]="true">
           </ion-input>
         </ion-item>
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Usuário:</ion-label>
           <ion-input class="form-control" type="text" name="" value="{{movimentacao.usuario}}" [disabled]="true">
           </ion-input>
@@ -127,24 +127,24 @@
 
 
     <!-- bloqueio -->
-    <form class="form">
-      <ion-list-header>
+    <form class="form" [ngStyle]="{'background-color': primaryColor}">
+      <ion-list-header [ngStyle]="{'background-color': primaryColor}">
         Histórico de Bloqueio/Desbloqueio
       </ion-list-header>
       <!-- bloqueio -->
       <ion-list>
-        <ion-item class="item-block item-ios item-select">
-          <ion-label>Data Bloqueio:</ion-label>
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
+          <ion-label>Data/Hora Bloqueio:</ion-label>
           <ion-input class="form-control text-upper" type="text" name="" value="{{formDataBloqueio.dataBloqueio | date: 'dd/MM/yyyy HH:mm'}}"
             [disabled]="true"></ion-input>
         </ion-item>
 
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Descrição:</ion-label>
           <ion-input class="form-control" type="text" name="" value="{{formDataBloqueio.descricaoBloqueio}}"
             [disabled]="true"></ion-input>
         </ion-item>
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Usuário:</ion-label>
           <ion-input class="form-control" type="text" name="" value="{{formDataBloqueio.usuarioBloqueio}}"
             [disabled]="true"></ion-input>
@@ -153,19 +153,19 @@
       <!-- bloqueio -->
 
       <!-- desbloqueio -->
-      <ion-list >
-        <ion-item class="item-block item-ios item-select">
-          <ion-label>Data Desbloqueio:</ion-label>
+      <ion-list  [ngStyle]="{'background-color': primaryColor}">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
+          <ion-label>Data/Hora Desbloqueio:</ion-label>
           <ion-input class="form-control text-upper" type="text" name="" value="{{formDataBloqueio.dataDesbloqueio  | date: 'dd/MM/yyyy HH:mm'}}"
             [disabled]="true"></ion-input>
         </ion-item>
 
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Descrição:</ion-label>
           <ion-input class="form-control" type="text" name="" value="{{formDataBloqueio.observacaoDesbloqueio}}"
             [disabled]="true"></ion-input>
         </ion-item>
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Usuário:</ion-label>
           <ion-input class="form-control" type="text" name="" value="{{formDataBloqueio.usuarioDesbloqueio}}"
             [disabled]="true"></ion-input>
@@ -175,22 +175,22 @@
     <!-- /desbloqueio -->
 
     <!-- Serviço -->
-    <form class="form">
-      <ion-list-header>
+    <form class="form" [ngStyle]="{'background-color': primaryColor}">
+      <ion-list-header [ngStyle]="{'background-color': primaryColor}">
         Histórico de Serviço
       </ion-list-header>
-      <ion-list>
-        <ion-item class="item-block item-ios item-select">
+      <ion-list [ngStyle]="{'background-color': primaryColor}">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Tipo de Servico:</ion-label>
           <ion-input class="form-control text-upper" type="text" name="" value="{{formDataServico.tipoServicoNome}}"
             [disabled]="true"></ion-input>
         </ion-item>
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Data:</ion-label>
           <ion-input class="form-control" type="text" name="" value="{{formDataServico.data | date: 'dd/MM/yyyy HH:mm'}}" [disabled]="true">
           </ion-input>
         </ion-item>
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Usuário:</ion-label>
           <ion-input class="form-control" type="text" name="" value="{{formDataServico.usuario}}" [disabled]="true">
           </ion-input>
@@ -201,27 +201,27 @@
 
 
     <!-- Observacao -->
-    <form class="form">
-      <ion-list-header>
+    <form class="form" [ngStyle]="{'background-color': primaryColor}">
+      <ion-list-header [ngStyle]="{'background-color': primaryColor}">
         Histórico de Observações
       </ion-list-header>
       <ion-list>
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Tipo de Observação:</ion-label>
           <ion-input class="form-control text-upper" type="text" name="" value="{{formDataObservacao.tipoObservacaoNome}}"
             [disabled]="true"></ion-input>
         </ion-item>
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Descrição:</ion-label>
           <ion-input class="form-control" type="text" name="" value="{{formDataObservacao.descricao}}" [disabled]="true">
           </ion-input>
         </ion-item>
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Data:</ion-label>
           <ion-input class="form-control" type="text" name="" value="{{formDataObservacao.data | date: 'dd/MM/yyyy HH:mm'}}" [disabled]="true">
           </ion-input>
         </ion-item>
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
           <ion-label>Usuário:</ion-label>
           <ion-input class="form-control" type="text" name="" value="{{formDataObservacao.usuario}}" [disabled]="true">
           </ion-input>
@@ -235,7 +235,7 @@
   </div>
 
   <div class="login-content">
-    <button ion-button round class="btn-receiving btn-ok" type="submit" (click)="voltar()">
+    <button ion-button round class="btn-receiving btn-ok" type="submit" (click)="voltar()" [ngStyle]="{'background-color': buttonColor}">
       Voltar
     </button>
   </div>

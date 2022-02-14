@@ -12,11 +12,28 @@ export class ModalSucessoComponent {
   messageTitle: string;
   iconClass: string;
 
+  primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
+
   constructor(public navCtrl: NavController, private navParam: NavParams, public authService: AuthService, private view: ViewController) {
     this.message = "";
     this.messageTitle = "Sucesso!";
     this.iconClass = '';
     console.log('ModalSucessoComponent');
+
+    if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+      this.primaryColor = '#595959';
+      this.secondaryColor = '#484848';
+      this.inputColor = '#595959';
+      this.buttonColor = "#595959";
+    } else {
+      this.primaryColor = '#06273f';
+      this.secondaryColor = '#00141b';
+      this.inputColor = '#06273f';
+      this.buttonColor = "#1c6381";
+    }
   }
   ionViewDidEnter() {
 

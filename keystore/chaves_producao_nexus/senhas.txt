@@ -1,3 +1,0 @@
-Key store password: 5N4E2X1U0S
-Key alias: NXSkey
-Key password: 5N4E2X1U0S

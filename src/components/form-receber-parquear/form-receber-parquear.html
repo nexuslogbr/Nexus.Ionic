@@ -1,6 +1,6 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-    <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
       <i class="icon icon-menu" ></i>
     </button>
     <ion-title>
@@ -8,18 +8,18 @@
     </ion-title>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
         
-  <form class="form-parking">
+  <form class="form-parking" [ngStyle]="{'background-color': secondaryColor}" [ngStyle]="{'background-color': primaryColor}">
         
-    <ion-list>
-        <ion-item class="qr-code-container">
+    <ion-list [ngStyle]="{'background-color': primaryColor}"> 
+        <ion-item class="qr-code-container" [ngStyle]="{'background-color': primaryColor}">
             <i class="icon parking-green"></i>
             <p text-uppercase text-center>Parqueamento realizado com</p>
             <h3 text-uppercase text-center>Sucesso</h3>            
         </ion-item>  
 
-        <ion-item *ngIf="dados.fila">
+        <ion-item *ngIf="dados.fila" [ngStyle]="{'background-color': primaryColor}">
         
             <ion-card>
                 <ion-card-header text-center>
@@ -32,33 +32,33 @@
 
         </ion-item> 
 
-        <ion-item>
+        <ion-item [ngStyle]="{'background-color': primaryColor}">
             <ion-label>Local:</ion-label>
             <ion-input class="form-control" type="text" value="" placeholder="{{ formData.localAtual }}"  [disabled]="true"></ion-input>
         </ion-item>
 
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
             <ion-label>Layout:</ion-label>
             <ion-input class="form-control" type="text" value="" placeholder="{{ formData.layoutAtual }}" [disabled]="true"></ion-input>
         </ion-item>
       
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
             <ion-label>Bolsão:</ion-label>
             <ion-input class="form-control" type="text" value="" placeholder="{{ formData.bolsaoAtual }}" [disabled]="true"></ion-input>
         </ion-item>  
 
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
             <ion-label>Chassi:</ion-label>
             <ion-input class="form-control" type="text" value="" placeholder="{{ formData.chassi }}" [disabled]="true"></ion-input>
         </ion-item> 
 
-        <ion-item class="item-block item-ios item-select">
+        <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
             <ion-label>Posição:</ion-label>
             <ion-input class="form-control" type="text"  value="" placeholder="{{ formData.posicaoAtual }}" [disabled]="false"></ion-input>
             <button ion-button item-end class="btn-forcar" (click)="forcarNovaPosicao()">{{forcarText}}</button>
         </ion-item> 
 
-        <ion-item *ngIf="forcarPosicao">
+        <ion-item *ngIf="forcarPosicao" [ngStyle]="{'background-color': primaryColor}">
             <ion-label>Nova Posição</ion-label> 
                 <ion-select  (ionChange)="onPosicaoChange($event)" okText="Confirmar" cancelText="Cancelar" #select4>
                     <ion-option *ngFor="let posicao of posicoes" value="{{posicao.id}}" id="{{posicao.id}}">{{posicao.nome}}</ion-option>
@@ -70,11 +70,11 @@
 
     <div class="login-content">
         <button ion-button round first class="btn-receiving btn-cancel" (click)="Finalizar()" type="button">FINALIZAR</button>
-        <button ion-button round end class="btn-receiving btn-ok" (click)="ProximoVeiculo()" type="button" *ngIf="dados.layout">PRÓXIMO</button>
+        <button ion-button round end class="btn-receiving btn-ok" (click)="ProximoVeiculo()" [ngStyle]="{'background-color': buttonColor}" type="button" *ngIf="dados.layout">PRÓXIMO</button>
     </div>
 
 </ion-content>
-
+<!-- 
 <ion-footer>
     <ion-toolbar>
         <ion-buttons>
@@ -95,5 +95,5 @@
             </button>
         </ion-buttons>
     </ion-toolbar>
-</ion-footer>  
+</ion-footer>   -->
 <modal-loading></modal-loading>

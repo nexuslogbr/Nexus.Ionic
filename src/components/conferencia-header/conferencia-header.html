@@ -6,8 +6,9 @@
   }"
   *ngIf="configuracao.navio"
   (click)="gotoPageClick()"
+  [ngStyle]="{'background-color': primaryColor}"
 >
-  <ion-row class="row-navio">
+  <ion-row class="row-navio" [ngStyle]="{'background-color': primaryColor}">
     <ion-col col-8 class="col-navio">
       <div class="div-navio-nome">{{ configuracao.navio.nome }}</div>
       <div class="div-navio-viagem">{{ configuracao.navio.viagem }}</div>
@@ -35,6 +36,7 @@
   }"
   *ngIf="configuracao.arquivo"
   (click)="gotoPageClick()"
+  [ngStyle]="{'background-color': primaryColor}"
 >
   <ion-row class="row-navio">
     <ion-col col-8 class="col-navio">

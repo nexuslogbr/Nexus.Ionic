@@ -1,9 +1,9 @@
 modal-device {
     ion-content{
         .scroll-content{
-            background-color: #404040;
+            // background-color: #404040;
             .form-recebe-chassis {
-                background-color: #404040;
+                // background-color: #404040;
                 border-radius: 5px;
                 border: 1px solid transparent;
                 height: auto;
@@ -14,7 +14,7 @@ modal-device {
                 h4 {
                     font: 16px 'avenir_demi';
                     color: #fff;
-                    background-color: #595959;
+                    // background-color: #595959;
                     padding: 15px;
                     margin: 0 !important;
                     border-top-left-radius: 5px;
@@ -38,10 +38,10 @@ modal-device {
                 input {
                     font: 14px 'avenir_demi';
                     width: 100%;
-                    background-color: #404040;
+                    // background-color: #404040;
                     border: none;
                     border-radius: 0;
-                    background-color: #404040;
+                    // background-color: #404040;
                     color: #fff;
                     text-align: left;
                     padding-right: 15px;
@@ -49,7 +49,7 @@ modal-device {
                 ion-list{
                     margin: 0;
                     ion-list-header{
-                        background-color: #595959;
+                        // background-color: #595959;
                         border-top: none;
                         ion-label{
                             color: #fff;
@@ -57,7 +57,7 @@ modal-device {
                         }
                     }
                     ion-item{
-                        background-color: #404040;
+                        // background-color: #404040;
                         padding: 0;
                         border-bottom: 1px solid #747474;
                         .item-inner{

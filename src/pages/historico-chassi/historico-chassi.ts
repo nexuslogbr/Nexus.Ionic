@@ -67,6 +67,10 @@ export class HistoricoChassiPage {
   };
   ligado: boolean;
 
+  primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
   @ViewChild('chassiInput') chassiInput;
   formControlChassi = new FormControl('');
 
@@ -80,38 +84,52 @@ export class HistoricoChassiPage {
     public navParams: NavParams
   ) {
     this.title = 'Histórico de Chassi';
+
+
+    if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+      this.primaryColor = '#595959';
+      this.secondaryColor = '#484848';
+      this.inputColor = '#595959';
+      this.buttonColor = "#595959";
+    } else {
+      this.primaryColor = '#06273f';
+      this.secondaryColor = '#00141b';
+      this.inputColor = '#06273f';
+      this.buttonColor = "#1c6381";
+    }
+
     this.url = this.authService.getUrl();
 
-    this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
-      console.log('debounced', value);
-      if (value && value.length) {
-        {
-          if (value.length >= 6) {
-            let chassi = value.replace(/[\W_]+/g, '');
-            setTimeout(() => {
-              this.buscarChassi(chassi, false);
-              this.formData.chassi = '';
-            }, 500);
-          }
-        }
-      }
-    });
+    // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+    //   console.log('debounced', value);
+    //   if (value && value.length) {
+    //     {
+    //       if (value.length >= 6) {
+    //         let chassi = value.replace(/[\W_]+/g, '');
+    //         setTimeout(() => {
+    //           this.buscarChassi();
+    //           this.formData.chassi = '';
+    //         }, 500);
+    //       }
+    //    }
+    //  }
+    // });
   }
 
   ionViewDidEnter() {
     console.log('HistoricoChassiPage');
-    setTimeout(() => {
-      this.chassiInput.setFocus();
-    }, 1000);
+    // setTimeout(() => {
+    //   this.chassiInput.setFocus();
+    // }, 1000);
   }
 
   cleanInput(byScanner: boolean) {
-    if (!byScanner) {
-      setTimeout(() => {
-        this.chassiInput.setFocus();
-      }, 1000);
-    }
-    this.formData.chassi = '';
+  //  if (!byScanner) {
+  //    setTimeout(() => {
+  //      this.chassiInput.setFocus();
+  //    }, 1000);
+  //  }
+  //  this.formData.chassi = '';
   }
 
   scan() {
@@ -125,6 +143,8 @@ export class HistoricoChassiPage {
 
     this.barcodeScanner.scan(this.options).then(
       (barcodeData) => {
+
+        debugger
         this.qrCodeText = barcodeData.text;
         this.consultarChassi(this.qrCodeText, true);
       },
@@ -172,37 +192,12 @@ export class HistoricoChassiPage {
     );
   }
 
-  buscarChassi(text, byScanner: boolean) {
-    this.formParqueamentoData.chassi = this.formData['chassi'];
+  buscarChassi() {
+      this.authService.showLoading();
 
-    let url =
-      this.url +
-      '/VeiculoHistorico/BuscarChassi?token=' +
-      this.authService.getToken() +
-      '&partChassi=' +
-      text;
-
-    this.authService.showLoading();
-    this.formParqueamentoData.token = this.authService.getToken();
-
-    this.httpClient.get(url).subscribe(
-      (res) => {
-        this.responseData = res;
-        if (this.responseData.sucesso) {
-          this.authService.hideLoading();
-
-          this.openModalChassis(this.responseData.retorno, byScanner);
-        } else {
-          this.authService.hideLoading();
-          this.openModalErro(this.responseData.mensagem, byScanner);
-        }
-      },
-      (err) => {
-        this.authService.hideLoading();
-        this.openModalErro(err.status + ' - ' + err.statusText, byScanner);
-        console.log(err);
-      }
-    );
+      this.qrCodeText = this.formData['chassi'];
+      this.consultarChassi(this.qrCodeText, true);
+   
   }
 
   navigateToHomePage() {

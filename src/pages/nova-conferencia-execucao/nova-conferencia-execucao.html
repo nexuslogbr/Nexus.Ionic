@@ -8,21 +8,21 @@
   </ion-title>
 </ion-header> -->
 <side-menu-ce *ngIf="clienteExterno"></side-menu-ce>
-<ion-header (click)="toggleMenu()">
-    <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
       <i class="icon icon-menu" ></i>
     </button>
-    <ion-title>
+    <ion-title [ngStyle]="{'background-color': primaryColor}">
        Conferência
     </ion-title>
 </ion-header>
 
 
-<ion-content no-padding #pageTop class="conferencia-content">
-  <ion-grid class="fixed">
-    <ion-row>
-      <ion-col class="col-fixed">
-        <ion-grid class="grid-header">
+<ion-content no-padding #pageTop class="conferencia-content" [ngStyle]="{'background-color': secondaryColor}">
+  <ion-grid class="fixed" [ngStyle]="{'background-color': primaryColor}">
+    <ion-row [ngStyle]="{'background-color': primaryColor}">
+      <ion-col class="col-fixed" [ngStyle]="{'background-color': primaryColor}">
+        <ion-grid class="grid-header" [ngStyle]="{'background-color': primaryColor}">
           <ion-row class="row-header" *ngIf="!fechamento" (click)="voltar()">
             <ion-col><strong>Nome:</strong>&nbsp;{{ usuario }}</ion-col>
             <ion-col class="turno"
@@ -37,6 +37,7 @@
               class="col-icon-warning"
               *ngIf="fechamento && (conferenciaService.saldoConferencia$|async)>0"
               (click)="gotoListagemVeiculos()"
+              [ngStyle]="{'background-color': primaryColor}"
             >
               <img src="assets/icons/icon-alert.png" class="img-warning" />
             </ion-col>
@@ -48,12 +49,14 @@
           [totalConferidos]="conferenciaService.totalConferidos$ | async"
           [totalVeiculos]="conferenciaService.totalVeiculos$ | async"
           (gotoPage)="gotoListagemVeiculos()"
+          [ngStyle]="{'background-color': primaryColor}"
         >
         </conferencia-header>
 
         <ion-grid
           class="grid-destinos"
           *ngIf="configuracao.navioID && !fechamento"
+          [ngStyle]="{'background-color': primaryColor}"
         >
           <ion-row class="row-destinos">
             <ion-col>
@@ -68,11 +71,13 @@
                   [ngClass]="{
                     selecionado: conferenciaService.destino != null
                   }"
+                  [ngStyle]="{'background-color': primaryColor}"
                 >
                   <ion-option
                     *ngFor="let destino of destinos"
                     value="{{ destino.id }}"
                     id="{{ destino.id }}"
+                    [ngStyle]="{'background-color': primaryColor}"
                   >
                     {{ destino.nome }}</ion-option
                   >
@@ -90,13 +95,14 @@
           (onChassiInputed)="onChassiChanged($event)"
           (onChassiScanned)="onChassiScannedChanged($event)"
           (onScannerShowed)="changeBackBehavior(false)"
+          [ngStyle]="{'background-color': primaryColor}"
         >
         </input-chassi-controller>
       </ion-col>
     </ion-row>
 
-    <ion-grid class="grid-select-wrapper">
-      <ion-row>
+    <ion-grid class="grid-select-wrapper" [ngStyle]="{'background-color': primaryColor}">
+      <ion-row [ngStyle]="{'background-color': primaryColor}">
         <ion-col>
           <ion-grid class="grid-select">
             <ion-row>
@@ -128,9 +134,9 @@
     </ion-grid>
   </ion-grid>
 
-  <ion-slides (ionSlideDidChange)="slideChanged($event)">
+  <ion-slides (ionSlideDidChange)="slideChanged($event)" [ngStyle]="{'background-color': primaryColor}">
     <ion-slide>
-      <ion-grid class="grid-wrapper">
+      <ion-grid class="grid-wrapper" [ngStyle]="{'background-color': primaryColor}">
         <ion-row>
           <ion-col>
             <ion-grid
@@ -178,8 +184,8 @@
       </ion-grid>
     </ion-slide>
 
-    <ion-slide>
-      <ion-grid class="grid-wrapper">
+    <ion-slide [ngStyle]="{'background-color': primaryColor}">
+      <ion-grid class="grid-wrapper" [ngStyle]="{'background-color': primaryColor}">
         <ion-row>
           <ion-col>
             <ion-grid
@@ -225,8 +231,8 @@
       </ion-grid>
     </ion-slide>
 
-    <ion-slide>
-      <ion-grid class="grid-wrapper">
+    <ion-slide [ngStyle]="{'background-color': primaryColor}">
+      <ion-grid class="grid-wrapper" [ngStyle]="{'background-color': primaryColor}">
         <ion-row>
           <ion-col>
             <ion-grid
@@ -277,15 +283,17 @@
   no-border
   class="footer-sincronizacao"
   [ngClass]="{'small-footer': configuracao.conferenciaConfiguracaoStatusID==3}"
+  [ngStyle]="{'background-color': primaryColor}"
 >
-  <ion-grid class="grid-botao-wrapper" no-padding>
+  <ion-grid class="grid-botao-wrapper" no-padding [ngStyle]="{'background-color': primaryColor}"> 
     <ion-grid
       class="grid-dados"
       [ngClass]="{'amarelo': (  contador ) > 0, 'offline': !onLine }"
       *ngIf="!fechamento"
       (click)="executarSincronizacao()"
+      
     >
-      <ion-row>
+      <ion-row [ngStyle]="{'background-color': primaryColor}">
         <ion-col col-8>
           <div class="texto-sincronizacao">
             SINCRONIZAÇÃO PENDENTES:
@@ -314,6 +322,7 @@
 
     <ion-row
       *ngIf="fechamento && configuracao.conferenciaConfiguracaoStatusID==2"
+      [ngStyle]="{'background-color': primaryColor}"
     >
       <ion-col>
         <ion-grid padding class="grid-botao-finalizar">
@@ -334,9 +343,9 @@
       </ion-col>
     </ion-row>
 
-    <ion-row>
+    <ion-row [ngStyle]="{'background-color': primaryColor}">
       <ion-col>
-        <ion-grid padding class="grid-botao-voltar">
+        <ion-grid padding class="grid-botao-voltar" [ngStyle]="{'background-color': primaryColor}">
           <ion-row>
             <ion-col>
               <button
@@ -345,6 +354,8 @@
                 (click)="ok()"
                 type="button"
                 size="small"
+                [ngStyle]="{'background-color': buttonColor}"
+                
               >
                 OK
               </button>

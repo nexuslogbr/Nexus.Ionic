@@ -1,11 +1,12 @@
 page-dashboard {
     transition: all 0.4s ease-in-out;
-    background-color: #404040 !important;
+    // background-color: #404040 !important;
     ion-content {
-        background-color: color($colors, bgQrCode) !important;
+        // background-color: color($colors, bgQrCode) !important;
         .scroll-content {
+            background-color: transparent;
             .charts-content {
-                background-color: #404040;
+                 background-color: #404040;
                 border-radius: 5px;
                 border: 1px solid transparent;
                 margin-bottom: 15px;

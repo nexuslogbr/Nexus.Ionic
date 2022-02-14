@@ -1,6 +1,6 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-  <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
   </button>
   <ion-title>
@@ -8,15 +8,15 @@
   </ion-title>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding [ngStyle]="{'background-color': primaryColor}">
 
-  <form class="form-recebe-chassis">
+  <form class="form-recebe-chassis" [ngStyle]="{'background-color': secondaryColor}">
     <ion-list>
-      <ion-list-header>
+      <ion-list-header [ngStyle]="{'background-color': primaryColor}">
         Status Bolsões
       </ion-list-header>
 
-      <ion-item class="vaga-ion-item-title">
+      <ion-item class="vaga-ion-item-title" [ngStyle]="{'background-color': primaryColor}">
         <ion-grid>
           <ion-row>
             <ion-col>Bolsão</ion-col>
@@ -27,7 +27,7 @@
         </ion-grid>
       </ion-item>
 
-      <ion-item *ngFor="let vaga of vagas" class="vaga-ion-item">
+      <ion-item *ngFor="let vaga of vagas" class="vaga-ion-item" [ngStyle]="{'background-color': primaryColor}">
         <ion-grid>
           <ion-row align-items-center>
             <ion-col class="bolsao-nome">{{vaga.bolsaoNome}}</ion-col>
@@ -47,7 +47,7 @@
   </form>
 
   <div class="login-content">
-    <button ion-button round class="btn-default" (click)="voltar()">Voltar</button>
+    <button ion-button round class="btn-default" (click)="voltar()" [ngStyle]="{'background-color': buttonColor}">Voltar</button>
   </div>
 </ion-content>
 <modal-error></modal-error>

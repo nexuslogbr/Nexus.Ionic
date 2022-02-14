@@ -57,6 +57,11 @@ export class ModalChassisComponent {
 
   modoOperacao: number;
 
+  primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
+
   constructor(
     public http: HttpClient,
     private modal: ModalController,
@@ -68,9 +73,23 @@ export class ModalChassisComponent {
     this.title = 'Recebimento';
     this.url = this.authService.getUrl();
     this.modoOperacao = this.authService.getLocalModoOperacao();
+    if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+      this.primaryColor = '#595959';
+      this.secondaryColor = '#484848';
+      this.inputColor = '#595959';
+      this.buttonColor = "#595959";
+    } else {
+      this.primaryColor = '#06273f';
+      this.secondaryColor = '#00141b';
+      this.inputColor = '#06273f';
+      this.buttonColor = "#1c6381";
+    }
+    
     this.chassis = this.navParam.get('data');
 
-    console.log('ModalChassisComponent');
+    var chassi_ = Array.of(this.navParam.get('data'));
+    console.log(chassi_)
+    this.chassis = Array.of(chassi_[0].chassi);
   }
 
   ionViewDidEnter() {
@@ -188,7 +207,7 @@ export class ModalChassisComponent {
           this.openModalRecebimento(this.formRecebimentoData);
         } else {
           this.authService.hideLoading();
-       //   this.openModalErro(res.mensagem);
+          this.openModalErro(res.mensagem);
           this.select.close();
           this.view.dismiss();
         }

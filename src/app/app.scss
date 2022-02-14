@@ -399,6 +399,7 @@ component-menu {
     background-color: #404040 !important;
     margin-top: 63px;
 
+    
     ion-list {
       padding: 0 15px;
       background-color: #404040;
@@ -475,9 +476,11 @@ component-menu {
   }
 }
 
+
+
 .header {
   padding: 13px 0 12px 20px;
-  background-color: #595959 !important;
+  // background-color: #595959 !important;
   border-bottom: 1px solid #fff;
 
   ion-title {
@@ -689,7 +692,7 @@ ion-header.conferencia-header {
 }
 
 ion-content.conferencia-content {
-  background-color: #404040 !important;
+  // background-color: #404040 !important;
 
   button.btn-menu-internal {
     background-color: white;
