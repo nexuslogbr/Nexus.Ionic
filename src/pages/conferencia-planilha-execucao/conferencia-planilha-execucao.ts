@@ -43,6 +43,10 @@ export class ConferenciaPlanilhaExecucaoPage {
   conferencias: Array<ConferenciaChassiResumo> = [];
   isOnline: boolean;
 
+  primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -56,6 +60,18 @@ export class ConferenciaPlanilhaExecucaoPage {
     public conferenciaStorageProvider: ConferenciaStorageProvider,
     public arquivoStorageProvider: ArquivoStorageProvider
   ) {
+
+    if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+      this.primaryColor = '#595959';
+      this.secondaryColor = '#484848';
+      this.inputColor = '#595959';
+      this.buttonColor = "#595959";
+    } else {
+      this.primaryColor = '#06273f';
+      this.secondaryColor = '#00141b';
+      this.inputColor = '#06273f';
+      this.buttonColor = "#1c6381";
+    }
     console.log('this.navParams', this.navParams);
     this.planilha = this.navParams.data.planilha;
     this.isOnline = this.navParams.data.isOnline;

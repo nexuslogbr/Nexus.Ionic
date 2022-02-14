@@ -1,17 +1,17 @@
 page-historico-chassi-resumo {
     transition: all 0.4s ease-in-out;
-    background-color: #404040 !important;
+    // background-color: #404040 !important;
     ion-content {
-        background-color: color($colors, bgQrCode) !important;
+        // background-color: color($colors, bgQrCode) !important;
         .scroll-content {
             .header-item{
-                background-color: #595959 !important;
+                // background-color: #595959 !important;
             }
             .new-vehicle{
                 margin-bottom: -1px;
             }
             .form {
-                background-color: #404040;
+                // background-color: #404040;
                 border-radius: 5px;
                 border: 1px solid transparent;
                 margin-bottom: 20px;
@@ -22,7 +22,7 @@ page-historico-chassi-resumo {
                 h4 {
                     font: 16px 'avenir_demi';
                     color: #fff;
-                    background-color: #595959;
+                    // background-color: #595959;
                     padding: 15px;
                     margin: 0 !important;
                     border-top-left-radius: 5px;
@@ -46,16 +46,16 @@ page-historico-chassi-resumo {
                 input {
                     font: 12px 'avenir_demi';
                     width: 100%;
-                    background-color: #404040;
+                    // background-color: #404040;
                     border: none;
                     border-radius: 0;
-                    background-color: #404040;
+                    // background-color: #404040;
                     color: #fff;
                     text-align: left;
                     padding-right: 15px;
                 }
                 .label-header{
-                    background-color: #595959;
+                    // background-color: #595959;
                 }
                 .label-md[floating]{
                     margin-bottom: 30px;
@@ -100,7 +100,7 @@ page-historico-chassi-resumo {
                 color:    #fff;
                 }
                 ion-list-header{
-                    background-color: #595959;
+                    // background-color: #595959;
                     border-top: none;
                     ion-label{
                         color: #fff;
@@ -110,7 +110,7 @@ page-historico-chassi-resumo {
                 ion-list{
                     margin: 0;
                     ion-list-header{
-                        background-color: #595959;
+                        // background-color: #595959;
                         border-top: none;
                         ion-label{
                             color: #fff;
@@ -118,10 +118,10 @@ page-historico-chassi-resumo {
                         }
                     }
                     .item-label-floating{
-                        background-color: #595959;
+                        // background-color: #595959;
                     }
                     ion-item{
-                        background-color: #404040;
+                        background-color: transparent;
                         padding: 0;
                         .item-inner{
                             padding-left: 15px;
@@ -148,12 +148,12 @@ page-historico-chassi-resumo {
 
                     } 
                     .individual{
-                        border-bottom: 1px solid #747474;
+                        border-bottom: 1px solid transparent;
                     }           
                 }              
             }
             .form-novo-veiculo{
-                background-color: #404040;
+                // background-color: #404040;
                 border-radius: 5px;
                 border: 1px solid transparent;
                 margin-bottom: 20px;
@@ -164,7 +164,7 @@ page-historico-chassi-resumo {
                 h4 {
                     font: 16px 'avenir_demi';
                     color: #fff;
-                    background-color: #595959;
+                    // background-color: #595959;
                     padding: 15px;
                     margin: 0 !important;
                     border-top-left-radius: 5px;
@@ -188,17 +188,17 @@ page-historico-chassi-resumo {
                 input {
                     font: 14px 'avenir_demi';
                     width: 100%;
-                    background-color: #404040;
+                    // background-color: #404040;
                     border: none;
                     border-radius: 0;
-                    background-color: #404040;
+                    // background-color: #404040;
                     color: #fff;
                     text-align: left;
                     padding-right: 15px;
                     text-transform: uppercase;
                 }
                 .label-header{
-                    background-color: #595959;
+                    // background-color: #595959;
                 }
                 .label-md[floating]{
                     margin-bottom: 30px;
@@ -246,11 +246,11 @@ page-historico-chassi-resumo {
                     margin: 0;
                     position: relative;
                     ion-grid{
-                        background-color: #595959;
+                        // background-color: #595959;
                         padding: 0;
                     }
                     ion-list-header{
-                        background-color: #595959;
+                        // background-color: #595959;
                         border-top: none;
                         ion-label{
                             color: #fff;
@@ -258,10 +258,10 @@ page-historico-chassi-resumo {
                         }
                     }
                     .item-label-floating{
-                        background-color: #595959;
+                        // background-color: #595959;
                     }
                     ion-item{
-                        background-color: #404040;
+                        background-color: transparent;
                         padding: 0;
                         .item-inner{
                             padding-left: 15px;
@@ -315,7 +315,7 @@ page-historico-chassi-resumo {
                 width: 100%;
                 text-align: center;
                 .btn {
-                    background-color: #595959;
+                    // background-color: #595959;
                     width: 100% !important;
                     padding: 25px;
                     border-radius: 45px;
@@ -333,17 +333,17 @@ page-historico-chassi-resumo {
                     }
                 }        
                 .btn-ok {
-                    background-color: #595959;
+                    // background-color: 59;
                 }
                 .btn-cancel {
-                    background-color: #404040;
+                    background-color: transparent;
                 } 
             }              
         }         
       
     }  
     .list-md .item-input:last-child{
-        border-bottom: 1px solid #747474;
+        // border-bottom: 1px solid #747474;
     }  
     .datetime-text{
         color: #fff;

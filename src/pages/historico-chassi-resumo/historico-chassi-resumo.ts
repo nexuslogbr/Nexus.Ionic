@@ -58,10 +58,27 @@ export class HistoricoChassiResumoPage {
 
   veiculoId: any;
 
+  primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
   constructor(public http: HttpClient, public navCtrl: NavController, public navParam: NavParams, public authService: AuthService, private modal: ModalController, private view: ViewController) {
     this.title = 'Histórico de Chassi';
 
     this.url = this.authService.getUrl();
+
+
+    if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+      this.primaryColor = '#595959';
+      this.secondaryColor = '#484848';
+      this.inputColor = '#595959';
+      this.buttonColor = "#595959";
+    } else {
+      this.primaryColor = '#06273f';
+      this.secondaryColor = '#00141b';
+      this.inputColor = '#06273f';
+      this.buttonColor = "#1c6381";
+    }
   }
 
   ionViewDidLoad() {
@@ -112,7 +129,7 @@ export class HistoricoChassiResumoPage {
       },
       (error) => {
         this.authService.hideLoading();
-        this.openModalErro(error.mensagem);
+        //      this.openModalErro(error.mensagem);
       }
     );
   }
@@ -138,16 +155,17 @@ export class HistoricoChassiResumoPage {
           console.log('bloqueio')
 
           console.log(res)
-          // this.formDataBloqueio.id = res.retorno[0].id;
-          // this.formDataBloqueio.veiculoID = res.retorno[0].veiculoID;
-          // this.formDataBloqueio.tipoBloqueioID = res.retorno[0].tipoBloqueioID;
-          // this.formDataBloqueio.dataBloqueio = res.retorno[0].dataBloqueio;
-          // this.formDataBloqueio.dataDesbloqueio = res.retorno[0].dataDesbloqueio
-          // this.formDataBloqueio.descricaoBloqueio = res.retorno[0].descricaoBloqueio;
-          // this.formDataBloqueio.observacaoDesbloqueio = res.retorno[0].observacaoDesbloqueio;
-          // this.formDataBloqueio.usuarioBloqueio = res.retorno[0].usuarioBloqueio;
-          // this.formDataBloqueio.usuarioDesbloqueio = res.retorno[0].usuarioDesbloqueio;
-
+          if (res.retorno[0]) {
+            this.formDataBloqueio.id = res.retorno[0].id;
+            this.formDataBloqueio.veiculoID = res.retorno[0].veiculoID;
+            this.formDataBloqueio.tipoBloqueioID = res.retorno[0].tipoBloqueioID;
+            this.formDataBloqueio.dataBloqueio = res.retorno[0].dataBloqueio;
+            this.formDataBloqueio.dataDesbloqueio = res.retorno[0].dataDesbloqueio
+            this.formDataBloqueio.descricaoBloqueio = res.retorno[0].descricaoBloqueio;
+            this.formDataBloqueio.observacaoDesbloqueio = res.retorno[0].observacaoDesbloqueio;
+            this.formDataBloqueio.usuarioBloqueio = res.retorno[0].usuarioBloqueio;
+            this.formDataBloqueio.usuarioDesbloqueio = res.retorno[0].usuarioDesbloqueio;
+          }
 
           this.authService.hideLoading();
         } else {
@@ -157,7 +175,7 @@ export class HistoricoChassiResumoPage {
       },
       (error) => {
         this.authService.hideLoading();
-        this.openModalErro(error.mensagem);
+        //        this.openModalErro(error.mensagem);
       }
     );
   }
@@ -180,12 +198,12 @@ export class HistoricoChassiResumoPage {
 
           console.log(res.retorno)
 
-       //   this.formDataServico.id = res.retorno[0].id;
-          // this.formDataServico.veiculoID = res.retorno[0].veiculoID;
-          // this.formDataServico.tipoServicoID = res.retorno[0].tipoServicoIDv;
-          // this.formDataServico.tipoServicoNome = res.retorno[0].tipoServicoNome;
+          //  this.formDataServico.id = res.retorno[0].id;
+          //   this.formDataServico.veiculoID = res.retorno[0].veiculoID;
+          //       this.formDataServico.tipoServicoID = res.retorno[0].tipoServicoIDv;
+          //       this.formDataServico.tipoServicoNome = res.retorno[0].tipoServicoNome;
           // this.formDataServico.data = res.retorno[0].data;
-          // this.formDataServico.usuario = res.retorno[0].usuario;
+          //this.formDataServico.usuario = res.retorno[0].usuario;
 
           this.authService.hideLoading();
         } else {
@@ -195,7 +213,7 @@ export class HistoricoChassiResumoPage {
       },
       (error) => {
         this.authService.hideLoading();
-        this.openModalErro(error.mensagem);
+        //this.openModalErro(error.mensagem);
       }
     );
   }
@@ -216,9 +234,9 @@ export class HistoricoChassiResumoPage {
         ;
         if (res.sucesso) {
 
-        //  this.formDataObservacao.id = res.retorno[0].id;
-          // this.formDataObservacao.veiculoID = res.retorno[0].veiculoID;
-          // this.formDataObservacao.tipoObservacaoID = res.retorno[0].tipoObservacaoID;
+          // this.formDataObservacao.id = res.retorno[0].id;
+          //  this.formDataObservacao.veiculoID = res.retorno[0].veiculoID;
+          //  this.formDataObservacao.tipoObservacaoID = res.retorno[0].tipoObservacaoID;
           // this.formDataObservacao.tipoObservacaoNome = res.retorno[0].tipoObservacaoNome;
           // this.formDataObservacao.descricao = res.retorno[0].descricao;
           // this.formDataObservacao.data = res.retorno[0].data;

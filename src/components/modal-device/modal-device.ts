@@ -26,10 +26,27 @@ export class ModalDeviceComponent {
   nome: any;
   uniqueId: string;
 
+  primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
+
   constructor(private modal: ModalController, public storage: Storage, public navParams: NavParams,public authService: AuthService,private view: ViewController) {
     console.log('ModalDeviceComponent');
     this.nome = "";
     // this.code = "";
+
+    if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+      this.primaryColor = '#595959';
+      this.secondaryColor = '#484848';
+      this.inputColor = '#595959';
+      this.buttonColor = "#595959";
+    } else {
+      this.primaryColor = '#06273f';
+      this.secondaryColor = '#00141b';
+      this.inputColor = '#06273f';
+      this.buttonColor = "#1c6381";
+    }
   }
   ionViewDidEnter(){
     // this.parametros = this.authService.getUrl();

@@ -1,7 +1,7 @@
 <side-menu *ngIf="!clienteExterno"></side-menu>
 <side-menu-ce *ngIf="clienteExterno"></side-menu-ce>
-<ion-header (click)="toggleMenu()">
-    <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
       <i class="icon icon-menu" ></i>
     </button>
     <ion-title>
@@ -9,19 +9,19 @@
     </ion-title>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
 
-    <ion-list>
-      <ion-list-header>
+    <ion-list [ngStyle]="{'background-color': primaryColor}">
+      <ion-list-header [ngStyle]="{'background-color': primaryColor}">
           Data
       </ion-list-header>
-      <ion-item class="item-block item-ios item-select icon-clock">
-          <ion-datetime min="2017" max="2030-10-31" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" [(ngModel)]="formData.data" cancelText="Cancelar" doneText="Confirmar"></ion-datetime>
+      <ion-item class="item-block item-ios item-select icon-clock" >
+          <ion-datetime min="2017" max="2030-10-31" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" [(ngModel)]="formData.data" cancelText="Cancelar" doneText="Confirmar" [ngStyle]="{'background-color': primaryColor}"></ion-datetime>
       </ion-item>
 
     </ion-list>
     <div class="login-content">
-      <button ion-button round class="btn-default" (click)="listarRomaneios()">Filtrar</button>
+      <button ion-button round class="btn-default" (click)="listarRomaneios()" [ngStyle]="{'background-color': buttonColor}">Filtrar</button>
     </div>
 </ion-content>
 <modal-error></modal-error>

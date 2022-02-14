@@ -54,7 +54,10 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
   slideLeftSelected: boolean = true;
   slideCenterSelected: boolean = false;
   slideRightSelected: boolean = false;
-
+  primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
   public turno: Turno;
   public configuracao: ConferenciaConfiguracao;
   public usuario: string = '';
@@ -90,7 +93,17 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
     public conferenciaService: ConferenciaService,
     public alertCtrl: AlertController
   ) {
-
+    if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+      this.primaryColor = '#595959';
+      this.secondaryColor = '#484848';
+      this.inputColor = '#595959';
+      this.buttonColor = "#595959";
+    } else {
+      this.primaryColor = '#06273f';
+      this.secondaryColor = '#00141b';
+      this.inputColor = '#06273f';
+      this.buttonColor = "#1c6381";
+    }
     this.fechamento = navParams.data.fechamento;
     this.tituloPagina = this.fechamento ? 'Fechamento' : 'Conferência';
     this.configuracao = navParams.data.configuracao;

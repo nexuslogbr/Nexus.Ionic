@@ -2,12 +2,12 @@ page-carregamento-export-operacao {
   background-color: #404040;
 
   ion-content {
-    background-color: color($colors, bgQrCode) !important;
+    // background-color: color($colors, bgQrCode) !important;
     // background-color: rgba(0, 0, 0, 0.8);
     position: relative;
 
     .form-recebe-chassis {
-      background-color: #404040;
+      // background-color: #404040;
       border-radius: 5px;
       border: 1px solid transparent;
       height: auto;
@@ -20,7 +20,7 @@ page-carregamento-export-operacao {
       h4 {
         font: 16px 'avenir_demi';
         color: #fff;
-        background-color: #595959;
+        // background-color: #595959;
         padding: 15px;
         margin: 0 !important;
         border-top-left-radius: 5px;
@@ -47,10 +47,10 @@ page-carregamento-export-operacao {
       input {
         font: 14px 'avenir_demi';
         width: 100%;
-        background-color: #404040;
+        // background-color: #404040;
         border: none;
         border-radius: 0;
-        background-color: #404040;
+        // background-color: #404040;
         color: #fff;
         text-align: left;
         padding-right: 15px;
@@ -122,11 +122,11 @@ page-carregamento-export-operacao {
       }
 
       .btn-ok {
-        background-color: #595959;
+        // background-color: #595959;
       }
 
       .btn-cancel {
-        background-color: #404040;
+        background-color: transparent;
       }
     }
   }

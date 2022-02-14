@@ -9,8 +9,8 @@
 </ion-header> -->
 
 <side-menu-ce *ngIf="clienteExterno"></side-menu-ce>
-<ion-header (click)="toggleMenu()">
-    <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
       <i class="icon icon-menu" ></i>
     </button>
     <ion-title>
@@ -18,12 +18,12 @@
     </ion-title>
 </ion-header>
 
-<ion-content padding class="conferencia-content">
+<ion-content padding class="conferencia-content" [ngStyle]="{'background-color': secondaryColor}">
   <ion-grid class="grid-item grid-navio" [ngClass]="{
       'navio-andamento': navio.statusData == 'andamento',
       'navio-esperado': navio.statusData == 'esperado'
-    }" *ngIf="navio">
-    <ion-row class="row-navio">
+    }" *ngIf="navio" [ngStyle]="{'background-color': primaryColor}">
+    <ion-row class="row-navio" [ngStyle]="{'background-color': primaryColor}">
       <ion-col col-8 class="col-navio">
         <div class="div-navio-nome">{{ navio.nome }}</div>
         <div class="div-navio-viagem">{{ navio.viagem }}</div>
@@ -51,8 +51,8 @@
         <ion-toggle [(ngModel)]="configuracao.area.selecionado" (ionChange)="changeAreaSelection(configuracao)" mode="ios" color="secondary" id="bg"></ion-toggle>
       </ion-col>
     </ion-row>
-    <ion-row class="row-selecao">
-      <ion-col>
+    <ion-row class="row-selecao" [ngStyle]="{'background-color': primaryColor}">
+      <ion-col [ngStyle]="{'background-color': primaryColor}">
         <ion-grid class="grid-config">
           <ion-row class="grid-config-row-tipo">
             <ion-col>
@@ -69,7 +69,7 @@
             </ion-col>
           </ion-row>
 
-          <ion-row class="grid-config-row-dispositivos">
+          <ion-row class="grid-config-row-dispositivos" [ngStyle]="{'background-color': primaryColor}">
             <ion-col>
               <ion-item class="item" color="azulCeleste" no-lines>
                 <ion-label>Dispositivos</ion-label>
@@ -97,7 +97,7 @@
 
 </ion-content>
 
-<ion-footer no-border [ngClass]="{'big-footer': (arquivo?.statusConfiguracao == 'pendente' || navio?.statusConfiguracao == 'pendente') || (arquivo?.statusConfiguracao == 'configurada' || navio?.statusConfiguracao == 'configurada')}">
+<ion-footer no-border [ngStyle]="{'background-color': primaryColor}" [ngClass]="{'big-footer': (arquivo?.statusConfiguracao == 'pendente' || navio?.statusConfiguracao == 'pendente') || (arquivo?.statusConfiguracao == 'configurada' || navio?.statusConfiguracao == 'configurada')}">
   <ion-grid class="grid-botao-wrapper">
     <ion-row class="row-botao-margin-top-50" *ngIf="
       arquivo?.statusConfiguracao == 'pendente' ||

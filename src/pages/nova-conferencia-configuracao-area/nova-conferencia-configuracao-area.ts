@@ -34,7 +34,10 @@ export class NovaConferenciaConfiguracaoAreaPage {
   public botaoDisponibilizarAtivado: boolean = true;
   public botaoAtualizarAtivado: boolean = true;
   public dispositivos: Array<Dispositivo>;
-
+  primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
   @ViewChildren(Select) selectGroup: QueryList<Select>;
 
   public selectOptionsTipo: any = {
@@ -54,6 +57,18 @@ export class NovaConferenciaConfiguracaoAreaPage {
     public authService: AuthService,
     public alertService: AlertService
   ) {
+
+    if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+      this.primaryColor = '#595959';
+      this.secondaryColor = '#484848';
+      this.inputColor = '#595959';
+      this.buttonColor = "#595959";
+    } else {
+      this.primaryColor = '#06273f';
+      this.secondaryColor = '#00141b';
+      this.inputColor = '#06273f';
+      this.buttonColor = "#1c6381";
+    }
     if (navParams.data.navio != null) {
       this.navio = navParams.data.navio;
     }

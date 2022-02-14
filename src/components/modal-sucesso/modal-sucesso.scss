@@ -1,13 +1,13 @@
 modal-sucesso {
     display: none;
-    background-color: rgba(0, 0, 0, 0.9);
+    // background-color: rgba(0, 0, 0, 0.9);
     position: fixed;
     top: 0;
     height: 100%;
     width: 100%;
     z-index: 9999;
     ion-content.content {
-        background-color: rgba(0, 0, 0, 0.1);
+        // background-color: rgba(0, 0, 0, 0.1);
         position: relative;
         .qr-code-container {
             padding: 50% 10px 10% 10px;

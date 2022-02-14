@@ -1,20 +1,20 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-    <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': secondaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': secondaryColor}">
       <i class="icon icon-menu" ></i>
     </button>
     <ion-title>
         {{title}}
     </ion-title>
 </ion-header>
-<ion-content padding>
-  <form class="form-recebe-chassis">
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
+  <form class="form-recebe-chassis" [ngStyle]="{'background-color': secondaryColor}">
     <ion-list>
-      <ion-list-header>
+      <ion-list-header [ngStyle]="{'background-color': primaryColor}">
         Selecione o chassi
       </ion-list-header>
 
-      <ion-item>
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Chassi:</ion-label>
         <ion-select  (ionChange)="onChassisChange($event)" okText="Confirmar" cancelText="Cancelar" #select1>
           <ion-option *ngFor="let chassi of chassis" value="{{chassi}}" id="{{chassi}}">{{chassi}}</ion-option>
@@ -23,7 +23,7 @@
       <div class="login-content">
         <p>CONTINUAR O PARQUEAMENTO?</p>
       <button ion-button round first class="btn-receiving btn-cancel" (click)="closeModal()" type="button">NÃO</button>
-        <button ion-button round end class="btn-receiving btn-ok" (click)="ConsultarChassi()" type="button">SIM</button>
+        <button ion-button round end class="btn-receiving btn-ok" (click)="ConsultarChassi()" type="button" [ngStyle]="{'background-color': buttonColor}">SIM</button>
       </div>
 
     </ion-list>

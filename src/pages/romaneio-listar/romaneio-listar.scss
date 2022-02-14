@@ -1,12 +1,12 @@
 page-romaneio-listar {
-    background-color: #404040;
+    // background-color: #404040;
     ion-content {
-        background-color: color($colors, bgQrCode) !important;
+        // background-color: color($colors, bgQrCode) !important;
         ion-list{
             margin: 0;
-            background-color: #404040;
+            // background-color: #404040;
             .list-header-md{
-                background-color: #595959;
+                // background-color: #595959;
                 border-top: none;
                 margin: 0;
                 ion-label{
@@ -15,13 +15,13 @@ page-romaneio-listar {
                 }
             }   
             ion-item.item-md{
-                background-color: #404040;
+                // background-color: #404040;
                 border: 1px solid #595959 !important;
                 border-bottom-left-radius: 4px;
                 border-bottom-right-radius: 4px;                
             }        
             ion-item{
-                background-color: #404040;
+                background-color: transparent !important;
                 padding: 0;
                 color: #fff;
                 .item-inner{
@@ -42,7 +42,7 @@ page-romaneio-listar {
                         height: 24px;                                
                     }
                     ion-input{
-                        color: #747474;
+                        color: transparent;
                     }
                 }
             }             
@@ -54,7 +54,7 @@ page-romaneio-listar {
         width: 100%;
         text-align: center;
         .btn {
-            background-color: #595959;
+            // background-color: #595959;
             width: 100% !important;
             padding: 25px;
             border-radius: 45px;
@@ -64,7 +64,7 @@ page-romaneio-listar {
             margin: 0 auto;
         }            
         .btn-default {
-            background-color: #595959;
+            // background-color: #595959;
             width: 100%;
             height: auto;
             span {

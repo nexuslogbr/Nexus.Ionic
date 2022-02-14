@@ -19,7 +19,10 @@ export class NovaConferenciaInputPage {
   public configuracao: ConferenciaConfiguracao;
   public usuario: string = '';
   public disableContinuar: boolean = true;
-
+  primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -29,6 +32,18 @@ export class NovaConferenciaInputPage {
     public conferenciaDataService: ConferenciaDataService,
     public conferenciaConfiguracaoADO: ConferenciaConfiguracaoADO
   ) {
+
+    if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+      this.primaryColor = '#595959';
+      this.secondaryColor = '#484848';
+      this.inputColor = '#595959';
+      this.buttonColor = "#595959";
+    } else {
+      this.primaryColor = '#06273f';
+      this.secondaryColor = '#00141b';
+      this.inputColor = '#06273f';
+      this.buttonColor = "#1c6381";
+    }
     console.log('NovaConferenciaInputPage->params', navParams.data);
     this.configuracao = navParams.data.configuracao;
     this.turnos = this.configuracao.turnos;

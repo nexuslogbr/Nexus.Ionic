@@ -1,5 +1,5 @@
 modal-chassis {
-    background-color: #404040;
+    // background-color: #404040;
     opacity: 0.2;
     position: fixed;
     top: 0;
@@ -7,7 +7,7 @@ modal-chassis {
     width: 100%;
     z-index: 10;
     ion-content.content {
-        background-color:  rgba( 0, 0, 0, 0.8 );
+        // background-color:  rgba( 0, 0, 0, 0.8 );
         position: relative;
         .form-recebe-chassis {
             background-color: #404040;
@@ -21,7 +21,7 @@ modal-chassis {
             h4 {
                 font: 16px 'avenir_demi';
                 color: #fff;
-                background-color: #595959;
+                // background-color: #595959;
                 padding: 15px;
                 margin: 0 !important;
                 border-top-left-radius: 5px;
@@ -107,10 +107,10 @@ modal-chassis {
                 }
             }        
             .btn-ok {
-                background-color: #595959;
+                // background-color: #595959;
             }
             .btn-cancel {
-                background-color: #488aff;
+                background-color: transparent;
             }  
         }               
     }

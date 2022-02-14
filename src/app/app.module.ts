@@ -192,6 +192,7 @@ import { FormLancamentoServicoComponent } from '../components/form-lancamento-se
 import { ObservacoesPage } from '../pages/observacoes/observacoes';
 import { ModalObservacoesComponent } from '../components/modal-observacoes/modal-observacoes';
 import { FormObservacoesComponent } from '../components/form-observacoes/form-observacoes';
+import { AlterarCorPage } from '../pages/alterar-cor/alterarcor';
 
 @NgModule({
   declarations: [
@@ -343,7 +344,8 @@ import { FormObservacoesComponent } from '../components/form-observacoes/form-ob
     FormLancamentoServicoComponent,
     ObservacoesPage,
     ModalObservacoesComponent,
-    FormObservacoesComponent
+    FormObservacoesComponent,
+    AlterarCorPage
   ],
   imports: [
     BrowserModule,
@@ -548,7 +550,8 @@ import { FormObservacoesComponent } from '../components/form-observacoes/form-ob
     FormLancamentoServicoComponent,
     ObservacoesPage,
     ModalObservacoesComponent,
-    FormObservacoesComponent
+    FormObservacoesComponent,
+    AlterarCorPage
 
   ],
   providers: [

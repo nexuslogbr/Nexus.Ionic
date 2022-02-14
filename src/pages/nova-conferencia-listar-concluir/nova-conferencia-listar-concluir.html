@@ -7,8 +7,8 @@
     Fechamento
   </ion-title>
 </ion-header> -->
-<ion-header (click)="toggleMenu()">
-  <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
   </button>
   <ion-title>
@@ -17,12 +17,12 @@
 </ion-header>
 
 
-<ion-content padding class="conferencia-content">
-  <ion-grid class="grid-select-wrapper">
+<ion-content padding class="conferencia-content" [ngStyle]="{'background-color': secondaryColor}">
+  <ion-grid class="grid-select-wrapper" [ngStyle]="{'background-color': secondaryColor}">
     <ion-row>
       <ion-col>
-        <ion-grid class="grid-select">
-          <ion-row>
+        <ion-grid class="grid-select" [ngStyle]="{'background-color': secondaryColor}">
+          <ion-row [ngStyle]="{'background-color': primaryColor}">
             <ion-col class="col-left" [ngClass]="{ selected: slideLeftSelected }" (click)="changeSlideToLeft()">
               <span>Navios</span>
             </ion-col>
@@ -35,13 +35,15 @@
     </ion-row>
   </ion-grid>
 
-  <ion-slides (ionSlideDidChange)="slideChanged()">
-    <ion-slide>
+  <ion-slides (ionSlideDidChange)="slideChanged()" [ngStyle]="{'background-color': primaryColor}">
+    <ion-slide [ngStyle]="{'background-color': primaryColor}">
       <ion-grid class="grid-base grid-navio" *ngFor="let navio of navios" (click)="configurarNavio(navio)" [ngClass]="{
           'andamento': navio.conferenciaStatus == 1,
           'finalizado': navio.conferenciaStatus == 2
-        }">
-        <ion-row class="row-navio">
+        }"
+        [ngStyle]="{'background-color': primaryColor}"
+        >
+        <ion-row class="row-navio" [ngStyle]="{'background-color': primaryColor}">
           <ion-col col-8 class="col-navio">
             <div class="div-navio-nome">{{ navio.nome }}</div>
             <div class="div-navio-viagem">{{ navio.viagem }}</div>
@@ -52,7 +54,7 @@
         </ion-row>
       </ion-grid>
 
-      <ion-grid class="grid-base grid-error" *ngIf="showNavioErrorMessage">
+      <ion-grid class="grid-base grid-error" *ngIf="showNavioErrorMessage" [ngStyle]="{'background-color': primaryColor}">
         <ion-row>
           <ion-col text-center>
             Ocorreu um erro!
@@ -62,7 +64,7 @@
     </ion-slide>
 
     <ion-slide>
-      <ion-grid class="grid-base grid-navio" *ngFor="let arquivo of arquivos" (click)="configurarArquivo(arquivo)"
+      <ion-grid class="grid-base grid-navio" *ngFor="let arquivo of arquivos" (click)="configurarArquivo(arquivo)" [ngStyle]="{'background-color': primaryColor}"
         [ngClass]="{
           'andamento': arquivo.conferenciaStatus == 1,
           'finalizado': arquivo.conferenciaStatus == 2
@@ -77,7 +79,7 @@
         </ion-row>
       </ion-grid>
 
-      <ion-grid class="grid-base grid-error" *ngIf="showArquivoErrorMessage">
+      <ion-grid class="grid-base grid-error" *ngIf="showArquivoErrorMessage" [ngStyle]="{'background-color': primaryColor}">
         <ion-row>
           <ion-col text-center>
             Ocorreu um erro!
@@ -89,14 +91,14 @@
   </ion-slides>
 </ion-content>
 
-<ion-footer class="footer-legenda" *ngIf="slideLeftSelected">
-  <ion-grid class="grid-legenda">
+<ion-footer class="footer-legenda" *ngIf="slideLeftSelected" [ngStyle]="{'background-color': primaryColor}">
+  <ion-grid class="grid-legenda" >
     <ion-row class="row-legenda-texto">
-      <ion-col>
+      <ion-col [ngStyle]="{'background-color': primaryColor}">
         Legendas:
       </ion-col>
     </ion-row>
-    <ion-row class="row-legendas">
+    <ion-row class="row-legendas" [ngStyle]="{'background-color': primaryColor}">
       <ion-col class="col-legendas">
         <div class="legenda-finalizado"></div>
         <span class="legenda-finalizado-texto">Navios finalizados</span>
@@ -106,9 +108,9 @@
     </ion-row>
   </ion-grid>
   <ion-grid class="grid-botao-voltar">
-    <ion-row>
+    <ion-row [ngStyle]="{'background-color': primaryColor}">
       <ion-col>
-        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()" type="button">
+        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" [ngStyle]="{'background-color': buttonColor}" (click)="voltar()" type="button">
           Voltar
         </button>
       </ion-col>
@@ -116,8 +118,8 @@
   </ion-grid>
 </ion-footer>
 
-<ion-footer class="footer-legenda" *ngIf="!slideLeftSelected" no-border>
-  <ion-grid class="grid-legenda">
+<ion-footer class="footer-legenda" *ngIf="!slideLeftSelected" no-border [ngStyle]="{'background-color': primaryColor}">
+  <ion-grid class="grid-legenda" [ngStyle]="{'background-color': primaryColor}">
     <ion-row class="row-legenda-texto">
       <ion-col>
         Legendas:
@@ -135,7 +137,7 @@
   <ion-grid class="grid-botao-voltar">
     <ion-row>
       <ion-col>
-        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()" type="button">
+        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" [ngStyle]="{'background-color': buttonColor}" (click)="voltar()" type="button">
           Voltar
         </button>
       </ion-col>

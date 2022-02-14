@@ -65,10 +65,27 @@ export class DashboardPage {
     percentagem3: string;
     percentagem4: string;
 
+    primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
+
   constructor(public http: HttpClient, private modal: ModalController, public authService: AuthService, public navCtrl: NavController, public navParams: NavParams) {
     this.title = "Dashboard";
     this.authService.showLoading();
     this.url = this.authService.getUrl();
+
+    if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+      this.primaryColor = '#595959';
+      this.secondaryColor = '#484848';
+      this.inputColor = '#595959';
+      this.buttonColor = "#595959";
+    } else {
+      this.primaryColor = '#06273f';
+      this.secondaryColor = '#00141b';
+      this.inputColor = '#06273f';
+      this.buttonColor = "#1c6381";
+    }
   }
 
   ionViewDidLoad() {
@@ -109,7 +126,7 @@ export class DashboardPage {
         let myChart = new Chart(ctx, {
           type: 'doughnut',
           data: {
-            labels: ["Available Vacancies", "Occupied Vacancies"],
+            labels: ["Vagas Disponíveis", "Vagas Ocupadas"],
 
             datasets: [{
                 data: [this.posicoesNaoOcupadas, this.posicoesOcupadas],
@@ -162,7 +179,7 @@ export class DashboardPage {
         let myChart = new Chart(ctx, {
           type: 'doughnut',
           data: {
-            labels: ["Up to 30 Days", "Up to 60 Days", "Up to 90 Days", "More to 90 Days"],
+            labels: ["Até 30 dias", "Até 60 dias", "Até 90 dias", "Mais de 90 dias"],
             datasets: [{
                 data: [this.data.retorno['ateTrinta'], this.data.retorno['entreTrintaSessenta'], this.data.retorno['entreSessentaNoventa'], this.data.retorno['maisNoventa']],
                 backgroundColor: [
@@ -341,7 +358,7 @@ export class DashboardPage {
                     // position: 'top',
                     align: 'stretch',
                     fontColor: '#fff',
-                    text: 'Volume of Import'
+                    text: 'Volume de Importação'
                 },
                 scales: {
                     yAxes: [{
@@ -427,7 +444,7 @@ export class DashboardPage {
                 title: {
                     display: true,
                     fontColor: '#fff',
-                    text: 'Volume of Export'
+                    text: 'Volume de Exportação'
                 },
                 scales: {
                     yAxes: [{
@@ -525,7 +542,7 @@ export class DashboardPage {
               display: true,
               fontColor: '#fff',
               fontSize: 12,
-              text: 'Volume of Import of the next ships'
+              text: 'Volume de Importação dos próximos navios'
             },
             scales: {
               yAxes: [{
@@ -599,7 +616,7 @@ export class DashboardPage {
               display: true,
               fontColor: '#fff',
               fontSize: 12,
-              text: 'Volume of Export of the next ships'
+              text: 'Volume de Exportação dos próximos navios'
             },
             scales: {
               yAxes: [{

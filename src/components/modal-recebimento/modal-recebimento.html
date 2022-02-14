@@ -1,5 +1,5 @@
-<ion-content padding>
-  <div class="qr-code-container">
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
+  <div class="qr-code-container" [ngStyle]="{'background-color': secondaryColor}">
     <i class="icon icon-reception"></i>
     <p>RECEBIMENTO REALIZADO COM</p>
     <h3>SUCESSO!</h3>
@@ -13,6 +13,7 @@
       class="btn-receiving btn-cancel"
       (click)="closeModal()"
       type="button"
+      [ngStyle]="{'background-color': buttonColor}"
     >
       NÃO
     </button>
@@ -24,6 +25,7 @@
       class="btn-receiving btn-ok"
       (click)="parqueamento()"
       type="button"
+      [ngStyle]="{'background-color': buttonColor}"
     >
       SIM
     </button>
@@ -36,6 +38,7 @@
       class="btn-receiving btn-continuar"
       (click)="closeModal()"
       type="button"
+      [ngStyle]="{'background-color': buttonColor}"
     >
       CONTINUAR
     </button>

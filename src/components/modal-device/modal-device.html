@@ -1,12 +1,12 @@
-<ion-content padding>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
   <form class="form-recebe-chassis">
-    <ion-list>
-      <ion-list-header>
+    <ion-list [ngStyle]="{'background-color': secondaryColor}">
+      <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
         Código do dispositivo 
       </ion-list-header>
           
-        <ion-item>
-            <ion-input class="form-control" type="text" [(ngModel)]="code" id="code" name="code" value="" placeholder="INSIRA O CÓDIGO"></ion-input>
+        <ion-item [ngStyle]="{'background-color': primaryColor}">
+            <ion-input class="form-control" type="text" [(ngModel)]="code" id="code" name="code" value="" placeholder="INSIRA O CÓDIGO" [ngStyle]="{'background-color': primaryColor}"></ion-input>
         </ion-item>
 
         <!-- <ion-item>
@@ -20,6 +20,6 @@
     </ion-list>
   </form>  
   <div class="login-content" padding>
-    <button ion-button round class="btn-login" (click)="ConfirmarDispositivo()" type="button">ENVIAR</button>
+    <button ion-button round class="btn-login" (click)="ConfirmarDispositivo()" type="button" [ngStyle]="{'background-color': buttonColor}">ENVIAR</button>
   </div>
 </ion-content>

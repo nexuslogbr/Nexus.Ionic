@@ -1,27 +1,26 @@
 page-home {
-  background-color: #5B5959;
+
+  // background-color: color($colors, primary) !important;
 
   .tabbar {
     display: none;
   }
 .header{
- background-color: #5B5959 !important;    
+//  background-color: #5B5959 !important;    
 }
   .fixed-content {
     margin-bottom: 0 !important;
   }
 
   ion-content {
-    .scroll-content {
-      background-color: #404040;
-    }
 
+   
     ion-list {
       padding: 0 15px;
-      background-color: #404040;
+      // background-color: #404040;
 
       ion-item.item {
-        background-color: #747474;
+        // background-color: #747474;
         padding: 0;
         border-radius: 28px;
         margin-top: 12px;
@@ -46,10 +45,10 @@ page-home {
             background-position: 1px center;
             background-size: 16%;
           }
-.btn-login{
-  border: 1px solid #fff;
-  background-color: #a7a7a7 !important;
-}
+// .btn-login{
+//   border: 1px solid #fff;
+//   background-color: #a7a7a7 !important;
+// }
 
 
           button.reception {
@@ -145,7 +144,7 @@ page-home {
         font: 25px 'avenir_regular';
         vertical-align: middle;
         text-decoration: none;
-        background-color: #747474;
+        // background-color: #747474;
         background-repeat: no-repeat;
         background-position: 1px center;
         background-size: 16%;

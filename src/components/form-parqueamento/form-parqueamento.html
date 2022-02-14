@@ -1,29 +1,29 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-    <button class="btn-menu">
+<ion-header (click)="toggleMenu()"  [ngStyle]="{'background-color': secondaryColor}">
+    <button class="btn-menu"  [ngStyle]="{'background-color': secondaryColor}">
       <i class="icon icon-menu" ></i>
     </button>
     <ion-title>
         {{title}}
     </ion-title>
 </ion-header>
-<ion-content padding id="form-recebimento" class="form-recebimento">
-    <form class="form-parking">
+<ion-content padding id="form-recebimento" class="form-recebimento"  [ngStyle]="{'background-color': secondaryColor}">
+    <form class="form-parking"  [ngStyle]="{'background-color': primaryColor}">
         <ion-list>
-            <ion-list-header>
+            <ion-list-header [ngStyle]="{'background-color': primaryColor}">
                 Informações de parqueamento
             </ion-list-header>
-            <ion-item>
+            <ion-item [ngStyle]="{'background-color': primaryColor}">
                 <ion-label>Chassi:</ion-label>
                 <ion-input class="form-control" type="text" [(ngModel)]="formRecebimentoData.chassi" id="chassi" name="chassi" value="" placeholder="{{ qrCode }}"  [disabled]="isDisabled ? '' : null"></ion-input>
             </ion-item>
 
-            <ion-item class="item-block item-ios item-select">
+            <ion-item class="item-block item-ios item-select" [ngStyle]="{'background-color': primaryColor}">
                 <ion-label>Local:</ion-label>
                 <ion-input class="form-control" type="text" [(ngModel)]="formRecebimentoData.local" id="local" name="local" value="" placeholder="{{ local }}" [disabled]="isDisabled ? '' : null"></ion-input>
             </ion-item>
         
-            <ion-item *ngIf="tShow; else elseBlock">
+            <ion-item *ngIf="tShow; else elseBlock" [ngStyle]="{'background-color': primaryColor}">
                 <ion-label label-ios>Layout:</ion-label>
                 <ion-select  (ionChange)="onLayoutChange($event)" okText="Confirmar" cancelText="Cancelar" #select1 name="layout" id="layout" [(ngModel)]="formRecebimentoData.layout"> 
                     <!-- <ion-option *ngFor="let layout of layouts; let i = index" value="{{layout.id}}" id="{{layout.id}}" selected="{{i === 0}}">{{layout.nome}}</ion-option> -->
@@ -32,28 +32,28 @@
                 </ion-select>
             </ion-item>
    
-            <ng-template  #elseBlock>       
+            <ng-template  #elseBlock >       
                 <ion-item>
                     <ion-label label-ios>Layout:</ion-label>
                     <ion-input class="form-control" type="text" [(ngModel)]="formRecebimentoData.layoutNome" id="layoutNome" name="layoutNome" value="" placeholder="" disabled></ion-input>
                 </ion-item> 
             </ng-template>             
 
-            <ion-item>
+            <ion-item [ngStyle]="{'background-color': primaryColor}">
                 <ion-label label-ios>Bolsão:</ion-label>
                 <ion-select (ionChange)="onBolsaoChange($event)" okText="Confirmar" cancelText="Cancelar" name="bolsao" id="bolsao" [(ngModel)]="formRecebimentoData.bolsao">
                      <ion-option *ngFor="let bolsao of bolsoes; let i = index" value="{{bolsao.id}}" id="{{bolsao.id}}" >{{bolsao.nome}}</ion-option> 
                 </ion-select>
             </ion-item>                
         
-            <ion-item>
+            <ion-item [ngStyle]="{'background-color': primaryColor}">
                 <ion-label label-ios>Fila:</ion-label>
                 <ion-select (ionChange)="onFilaChange($event)" okText="Confirmar" cancelText="Cancelar" name="fila" id="fila" [(ngModel)]="formRecebimentoData.fila">
                     <ion-option *ngFor="let fila of filas; let i = index " value="{{fila.id}}" id="{{fila.id}}" >{{fila.nome}}</ion-option>
                 </ion-select>
             </ion-item> 
 
-            <ion-item>
+            <ion-item [ngStyle]="{'background-color': primaryColor}">
                 <ion-label label-ios>Posição:</ion-label>
                     <ion-select (ionChange)="onPosicaoChange($event)" okText="Confirmar" cancelText="Cancelar">
                         <ion-option *ngFor="let posi of posicoes; let i = index" value="{{posi.id}}" id="{{posi.id}}" selected="{{i === 0}}">{{posi.nome}}</ion-option>
@@ -63,7 +63,7 @@
         </ion-list>
     </form>
     <div class="login-content">
-        <button ion-button round class="btn-default" type="submit" (click)="ParquearVeiculo()">Finalizar</button>
+        <button ion-button round class="btn-default" type="submit" (click)="ParquearVeiculo()"  [ngStyle]="{'background-color': buttonColor}">Finalizar</button>
     </div>
 </ion-content>
 <modal-loading></modal-loading>

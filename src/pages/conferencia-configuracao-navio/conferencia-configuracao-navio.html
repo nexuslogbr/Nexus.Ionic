@@ -1,6 +1,6 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-  <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
   </button>
   <ion-title>
@@ -8,17 +8,17 @@
   </ion-title>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
 
-  <ion-grid class="grid-base grid-header" *ngIf="navios.length">
+  <ion-grid class="grid-base grid-header" *ngIf="navios.length" [ngStyle]="{'background-color': primaryColor}">
     <ion-row>
-      <ion-col text-center class="text-selecao">
+      <ion-col text-center class="text-selecao" [ngStyle]="{'background-color': primaryColor}">
         Selecione um Navio
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="grid-base grid-navio" *ngFor="let navio of navios" (click)="continuar(navio)">
+  <ion-grid class="grid-base grid-navio" *ngFor="let navio of navios" (click)="continuar(navio)" [ngStyle]="{'background-color': primaryColor}">
     <ion-row>
       <ion-col>
         <strong>Navio/Viagem:</strong>&nbsp;{{navio.nome}} / {{navio.viagem}}
@@ -29,7 +29,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="grid-base grid-noreg" *ngIf="navios.length==0 && !showErrorMessage">
+  <ion-grid class="grid-base grid-noreg" *ngIf="navios.length==0 && !showErrorMessage" [ngStyle]="{'background-color': primaryColor}">
     <ion-row>
       <ion-col text-center>
         Não existem navios disponíveis para conferência
@@ -37,7 +37,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="grid-base grid-header grid-header-planilha" *ngIf="planilhas.length">
+  <ion-grid class="grid-base grid-header grid-header-planilha" *ngIf="planilhas.length" [ngStyle]="{'background-color': primaryColor}">
     <ion-row>
       <ion-col text-center class="text-selecao">
         Selecione uma Planilha
@@ -45,7 +45,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="grid-base grid-navio" *ngFor="let planilha of planilhas" (click)="continuarPlanilha(planilha)">
+  <ion-grid class="grid-base grid-navio" *ngFor="let planilha of planilhas" (click)="continuarPlanilha(planilha)" [ngStyle]="{'background-color': primaryColor}">
     <ion-row>
       <ion-col>
         <strong>Planilha:</strong>&nbsp;{{planilha.nomeOriginal}}
@@ -56,7 +56,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="grid-base grid-noreg" *ngIf="planilhas.length==0 && !showErrorMessage">
+  <ion-grid class="grid-base grid-noreg" *ngIf="planilhas.length==0 && !showErrorMessage" [ngStyle]="{'background-color': primaryColor}">
     <ion-row>
       <ion-col text-center>
         Não existem planilhas disponíveis para conferência
@@ -64,7 +64,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-grid class="grid-base grid-error" *ngIf="showErrorMessage">
+  <ion-grid class="grid-base grid-error" *ngIf="showErrorMessage" [ngStyle]="{'background-color': primaryColor}">
     <ion-row>
       <ion-col text-center>
         Ocorreu um erro!
@@ -74,7 +74,7 @@
 
   <ion-row class="row-botao-voltar">
     <ion-col>
-      <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()"
+      <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()" [ngStyle]="{'background-color': buttonColor}"
         type="button">Voltar</button>
         
     </ion-col>

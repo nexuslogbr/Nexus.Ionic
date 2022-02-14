@@ -1,4 +1,4 @@
-<ion-content padding>
+<ion-content padding [ngStyle]="{'background-color': primaryColor}">
   <div class="qr-code-container">
       <i (click)="closeModal()" class="icon {{ iconClass }}"></i>
       <p id="mensagem" text-uppercase>{{ message }}</p>

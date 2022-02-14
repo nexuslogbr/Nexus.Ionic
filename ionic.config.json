@@ -1,7 +1,8 @@
 {
   "name": "patio-automotivo-app",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "ionic-angular",
   "proxies": [

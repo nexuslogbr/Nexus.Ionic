@@ -8,8 +8,8 @@
   </ion-title>
 </ion-header> -->
 <side-menu-ce *ngIf="clienteExterno"></side-menu-ce>
-<ion-header (click)="toggleMenu()">
-    <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
       <i class="icon icon-menu" ></i>
     </button>
     <ion-title>
@@ -17,26 +17,26 @@
     </ion-title>
 </ion-header>
 
-<ion-content padding class="conferencia-content">
-  <ion-grid class="grid-content" no-padding>
+<ion-content padding class="conferencia-content" [ngStyle]="{'background-color': secondaryColor}">
+  <ion-grid class="grid-content" no-padding [ngStyle]="{'background-color': primaryColor}">
     <ion-row>
       <ion-col>
-        <form class="form-geral">
-          <ion-list>
-            <ion-list-header>
+        <form class="form-geral" [ngStyle]="{'background-color': primaryColor}">
+          <ion-list [ngStyle]="{'background-color': primaryColor}">
+            <ion-list-header [ngStyle]="{'background-color': primaryColor}">
               Informe os dados
             </ion-list-header>
 
-            <ion-item>
-              <ion-label>Identificação:</ion-label>
-              <ion-input class="form-control" type="text" value="" placeholder="Digite seu nome/registro"
+            <ion-item [ngStyle]="{'background-color': primaryColor}">
+              <ion-label [ngStyle]="{'color': '#fff'}">Identificação:</ion-label>
+              <ion-input class="form-control" [ngStyle]="{'color': '#fff'}" type="text" value="" placeholder="Digite seu nome/registro"
                 [(ngModel)]="usuario" name="usuario" (ionChange)="onUserChange($event)">
               </ion-input>
             </ion-item>
 
-            <ion-item>
-              <ion-label label-ios>Turno:</ion-label>
-              <ion-select (ionChange)="onTurnoChange($event)" okText="Confirmar" cancelText="Cancelar" #selectTurno
+            <ion-item [ngStyle]="{'background-color': primaryColor}">
+              <ion-label label-ios [ngStyle]="{'color': '#fff'}">Turno:</ion-label>
+              <ion-select (ionChange)="onTurnoChange($event)" [ngStyle]="{'color': '#fff'}" okText="Confirmar" cancelText="Cancelar" #selectTurno
                 placeholder="Selecione o turno" [ngClass]="{ selecionado: turno != null }">
                 <ion-option [disabled]="!turno.disponivel" *ngFor="let turno of turnos" value="{{ turno.id }}"
                   id="{{ turno.id }}">{{ turno.turnoHoraFaixa }}</ion-option>
@@ -53,7 +53,7 @@
   </ion-grid>
 </ion-content>
 
-<ion-footer no-border>
+<ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
   <ion-grid class="grid-botao-wrapper">
     <ion-row>
       <ion-col>

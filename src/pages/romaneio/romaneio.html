@@ -1,7 +1,7 @@
 <side-menu *ngIf="!clienteExterno"></side-menu>
 <side-menu-ce *ngIf="clienteExterno"></side-menu-ce>
-<ion-header (click)="toggleMenu()">
-    <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
       <i class="icon icon-menu" ></i>
     </button>
     <ion-title>
@@ -9,20 +9,20 @@
     </ion-title>
 </ion-header>
 
-<ion-content padding id="romaneio" class="romaneio">
+<ion-content padding id="romaneio" class="romaneio" [ngStyle]="{'background-color': secondaryColor}">
   <div class="romaneio-container">
-    <div class="login-content">
-        <button ion-button round class="btn-default" (click)="novoRomaneio()">Criar Romaneio</button>
+    <div class="login-content" [ngStyle]="{'background-color': secondaryColor}">
+        <button ion-button round class="btn-default" (click)="novoRomaneio()" [ngStyle]="{'background-color': buttonColor}">Criar Romaneio</button>
     </div>
     <!-- <div class="login-content">
         <button ion-button round class="btn-default" (click)="ordenarRomaneio()">Ordenar Romaneio</button>
     </div>               -->
-    <div class="login-content">
-        <button ion-button round class="btn-default" (click)="listarRomaneio()">Listar Romaneio</button>
+    <div class="login-content" >
+        <button ion-button round class="btn-default" (click)="listarRomaneio()" [ngStyle]="{'background-color': buttonColor}">Listar Romaneio</button>
     </div>
   </div>
 
-  <ion-grid *ngIf="parametros">
+  <ion-grid *ngIf="parametros" [ngStyle]="{'background-color': primaryColor}">
         <ion-row>
             <ion-col col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 class="grid-header border-r">
                 <h6>Nº Romaneio</h6>

@@ -14,7 +14,7 @@ page-nova-conferencia-execucao {
   }
 
   ion-content {
-    background-color: color($colors, bgQrCode) !important;
+    // background-color: color($colors, bgQrCode) !important;
   }
 
   // label {
@@ -68,7 +68,7 @@ page-nova-conferencia-execucao {
       }
     }
 
-    background-color: #595959;
+    // background-color: #595959;
     color: white;
 
     .selecionado {
@@ -79,7 +79,7 @@ page-nova-conferencia-execucao {
   }
 
   .grid-header {
-    background-color: #404040;
+    // background-color: #404040;
     color: #fff;
 
     .row-header {
@@ -123,7 +123,7 @@ page-nova-conferencia-execucao {
     padding: 0px;
 
     .row-destino {
-      background-color: #5d5d5d;
+      // background-color: #5d5d5d;
       font-weight: bold;
       color: white;
     }
@@ -145,7 +145,7 @@ page-nova-conferencia-execucao {
         background-color: white;
 
         .row-grid-modelos {
-          border-top: 1px solid #5d5d5d;
+          // border-top: 1px solid #5d5d5d;
         }
       }
     }
@@ -159,7 +159,7 @@ page-nova-conferencia-execucao {
     padding: 0px;
     padding-left: 4px;
     padding-right: 4px;
-    background-color: #404040;
+    // background-color: #404040;
     position: sticky;
     top: 0;
     left: 0;

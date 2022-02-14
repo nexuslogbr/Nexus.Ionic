@@ -1,13 +1,13 @@
 page-carregamento-export {
-  background-color: #404040;
+  // background-color: #404040;
 
   ion-content {
-    background-color: color($colors, bgQrCode) !important;
+    // background-color: color($colors, bgQrCode) !important;
   }
 
   #recebimento {
     transition: all 0.4s ease-in-out;
-    background-color: color($colors, bgQrCode) !important;
+    // background-color: color($colors, bgQrCode) !important;
 
     // input {
     //   border: 1px solid #747474;
@@ -27,7 +27,7 @@ page-carregamento-export {
       text-align: center;
 
       .btn {
-        background-color: #595959;
+        // background-color: #595959;
         width: 100% !important;
         padding: 25px;
         border-radius: 45px;
@@ -38,7 +38,7 @@ page-carregamento-export {
       }
 
       .btn-default {
-        background-color: #595959;
+        // background-color: #595959;
         width: 100%;
         height: auto;
 
@@ -62,7 +62,7 @@ page-carregamento-export {
   }
 
   .btn-cancel {
-    background-color: #484848;
+    background-color: transparent;
   }
 
   .grid-lote {
@@ -72,7 +72,7 @@ page-carregamento-export {
       padding: 10px;
     }
 
-    background-color: #404040;
+    // background-color: #404040;
     color: white;
     font-size: 16px;
 
@@ -81,7 +81,7 @@ page-carregamento-export {
     }
 
     .row-lote-header {
-      background-color: #595959;
+      // background-color: #595959;
       font-weight: bold;
     }
 
@@ -94,7 +94,7 @@ page-carregamento-export {
 
   .grid-scan {
     margin-bottom: 10px;
-    background-color: #595959;
+    // background-color: #595959;
 
     .row-header {
       .col-header {
@@ -107,7 +107,7 @@ page-carregamento-export {
 
   .form {
     
-    background-color: #404040;
+    // background-color: #404040;
     border-radius: 5px;
     border: 1px solid transparent;
     margin-bottom: 20px;
@@ -118,7 +118,7 @@ page-carregamento-export {
     }
 
     ion-grid {
-      background-color: #595959;
+      // background-color: #595959;
       //margin-bottom: 20px;
       padding: 0;
     }
@@ -142,10 +142,10 @@ page-carregamento-export {
     input {
       font: 12px 'avenir_demi';
       width: 100%;
-      background-color: #404040;
+      // background-color: #404040;
       border: none;
       border-radius: 0;
-      background-color: #404040;
+      // background-color: #404040;
       color: #fff;
       text-align: left;
       padding-right: 15px;
@@ -153,7 +153,7 @@ page-carregamento-export {
     }
 
     .label-header {
-      background-color: #595959;
+      // background-color: #595959;
     }
 
     .label-md[floating] {
@@ -231,7 +231,7 @@ page-carregamento-export {
       margin: 0;
 
       ion-list-header {
-        background-color: #595959;
+        // background-color: #595959;
         border-top: none;
         margin: 0;
         border-bottom: 1px solid #747474;
@@ -243,11 +243,11 @@ page-carregamento-export {
       }
 
       .item-label-floating {
-        background-color: #595959;
+        // background-color: #595959;
       }
 
       ion-item {
-        background-color: #404040;
+        // background-color:  ''#404040;
         padding: 0;
         border-bottom: 1px solid #747474;
 

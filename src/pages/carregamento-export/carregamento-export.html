@@ -1,6 +1,6 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-  <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
   </button>
   <ion-title>
@@ -8,7 +8,7 @@
   </ion-title>
 </ion-header>
 
-<ion-content padding id="recebimento" class="recebimento show">
+<ion-content padding id="recebimento" class="recebimento show" [ngStyle]="{'background-color': secondaryColor}">
 
   <!-- <div class="qr-code-container">
     <i class="icon icon-qr-code-black" (click)="scan()"></i>
@@ -20,8 +20,8 @@
     </form>
   </div> -->
 
-  <div class="form">
-    <ion-grid>
+  <div class="form" [ngStyle]="{'background-color': primaryColor}">
+    <ion-grid [ngStyle]="{'background-color': primaryColor}">
       <!-- <ion-row class="row-header">
         <ion-col class="col-header">
           <h2>Chassi</h2>
@@ -55,7 +55,7 @@
     </ion-grid>
   </form> -->
 
-  <ion-grid class="grid-lote">
+  <ion-grid class="grid-lote" [ngStyle]="{'background-color': primaryColor}">
     <ion-row class="row-lote-header">
       <ion-col>
         Operação
@@ -103,7 +103,7 @@
     </ion-row>
   </ion-grid>
 
-  <button ion-button round first class="btn-receiving btn-cancel" (click)="voltar()" type="button">VOLTAR</button>
+  <button ion-button round first class="btn-receiving btn-cancel" (click)="voltar()" type="button" [ngStyle]="{'background-color': buttonColor}">VOLTAR</button>
 
 </ion-content>
 <!-- <ion-footer>

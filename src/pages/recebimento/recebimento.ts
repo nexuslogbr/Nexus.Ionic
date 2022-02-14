@@ -73,6 +73,10 @@ export class RecebimentoPage {
 
   formControlChassi = new FormControl('');
 
+  primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
   constructor(
     private http: HttpClient,
     public modalCtrl: ModalController,
@@ -86,12 +90,18 @@ export class RecebimentoPage {
     this.url = this.authService.getUrl();
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
-
-    // var data = {
-    //   message: 'Parqueamento realizado com',
-    //   iconClass: 'parking-green',
-    // };
-    // this.openModalSucesso(data);
+    if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+      this.primaryColor = '#595959';
+      this.secondaryColor = '#484848';
+      this.inputColor = '#595959';
+      this.buttonColor = "#595959";
+    } else {
+      this.primaryColor = '#06273f';
+      this.secondaryColor = '#00141b';
+      this.inputColor = '#06273f';
+      this.buttonColor = "#1c6381";
+    }
+    
     // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
     //   if (value && value.length) {
     //     {
@@ -105,21 +115,24 @@ export class RecebimentoPage {
     //     }
     //   }
     // });
+
+
+    
   }
 
   ionViewDidEnter() {
     console.log('ionViewDidEnter RecebimentoPage');
-    setTimeout(() => {
-      this.chassiInput.setFocus();
-    }, 1000);
+    // setTimeout(() => {
+    //   this.chassiInput.setFocus();
+    // }, 1000);
   }
 
   cleanInput(byScanner: boolean) {
-    if (!byScanner) {
-      setTimeout(() => {
-        this.chassiInput.setFocus();
-      }, 1000);
-    }
+    // if (!byScanner) {
+    //   setTimeout(() => {
+    //     this.chassiInput.setFocus();
+    //   }, 1000);
+    // }
     this.formData.chassi = '';
   }
 
@@ -162,7 +175,7 @@ export class RecebimentoPage {
     let uriBuscaChassi =
       '/Receber/ConsultarChassi?token=' +
       this.authService.getToken() +
-      '&partChassi=' +
+      '&chassi=' +
       partChassi;
 
     this.authService.showLoading();
