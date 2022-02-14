@@ -85,6 +85,7 @@ export class LancamentoAvariaPage {
   {
     this.title = 'Lançamento de Avaria';
     this.url = this.authService.getUrl();
+    this.initializeFormControl();
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
     this.userData = this.authService.getUserData()
@@ -93,30 +94,10 @@ export class LancamentoAvariaPage {
     if (chassi_) {
       this.formData = chassi_;
       this.showInfoCar = true;
-      // this.formLancamentoAvaria.patchValue({
-      //   chassi: this.formData.chassi
-      // });
+      this.formLancamentoAvaria.patchValue({
+        chassi: this.formData.chassi
+      });
     }
-
-
-    this.formLancamentoAvaria = formBuilder.group({
-      chassi: [this.formData.chassi, Validators.required],
-      observacao: ['']
-    });
-
-    // this.formControlAvaria.valueChanges.debounceTime(500).subscribe((value) => {
-    //   if (value && value.length) {
-    //     {
-    //       if (value.length >= 6) {
-    //         let chassi = value.replace(/[\W_]+/g, '');
-    //         setTimeout(() => {
-    //           this.buscarChassi(chassi, false);
-    //           this.formData.chassi = '';
-    //         }, 500);
-    //       }
-    //     }
-    //   }
-    // });
   }
 
   ionViewDidEnter() {
@@ -131,6 +112,13 @@ export class LancamentoAvariaPage {
       this.authService.hideLoading();
     });
 
+  }
+
+  initializeFormControl(){
+    this.formLancamentoAvaria = this.formBuilder.group({
+      chassi: [this.formData.chassi, Validators.required],
+      observacao: ['']
+    });
   }
 
   cleanInput(byScanner: boolean) {

@@ -101,23 +101,23 @@ export class RecebimentoPage {
       this.inputColor = '#06273f';
       this.buttonColor = "#1c6381";
     }
-    
-    // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
-    //   if (value && value.length) {
-    //     {
-    //       if (value.length >= 6) {
-    //         let chassi = value.replace(/[\W_]+/g, '');
-    //         setTimeout(() => {
-    //           this.buscarChassi(chassi, false);
-    //           this.formData.chassi = '';
-    //         }, 500);
-    //       }
-    //     }
-    //   }
-    // });
+
+    this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+      if (value && value.length) {
+        {
+          if (value.length >= 6) {
+            let chassi = value.replace(/[\W_]+/g, '');
+            setTimeout(() => {
+              this.buscarChassi(chassi, false);
+              this.formData.chassi = '';
+            }, 500);
+          }
+        }
+      }
+    });
 
 
-    
+
   }
 
   ionViewDidEnter() {
@@ -138,7 +138,7 @@ export class RecebimentoPage {
 
   scan() {
 
-    
+
     this.options = {
       showTorchButton: true,
       prompt: '',
@@ -183,7 +183,7 @@ export class RecebimentoPage {
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-        
+
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();

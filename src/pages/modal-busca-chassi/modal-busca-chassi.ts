@@ -80,12 +80,10 @@ export class ModalBuscaChassiComponent {
     this.authService.hideLoading();
   }
 
-  cleanInput(byScanner: boolean) {
-    if (!byScanner) {
+  cleanInput() {
       setTimeout(() => {
         this.chassiInput.setFocus();
       }, 1000);
-    }
     this.formData.chassi = '';
   }
 
@@ -114,7 +112,6 @@ export class ModalBuscaChassiComponent {
   }
 
   buscarChassi(partChassi, byScanner: boolean) {
-
     this.formBloqueioData.chassi = partChassi;
     let uriBuscaChassi = '/veiculos/ConsultarChassi?token=' + this.authService.getToken() + '&chassi=' + partChassi;
     this.authService.showLoading();
@@ -125,20 +122,23 @@ export class ModalBuscaChassiComponent {
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
-          this.openModalChassis(this.responseData.retorno, byScanner);
+          this.openModal(this.responseData.retorno, byScanner);
         }
         else {
           this.authService.hideLoading();
           if (this.modoOperacao == 1 || partChassi.length < 17) {
             this.openModalErro(this.responseData.mensagem, byScanner);
-          } else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
+          }
+          else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
             this.openModalErro(this.responseData.mensagem, byScanner);
-          } else if (
+          }
+          else if (
             this.modoOperacao == 2 &&
             this.responseData.dataErro == 'CHASSI_NOT_FOUND'
           ) {
-            this.openModalChassis([partChassi], byScanner);
-          } else {
+            this.openModal([partChassi], byScanner);
+          }
+          else {
            this.openModalErro(this.responseData.mensagem, byScanner);
           }
         }
@@ -150,14 +150,14 @@ export class ModalBuscaChassiComponent {
     );
   }
 
-  openModalChassis(data, byScanner: boolean) {
-    const chassiModal: Modal = this.modal.create(ModalSelecionarChassiComponent, {
+  openModal(data, byScanner: boolean) {
+    const modal: Modal = this.modal.create(ModalSelecionarChassiComponent, {
       data: data,
     });
-    chassiModal.present();
+    modal.present();
 
-    chassiModal.onDidDismiss((data) => {
-      this.cleanInput(byScanner);
+    modal.onDidDismiss(() => {
+      this.cleanInput();
     });
   }
 
@@ -178,8 +178,6 @@ export class ModalBuscaChassiComponent {
     });
     chassiModal.present();
 
-    chassiModal.onDidDismiss((data) => {
-      this.cleanInput(byScanner);
-    });
+    chassiModal.onDidDismiss(() => { this.cleanInput(); });
   }
 }
