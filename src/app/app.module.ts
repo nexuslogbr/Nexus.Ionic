@@ -16,7 +16,7 @@ import { Flashlight } from '@ionic-native/flashlight';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ChartsModule } from 'ng2-charts';
 import { DragulaModule } from 'ng2-dragula';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrMaskerModule } from 'brmasker-ionic-3';
 
 // Providers e Services
@@ -192,6 +192,16 @@ import { FormLancamentoServicoComponent } from '../components/form-lancamento-se
 import { ObservacoesPage } from '../pages/observacoes/observacoes';
 import { ModalObservacoesComponent } from '../components/modal-observacoes/modal-observacoes';
 import { FormObservacoesComponent } from '../components/form-observacoes/form-observacoes';
+import { FormLancamentoAvariaComponent } from '../components/form-lancamento-avaria/form-lancamento-avaria';
+import { LancamentoAvariaPage } from '../pages/lancamento-avaria/lancamento-avaria';
+import { ModalLancamentoAvariaComponent } from '../components/modal-lancamento-avaria/modal-lancamento-avaria';
+import { MomentoDataService } from '../providers/momento-data-service';
+import { ModalBuscaChassiComponent } from '../pages/modal-busca-chassi/modal-busca-chassi';
+import { ModalSelecionarChassiComponent } from '../components/modal-selecionar-chassi/modal-selecionar-chassi';
+import { CommonModule } from '@angular/common';
+import { LancamentoAvariaSelecaoSuperficiePage } from '../pages/lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
+import { AvariaDataService } from '../providers/avaria-data-service';
+import { GravidadeDataService } from '../providers/gravidade-data-service';
 
 @NgModule({
   declarations: [
@@ -343,7 +353,13 @@ import { FormObservacoesComponent } from '../components/form-observacoes/form-ob
     FormLancamentoServicoComponent,
     ObservacoesPage,
     ModalObservacoesComponent,
-    FormObservacoesComponent
+    FormObservacoesComponent,
+    FormLancamentoAvariaComponent,
+    LancamentoAvariaPage,
+    ModalLancamentoAvariaComponent,
+    ModalBuscaChassiComponent,
+    ModalSelecionarChassiComponent,
+    LancamentoAvariaSelecaoSuperficiePage
   ],
   imports: [
     BrowserModule,
@@ -400,6 +416,9 @@ import { FormObservacoesComponent } from '../components/form-observacoes/form-ob
     DragulaModule,
     ModalCancelarChassiPageModule,
     ModalCancelarCarregamentoPageModule,
+
+    ReactiveFormsModule,
+    CommonModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -548,8 +567,13 @@ import { FormObservacoesComponent } from '../components/form-observacoes/form-ob
     FormLancamentoServicoComponent,
     ObservacoesPage,
     ModalObservacoesComponent,
-    FormObservacoesComponent
-
+    FormObservacoesComponent,
+    FormLancamentoAvariaComponent,
+    LancamentoAvariaPage,
+    ModalLancamentoAvariaComponent,
+    ModalBuscaChassiComponent,
+    ModalSelecionarChassiComponent,
+    LancamentoAvariaSelecaoSuperficiePage
   ],
   providers: [
     AuthService,
@@ -580,6 +604,9 @@ import { FormObservacoesComponent } from '../components/form-observacoes/form-ob
     ArquivoDataService,
     ConferenciaService,
     AlertService,
+    MomentoDataService,
+    AvariaDataService,
+    GravidadeDataService
   ],
 })
 export class AppModule {}
