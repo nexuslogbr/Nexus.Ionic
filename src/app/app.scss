@@ -53,6 +53,16 @@
   display: block;
 }
 
+.qrcode-gray {
+  background-image: url("../assets/images/qrcode-gray.png");
+  background-size: 100%;
+  background-position: center center;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+  display: block;
+}
+
 .icon-loading {
   background-image: url("../assets/images/qr-code-black.png");
   background-size: 100%;
