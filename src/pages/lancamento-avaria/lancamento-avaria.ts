@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 import { Modal, ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
@@ -41,11 +41,6 @@ export class LancamentoAvariaPage {
     observacao: ''
   };
 
-  erroData = {
-    messageTitle: '',
-    message: '',
-  };
-
   formBloqueioData = {
     token: '',
     empresaID: '1',
@@ -71,6 +66,7 @@ export class LancamentoAvariaPage {
   };
 
   formControlAvaria = new FormControl('');
+  formLancamentoAvaria: FormGroup;
   @ViewChild('chassiInput') chassiInput;
 
   constructor(
@@ -84,6 +80,7 @@ export class LancamentoAvariaPage {
     private momentoService: MomentoDataService,
     private view: ViewController,
     private navParam: NavParams,
+    private formBuilder: FormBuilder
   )
   {
     this.title = 'Lançamento de Avaria';
@@ -96,21 +93,30 @@ export class LancamentoAvariaPage {
     if (chassi_) {
       this.formData = chassi_;
       this.showInfoCar = true;
+      // this.formLancamentoAvaria.patchValue({
+      //   chassi: this.formData.chassi
+      // });
     }
 
-    this.formControlAvaria.valueChanges.debounceTime(500).subscribe((value) => {
-      if (value && value.length) {
-        {
-          if (value.length >= 6) {
-            let chassi = value.replace(/[\W_]+/g, '');
-            setTimeout(() => {
-              this.buscarChassi(chassi, false);
-              this.formData.chassi = '';
-            }, 500);
-          }
-        }
-      }
+
+    this.formLancamentoAvaria = formBuilder.group({
+      chassi: [this.formData.chassi, Validators.required],
+      observacao: ['']
     });
+
+    // this.formControlAvaria.valueChanges.debounceTime(500).subscribe((value) => {
+    //   if (value && value.length) {
+    //     {
+    //       if (value.length >= 6) {
+    //         let chassi = value.replace(/[\W_]+/g, '');
+    //         setTimeout(() => {
+    //           this.buscarChassi(chassi, false);
+    //           this.formData.chassi = '';
+    //         }, 500);
+    //       }
+    //     }
+    //   }
+    // });
   }
 
   ionViewDidEnter() {
@@ -118,11 +124,11 @@ export class LancamentoAvariaPage {
       // this.chassiInput.setFocus();
     }, 1000);
 
-    this.authService.hideLoading();
+    this.authService.showLoading();
 
     this.momentoService.carregarMomentos().subscribe(result => {
-      this.momentos.push(result.retorno);
-      console.log(this.momentos);
+      this.momentos = result.retorno;
+      this.authService.hideLoading();
     });
 
   }
@@ -166,14 +172,15 @@ export class LancamentoAvariaPage {
     );
   }
 
+  scanInput(){
+    this.authService.showLoading();
+    this.buscarChassi(this.formLancamentoAvaria.controls.chassi.value, true);
+  }
+
   buscarChassi(partChassi, byScanner: boolean) {
 
     this.formBloqueioData.chassi = partChassi;
-    let uriBuscaChassi =
-      '/veiculos/ConsultarChassi?token=' +
-      this.authService.getToken() +
-      '&chassi=' +
-      partChassi;
+    let uriBuscaChassi = '/veiculos/ConsultarChassi?token=' + this.authService.getToken() + '&chassi=' + partChassi;
 
     this.authService.showLoading();
     this.formBloqueioData.token = this.authService.getToken();
@@ -185,8 +192,8 @@ export class LancamentoAvariaPage {
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
           this.openModalLancamentoAvaria(this.responseData.retorno, byScanner);
-          // this.consultarChassi(veiculoId, partChassi, byScanner);
-        } else {
+        }
+        else {
           this.authService.hideLoading();
           if (this.modoOperacao == 1 || partChassi.length < 17) {
             this.openModalErro(this.responseData.mensagem, byScanner);

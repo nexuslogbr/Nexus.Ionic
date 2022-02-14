@@ -78,7 +78,6 @@ export class ModalBuscaChassiComponent {
     }, 1000);
 
     this.authService.hideLoading();
-
   }
 
   cleanInput(byScanner: boolean) {
@@ -126,9 +125,6 @@ export class ModalBuscaChassiComponent {
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
-
-          // this.formData.chassi = this.responseData.retorno['chassi'];
-
           this.openModalChassis(this.responseData.retorno, byScanner);
         }
         else {
