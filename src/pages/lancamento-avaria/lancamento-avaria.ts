@@ -94,30 +94,30 @@ export class LancamentoAvariaPage {
     if (chassi_) {
       this.formData = chassi_;
       this.showInfoCar = true;
-      this.formLancamentoAvaria.patchValue({
-        chassi: this.formData.chassi
-      });
+      this.formLancamentoAvaria.controls.chassi.setValue(this.formData.chassi);
+      // this.formLancamentoAvaria.patchValue({
+      //   chassi: this.formData.chassi
+      // });
     }
   }
 
   ionViewDidEnter() {
-    setTimeout(() => {
-      // this.chassiInput.setFocus();
-    }, 1000);
-
+    setTimeout(() => { }, 1000);
     this.authService.showLoading();
-
-    this.momentoService.carregarMomentos().subscribe(result => {
-      this.momentos = result.retorno;
-      this.authService.hideLoading();
-    });
-
+    this.loadMomentos();
   }
 
   initializeFormControl(){
     this.formLancamentoAvaria = this.formBuilder.group({
       chassi: [this.formData.chassi, Validators.required],
       observacao: ['']
+    });
+  }
+
+  loadMomentos(){
+    this.momentoService.carregarMomentos().subscribe(result => {
+      this.momentos = result.retorno;
+      this.authService.hideLoading();
     });
   }
 
@@ -147,7 +147,6 @@ export class LancamentoAvariaPage {
             this.qrCodeText.length - 17,
             17
           );
-         // this.openModalErro(partChassi, true);
           this.formData['chassi'] = partChassi;
           this.buscarChassi(partChassi, true);
         }
@@ -212,7 +211,7 @@ export class LancamentoAvariaPage {
     chassiModal.present();
 
     chassiModal.onDidDismiss((data) => {
-      // this.cleanInput(byScanner);
+      this.cleanInput(true);
     });
   }
 

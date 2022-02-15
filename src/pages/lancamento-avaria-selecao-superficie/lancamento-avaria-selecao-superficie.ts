@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController, NavParams } from 'ionic-angular';
 import * as $ from 'jquery';
+import { NivelGravidadeAvaria } from '../../model/NivelGravidadeAvaria';
 import { TipoAvaria } from '../../model/TipoAvaria';
 import { AvariaDataService } from '../../providers/avaria-data-service';
 import { GravidadeDataService } from '../../providers/gravidade-data-service';
@@ -13,6 +14,7 @@ import { GravidadeDataService } from '../../providers/gravidade-data-service';
 export class LancamentoAvariaSelecaoSuperficiePage {
   title: string;
   tiposAvaria: Array<TipoAvaria> = [];
+  nivelGravidadeAvaria: Array<NivelGravidadeAvaria> = [];
 
   formSelecaoSuperficie: FormGroup
 
@@ -45,6 +47,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   ionViewDidEnter() {
     this.loadTipoAvaria();
+    this.loadGravidade();
   }
 
   toggleMenu = function (this) {
@@ -68,7 +71,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   loadGravidade(){
     this.gravidadeService.carregarGravidades()
     .subscribe(res => {
-      var result = res.retorno
+      this.nivelGravidadeAvaria = res.retorno
     })
   }
 

@@ -16,34 +16,34 @@
         </div>
         <br>
 
-        <ion-item style="background-color: black;">
+        <ion-item class="item-list-black">
           <ion-label label-ios style="font-style: unset;">Chassi Avariado</ion-label>
         </ion-item>
 
-        <ion-item style="background-color: #545454;">
+        <ion-item class="item-list-grey">
           <ion-label label-ios style="font-style: unset;"><b>Chassi: </b>{{formSelecaoSuperficie.controls.chassi.value}}</ion-label><p></p>
           <!-- <ion-input label-ios style="font-style: unset; color: white;"  formControlName="chassi"></ion-input> -->
         </ion-item>
 
-        <ion-item style="background-color: #545454;">
+        <ion-item class="item-list-grey">
           <ion-label label-ios style="font-style: unset;"><b>Modelo: </b>{{formSelecaoSuperficie.controls.modelo.value}}</ion-label>
         </ion-item>
 
-        <ion-item style="background-color: #545454;">
+        <ion-item class="item-list-grey">
           <ion-label label-ios style="font-style: unset;"><b>Selecionar Parte:</b></ion-label>
           <ion-select okText="Selecionar" cancelText="Cancelar">
-            <!-- <ion-option *ngFor="let momento of momentos" value="{{momento.id}}" id="{{momento.id}}">{{momento.nome}}</ion-option> -->
+             <!-- <ion-option *ngFor="let momento of momentos" value="{{momento.id}}" id="{{momento.id}}">{{momento.nome}}</ion-option> -->
           </ion-select>
         </ion-item>
 
-        <ion-item style="background-color: black;">
+        <ion-item class="item-list-black">
           <ion-label label-ios style="font-style: unset;" color="dark"><b>Selecionar Peças:</b></ion-label>
           <ion-select okText="Selecionar" cancelText="Cancelar">
             <!-- <ion-option *ngFor="let momento of momentos" value="{{momento.id}}" id="{{momento.id}}">{{momento.nome}}</ion-option> -->
           </ion-select>
         </ion-item>
 
-        <ion-item style="background-color: black;">
+        <ion-item class="item-list-black">
           <ion-label label-ios style="font-style: unset;"><b>Selecionar Tipo Avaria:</b></ion-label>
           <ion-select (ionChange)="onTipoAvariaChange($event)" okText="Selecionar" cancelText="Cancelar">
             <ion-option *ngFor="let item of tiposAvaria" value="{{item.nome}}" id="{{item.id}}">{{item.nome}}</ion-option>
@@ -63,7 +63,7 @@
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Gravidade: </b></ion-label>
           <ion-select okText="Selecionar" cancelText="Cancelar">
-            <!-- <ion-option *ngFor="let momento of momentos" value="{{momento.id}}" id="{{momento.id}}">{{momento.nome}}</ion-option> -->
+            <ion-option *ngFor="let gravidade of nivelGravidadeAvaria" value="{{gravidade.id}}" id="{{gravidade.id}}">{{gravidade.nome}}</ion-option>
           </ion-select>
         </ion-item>
 
