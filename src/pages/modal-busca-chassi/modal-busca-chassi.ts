@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
-import { Modal, ModalController, NavController } from 'ionic-angular';
+import { Modal, ModalController, NavController, NavParams } from 'ionic-angular';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { ModalObservacoesComponent } from '../../components/modal-observacoes/modal-observacoes';
 import { AuthService } from '../../providers/auth-service/auth-service';
@@ -24,8 +24,11 @@ export class ModalBuscaChassiComponent {
   responseData: any;
   url: string;
   qrCodeText: string;
-  formData = { chassi: '' };
   modoOperacao: number;
+  formData = {
+    chassi: '',
+    observacao: ''
+  };
 
   formBloqueioData = {
     token: '',
@@ -49,12 +52,15 @@ export class ModalBuscaChassiComponent {
     private modal: ModalController,
     private navCtrl: NavController,
     private storage: Storage,
+    public navParams: NavParams,
     private authService: AuthService
   ) {
     this.title = 'Observações';
     this.url = this.authService.getUrl();
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
+
+    this.formData = this.navParams.get('data');
 
     this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
       if (value && value.length) {
@@ -151,6 +157,7 @@ export class ModalBuscaChassiComponent {
   }
 
   openModal(data, byScanner: boolean) {
+    data['momento'] = this.formData.observacao;
     const modal: Modal = this.modal.create(ModalSelecionarChassiComponent, {
       data: data,
     });

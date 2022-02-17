@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform, ViewController } from 'ionic-angular';
 import * as $ from 'jquery';
 import { NivelGravidadeAvaria } from '../../model/NivelGravidadeAvaria';
 import { TipoAvaria } from '../../model/TipoAvaria';
@@ -9,6 +9,7 @@ import { GravidadeDataService } from '../../providers/gravidade-data-service';
 // import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera'
 // import { Directory, Filesystem } from '@capacitor/filesystem'
 import { CustomEvent } from 'events'
+import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
 
 const IMAGE_DIR = 'stored-images';
 
@@ -37,6 +38,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     public navParams: NavParams,
     private avariaService: AvariaDataService,
     private gravidadeService: GravidadeDataService,
+    private view: ViewController,
     private formBuilder: FormBuilder,
     private platform: Platform
   ) {
@@ -142,4 +144,9 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     }
     reader.readAsDataURL(blob);
   });
+
+  voltar(){
+    this.view.dismiss();
+    this.navCtrl.push(LancamentoAvariaPage);
+  }
 }

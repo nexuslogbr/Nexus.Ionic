@@ -38,7 +38,8 @@ export class LancamentoAvariaPage {
     modelo: '',
     posicaoAtual: '',
     cor: '',
-    observacao: ''
+    observacao: '',
+    momento: ''
   };
 
   formBloqueioData = {
@@ -94,29 +95,32 @@ export class LancamentoAvariaPage {
     if (chassi_) {
       this.formData = chassi_;
       this.showInfoCar = true;
-      this.formLancamentoAvaria.controls.chassi.setValue(this.formData.chassi);
-      // this.formLancamentoAvaria.patchValue({
-      //   chassi: this.formData.chassi
-      // });
+
+      console.log(this.formLancamentoAvaria.controls);
     }
   }
 
   ionViewDidEnter() {
     setTimeout(() => { }, 1000);
-    this.authService.showLoading();
     this.loadMomentos();
   }
 
   initializeFormControl(){
     this.formLancamentoAvaria = this.formBuilder.group({
       chassi: [this.formData.chassi, Validators.required],
-      observacao: ['']
+      observacao: [''],
+      momento: ['']
     });
   }
 
   loadMomentos(){
+    this.authService.showLoading();
     this.momentoService.carregarMomentos().subscribe(result => {
       this.momentos = result.retorno;
+      this.formLancamentoAvaria.patchValue({
+        chassi: this.formData.chassi,
+        momento: this.formData.momento
+      });
       this.authService.hideLoading();
     });
   }
@@ -207,12 +211,14 @@ export class LancamentoAvariaPage {
   }
 
   modalBuscarChassi(){
-    const chassiModal: Modal = this.modal.create(ModalBuscaChassiComponent, { });
+    const chassiModal: Modal = this.modal.create(ModalBuscaChassiComponent, {
+      data: this.formData
+    });
     chassiModal.present();
 
-    chassiModal.onDidDismiss((data) => {
-      this.cleanInput(true);
-    });
+    // chassiModal.onDidDismiss((data) => {
+    //   this.cleanInput(true);
+    // });
   }
 
   navigateToHomePage() {
@@ -248,12 +254,13 @@ export class LancamentoAvariaPage {
       });
   }
 
-  onMomentoChange(event: any){
+  onMomentoChange(event){
     console.log(event);
+    this.formData.observacao = event;
   }
 
   voltar(){
-    // this.view.dismiss();
+    this.view.dismiss();
     this.navCtrl.push(HomePage);
   }
 
