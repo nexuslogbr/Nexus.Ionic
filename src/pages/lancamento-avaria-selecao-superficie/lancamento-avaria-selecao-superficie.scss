@@ -76,9 +76,6 @@ page-lancamento-avaria-selecao-superficie {
                   }
               }
           }
-          img {
-            align-items: center;
-          }
       }
       .item-list-grey{
         background-color: #747474;
@@ -86,7 +83,12 @@ page-lancamento-avaria-selecao-superficie {
       .item-list-black{
         background-color: black;
       }
-  }
+      .align-camera{
+        width: 20%;
+        height: 20%;
+        transform:translateX(200%);
+      }
+    }
   }
   #selecao-superficie {
     transition: all 0.4s ease-in-out;

@@ -72,17 +72,19 @@
           <ion-textarea label-ios style="font-style: unset; color: white;"  formControlName="observacao"></ion-textarea>
         </ion-item>
 
-        <ion-item style="height: 50%;">
+        <ion-item no-lines>
           <ion-label label-ios style="font-style: unset;"><b>Imagens:</b></ion-label>
         </ion-item>
 
-        <ion-toolbar color="primary">
-          <ion-thumbnail>
-            <img src="../../assets/images/camera-white-model.png" slot="center" style="width: 20%;height: 20%;">
-          </ion-thumbnail>
-        </ion-toolbar>
-
       </ion-list>
+
+      <ion-toolbar color="primary">
+        <ion-row style="align-items: center;">
+          <ion-thumbnail>
+            <img src="../../assets/images/camera-white-model.png" class="align-camera">
+          </ion-thumbnail>
+        </ion-row>
+      </ion-toolbar>
     </form>
   </div>
 
