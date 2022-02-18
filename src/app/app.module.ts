@@ -204,6 +204,11 @@ import { AvariaDataService } from '../providers/avaria-data-service';
 import { GravidadeDataService } from '../providers/gravidade-data-service';
 import { AlterarCorPage } from '../pages/alterar-cor/alterarcor';
 
+import { Camera } from '@ionic-native/Camera';
+import { File } from '@ionic-native/File';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { FilePath } from '@ionic-native/file-path';
+
 @NgModule({
   declarations: [
     PatioAutomotivo,
@@ -580,6 +585,7 @@ import { AlterarCorPage } from '../pages/alterar-cor/alterarcor';
 
   ],
   providers: [
+    Camera,
     AuthService,
     StatusBar,
     Network,
@@ -610,7 +616,10 @@ import { AlterarCorPage } from '../pages/alterar-cor/alterarcor';
     AlertService,
     MomentoDataService,
     AvariaDataService,
-    GravidadeDataService
+    GravidadeDataService,
+    File,
+    WebView,
+    FilePath
   ],
 })
 export class AppModule {}

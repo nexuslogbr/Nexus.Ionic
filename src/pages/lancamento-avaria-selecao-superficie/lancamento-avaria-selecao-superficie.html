@@ -76,15 +76,31 @@
           <ion-label label-ios style="font-style: unset;"><b>Imagens:</b></ion-label>
         </ion-item>
 
+        <ion-toolbar color="primary">
+          <ion-row style="align-items: center;">
+            <ion-thumbnail>
+              <!-- <img src="../../assets/images/camera-white-model.png" class="align-camera" (click)="selectImage()"> -->
+              <ion-img src="../../assets/images/camera-white-model.png" slot="center" (click)="selectImage()"></ion-img>
+            </ion-thumbnail>
+          </ion-row>
+        </ion-toolbar>
+
+        <ion-item *ngFor="let img of images; index as pos" text-wrap>
+          <ion-thumbnail slot="start">
+            <ion-img [src]="img.path"></ion-img>
+          </ion-thumbnail>
+          <ion-label>{{ img.name }}</ion-label>
+
+          <button slot="end" fill="clear" (click)="startUpload(img)">
+            <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+          </button>
+
+          <button slot="end" fill="clear" (click)="deleteImage(img, pos)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </button>
+        </ion-item>
       </ion-list>
 
-      <ion-toolbar color="primary">
-        <ion-row style="align-items: center;">
-          <ion-thumbnail>
-            <img src="../../assets/images/camera-white-model.png" class="align-camera">
-          </ion-thumbnail>
-        </ion-row>
-      </ion-toolbar>
     </form>
   </div>
 
