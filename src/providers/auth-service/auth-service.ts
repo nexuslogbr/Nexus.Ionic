@@ -53,7 +53,7 @@ export class AuthService {
    //PRODUÇÃO NEXUS
     url: string= 'https://app.nexuslogbr.com/webapi/api';
 
-    // TESTE NEXUS
+   // TESTE NEXUS
 
    //url: string = 'http://api-nexus.luby.com.br/api';
    //url: string = 'http://api-nexus.luby.com.br/api'

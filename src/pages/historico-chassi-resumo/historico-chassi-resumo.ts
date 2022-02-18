@@ -259,13 +259,13 @@ export class HistoricoChassiResumoPage {
 
   openModalErro(data) {
     this.view.dismiss();
-    this.select1.close();
+  //  this.select1.close();
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, { data: data });
     chassiModal.present();
 
-    chassiModal.onDidDismiss((data) => {
-      this.navCtrl.push(HistoricoChassiResumoPage);
-    })
+    // chassiModal.onDidDismiss((data) => {
+    //   this.navCtrl.push(HistoricoChassiResumoPage);
+    // })
     chassiModal.onWillDismiss((data) => {
       console.log('data');
       console.log(data);

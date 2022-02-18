@@ -11,8 +11,8 @@
   <section class="lines-content row" [ngStyle]="{'background-color': secondaryColor}">
 
     <div class="form-loading col-xs-12 col-sm-12 col-md-12 " [ngStyle]="{'background-color': primaryColor}">
-      <div>
-        <ion-list-header [ngStyle]="{'background-color': primaryColor}">
+      <div [ngStyle]="{'background-color': primaryColor}">
+        <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
           <!-- Em Carregamento -->
           Liberado para Carregar
         </ion-list-header>
@@ -39,7 +39,7 @@
       </div>
 
       <div [ngStyle]="{'background-color': primaryColor}">
-        <ion-list-header [ngStyle]="{'background-color': primaryColor}">
+        <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
           <!-- Conferidos -->
           Em Conferência
         </ion-list-header>
@@ -64,7 +64,7 @@
       </div>
 
       <div>
-        <ion-list-header [ngStyle]="{'background-color': primaryColor}">
+        <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
           Romaneios Previstos
         </ion-list-header>
 
@@ -88,7 +88,7 @@
       </div>
 
       <div>
-        <ion-list-header [ngStyle]="{'background-color': primaryColor}">
+        <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
           Carregados
         </ion-list-header>
 
