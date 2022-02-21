@@ -21,6 +21,7 @@ import { LancamentoServicoPage } from '../lancamento-servico/lancamento-servico'
 import { ObservacoesPage } from '../observacoes/observacoes';
 import { Storage } from '@ionic/storage';
 import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
+import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 
 
 // 3101	mnu_mob_recebimento
@@ -293,10 +294,12 @@ export class HomePage {
       this.navCtrl.setRoot(ObservacoesPage);
     } else if (menu.id == 3124) {
       this.navCtrl.setRoot(ObservacoesPage);
-    }else if (menu.id == 3141) {
+    }
+    else if (menu.id == 3141) {
       this.navCtrl.setRoot(LancamentoAvariaPage);
     }
-
-
+    // else if (menu.id == 3141) {
+    //   this.navCtrl.setRoot(LancamentoAvariaSelecaoSuperficiePage);
+    // }
   }
 }
