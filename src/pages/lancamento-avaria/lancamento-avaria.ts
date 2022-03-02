@@ -66,9 +66,9 @@ export class LancamentoAvariaPage {
     posicao: '',
   };
 
+  @ViewChild('chassiInput') chassiInput;
   formControlAvaria = new FormControl('');
   formLancamentoAvaria: FormGroup;
-  @ViewChild('chassiInput') chassiInput;
 
   constructor(
     private http: HttpClient,
@@ -95,14 +95,28 @@ export class LancamentoAvariaPage {
     if (chassi_) {
       this.formData = chassi_;
       this.showInfoCar = true;
-
-      console.log(this.formLancamentoAvaria.controls);
     }
+
+    this.formControlAvaria.valueChanges.debounceTime(500).subscribe((value) => {
+      if (value && value.length) {
+        {
+          if (value.length >= 6) {
+            let chassi = value.replace(/[\W_]+/g, '');
+            setTimeout(() => {
+              this.buscarChassi(chassi, false);
+              this.formData.chassi = '';
+            }, 500);
+          }
+        }
+      }
+    });
   }
 
   ionViewDidEnter() {
-    setTimeout(() => { }, 1000);
     this.loadMomentos();
+    setTimeout(() => {
+      // this.chassiInput.setFocus();
+     }, 1000);
   }
 
   initializeFormControl(){
@@ -114,14 +128,14 @@ export class LancamentoAvariaPage {
   }
 
   loadMomentos(){
-    this.authService.showLoading();
+    this.formLancamentoAvaria.patchValue({
+      chassi: this.formData.chassi,
+      momento: this.formData.momento
+    });
+    // this.authService.showLoading();
     this.momentoService.carregarMomentos().subscribe(result => {
       this.momentos = result.retorno;
-      this.formLancamentoAvaria.patchValue({
-        chassi: this.formData.chassi,
-        momento: this.formData.momento
-      });
-      this.authService.hideLoading();
+      // this.authService.hideLoading();
     });
   }
 
@@ -244,7 +258,7 @@ export class LancamentoAvariaPage {
   }
 
   openModalLancamentoAvaria(data, byScanner: boolean) {
-    const chassiModal: Modal = this.modal.create(ModalLancamentoAvariaComponent, {
+    const chassiModal: Modal = this.modal.create(ModalSelecionarChassiComponent, {
         data: data,
       });
       chassiModal.present();
@@ -255,7 +269,6 @@ export class LancamentoAvariaPage {
   }
 
   onMomentoChange(event){
-    console.log(event);
     this.formData.observacao = event;
   }
 

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, LoadingController, NavController, NavParams, Platform, ToastController, ViewController } from 'ionic-angular';
+import { ActionSheetController, LoadingController, Modal, ModalController, NavController, NavParams, Platform, ToastController, ViewController } from 'ionic-angular';
 import * as $ from 'jquery';
 import { NivelGravidadeAvaria } from '../../model/NivelGravidadeAvaria';
 import { TipoAvaria } from '../../model/TipoAvaria';
@@ -28,7 +28,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   tiposAvaria: Array<TipoAvaria> = [];
   nivelGravidadeAvaria: Array<NivelGravidadeAvaria> = [];
   formSelecaoSuperficie: FormGroup;
-  imagePath = '../../assets/images/camera-model.png';
   images = [];
 
   formData = {
@@ -62,17 +61,18 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     private plt: Platform,
     private loadingController: LoadingController,
     private ref: ChangeDetectorRef,
-    private filePath: FilePath
+    private filePath: FilePath,
+    private modal: ModalController
   ) {
     this.title = 'Lançamento de Avaria';
-    // this.formData = this.navParams.get('data');
+    this.formData = this.navParams.get('data');
 
-    this.formData.chassi = "3GNAX9EX9JS513954"
-    this.formData.id = 5304
-    this.formData.modelo = "EQUINOX"
-    this.formData.momento = ""
-    this.formData.posicaoAtual = "Principal - T3 - 3 - 5"
-    this.formData.status = "Carregado"
+    // this.formData.chassi = "3GNAX9EX9JS513954"
+    // this.formData.id = 5304
+    // this.formData.modelo = "EQUINOX"
+    // this.formData.momento = ""
+    // this.formData.posicaoAtual = "Principal - T3 - 3 - 5"
+    // this.formData.status = "Carregado"
 
     this.formSelecaoSuperficie = formBuilder.group({
       observacao: [this.formData.observacao],
@@ -83,7 +83,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   ionViewDidEnter() {
-    this.loadGravidade();
     this.loadTipoAvaria();
   }
 
@@ -99,18 +98,17 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     this.avariaService.carregarTipoAvarias()
     .subscribe(res => {
       this.tiposAvaria = res.retorno;
-      this.authService.hideLoading();
+      this.loadGravidade();
     })
   }
 
-  loadPosicaoAvaria(){
-    // this.
-  }
+  loadPosicaoAvaria(){ }
 
   loadGravidade(){
     this.gravidadeService.carregarGravidades()
     .subscribe(res => {
       this.nivelGravidadeAvaria = res.retorno;
+      this.authService.hideLoading();
     })
   }
 
@@ -120,28 +118,31 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     });
   }
 
-startUpload(imgEntry) {
-  this.file.resolveLocalFilesystemUrl(imgEntry.filePath)
-      .then(entry => {
-          ( < FileEntry > entry).file(file => this.readFile(file))
-      })
-      .catch(err => {
-          this.presentToast('Erro ao ler o arquivo.');
-      });
-}
 
-readFile(file: any) {
-  const reader = new FileReader();
-  reader.onload = () => {
-      const formData = new FormData();
-      const imgBlob = new Blob([reader.result], {
-          type: file.type
-      });
-      formData.append('file', imgBlob, file.name);
-      this.uploadImageData(formData);
-  };
-  reader.readAsArrayBuffer(file);
-}
+
+
+  startUpload(imgEntry) {
+    this.file.resolveLocalFilesystemUrl(imgEntry.filePath)
+        .then(entry => {
+            ( < FileEntry > entry).file(file => this.readFile(file))
+        })
+        .catch(err => {
+            this.presentToast('Erro ao ler o arquivo.');
+        });
+  }
+
+  readFile(file: any) {
+    const reader = new FileReader();
+    reader.onload = () => {
+        const formData = new FormData();
+        const imgBlob = new Blob([reader.result], {
+            type: file.type
+        });
+        formData.append('file', imgBlob, file.name);
+        this.uploadImageData(formData);
+    };
+    reader.readAsArrayBuffer(file);
+  }
 
   async uploadImageData(formData: FormData) {
 
@@ -150,7 +151,7 @@ readFile(file: any) {
     // });
     // await loading.present();
 
-    // this.http.post("http://localhost:8888/upload.php", formData)
+    // this.http.post("http://localhost:9945/uploadImage", formData)
     //     .pipe(
     //         finalize(() => {
     //             loading.dismiss();
@@ -165,19 +166,19 @@ readFile(file: any) {
     //     });
   }
 
-  loadStoredImages() {
-    this.storage.get(STORAGE_KEY).then(images => {
-      if (images) {
-        let arr = JSON.parse(images);
-        this.images = [];
-        for (let img of arr) {
-          let filePath = this.file.dataDirectory + img;
-          let resPath = this.pathForImage(filePath);
-          this.images.push({ name: img, path: resPath, filePath: filePath });
-        }
-      }
-    });
-  }
+  // loadStoredImages() {
+  //   this.storage.get(STORAGE_KEY).then(images => {
+  //     if (images) {
+  //       let arr = JSON.parse(images);
+  //       this.images = [];
+  //       for (let img of arr) {
+  //         let filePath = this.file.dataDirectory + img;
+  //         let resPath = this.pathForImage(filePath);
+  //         this.images.push({ name: img, path: resPath, filePath: filePath });
+  //       }
+  //     }
+  //   });
+  // }
 
   pathForImage(img) {
     if (img === null) {
@@ -296,8 +297,13 @@ readFile(file: any) {
         });
     });
   }
+
   voltar(){
     this.view.dismiss();
-    this.navCtrl.push(LancamentoAvariaPage);
+    // this.navCtrl.push(LancamentoAvariaPage);
+    const chassiModal: Modal = this.modal.create(LancamentoAvariaPage, {
+      data: this.formData
+    });
+    chassiModal.present();
   }
 }
