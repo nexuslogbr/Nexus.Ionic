@@ -38,6 +38,8 @@ import { Storage } from '@ionic/storage';
 // 3124	mnu_mob_servico
 
 
+// 3142 mnu_mob_vistoria
+
 const menus = [
   {
     texto: 'Recebimento',
@@ -109,7 +111,11 @@ const menus = [
     cssClass: 'lancamento-servico',
     id: 3124,
   },
-
+  {
+    texto: 'Vistoriar',
+    cssClass: 'vistoriar',
+    id: 3142,
+  }
 
 
 ];
@@ -256,6 +262,8 @@ export class HomePage {
     // 3123	mnu_mob_observacao
     // 3124	mnu_mob_servico
 
+    // 3142 mnu_mob_vistoria
+
     console.log(menu)
     if (menu.id == 3101) {
       this.navCtrl.setRoot(RecebimentoPage);
@@ -289,6 +297,8 @@ export class HomePage {
       this.navCtrl.setRoot(ObservacoesPage);
     } else if (menu.id == 3124) {
       this.navCtrl.setRoot(ObservacoesPage);
+    }else if (menu.id == 3142) {
+
     }
 
   }
