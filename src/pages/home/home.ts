@@ -20,6 +20,7 @@ import { BloqueioPage } from '../bloqueio/bloqueio';
 import { LancamentoServicoPage } from '../lancamento-servico/lancamento-servico';
 import { ObservacoesPage } from '../observacoes/observacoes';
 import { Storage } from '@ionic/storage';
+import { VistoriarPage } from '../vistoriar/vistoriar';
 
 
 // 3101	mnu_mob_recebimento
@@ -298,7 +299,7 @@ export class HomePage {
     } else if (menu.id == 3124) {
       this.navCtrl.setRoot(ObservacoesPage);
     }else if (menu.id == 3142) {
-
+      this.navCtrl.setRoot(VistoriarPage);
     }
 
   }
