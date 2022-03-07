@@ -7,6 +7,7 @@ import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import * as $ from 'jquery';
 import { ModalChassisComponent } from '../../components/modal-chassis/modal-chassis';
+import { ModalVistoriaComponent } from '../../components/modal-vistoria/modal-vistoria';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -39,7 +40,6 @@ export class VistoriarPage {
   modoOperacao: number;
   @ViewChild('chassiInput') chassiInput;
   formControlChassi = new FormControl('');
-  @ViewChild('select') select: Select;
 
   primaryColor: string;
   secondaryColor: string;
@@ -135,7 +135,6 @@ export class VistoriarPage {
 
         this.responseData = res;
         if (this.responseData.sucesso) {
-          this.authService.hideLoading();
           this.VistoriaVeiculo(this.responseData.retorno);
         } else {
           this.authService.hideLoading();
@@ -189,21 +188,28 @@ export class VistoriarPage {
       (res: any) => {
         if (res.sucesso) {
           this.authService.hideLoading();
-          this.select.close();
-          this.view.dismiss();
-        } else {
+          this.openModalChassis(this.responseData.retorno, false);
+        }
+        else {
           this.authService.hideLoading();
-          // this.openModalErro(res.mensagem);
-          this.select.close();
-          this.view.dismiss();
+          this.openModalErro(res.mensagem, true);
         }
       },
       (error) => {
         this.authService.hideLoading();
-        this.select.close();
         this.view.dismiss();
       }
     );
   }
 
+  openModalChassis(data, byScanner: boolean) {
+    const modal: Modal = this.modal.create(ModalVistoriaComponent, {
+      data: data,
+    });
+    modal.present();
+
+    modal.onDidDismiss((data) => {
+      this.cleanInput(byScanner);
+    });
+  }
 }
