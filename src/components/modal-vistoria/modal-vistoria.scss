@@ -1,3 +1,55 @@
 modal-vistoria {
+opacity: 0.2;
+position: fixed;
+top: 0;
+height: 100%;
+width: 100%;
+z-index: 10;
 
+ion-content.content {
+  position: relative;
+  .qr-code-container {
+    .icon-reception {
+      background-image: url("../assets/images/recebimento.svg");
+      background-size: 100%;
+      background-position: center center;
+      width: 176px;
+      height: 172px;
+      margin: 0 auto;
+      margin-top: 30px;
+    }
+
+    h3 {
+      color: #fff;
+      font: 32px "avenir_demi";
+      text-align: center;
+      margin-bottom: 0;
+      text-transform: uppercase;
+    }
+
+    p {
+      color: #fff;
+      text-align: center;
+      font: 16px "avenir_demi";
+      margin: 30px 0;
+    }
+
+    .line {
+      margin: 30px 0 20px;
+    }
+
+    .btn-receiving {
+      width: 45%;
+      height: auto;
+      .button-inner {
+        padding: 25px 15px 25px 15px;
+        font: 19px "avenir_bold";
+      }
+    }
+
+    .btn-cancel {
+      background-color: transparent;
+    }
+  }
+}
 }
