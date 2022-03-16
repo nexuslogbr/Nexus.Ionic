@@ -95,28 +95,28 @@
 
             <div class="form-item {{veiculo.chassi}}" *ngFor="let veiculo of formData.detalhes[0].veiculos; let i = index" (click)="removeVeiculo(veiculo)">
                 <i class="icon icon-remove-chassi" id="{{veiculo.chassi}}" ></i>
-                <div class="form-group row">
+                <div class="form-group">
                     <label for="example-text-input" class="col-2 col-form-label">NFE:</label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" name="" id="" value="" placeholder="{{veiculo.nota}}" disabled />
+                    <div  [ngStyle]="{'background-color': primaryColor}">
+                        <input type="text"  name="" id="" value="" placeholder="{{veiculo.nota}}" disabled [ngStyle]="{'background-color': 'transparent', 'margin-left':'15px'}" />
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group">
                     <label for="" class="col-2 col-form-label">Chassi:</label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" name="" id="" value="" placeholder="{{veiculo.chassi}}" disabled />
+                    <div  [ngStyle]="{'background-color': primaryColor}">
+                        <input type="text"  name="" id="" value="" placeholder="{{veiculo.chassi}}" disabled [ngStyle]="{'background-color': 'transparent', 'margin-left':'15px'}"/>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group ">
                     <label for="" class="col-2 col-form-label">Modelo:</label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" name="" id="" value="" placeholder="{{veiculo.modelo}}" disabled />
+                    <div  [ngStyle]="{'background-color': primaryColor}">
+                        <input type="text"  name="" id="" value="" placeholder="{{veiculo.modelo}}" disabled [ngStyle]="{'background-color': 'transparent', 'margin-left':'15px'}"/>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group ">
                     <label for="" class="col-2 col-form-label">Posição:</label>
-                    <div class="col-10">
-                        <input type="text" class="form-control" name="" id="" value="" placeholder="{{veiculo.posicao}}" disabled />
+                    <div  [ngStyle]="{'background-color': primaryColor}">
+                        <input type="text" name="" id="" value="" placeholder="{{veiculo.posicao}}" disabled [ngStyle]="{'background-color': 'transparent', 'margin-left':'15px'}"/>
                     </div>
                 </div>
             </div>

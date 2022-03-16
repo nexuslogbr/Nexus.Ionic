@@ -1,0 +1,61 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
+  <form class="form-recebe-chassis" [ngStyle]="{'background-color': primaryColor}">
+    <ion-list [ngStyle]="{'background-color': primaryColor}">
+      <ion-list-header [ngStyle]="{'background-color': primaryColor}">
+        Selecione o chassi
+      </ion-list-header>
+
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Chassi:</ion-label>
+        <ion-select
+          (ionChange)="onChassisChange($event)"
+          okText="Confirmar"
+          cancelText="Cancelar"
+          #select
+        >
+          <ion-option
+            *ngFor="let chassi of chassis"
+            value="{{chassi}}"
+            id="{{chassi}}"
+            >{{chassi}}</ion-option
+          >
+        </ion-select>
+      </ion-item>
+      <div class="login-content" [ngStyle]="{'background-color': primaryColor}">
+        <p>CONFIRMAR A VISTORIA?</p>
+        <button
+          ion-button
+          round
+          first
+          class="btn-receiving btn-cancel"
+          (click)="closeModal()"
+          type="button" 
+          [ngStyle]="{'background-color': buttonColor}"
+        >
+          NÃO
+        </button>
+        <button
+          ion-button
+          round
+          end
+          class="btn-receiving btn-ok"
+          (click)="bloquearVeiculo()"
+          type="button"
+          [ngStyle]="{'background-color': buttonColor}"
+        >
+          SIM
+        </button>
+      </div>
+    </ion-list>
+  </form>
+</ion-content>
+<modal-loading></modal-loading>

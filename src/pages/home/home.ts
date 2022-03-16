@@ -20,22 +20,25 @@ import { BloqueioPage } from '../bloqueio/bloqueio';
 import { LancamentoServicoPage } from '../lancamento-servico/lancamento-servico';
 import { ObservacoesPage } from '../observacoes/observacoes';
 import { Storage } from '@ionic/storage';
+import { VistoriaPage } from '../vistoria/vistoria';
 
 
-// 3101	mnu_mob_recebimento
-// 3102	mnu_mob_parqueamento
-// 3103	mnu_mob_receberparquear
-// 3104	mnu_mob_conferencia
-// 3105	mnu_mob_parquearbloco
-// 3106	mnu_mob_movimentacao
-// 3107	mnu_mob_rechego
-// 3108	mnu_mob_carregamento
-// 3109	mnu_mob_carregamentoexportacao
-// 3110	mnu_mob_romaneio
-// 3111	mnu_mob_historicochassi
-// 3122	mnu_mob_bloqueio
-// 3123	mnu_mob_observacao
-// 3124	mnu_mob_servico
+// 0: "mnu_mob_recebimento"
+// 1: "mnu_mob_parqueamento"
+// 2: "mnu_mob_receberparquear"
+// 3: "mnu_mob_conferencia"
+// 4: "mnu_mob_parquearbloco"
+// 5: "mnu_mob_movimentacao"
+// 6: "mnu_mob_rechego"
+// 7: "mnu_mob_carregamento"
+// 8: "mnu_mob_carregamentoexportacao"
+// 9: "mnu_mob_romaneio"
+// 10: "mnu_mob_bloqueio"
+// 11: "mnu_mob_observacao"
+// 12: "mnu_mob_servico"
+// 13: "mnu_mob_avaria"
+// 14: "mnu_mob_historicochassi"
+// 15: "mnu_mob_vistoria"
 
 
 const menus = [
@@ -43,73 +46,93 @@ const menus = [
     texto: 'Recebimento',
     cssClass: 'reception',
     id: 3101,
+    nome:'mnu_mob_recebimento'
   },
   {
     texto: 'Parqueamento',
     cssClass: 'storage',
     id: 3102,
+    nome:'mnu_mob_parqueamento'
   },
   {
     texto: 'Receber/Parquear',
     cssClass: 'receber-parquear',
     id: 3103,
+    nome:'mnu_mob_receberparquear'
   },
   {
     texto: 'Conferência',
     cssClass: 'conferir',
     id: 3104,
+    nome:'mnu_mob_conferencia'
   },
   {
     texto: 'Parquear/Bloco',
     cssClass: 'parquear-bloco',
     id: 3105,
+    nome:'mnu_mob_parquearbloco'
   },
   {
     texto: 'Movimentação',
     cssClass: 'movement',
     id: 3106,
+    nome:'mnu_mob_movimentacao'
   },
   {
     texto: 'Rechego',
     cssClass: 'trimming',
     id: 3107,
+    nome:'mnu_mob_rechego'
   },
   {
     texto: 'Carregamento',
     cssClass: 'load-truck',
     id: 3108,
+    nome:'mnu_mob_carregamento'
   },
   {
     texto: 'Carregamento Export.',
     cssClass: 'load-export',
     id: 3109,
+    nome:'mnu_mob_carregamentoexportacao'
   },
   {
     texto: 'Romaneio',
     cssClass: 'romaneio',
     id: 3110,
+    nome:'mnu_mob_romaneio'
   },
-  {
-    texto: 'Histórico de Chassi',
-    cssClass: 'historico-chassi',
-    id: 3111,
-  },
+  
   {
     texto: 'Bloqueio/Desbloqueio',
     cssClass: 'bloqueio',
-    id: 3122,
+    id: 3119,
+    nome:'mnu_mob_bloqueio'
   },
   {
     texto: 'Observações',
     cssClass: 'observacoes',
-    id: 3123,
+    id: 3120,
+    nome:'mnu_mob_observacao'
   },
   {
     texto: 'Lançamento de Serviço',
     cssClass: 'lancamento-servico',
-    id: 3124,
+    id: 3111,
+    nome:'mnu_mob_servico'
   },
-
+  {
+    texto: 'Vistoriar',
+    cssClass: 'vistoriar',
+    id: 3142,
+    nome:'mnu_mob_vistoria'
+  },
+  {
+    texto: 'Histórico de Chassi',
+    cssClass: 'historico-chassi',
+    id: 3118,
+    nome:'mnu_mob_historicochassi'
+  },
 
 
 ];
@@ -137,11 +160,10 @@ export class HomePage {
   ) {
     this.title = 'Sistema Pátio Automotivo';
     this.userData = this.authService.getUserData();
-
-    if (this.userData && this.userData.menus) {
+    if (this.userData && this.userData.nomesMenus) {
       this.userMenus = menus.filter((m) =>
-        this.userData.menus.some((mm) => mm == m.id)
-      );
+        this.userData.nomesMenus.some((mm) => mm == m.nome)
+    );
     }
 
     this.storage.set('parqueamento', null);
@@ -257,39 +279,93 @@ export class HomePage {
     // 3124	mnu_mob_servico
 
     console.log(menu)
-    if (menu.id == 3101) {
+    // if (menu.id == 3101) {
+    //   this.navCtrl.setRoot(RecebimentoPage);
+    // } else if (menu.id == 3102) {
+    //   this.navCtrl.setRoot(ParqueamentoPage);
+    // } else if (menu.id == 3103) {
+    //   this.navCtrl.setRoot(ReceberParquearPage);
+    // } else if (menu.id == 3104) {
+    //   this.authService.setFila('');
+    //   this.navCtrl.push(NovaConferenciaMenuPage);
+    // } else if (menu.id == 3105) {
+    //   this.authService.setFila('');
+    //   this.navCtrl.setRoot(ParquearBlocoPage);
+    // } else if (menu.id == 3106) {
+    //   this.navCtrl.setRoot(MovimentacaoPage);
+    // } else if (menu.id == 3107) {
+    //   this.authService.setFila('');
+    //   this.navCtrl.setRoot(RechegoPage);
+    // } else if (menu.id == 3108) {
+    //   this.navCtrl.setRoot(CarregamentoPage);
+    // } else if (menu.id == 3109) {
+    //   this.navCtrl.setRoot(CarregamentoExportOperacaoPage);
+    // } else if (menu.id == 3110) {
+    //   this.authService.limparRomaneio();
+    //   this.navCtrl.setRoot(RomaneioPage);
+    // } else if (menu.id == 3118) {
+    //   this.navCtrl.setRoot(HistoricoChassiPage);
+    // } else if (menu.id == 3119) {
+    //   this.navCtrl.setRoot(BloqueioPage);
+    // } else if (menu.id == 3120) {
+    //   this.navCtrl.setRoot(ObservacoesPage);
+    // } else if (menu.id == 3111) {
+    //   this.navCtrl.setRoot(LancamentoServicoPage);
+    // } else if (menu.id == 3142) {
+    //   this.navCtrl.setRoot(VistoriaPage);
+    // }
+   
+
+      if (menu.nome == 'mnu_mob_recebimento') {
       this.navCtrl.setRoot(RecebimentoPage);
-    } else if (menu.id == 3102) {
+    } else if (menu.nome == 'mnu_mob_parqueamento') {
       this.navCtrl.setRoot(ParqueamentoPage);
-    } else if (menu.id == 3103) {
+    } else if (menu.nome == 'mnu_mob_receberparquear') {
       this.navCtrl.setRoot(ReceberParquearPage);
-    } else if (menu.id == 3104) {
+    } else if (menu.nome == 'mnu_mob_conferencia') {
       this.authService.setFila('');
       this.navCtrl.push(NovaConferenciaMenuPage);
-    } else if (menu.id == 3105) {
+    } else if (menu.nome == 'mnu_mob_parquearbloco') {
       this.authService.setFila('');
       this.navCtrl.setRoot(ParquearBlocoPage);
-    } else if (menu.id == 3106) {
+    } else if (menu.nome == 'mnu_mob_movimentacao') {
       this.navCtrl.setRoot(MovimentacaoPage);
-    } else if (menu.id == 3107) {
+    } else if (menu.nome == 'mnu_mob_rechego') {
       this.authService.setFila('');
       this.navCtrl.setRoot(RechegoPage);
-    } else if (menu.id == 3108) {
+    } else if (menu.nome == 'mnu_mob_carregamento') {
       this.navCtrl.setRoot(CarregamentoPage);
-    } else if (menu.id == 3109) {
+    } else if (menu.nome == 'mnu_mob_carregamentoexportacao') {
       this.navCtrl.setRoot(CarregamentoExportOperacaoPage);
-    } else if (menu.id == 3110) {
+    } else if (menu.nome == 'mnu_mob_romaneio') {
       this.authService.limparRomaneio();
       this.navCtrl.setRoot(RomaneioPage);
-    } else if (menu.id == 3111) {
+    } else if (menu.nome == 'mnu_mob_historicochassi') {
       this.navCtrl.setRoot(HistoricoChassiPage);
-    } else if (menu.id == 3122) {
+    } else if (menu.nome == 'mnu_mob_bloqueio') {
       this.navCtrl.setRoot(BloqueioPage);
-    } else if (menu.id == 3123) {
+    } else if (menu.nome == 'mnu_mob_observacao') {
       this.navCtrl.setRoot(ObservacoesPage);
-    } else if (menu.id == 3124) {
-      this.navCtrl.setRoot(ObservacoesPage);
+    } else if (menu.nome == 'mnu_mob_servico') {
+      this.navCtrl.setRoot(LancamentoServicoPage);
+    } else if (menu.nome == 'mnu_mob_vistoria') {
+      this.navCtrl.setRoot(VistoriaPage);
     }
+    //   nome:'mnu_mob_parqueamento'
+    //   nome:'mnu_mob_receberparquear'
+    //   nome:'mnu_mob_conferencia'
+    //   nome:'mnu_mob_parquearbloco'
+    //   nome:'mnu_mob_movimentacao'
+    //   nome:'mnu_mob_rechego'
+    //   nome:'mnu_mob_carregamento'
+    //   nome:'mnu_mob_carregamentoexportacao'
+    //   nome:'mnu_mob_romaneio'
+    //   nome:'mnu_mob_historicochassi'
+    //   nome:'mnu_mob_bloqueio'
+    //   nome:'mnu_mob_observacao'
+    //   nome:'mnu_mob_servico'
+    //   nome:'mnu_mob_vistoria'
+    // },
 
   }
 }

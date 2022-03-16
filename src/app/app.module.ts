@@ -193,6 +193,8 @@ import { ObservacoesPage } from '../pages/observacoes/observacoes';
 import { ModalObservacoesComponent } from '../components/modal-observacoes/modal-observacoes';
 import { FormObservacoesComponent } from '../components/form-observacoes/form-observacoes';
 import { AlterarCorPage } from '../pages/alterar-cor/alterarcor';
+import { VistoriaPage } from '../pages/vistoria/vistoria';
+import { ModalChassisVistoriaComponent } from '../components/modal-chassis-vistoria/modal-chassis-vistoria';
 
 @NgModule({
   declarations: [
@@ -345,7 +347,9 @@ import { AlterarCorPage } from '../pages/alterar-cor/alterarcor';
     ObservacoesPage,
     ModalObservacoesComponent,
     FormObservacoesComponent,
-    AlterarCorPage
+    AlterarCorPage,
+    VistoriaPage,
+    ModalChassisVistoriaComponent
   ],
   imports: [
     BrowserModule,
@@ -551,8 +555,9 @@ import { AlterarCorPage } from '../pages/alterar-cor/alterarcor';
     ObservacoesPage,
     ModalObservacoesComponent,
     FormObservacoesComponent,
-    AlterarCorPage
-
+    AlterarCorPage,
+    VistoriaPage,
+    ModalChassisVistoriaComponent
   ],
   providers: [
     AuthService,

@@ -1,0 +1,29 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+
+<ion-content padding id="vistoria" class="vistoria show" [ngStyle]="{'background-color': secondaryColor}">
+  <!-- <div *ngIf="scanData">
+        <button class="btn btn-cancel">CANCELAR</button>
+    </div> -->
+  <div class="qr-code-container" [ngStyle]="{'background-color': secondaryColor}">
+    <i class="icon icon-qr-code-black" (click)="scan()"></i>
+    <div class="line"></div>
+    <form>
+      <ion-label>Chassi:</ion-label>
+      <ion-input type="text" [(ngModel)]="formData.chassi" [formControl]="formControlChassi" [ngStyle]="{'background-color': primaryColor}" placeholder="" value="" required #chassiInput></ion-input>
+    </form>
+  </div>
+
+</ion-content>
+<!-- <ion-footer>
+    <carregamento-tab [exibirRecebimento]="false"></carregamento-tab>
+</ion-footer> -->
+<modal-error></modal-error>
+<modal-loading></modal-loading>

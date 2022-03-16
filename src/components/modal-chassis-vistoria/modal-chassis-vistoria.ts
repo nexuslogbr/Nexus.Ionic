@@ -14,6 +14,8 @@ import { Select } from 'ionic-angular';
 import * as $ from 'jquery';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBloqueioComponent } from '../form-bloqueio/form-bloqueio';
+import { ModalSucessoComponent } from '../modal-sucesso/modal-sucesso';
+import { VistoriaPage } from '../../pages/vistoria/vistoria';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -22,17 +24,17 @@ const httpOptions = {
 };
 
 @Component({
-  selector: 'modal-chassis-bloqueio',
-  templateUrl: 'modal-chassis-bloqueio.html',
+  selector: 'modal-chassis-vistoria',
+  templateUrl: 'modal-chassis-vistoria.html',
 })
-export class ModalChassisBloqueioComponent {
+export class ModalChassisVistoriaComponent {
   @ViewChild('select') select: Select;
   title: string;
   chassis: any;
   novoChassi: string;
   url: string;
 
-  formBloqueioData = {
+  formVistoriaData = {
     token: '',
     empresaID: '1',
     id: '',
@@ -74,8 +76,8 @@ export class ModalChassisBloqueioComponent {
     public navCtrl: NavController,
     public authService: AuthService
   ) {
-    this.title = 'Bloqueio';
-    console.log('ModalChassisBloqueioComponent');
+    this.title = 'Vistoria';
+    console.log('ModalChassisVistoriaComponent');
     this.url = this.authService.getUrl();
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
@@ -85,7 +87,7 @@ export class ModalChassisBloqueioComponent {
     console.log(chassi_)
     this.chassis = Array.of(chassi_);
 
-    this.formBloqueioData.id=this.navParam.get('data').id;
+    this.formVistoriaData.id=this.navParam.get('data').id;
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
       this.secondaryColor = '#484848';
@@ -118,43 +120,31 @@ export class ModalChassisBloqueioComponent {
     this.navCtrl.push(RecebimentoPage);
   }
 
-
-
-
-  bloquearVeiculo(res) {
-
-    console.log(res);
-
-
-    this.formBloqueioData.chassi = this.novoChassi;
-   // this.openFormBloqueio(this.formBloqueioData);
-
-   this.consultarChassi();
+  bloquearVeiculo() {
+    this.formVistoriaData.chassi = this.novoChassi;
+    this.vistoriarChassi();
   }
 
-  consultarChassi() {
+  vistoriarChassi() {
 
     let uriBuscaChassi =
-      '/Bloqueio/Bloqueios?token=' +
+      '/Vistoriar/VistoriarVeiculo?token=' +
       this.authService.getToken() +
-      '&veiculoID=' +
-      this.formBloqueioData.id;
+      '&veiculoID=' +  this.formVistoriaData.id;
 
     this.authService.showLoading();
-    this.formBloqueioData.token = this.authService.getToken();
+    this.formVistoriaData.token = this.authService.getToken();
 
-    this.http.get(this.url + uriBuscaChassi).subscribe(
+    this.http.put(this.url + uriBuscaChassi,{}).subscribe(
       (res) => {
         
         this.responseData = res;
-        // this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
-          //this.openModalChassis(this.responseData.retorno);
           if(this.responseData.retorno.length > 0){
-            this.openModalErro('Chassi já bloqueado');
+            this.openModalErro(this.responseData.mensagem);
           }else{
-            this.openFormBloqueio(this.formBloqueioData);
+            this.openModalSucesso(this.responseData.mensagem);
           }
 
         } else {
@@ -167,7 +157,7 @@ export class ModalChassisBloqueioComponent {
             this.modoOperacao == 2 &&
             this.responseData.dataErro == 'CHASSI_NOT_FOUND'
           ) {
-         //   this.openModalChassis([this.novoChassi], byScanner);
+            this.openModalSucesso(this.responseData.mensagem);
           } else {
            this.openModalErro(this.responseData.mensagem);
           }
@@ -180,23 +170,44 @@ export class ModalChassisBloqueioComponent {
     );
   }
 
+  // openModalSucesso(data) {
+  //   const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {
+  //     data: data
+  //   });
+  //   chassiModal.present();
 
-  openFormBloqueio(data) {
+  //   chassiModal.onDidDismiss(data => {});
+  //   chassiModal.onWillDismiss(data => {});
+  // }
 
+  openModalSucesso(data){
+    const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {data: data });
+    chassiModal.present();  
 
-    const recModal: Modal = this.modal.create(FormBloqueioComponent, {
-      data: data,
-    });
-    recModal.present();
-
-    recModal.onDidDismiss((data) => {
+    chassiModal.onDidDismiss((data) => {
       console.log(data);
-    });
-    recModal.onWillDismiss((data) => {
-      console.log('data');
-      console.log(data);
-    });
-  }
+      this.navCtrl.push(VistoriaPage);
+      
+    })    
+  }  
+    
+
+  // openFormBloqueio(data) {
+
+
+  //   const recModal: Modal = this.modal.create(FormBloqueioComponent, {
+  //     data: data,
+  //   });
+  //   recModal.present();
+
+  //   recModal.onDidDismiss((data) => {
+  //     console.log(data);
+  //   });
+  //   recModal.onWillDismiss((data) => {
+  //     console.log('data');
+  //     console.log(data);
+  //   });
+  // }
 
   openModalErro(data) {
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, {

@@ -13,7 +13,11 @@ carregamento-list {
                     color: #fff;
                     font: 16px 'avenir_demi';
                 }
-            }                        
+            }      
+            
+            .item-md {
+             padding-left: 0px !important;
+            }
             .form-loading{
                 padding: 0;
                 width: 100%;

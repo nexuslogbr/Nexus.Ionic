@@ -157,7 +157,7 @@ export class NovaConferenciaListarConfiguracoesPage {
               } else {
                 throw res.mensagem;
               }
-            }),
+            }),        
             finalize(() => {
               this.authService.hideDownload();
               this.carregando = false;

@@ -51,11 +51,11 @@ export class AuthService {
    //url: string = 'https://gdl.kline-brasil.com.br/webapi/api';
    
    //PRODUÇÃO NEXUS
-    url: string= 'https://app.nexuslogbr.com/webapi/api';
+    // url: string= 'https://app.nexuslogbr.com/webapi/api';
 
    // TESTE NEXUS
 
-   //url: string = 'http://api-nexus.luby.com.br/api';
+   url: string = 'http://api-nexus.luby.com.br/api';
    //url: string = 'http://api-nexus.luby.com.br/api'
    //headers: any =  {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'};
 

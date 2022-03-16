@@ -10,4 +10,5 @@ export interface Usuario {
   confereOnline: boolean;
   localModoOperacao: number;
   menus: number[];
+  nomesMenus:string[];
 }

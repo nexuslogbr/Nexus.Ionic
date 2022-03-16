@@ -76,7 +76,7 @@ export class FormBloqueioComponent {
 
   constructor(public http: HttpClient, private modal: ModalController, public navCtrl: NavController, private navParam: NavParams, public authService: AuthService, private view: ViewController) {
     // console.log('Hello FormMovimentacaoComponent Component');
-    this.title = "Bloqueio"; 
+    this.title = "Bloqueio / Bloquear"; 
     
     console.log('FormBloqueioComponent');
     this.url = this.authService.getUrl();

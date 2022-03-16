@@ -21,12 +21,13 @@ import { HttpClient } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
 import { ModalChassisBloqueioComponent } from '../../components/modal-chassis-bloqueio/modal-chassis-bloqueio';
 import { ModalSucessoComponent } from '../../components/modal-sucesso/modal-sucesso';
+import { ModalChassisVistoriaComponent } from '../../components/modal-chassis-vistoria/modal-chassis-vistoria';
 
 @Component({
-  selector: 'page-bloquear',
-  templateUrl: 'bloquear.html',
+  selector: 'page-vistoria',
+  templateUrl: 'vistoria.html',
 })
-export class BloquearPage {
+export class VistoriaPage {
   title: string;
   scanData: {};
   data: any;
@@ -86,7 +87,7 @@ export class BloquearPage {
     public storage: Storage,
     public authService: AuthService
   ) {
-    this.title = 'Bloquear';
+    this.title = 'Vistoria';
     this.url = this.authService.getUrl();
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
@@ -101,29 +102,29 @@ export class BloquearPage {
       this.inputColor = '#06273f';
       this.buttonColor = "#1c6381";
     }
-    //  this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
-    //    if (value && value.length) {
-    //      {
-    //        if (value.length >= 6) {
-    //          let chassi = value.replace(/[\W_]+/g, '');
-    //          setTimeout(() => {
-    //            this.buscarChassi(chassi, false);
-    //            this.formData.chassi = '';
-    //          }, 500);
-    //        }
-    //      }
-    //    }
-    //  });
+    // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+    //   if (value && value.length) {
+    //     {
+    //       if (value.length >= 6) {
+    //         let chassi = value.replace(/[\W_]+/g, '');
+    //         setTimeout(() => {
+    //           this.buscarChassi(chassi, false);
+    //           this.formData.chassi = '';
+    //         }, 500);
+    //       }
+    //     }
+    //   }
+    // });
   }
 
   ionViewDidEnter() {
-    console.log('ionViewDidEnter RecebimentoPage');
+    console.log('ionViewDidEnter VistoriaPage');
     setTimeout(() => {
       this.chassiInput.setFocus();
     }, 1000);
 
     this.authService.hideLoading();
-    
+
   }
 
   cleanInput(byScanner: boolean) {
@@ -136,15 +137,12 @@ export class BloquearPage {
   }
 
   scan() {
-
-    
     this.options = {
       showTorchButton: true,
       prompt: '',
       resultDisplayDuration: 0,
     };
-
-
+    
     this.authService.showLoading();
 
     this.barcodeScanner.scan(this.options).then(
@@ -155,10 +153,7 @@ export class BloquearPage {
             this.qrCodeText.length - 17,
             17
           );
-         // this.openModalErro(partChassi, true);
           this.formData['chassi'] = partChassi;
-            
-
           this.buscarChassi(partChassi, true);
         }
       },
@@ -173,25 +168,28 @@ export class BloquearPage {
   buscarChassi(partChassi, byScanner: boolean) {
 
     this.formBloqueioData.chassi = partChassi;
-    let uriBuscaChassi =
-      '/veiculos/ConsultarChassi?token=' +
+    // let uriBuscaChassi =
+    //   '/veiculos/ConsultarChassi?token=' +
+    //   this.authService.getToken() +
+    //   '&chassi=' +
+    //   partChassi;
+
+      let uriBuscaChassi =
+      '/Vistoriar/ConsultarChassi?token=' +
       this.authService.getToken() +
-      '&chassi=' +
-      partChassi;
+      '&chassi=' +  this.formBloqueioData.chassi;
 
     this.authService.showLoading();
     this.formBloqueioData.token = this.authService.getToken();
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-        
+
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
           debugger
           this.openModalChassis(this.responseData.retorno, byScanner);
-         //var veiculoId = this.responseData.retorno.id;
-       //  this.consultarChassi(veiculoId, partChassi, byScanner);
         } else {
           this.authService.hideLoading();
           if (this.modoOperacao == 1 || partChassi.length < 17) {
@@ -204,7 +202,7 @@ export class BloquearPage {
           ) {
             this.openModalChassis([partChassi], byScanner);
           } else {
-           this.openModalErro(this.responseData.mensagem, byScanner);
+            this.openModalErro(this.responseData.mensagem, byScanner);
           }
         }
       },
@@ -215,48 +213,48 @@ export class BloquearPage {
     );
   }
 
-  consultarChassi(veiculoID, partChassi, byScanner: boolean) {
+  // consultarChassi(veiculoID, partChassi, byScanner: boolean) {
 
 
-    this.formBloqueioData.chassi = partChassi;
-    let uriBuscaChassi =
-      '/Bloqueio/Bloqueios?token=' +
-      this.authService.getToken() +
-      '&veiculoID=' +
-      veiculoID;
+  //   this.formBloqueioData.chassi = partChassi;
+  //   let uriBuscaChassi =
+  //     '/Bloqueio/Bloqueios?token=' +
+  //     this.authService.getToken() +
+  //     '&veiculoID=' +
+  //     veiculoID;
 
-    this.authService.showLoading();
-    this.formBloqueioData.token = this.authService.getToken();
+  //   this.authService.showLoading();
+  //   this.formBloqueioData.token = this.authService.getToken();
 
-    this.http.get(this.url + uriBuscaChassi).subscribe(
-      (res) => {
-        
-        this.responseData = res;
-        if (this.responseData.sucesso) {
-          this.authService.hideLoading();
-          this.openModalChassis(this.responseData.retorno, byScanner);
-        } else {
-          this.authService.hideLoading();
-          if (this.modoOperacao == 1 || partChassi.length < 17) {
-            this.openModalErro(this.responseData.mensagem, byScanner);
-          } else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
-            this.openModalErro(this.responseData.mensagem, byScanner);
-          } else if (
-            this.modoOperacao == 2 &&
-            this.responseData.dataErro == 'CHASSI_NOT_FOUND'
-          ) {
-            this.openModalChassis([partChassi], byScanner);
-          } else {
-           this.openModalErro(this.responseData.mensagem, byScanner);
-          }
-        }
-      },
-      (error) => {
-        this.authService.hideLoading();
-        this.openModalErro(error.status + ' - ' + error.statusText, byScanner);
-      }
-    );
-  }
+  //   this.http.get(this.url + uriBuscaChassi).subscribe(
+  //     (res) => {
+
+  //       this.responseData = res;
+  //       if (this.responseData.sucesso) {
+  //         this.authService.hideLoading();
+  //         this.openModalChassis(this.responseData.retorno, byScanner);
+  //       } else {
+  //         this.authService.hideLoading();
+  //         if (this.modoOperacao == 1 || partChassi.length < 17) {
+  //           this.openModalErro(this.responseData.mensagem, byScanner);
+  //         } else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
+  //           this.openModalErro(this.responseData.mensagem, byScanner);
+  //         } else if (
+  //           this.modoOperacao == 2 &&
+  //           this.responseData.dataErro == 'CHASSI_NOT_FOUND'
+  //         ) {
+  //           this.openModalChassis([partChassi], byScanner);
+  //         } else {
+  //           this.openModalErro(this.responseData.mensagem, byScanner);
+  //         }
+  //       }
+  //     },
+  //     (error) => {
+  //       this.authService.hideLoading();
+  //       this.openModalErro(error.status + ' - ' + error.statusText, byScanner);
+  //     }
+  //   );
+  // }
 
   navigateToHomePage() {
     this.navCtrl.push(HomePage);
@@ -283,8 +281,8 @@ export class BloquearPage {
 
   openModalChassis(data, byScanner: boolean) {
 
-    
-    const chassiModal: Modal = this.modal.create(ModalChassisBloqueioComponent, {
+
+    const chassiModal: Modal = this.modal.create(ModalChassisVistoriaComponent, {
       data: data,
     });
     chassiModal.present();
@@ -295,16 +293,16 @@ export class BloquearPage {
   }
 
 
-  openModalSucesso(data){
-    const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {data: data });
-    chassiModal.present();  
+  openModalSucesso(data) {
+    const chassiModal: Modal = this.modal.create(ModalSucessoComponent, { data: data });
+    chassiModal.present();
 
     chassiModal.onDidDismiss((data) => {
       console.log(data);
       this.navCtrl.push(MovimentacaoPage);
-      
-    })    
-  }  
+
+    })
+  }
   openModalErro(data, byScanner: boolean) {
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
       data: data,

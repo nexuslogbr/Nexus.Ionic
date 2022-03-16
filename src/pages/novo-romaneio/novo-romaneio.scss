@@ -215,8 +215,8 @@ page-novo-romaneio{
                 }
                 .input-header{
                     input{
-                        font-size: 14px;
-                        padding: 15px;                       
+                        font-size: 8px;
+                        padding: 8px;                       
                     }
                 }
                 .icon-search{
@@ -227,7 +227,7 @@ page-novo-romaneio{
                     width: 46px;
                     height: 46px;
                     right: -20px;
-                    bottom: 5px;
+                    bottom: -5px;
                     position: absolute;
                 }
                 
@@ -239,7 +239,7 @@ page-novo-romaneio{
                     width: 46px;
                     height: 46px;
                     right: 35px;
-                    bottom: 5px;
+                    bottom: -5px;
                     position: absolute;
 
                     border: 1px solid #fff;
@@ -369,7 +369,7 @@ page-novo-romaneio{
       
     }  
     .list-md .item-input:last-child{
-        border-bottom: 1px solid #747474;
+       // border-bottom: 1px solid #747474;
     }  
     .datetime-text{
         color: #fff;
