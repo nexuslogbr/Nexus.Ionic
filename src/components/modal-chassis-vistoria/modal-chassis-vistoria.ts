@@ -135,6 +135,10 @@ export class ModalChassisVistoriaComponent {
     this.authService.showLoading();
     this.formVistoriaData.token = this.authService.getToken();
 
+    var data = {
+      message: "Vistoria realizada com",
+      iconClass: "icon-vistoria"
+    }
     this.http.put(this.url + uriBuscaChassi,{}).subscribe(
       (res) => {
         
@@ -144,7 +148,9 @@ export class ModalChassisVistoriaComponent {
           if(this.responseData.retorno.length > 0){
             this.openModalErro(this.responseData.mensagem);
           }else{
-            this.openModalSucesso(this.responseData.mensagem);
+
+           
+            this.openModalSucesso(data);
           }
 
         } else {
@@ -157,7 +163,7 @@ export class ModalChassisVistoriaComponent {
             this.modoOperacao == 2 &&
             this.responseData.dataErro == 'CHASSI_NOT_FOUND'
           ) {
-            this.openModalSucesso(this.responseData.mensagem);
+            this.openModalSucesso(data);
           } else {
            this.openModalErro(this.responseData.mensagem);
           }

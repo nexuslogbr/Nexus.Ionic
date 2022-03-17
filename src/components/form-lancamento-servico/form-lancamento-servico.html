@@ -30,7 +30,7 @@
             </ion-item> -->
 
             <ion-item>
-                <ion-label label-ios>TIPO DE OBSERVAÇÃO:</ion-label>
+                <ion-label label-ios>TIPO DE SERVIÇO:</ion-label>
                 <ion-select (ionChange)="onTipoChange($event)" okText="Confirmar" cancelText="Cancelar">
                     <ion-option *ngFor="let tipo of tipos" value="{{tipo.id}}" id="{{tipo.id}}">{{tipo.nome}}
                     </ion-option>

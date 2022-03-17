@@ -76,7 +76,7 @@ export class FormLancamentoServicoComponent {
 
   constructor(public http: HttpClient, private modal: ModalController, public navCtrl: NavController, private navParam: NavParams, public authService: AuthService, private view: ViewController) {
     // console.log('Hello FormMovimentacaoComponent Component');
-    this.title = "Lançamento de Servicos"; 
+    this.title = "Lançamento de Serviço"; 
     
     console.log('FormBloqueioComponent');
     this.url = this.authService.getUrl();

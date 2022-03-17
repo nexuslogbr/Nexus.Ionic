@@ -84,7 +84,7 @@ export class LancamentoServicoPage {
     public storage: Storage,
     public authService: AuthService
   ) {
-    this.title = 'Lançamento de Serviços';
+    this.title = 'Lançamento de Serviço';
     this.url = this.authService.getUrl();
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
