@@ -1,0 +1,85 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
+      <i class="icon icon-menu"></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
+    <form class="form-recebe-chassis">
+        <ion-list>
+            <ion-list [ngStyle]="{'background-color': primaryColor}">
+                <ion-list-header class="new-vehicle">
+                
+                </ion-list-header>
+                <ion-label label-ios >Chassi:</ion-label>
+                    
+                <ion-grid>
+                    <ion-row justify-content-start [ngStyle]="{'background-color': secondaryColor}">
+                        <ion-col col-9>
+                                <ion-input class="input-header" (keyup)="buscarChassi(inputChassi,false)" type="text" id="chassi"  name="chassi"  [(ngModel)]="inputChassi" placeholder=""></ion-input>
+                        </ion-col>
+                        <ion-col col-3>
+                                <ion-label class="icon-qr-code" (click)="scan()"></ion-label>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-list>
+
+            <!-- <ion-item [ngStyle]="{'background-color': primaryColor}">
+                <ion-label label-ios>Data:</ion-label>
+                <ion-select (ionChange)="onLayoutChange($event)" okText="Confirmar" cancelText="Cancelar" #select1>
+                    <ion-option *ngFor="let layout of layouts" value="{{layout.id}}" id="{{layout.id}}">{{layout.nome}}</ion-option>
+                </ion-select>
+            </ion-item> -->
+
+            <ion-item class="item-block item-ios item-select icon-clock" [ngStyle]="{'background-color': primaryColor}">
+                <ion-label>Data:</ion-label>
+                <ion-datetime min="2017" max="2030-10-31" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" id="data" name="data" [(ngModel)]="formData.data" cancelText="Cancelar" doneText="Confirmar"></ion-datetime>
+            </ion-item>
+
+
+
+            <ion-item [ngStyle]="{'background-color': primaryColor}">
+                <ion-label label-ios>Parte:</ion-label>
+                <ion-select  (ionChange)="onParteChange($event)" okText="Confirmar" cancelText="Cancelar" #select2>
+                    <ion-option *ngFor="let parte of partes" value="{{parte.id}}" id="{{parte.id}}">{{bolsao.nome}}</ion-option>
+                </ion-select>
+            </ion-item>
+
+            <ion-item [ngStyle]="{'background-color': primaryColor}">
+                <ion-label label-ios>Modelo:</ion-label>
+                <ion-select  (ionChange)="onModeloChange($event)" okText="Confirmar" cancelText="Cancelar" #select3>
+                    <ion-option *ngFor="let modelo of modelos" value="{{modelo.id}}" id="{{modelo.id}}">{{modelo.nome}}</ion-option>
+                </ion-select>
+            </ion-item>
+
+            <ion-item [ngStyle]="{'background-color': primaryColor}">
+                <ion-label label-ios>Tipo Avaria:</ion-label>
+                <ion-select  (ionChange)="onTipoAvariaChange($event)" okText="Confirmar" cancelText="Cancelar" #select4>
+                    <ion-option *ngFor="let tipoAvaria of tipoAvarias" value="{{tipoAvaria.id}}" id="{{tipoAvaria.id}}">{{tipoAvaria.nome}}</ion-option>
+                </ion-select>
+            </ion-item>
+
+            <ion-item [ngStyle]="{'background-color': primaryColor}">
+                <ion-label label-ios>Nivel Avaria:</ion-label>
+                <ion-select  (ionChange)="onNivelAvariaChange($event)" okText="Confirmar" cancelText="Cancelar" #select4>
+                    <ion-option *ngFor="let nivelAvaria of nivelAvarias" value="{{nivelAvaria.id}}" id="{{nivelAvaria.id}}">{{nivelAvaria.nome}}</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-list>
+        </form>
+        <div class="login-content">
+            <!-- <button ion-button round first class="btn-receiving btn-cancel" (click)="navigateToHomePage()" type="button">VOLTAR</button> -->
+            <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" (click)="avancar()" type="button">BUSCAR</button>
+        </div>
+
+</ion-content>
+<!-- 
+<ion-footer>
+    <!-- <carregamento-tab [exibirParqueamentoExport]="false"></carregamento-tab>
+</ion-footer> -->
+<modal-loading></modal-loading>

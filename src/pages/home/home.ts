@@ -21,6 +21,8 @@ import { LancamentoServicoPage } from '../lancamento-servico/lancamento-servico'
 import { ObservacoesPage } from '../observacoes/observacoes';
 import { Storage } from '@ionic/storage';
 import { VistoriaPage } from '../vistoria/vistoria';
+import { BuscarAvariasPage } from '../buscar-avarias/buscar-avarias';
+import { QualidadeBuscaAvariasPage } from '../qualidade-busca-avarias/qualidade-busca-avarias';
 
 
 // 0: "mnu_mob_recebimento"
@@ -46,92 +48,106 @@ const menus = [
     texto: 'Recebimento',
     cssClass: 'reception',
     id: 3101,
-    nome:'mnu_mob_recebimento'
+    nome: 'mnu_mob_recebimento'
   },
   {
     texto: 'Parqueamento',
     cssClass: 'storage',
     id: 3102,
-    nome:'mnu_mob_parqueamento'
+    nome: 'mnu_mob_parqueamento'
   },
   {
     texto: 'Receber/Parquear',
     cssClass: 'receber-parquear',
     id: 3103,
-    nome:'mnu_mob_receberparquear'
+    nome: 'mnu_mob_receberparquear'
   },
   {
     texto: 'Conferência',
     cssClass: 'conferir',
     id: 3104,
-    nome:'mnu_mob_conferencia'
+    nome: 'mnu_mob_conferencia'
   },
   {
     texto: 'Parquear/Bloco',
     cssClass: 'parquear-bloco',
     id: 3105,
-    nome:'mnu_mob_parquearbloco'
+    nome: 'mnu_mob_parquearbloco'
   },
   {
     texto: 'Movimentação',
     cssClass: 'movement',
     id: 3106,
-    nome:'mnu_mob_movimentacao'
+    nome: 'mnu_mob_movimentacao'
   },
   {
     texto: 'Rechego',
     cssClass: 'trimming',
     id: 3107,
-    nome:'mnu_mob_rechego'
+    nome: 'mnu_mob_rechego'
   },
   {
     texto: 'Carregamento',
     cssClass: 'load-truck',
     id: 3108,
-    nome:'mnu_mob_carregamento'
+    nome: 'mnu_mob_carregamento'
   },
   {
     texto: 'Carregamento Export.',
     cssClass: 'load-export',
     id: 3109,
-    nome:'mnu_mob_carregamentoexportacao'
+    nome: 'mnu_mob_carregamentoexportacao'
   },
   {
     texto: 'Romaneio',
     cssClass: 'romaneio',
     id: 3110,
-    nome:'mnu_mob_romaneio'
+    nome: 'mnu_mob_romaneio'
   },
-  
+
   {
     texto: 'Bloqueio/Desbloqueio',
     cssClass: 'bloqueio',
     id: 3119,
-    nome:'mnu_mob_bloqueio'
+    nome: 'mnu_mob_bloqueio'
   },
   {
     texto: 'Observações',
     cssClass: 'observacoes',
     id: 3120,
-    nome:'mnu_mob_observacao'
+    nome: 'mnu_mob_observacao'
   },
   {
     texto: 'Lançamento de Serviço',
     cssClass: 'lancamento-servico',
     id: 3111,
-    nome:'mnu_mob_servico'
+    nome: 'mnu_mob_servico'
   },
   {
     texto: 'Vistoriar',
     cssClass: 'vistoriar',
     id: 3142,
-    nome:'mnu_mob_vistoria'
+    nome: 'mnu_mob_vistoria'
+  },
+
+  {
+    texto: 'Buscar Avaria',
+    cssClass: 'vistoriar',
+    id: 3143,
+    nome: 'mnu_mob_buscaravaria'
   },
   {
     texto: 'Histórico de Chassi',
     cssClass: 'historico-chassi',
     id: 3118,
-    nome:'mnu_mob_historicochassi'
+    nome: 'mnu_mob_historicochassi'
+  },
+
+  {
+    texto: 'Dashboard Busca Avaria',
+    cssClass: 'historico-chassi',
+    id: 3118,
+    nome: 'mnu_mob_dashboard_buscaavaria'
   },
 
 
@@ -160,10 +176,22 @@ export class HomePage {
   ) {
     this.title = 'Sistema Pátio Automotivo';
     this.userData = this.authService.getUserData();
+
+    this.userData.nomesMenus.push('mnu_mob_buscaravaria')
+    this.userData.nomesMenus.push('mnu_mob_dashboard_buscaavaria')
+    
+    console.log(this.userData)
+
     if (this.userData && this.userData.nomesMenus) {
       this.userMenus = menus.filter((m) =>
         this.userData.nomesMenus.some((mm) => mm == m.nome)
-    );
+
+
+      );
+
+      //  this.userData.nomesMenus.push('mnu_mob_buscaravaria')
+      console.log(this.userData.nomesMenus)
+
     }
 
     this.storage.set('parqueamento', null);
@@ -314,9 +342,9 @@ export class HomePage {
     // } else if (menu.id == 3142) {
     //   this.navCtrl.setRoot(VistoriaPage);
     // }
-   
 
-      if (menu.nome == 'mnu_mob_recebimento') {
+
+    if (menu.nome == 'mnu_mob_recebimento') {
       this.navCtrl.setRoot(RecebimentoPage);
     } else if (menu.nome == 'mnu_mob_parqueamento') {
       this.navCtrl.setRoot(ParqueamentoPage);
@@ -348,9 +376,15 @@ export class HomePage {
       this.navCtrl.setRoot(ObservacoesPage);
     } else if (menu.nome == 'mnu_mob_servico') {
       this.navCtrl.setRoot(LancamentoServicoPage);
+    } else if (menu.nome == 'mnu_mob_buscaravaria') {
+      this.navCtrl.setRoot(BuscarAvariasPage);
     } else if (menu.nome == 'mnu_mob_vistoria') {
       this.navCtrl.setRoot(VistoriaPage);
+    } else if (menu.nome == 'mnu_mob_dashboard_buscaavaria') {
+      this.navCtrl.setRoot(QualidadeBuscaAvariasPage);
     }
+
+    
     //   nome:'mnu_mob_parqueamento'
     //   nome:'mnu_mob_receberparquear'
     //   nome:'mnu_mob_conferencia'

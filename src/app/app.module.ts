@@ -195,6 +195,10 @@ import { FormObservacoesComponent } from '../components/form-observacoes/form-ob
 import { AlterarCorPage } from '../pages/alterar-cor/alterarcor';
 import { VistoriaPage } from '../pages/vistoria/vistoria';
 import { ModalChassisVistoriaComponent } from '../components/modal-chassis-vistoria/modal-chassis-vistoria';
+import { BuscarAvariasPage } from '../pages/buscar-avarias/buscar-avarias';
+import { ListarAvariasPage } from '../pages/listar-avarias/listar-avarias';
+import { EditarAvariasPage } from '../pages/editar-avarias/editar-avarias';
+import { QualidadeBuscaAvariasPage } from '../pages/qualidade-busca-avarias/qualidade-busca-avarias';
 
 @NgModule({
   declarations: [
@@ -349,7 +353,11 @@ import { ModalChassisVistoriaComponent } from '../components/modal-chassis-visto
     FormObservacoesComponent,
     AlterarCorPage,
     VistoriaPage,
-    ModalChassisVistoriaComponent
+    ModalChassisVistoriaComponent,
+    BuscarAvariasPage,
+    ListarAvariasPage,
+    EditarAvariasPage,
+    QualidadeBuscaAvariasPage
   ],
   imports: [
     BrowserModule,
@@ -557,7 +565,11 @@ import { ModalChassisVistoriaComponent } from '../components/modal-chassis-visto
     FormObservacoesComponent,
     AlterarCorPage,
     VistoriaPage,
-    ModalChassisVistoriaComponent
+    ModalChassisVistoriaComponent,
+    BuscarAvariasPage,
+    ListarAvariasPage,
+    EditarAvariasPage,
+    QualidadeBuscaAvariasPage
   ],
   providers: [
     AuthService,

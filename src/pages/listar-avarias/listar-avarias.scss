@@ -1,0 +1,128 @@
+page-listar-avarias {
+    // background-color: #404040;
+    ion-content {
+        // background-color: color($colors, bgQrCode) !important;
+        // background-color: rgba(0, 0, 0, 0.8);
+        position: relative;
+
+        .icon-qr-code{
+            background-image: url(../assets/images/qr-code-white.png);
+            background-repeat: no-repeat;
+            background-position: 95% center;
+            background-size: 100%;
+            width: 46px;
+            height: 46px;
+            right: 6px;
+            bottom: -6px;
+            position: absolute;
+        }
+
+        .form-recebe-chassis {
+            // background-color: #404040;
+            border-radius: 5px;
+            border: 1px solid transparent;
+            height: auto;
+            .form .form-group {
+                position: relative;
+                margin-bottom: 0;
+            }
+            h4 {
+                font: 16px 'avenir_demi';
+                color: #fff;
+                // background-color: #595959;
+                padding: 15px;
+                margin: 0 !important;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                width: 100%;
+            }
+            .select-input {
+                position: relative;
+                width: 100%;
+            }
+            label {
+                font: 16px 'avenir_demi';
+                bottom: 10px;
+                color: #fff;
+                position: absolute;
+                left: 15px;
+                display: inline-block;
+                max-width: 100%;
+                margin-bottom: 5px;
+            }
+            input {
+                font: 14px 'avenir_demi';
+                width: 100%;
+                // background-color: #404040;
+                border: none;
+                border-radius: 0;
+                // background-color: #404040;
+                color: #fff;
+                text-align: left;
+                padding-right: 15px;
+            }
+            ion-list{
+                margin: 0;
+                ion-list-header{
+                    // background-color: #747474;
+                    border-top: none;
+                    ion-label{
+                        color: #fff;
+                        font: 16px 'avenir_demi';
+                    }
+                }
+                ion-item{
+                    // background-color: #404040;
+                    padding: 0;
+                    // border-bottom: 1px solid #747474;
+                    .item-inner{
+                        padding-left: 15px;
+                        border-bottom: 1px solid transparent !important;
+                        ion-label{
+                            color: #fff;
+                        }
+                        ion-select{
+                            max-width: 85%;
+                            .select-text{
+                                padding-right: 10px;
+                                color: #fff;
+                                font: 14px 'avenir_demi';
+                            }
+                        }
+                    }
+
+                }            
+            }              
+        }
+        .login-content {
+            margin-top: 15px;
+            padding: 0;
+            width: 100%;
+            text-align: center;
+            display: block;
+            p {
+                color: #fff;
+                text-align: center;
+                font: 16px 'avenir_demi';
+                margin: 30px 0;
+            }        
+            .btn-receiving {
+                width: 100%;
+                height: auto;
+                .button-inner {
+                    padding: 25px 15px 25px 15px;
+                    font: 19px 'avenir_bold';
+                }
+            }        
+            .btn-ok {
+                // background-color: #747474;
+                border: 1px solid #fff;
+            }
+            .btn-cancel {
+                background-color: transparent;
+            }  
+        }               
+    }    
+    
+
+}

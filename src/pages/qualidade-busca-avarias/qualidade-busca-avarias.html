@@ -1,0 +1,107 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
+  <!-- <div class="login-content" [ngStyle]="{'background-color': secondaryColor }"> -->
+  <button ion-button round class="btn" [ngStyle]="{'background-color': buttonColor}">Novo</button>
+  <button ion-button round class="btn" [ngStyle]="{'background-color': buttonColor}">Buscar</button>
+  <!-- </div> -->
+  <div style="background-color: #000000;">
+
+  </div>
+  <section class=" charts-content chart-qualidade">
+   
+    <ion-list style="width: 100%;text-align: center;">
+      <div style="width: 100%;margin:0 auto;margin-bottom: 10px;">
+        <div style="width: 50%;float: left;text-align: start;padding-left: 21px;padding-top: 4px;">
+          <ion-label style="font-size: 18px;font-weight: bold;">1000</ion-label>
+          <ion-label style="font-size: 12px;font-weight: bold;">Total de</ion-label>
+          <ion-label style="font-size: 12px;font-weight: bold;">Avarias</ion-label>
+        </div>
+        <div style="width: 50%;float: left;text-align: start; padding-left: 94px;padding-top: 4px;">
+          <ion-label style="font-size: 18px;font-weight: bold;">60%</ion-label>
+          <ion-label style="font-size: 12px;font-weight: bold;">Veículos</ion-label>
+          <ion-label style="font-size: 12px;font-weight: bold;">Avariados</ion-label>
+        </div>
+      </div>
+      <ion-item class="inner-charts-content" [ngStyle]="{'background-color': 'transparent'}"
+        style="width: 30%; display: inline-block; border: none; padding-top: 58px; ">
+        <canvas id='statusVeiculo_severo'></canvas>
+        <div style="text-align: center; color: #fff; margin-top: -20px;">4</div>
+        <div style="text-align: center; color: #fff;">Severo</div>
+      </ion-item>
+      <ion-item class="inner-charts-content" [ngStyle]="{'background-color': 'transparent'}"
+        style="width: 30%; display: inline-block; border: none; padding-top: 15px;">
+        <canvas id='statusVeiculo_superficial'></canvas>
+        <div style="text-align: center; color: #fff; margin-top: -20px;">10</div>
+        <div style="text-align: center; color: #fff;">Superficial</div>
+      </ion-item>
+      <!-- <ion-item *ngFor="let item of modelos; let i = index" class="inner-charts-content"
+        [ngStyle]="{'background-color': 'transparent'}" style="width: 35%; display: inline-block; border: none;">
+        <canvas id='statusVeiculo_severo'></canvas>
+        <div style="text-align: center; color: #fff; margin-top: -20px;">{{item.percentagem}}</div>
+        <div style="text-align: center; color: #fff;">Severo</div>
+      </ion-item> -->
+    </ion-list>
+
+  </section>
+
+  <section class="charts-content" style="padding-right: 10px;" [ngStyle]="{'background-color': primaryColor}">
+    <ion-list>
+      <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
+        Ultimas Avarias Cadastradas
+      </ion-list-header>
+
+      <dashboard-accordion *ngFor="let avaria of avarias" style="font-size: 12px;" [navioNome]="avaria.modelo + ' - Chassi: ' + avaria.chassi">
+
+        <ion-item>
+          <ion-label>Tipo de Anomalia:</ion-label>
+          <ion-input type="text"  placeholder="{{avaria.tipoAnomalia}}" id="eta" [disabled]="true"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Parte Avariada:</ion-label>
+          <ion-input type="text" placeholder="{{avaria.parteAvariada}}" id="etb" [disabled]="true"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Nível de Avaria:</ion-label>
+          <ion-input type="text" placeholder="{{avaria.nivelAvaria}}" id="ets" [disabled]="true"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Data:</ion-label>
+          <ion-input type="text" placeholder="{{avaria.data}}" id="quantity" [disabled]="true"></ion-input>
+        </ion-item>
+
+        <!-- <ion-item class="hidden">
+            <ion-label>Status:</ion-label>
+            <ion-input type="text" placeholder="25%" id="status" [disabled]="true"></ion-input>
+        </ion-item>  -->
+
+        <!-- <ion-item>
+          <ion-label>Type:</ion-label>
+          <ion-input type="text" placeholder="{{navio.sTipoOperacao}}" id="type" [disabled]="true"></ion-input>
+        </ion-item> -->
+      </dashboard-accordion>
+
+    </ion-list>
+  </section>
+
+
+  <div class="login-content" [ngStyle]="{'background-color': secondaryColor}">
+    <button ion-button round class="btn-default" (click)="Voltar()"
+      [ngStyle]="{'background-color': buttonColor}">Voltar</button>
+  </div>
+
+</ion-content>
+
+<modal-error></modal-error>
+<modal-loading></modal-loading>

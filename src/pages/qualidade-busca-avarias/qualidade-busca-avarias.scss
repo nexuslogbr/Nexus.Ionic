@@ -1,0 +1,205 @@
+page-qualidade-busca-avarias {
+    transition: all 0.4s ease-in-out;
+    // background-color: #404040 !important;
+    ion-content {
+        // background-color: color($colors, bgQrCode) !important;
+        .scroll-content {
+            background-color: transparent;
+
+            .chart-qualidade {
+                background-image: url("../../assets/images/qualidade_dashboard.png");
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: 100%;
+                // padding-top: 110px;
+                margin-top: 60px;
+                height: 200px;
+            }
+            .charts-content {
+                background-color: transparent;
+                border-radius: 5px;
+                border: 1px solid transparent;
+                margin-bottom: 15px;
+                // padding-bottom: 17%;
+               
+
+                .charts-content .form-group {
+                    position: relative;
+                    margin-bottom: 0;
+                }
+
+                h4 {
+                    font: 16px "avenir_demi";
+                    color: #fff;
+                    background-color: #595959;
+                    padding: 15px;
+                    margin: 0 !important;
+                    border-top-left-radius: 5px;
+                    border-top-right-radius: 5px;
+                    width: 100%;
+                }
+                .select-input {
+                    position: relative;
+                    width: 100%;
+                }
+                label {
+                    font: 16px "avenir_demi";
+                    bottom: 10px;
+                    color: #fff;
+                    position: absolute;
+                    left: 15px;
+                    display: inline-block;
+                    max-width: 100%;
+                    margin-bottom: 5px;
+                }
+                .label-md {
+                    margin: 0;
+                }
+                input {
+                    font: 14px "avenir_demi";
+                    width: 100%;
+                    background-color: #404040;
+                    border: none;
+                    border-radius: 0;
+                    background-color: #404040;
+                    color: #fff;
+                    text-align: left;
+                    padding-right: 15px;
+                }
+                ::-webkit-input-placeholder {
+                    /* WebKit, Blink, Edge */
+                    color: #fff;
+                }
+                :-moz-placeholder {
+                    /* Mozilla Firefox 4 to 18 */
+                    color: #fff;
+                    opacity: 1;
+                }
+                ::-moz-placeholder {
+                    /* Mozilla Firefox 19+ */
+                    color: #fff;
+                    opacity: 1;
+                }
+                :-ms-input-placeholder {
+                    /* Internet Explorer 10-11 */
+                    color: #fff;
+                }
+                ::-ms-input-placeholder {
+                    /* Microsoft Edge */
+                    color: #fff;
+                }
+                ion-list {
+                    margin: 0;
+                    ion-list-header {
+                        background-color: #595959;
+                        border-top: none;
+                        margin: 0;
+                        ion-label {
+                            color: #fff;
+                            font: 16px "avenir_demi";
+                        }
+                    }
+                    ion-item {
+                        background-color: #404040;
+                        padding: 0;
+                        border-bottom: 1px solid #747474;
+                        .item-inner {
+                            padding-left: 10px;
+                            border-bottom: 1px solid transparent !important;
+                            ion-label {
+                                color: #fff;
+                            }
+                            ion-select {
+                                max-width: 85%;
+                                .select-text {
+                                    padding-right: 10px;
+                                    color: #fff;
+                                    font: 14px "avenir_demi";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // .login-content {
+            //     margin-top: 2px;
+            //     padding: 15px 20px;
+            //     width: 100%;
+            //     text-align: center;
+                // padding-bottom: 100px;
+                .btn {
+                    background-color: #747474;
+                    width: 50% !important;
+                    padding: 25px;
+                    border-radius: 45px;
+                    color: #fff;
+                    font: 17px "avenir_demi";
+                    text-transform: uppercase;
+                    margin: 0 auto;
+                    float: left;
+                }
+                .btn-default {
+                    background-color: #747474;
+                    width: 100%;
+                    height: auto;
+                    border: 1px solid #fff;
+                    span {
+                        padding: 25px 15px 25px 15px;
+                        font: 19px "avenir_bold";
+                    }
+                }
+            // }
+        }
+    }
+    // .nv-y .tick.zero line { stroke: #fff; }
+    // .nv-y .nv-axis g path.domain { stroke: #fff; }
+    .list-md .item-input:last-child {
+        border-bottom: 1px solid transparent;
+    }
+    .inner-charts-content {
+        padding-top: 15px;
+    }
+    .expand-chart {
+        background-image: url("../assets/images/icon-expand-chart.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 19px 19px;
+        width: 19px;
+        height: 19px;
+        background-color: transparent;
+        position: absolute;
+        right: 0;
+        top: 15px;
+        z-index: 10;
+        border: none;
+        box-shadow: none;
+    }
+    .statusVagasClass {
+        position: fixed;
+        top: 63px;
+        left: 0;
+        width: 100%;
+        height: calc(640px - 63px);
+        z-index: 9999;
+        transition: all 0.8s cubic-bezier(0.67, -0.33, 0.48, 1.46);
+    }
+    .statusTempoClass {
+        position: fixed;
+        top: 63px;
+        left: 0;
+        width: 100%;
+        height: calc(640px - 63px);
+        z-index: 9999;
+        transition: all 0.8s cubic-bezier(0.67, -0.33, 0.48, 1.46);
+    }
+    .volumeImportExport {
+        position: fixed;
+        top: 63px;
+        left: 0;
+        width: calc(640px - 63px);
+        height: 360px;
+        transform: rotate(-90deg);
+        z-index: 9999;
+        transition: all 0.8s cubic-bezier(0.67, -0.33, 0.48, 1.46);
+    }
+}

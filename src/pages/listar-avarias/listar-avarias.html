@@ -1,0 +1,41 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+    <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
+        <i class="icon icon-menu"></i>
+    </button>
+    <ion-title>
+        {{title}}
+    </ion-title>
+</ion-header>
+
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
+    <ion-list>
+        <div>
+            <ion-list-header>
+                <label class="title-header">Data : 19/02/2022 </label>
+            </ion-list-header>
+        </div>
+        <div>
+            <ion-list-header (click)="editar()">
+                <div style="margin-bottom: 10px;">
+                    <label class="title-header">Chassi: </label>
+                    <span> asdasd</span>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <label class="title-header">Modelo: </label>
+                    <span> asdasd</span>
+                </div>
+                <div >
+                    <label class="title-header">Data: </label>
+                    <span> asdasd</span>
+                </div>
+            </ion-list-header>
+
+
+        </div>
+       
+    </ion-list>
+
+</ion-content>
+
+<modal-loading></modal-loading>
