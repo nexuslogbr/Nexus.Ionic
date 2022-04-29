@@ -11,7 +11,7 @@ import { LancamentoServicoPage } from '../../pages/lancamento-servico/lancamento
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type':  'application/json'
+    'Content-Type': 'application/json'
   })
 };
 
@@ -30,8 +30,8 @@ export class FormLancamentoServicoComponent {
     "layoutAtual": '',
     "bolsaoAtual": '',
     "fila": '',
-    "posicaoAtual":'',
-    "status":''
+    "posicaoAtual": '',
+    "status": ''
   };
   novoFormMovimentacaoData = {
     "id": '',
@@ -40,24 +40,24 @@ export class FormLancamentoServicoComponent {
     "layout": '',
     "bolsao": '',
     "fila": '',
-    "posicao":'',
-    "layoutNome":''
+    "posicao": '',
+    "layoutNome": ''
   };
 
   FormLancamentoServicoData = {
     "id": '',
-    'chassi':'',
+    'chassi': '',
     "veiculoID": '',
     "tipoServicoID": ''
   };
   chassi: string;
-  data_hora:string;
+  data_hora: string;
   bolsaoAtual: string;
   localAtual: string;
   layoutAtual: string;
   posicaoAtual: string;
- // chassi: string;
-  tipos:any;
+  // chassi: string;
+  tipos: any;
   posicao: string;
   id: string;
   parametros: any;
@@ -66,19 +66,19 @@ export class FormLancamentoServicoComponent {
   bolsoes: any;
   filas: any;
   posicoes: any;
-  dadosLancamento: any; 
-  responseData2: any; 
-  responseData3: any; 
-  responseData4: any; 
-  responseData5: any;   
+  dadosLancamento: any;
+  responseData2: any;
+  responseData3: any;
+  responseData4: any;
+  responseData5: any;
   retorno: any;
   tShow: boolean;
 
   constructor(public http: HttpClient, private modal: ModalController, public navCtrl: NavController, private navParam: NavParams, public authService: AuthService, private view: ViewController) {
     // console.log('Hello FormMovimentacaoComponent Component');
-    this.title = "Lançamento de Serviço"; 
-    
-    console.log('FormBloqueioComponent');
+    this.title = "Lançamento de Serviço";
+
+    console.log('FormLancamentoServicoComponent');
     this.url = this.authService.getUrl();
 
 
@@ -86,21 +86,21 @@ export class FormLancamentoServicoComponent {
   }
   ionViewDidEnter() {
 
-    if( this.authService.getLayout() ){
+    if (this.authService.getLayout()) {
       this.tShow = false;
       //this.novoFormMovimentacaoData.layout = this.authService.getLayout(); 
       //this.novoFormMovimentacaoData.layoutNome = this.authService.getLayoutNome(); 
       this.authService.showLoading();
       // let listarBolsoes = this.url+"/Movimentar/ListarBolsoes?token="+ this.authService.getToken() +"&layoutID="+this.novoFormMovimentacaoData.layout;
-      
+
       // this.http.get<dataRetorno>( listarBolsoes, {})
       // .subscribe(res => {
-        
+
       //   this.responseData3 = res;
       //   if(this.responseData3.sucesso){
 
       //   //PREENCHER O SELECT DO BOLSAO
-        
+
       //   this.bolsoes = this.responseData3.retorno;
       //   this.authService.hideLoading();
       //   }else{
@@ -109,25 +109,25 @@ export class FormLancamentoServicoComponent {
       //   }
 
       // }, (error) => {
-        
+
       //   this.openModalErro(error.status+' - '+error.statusText);
       //   this.authService.hideLoading();
       //   console.log(error);
       // });
 
-    }else{
-      this.tShow = true; 
-    }     
+    } else {
+      this.tShow = true;
+    }
   }
-  ionViewWillLoad(){
-    
-     const data = this.navParam.get('data');
-    
+  ionViewWillLoad() {
+
+    const data = this.navParam.get('data');
+
     console.log(data)
-    
-    
-      this.FormLancamentoServicoData = data;
-      //this.FormLancamentoServicoData.data_hora = new Date().toLocaleDateString();
+
+
+    this.FormLancamentoServicoData = data;
+    //this.FormLancamentoServicoData.data_hora = new Date().toLocaleDateString();
     // // console.log(data);
     // // console.log(this.formMovimentacaoData);
     // this.chassi = data.chassi;
@@ -138,131 +138,138 @@ export class FormLancamentoServicoComponent {
     // this.novoFormMovimentacaoData.local = data.localAtual;
     // this.id = data.id;
     // this.loadLayout();
-   
+
   }
-  toggleMenu = function(this){
+  toggleMenu = function (this) {
     $('.menu-body').toggleClass('show-menu');
     $('menu-inner').toggleClass('show');
     $('.icon-menu').toggleClass('close-menu');
     $('side-menu').toggleClass('show');
-  } 
-  closeModal(){
+  }
+  closeModal() {
 
     this.view.dismiss();
-  } 
-  cancelar(){
+  }
+  cancelar() {
     this.navCtrl.push(MovimentacaoPage);
   }
-   loadTiposBloqueio(){
-    
+
+
+
+  loadTiposBloqueio() {
     this.authService.showLoading();
 
-debugger
+    let listarTipos = this.url + "/Servico/TiposServico?token=" + this.authService.getToken();
 
-    let listarTipos = this.url+"/Servico/TiposServico?token="+ this.authService.getToken();
+    this.http.get<dataRetorno>(listarTipos)
+      .subscribe(res => {
 
-    this.http.get<dataRetorno>( listarTipos)
-    .subscribe(res => {
-      
-      this.responseData2 = res;
+        this.responseData2 = res;
 
-        if(this.responseData2.sucesso){
+        if (this.responseData2.sucesso) {
           this.tipos = this.responseData2.retorno;
           //this.novoFormMovimentacaoData.id = this.id;
           //PREENCHER O SELECT DO LAYOUT    
-        //  this.layouts = this.responseData2.retorno;
+          //  this.layouts = this.responseData2.retorno;
           this.authService.hideLoading();
 
           // console.log(this.responseData2.retorno);
           // console.log(this.novoFormMovimentacaoData);
 
-        }else{
+        } else {
           this.authService.hideLoading();
           this.openModalErro(this.responseData2.mensagem);
         }
 
-    }, (error) => {
-      
-      this.openModalErro(error.status+' - '+error.statusText);
-      this.authService.hideLoading();
-      console.log(error);
-    });
-  } 
+      }, (error) => {
+
+        this.openModalErro(error.status + ' - ' + error.statusText);
+        this.authService.hideLoading();
+        console.log(error);
+      });
+  }
 
 
-onTipoChange(selectedValue){
-  this.FormLancamentoServicoData.tipoServicoID = selectedValue;
-  
-}
-  
-  Bloquear(){
+  onTipoChange(selectedValue) {
+    this.FormLancamentoServicoData.tipoServicoID = selectedValue;
 
-    
+  }
+
+  Bloquear() {
+
+
     this.authService.showLoading();
-    let lancamento = this.url+"/Servico/Incluir?token="+ this.authService.getToken();
-  
+    let lancamento = this.url + "/Servico/Incluir?token=" + this.authService.getToken();
+
     this.dadosLancamento = {
       "veiculoID": this.FormLancamentoServicoData.id,
-      "tipoServicoID":this.FormLancamentoServicoData.tipoServicoID
+      "tipoServicoID": this.FormLancamentoServicoData.tipoServicoID
     }
 
-    this.http.post<dataRetorno>( lancamento, this.dadosLancamento, httpOptions)
-    .subscribe(res => {
+    this.http.post<dataRetorno>(lancamento, this.dadosLancamento, httpOptions)
+      .subscribe(res => {
 
-      this.retorno = '';
-      this.retorno = res;
+        this.retorno = '';
+        this.retorno = res;
 
-      console.log(this.retorno);
+        console.log(this.retorno);
 
-      if(this.retorno.sucesso){
+        if (this.retorno.sucesso) {
 
+          this.authService.hideLoading();
+          var data = {
+            message: "Lançamento de serviço realizado com",
+            iconClass: "icon-lancamento-servico"
+          }
+          this.openModalSucesso(data);
+          this.FormLancamentoServicoData.chassi = ''
+        }
+        else {
+          this.authService.hideLoading();
+          this.openModalErro(this.retorno.mensagem);
+          // this.navCtrl.push(HomePage);         
+        }
+
+      }, (error) => {
+
+        this.openModalErro(error.status + ' - ' + error.statusText);
         this.authService.hideLoading();
-        var data = {
-          message : "Lançamento de serviço realizado com",
-          iconClass : "icon-lancamento-servico"
-        }        
-        this.openModalSucesso(data);
+        console.log(error);
+      });
 
-      }
-      else{
-        this.authService.hideLoading();
-        this.openModalErro(this.retorno.mensagem); 
-        // this.navCtrl.push(HomePage);         
-      }
-
-    }, (error) => {
-      
-      this.openModalErro(error.status+' - '+error.statusText);
-      this.authService.hideLoading();
-      console.log(error);
-    }); 
-    
-  } 
-  openModalErro(data){
-    const chassiModal: Modal = this.modal.create(ModalErrorComponent, {data: data });
+  }
+  openModalErro(data) {
+    const chassiModal: Modal = this.modal.create(ModalErrorComponent, { data: data });
     chassiModal.present();
 
     chassiModal.onDidDismiss((data) => {
       console.log(data);
     })
-    chassiModal.onWillDismiss((data) =>{
+    chassiModal.onWillDismiss((data) => {
       console.log('data');
       console.log(data);
     })
-  } 
-  openModalSucesso(data){
-    const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {data: data });
-    chassiModal.present();  
+  }
+  openModalSucesso(data) {
+    const chassiModal: Modal = this.modal.create(ModalSucessoComponent, { data: data });
+    chassiModal.present();
 
     chassiModal.onDidDismiss((data) => {
       console.log(data);
       this.navCtrl.push(LancamentoServicoPage);
-      
-    })    
-  }  
-    
+
+    })
+  }
+
+  voltar() {
+    //this.dragulaService.find('nested-bag').drake.destroy();
+    const data = {};
+    this.view.dismiss();
+    this.navCtrl.push(LancamentoServicoPage);
+  }
+
 }
-interface dataRetorno{
+interface dataRetorno {
   dataErro: string;
   mensagem: string;
   retorno: any;
