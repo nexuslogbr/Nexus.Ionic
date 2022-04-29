@@ -67,13 +67,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     this.title = 'Lançamento de Avaria';
     this.formData = this.navParams.get('data');
 
-    // this.formData.chassi = "3GNAX9EX9JS513954"
-    // this.formData.id = 5304
-    // this.formData.modelo = "EQUINOX"
-    // this.formData.momento = ""
-    // this.formData.posicaoAtual = "Principal - T3 - 3 - 5"
-    // this.formData.status = "Carregado"
-
     this.formSelecaoSuperficie = formBuilder.group({
       observacao: [this.formData.observacao],
       chassi: [this.formData.chassi, Validators.required],

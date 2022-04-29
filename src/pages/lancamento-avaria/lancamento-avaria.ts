@@ -132,10 +132,10 @@ export class LancamentoAvariaPage {
       chassi: this.formData.chassi,
       momento: this.formData.momento
     });
-    // this.authService.showLoading();
+    this.authService.showLoading();
     this.momentoService.carregarMomentos().subscribe(result => {
       this.momentos = result.retorno;
-      // this.authService.hideLoading();
+      this.authService.hideLoading();
     });
   }
 
