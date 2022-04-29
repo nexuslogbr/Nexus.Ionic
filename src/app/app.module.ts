@@ -202,6 +202,7 @@ import { QualidadeDashboardBuscaAvariasPage } from '../pages/qualidade-dashboard
 import { QualidadeMenuPage } from '../pages/qualidade-menu/qualidade-menu';
 import { LancamentoAvariaPage } from '../pages/lancamento-avaria/lancamento-avaria';
 import { LancarAvariaComponent } from '../components/lancar-avaria/lancar-avaria';
+import { LancarAvariaSelecionarComponent } from '../components/lancar-avaria-selecionar/lancar-avaria-selecionar';
 
 
 @NgModule({
@@ -364,7 +365,8 @@ import { LancarAvariaComponent } from '../components/lancar-avaria/lancar-avaria
     QualidadeDashboardBuscaAvariasPage,
     QualidadeMenuPage,
     LancamentoAvariaPage,
-    LancarAvariaComponent
+    LancarAvariaComponent,
+    LancarAvariaSelecionarComponent
 
   ],
   imports: [
@@ -580,7 +582,8 @@ import { LancarAvariaComponent } from '../components/lancar-avaria/lancar-avaria
     QualidadeDashboardBuscaAvariasPage,
     QualidadeMenuPage,
     LancamentoAvariaPage,
-    LancarAvariaComponent
+    LancarAvariaComponent,
+    LancarAvariaSelecionarComponent
   ],
   providers: [
     AuthService,

@@ -14,7 +14,6 @@ import { Select } from 'ionic-angular';
 import * as $ from 'jquery';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../../model/usuario';
-import { LancarAvariaSelecionarComponent } from '../lancar-avaria-selecionar/lancar-avaria-selecionar';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -23,10 +22,10 @@ const httpOptions = {
 };
 
 @Component({
-  selector: 'lancar-avaria',
-  templateUrl: 'lancar-avaria.html',
+  selector: 'lancar-avaria-selecionar',
+  templateUrl: 'lancar-avaria-selecionar.html',
 })
-export class LancarAvariaComponent {
+export class LancarAvariaSelecionarComponent {
   @ViewChild('select') select: Select;
   title: string;
   chassis: any;
@@ -92,9 +91,10 @@ export class LancarAvariaComponent {
       this.inputColor = '#06273f';
       this.buttonColor = "#1c6381";
     }
-    console.log("LancarAvariaPage");
+    console.log("LancarAvariaSelecionarComponent");
 
-    this.chassis = this.navParam.get('data');
+    debugger
+
 
      this.formLancarAvariaData = Array.of(this.navParam.get('data'));
     console.log(this.formLancarAvariaData)
@@ -123,12 +123,8 @@ export class LancarAvariaComponent {
     this.navCtrl.push(RecebimentoPage);
   }
 
-  selecionar(data) {
+  buscarChassi() {
 
-    const chassiModal: Modal = this.modal.create(LancarAvariaSelecionarComponent, {
-      data: data,
-    });
-    chassiModal.present();
   }
   // registrarVeiculo() {
   //   let uriConsultarChassi =
