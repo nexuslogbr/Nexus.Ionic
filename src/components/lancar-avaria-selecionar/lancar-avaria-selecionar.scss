@@ -9,6 +9,13 @@ lancar-avaria-selecionar {
     ion-content.content {
         // background-color:  rgba( 0, 0, 0, 0.8 );
         position: relative;
+
+        .col-icone {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 30px;
+            margin-right: 30px;
+          }
         .form-recebe-chassis {
             background-color: #404040;
             border-radius: 5px;
@@ -45,10 +52,10 @@ lancar-avaria-selecionar {
             input {
                 font: 14px 'avenir_demi';
                 width: 100%;
-                background-color: #404040;
+                // background-color: #404040;
                 border: none;
                 border-radius: 0;
-                background-color: #404040;
+                // background-color: #404040;
                 color: #fff;
                 text-align: left;
                 padding-right: 15px;

@@ -31,7 +31,11 @@ export class LancarAvariaSelecionarComponent {
   chassis: any;
   novoChassi: string;
   url: string;
-
+  superficies: any;
+  partes: any;
+  tiposAnomalia: any;
+  niveisGravidade: any;
+  
   userData: Usuario;
   nomeLocal: any;
 
@@ -93,10 +97,8 @@ export class LancarAvariaSelecionarComponent {
     }
     console.log("LancarAvariaSelecionarComponent");
 
-    debugger
 
-
-     this.formLancarAvariaData = Array.of(this.navParam.get('data'));
+    this.formLancarAvariaData = Array.of(this.navParam.get('data'));
     console.log(this.formLancarAvariaData)
     this.chassis = Array.of(this.formLancarAvariaData[0].chassi);
 
@@ -110,7 +112,208 @@ export class LancarAvariaSelecionarComponent {
     // setTimeout(() => {
     //   this.select.open();
     // }, 150);
+
+    this.loadSuperficie();
+    this.loadPeca();
+    this.loadTiposAnomalia();
+    this.loadGravidade();
   }
+
+  loadSuperficie() {
+
+    let uriConsultarChassi =
+      this.url +
+      '/posicaosuperficiechassi/ListarPosicaoSuperficieChassi?token=' +
+      this.authService.getToken();
+
+
+    this.authService.showLoading();
+
+    this.http.get(uriConsultarChassi).subscribe(
+      (res: any) => {
+        ;
+        if (res.sucesso) {
+
+          this.authService.hideLoading();
+          this.superficies = res.retorno;
+
+          console.log(this.superficies)
+        } else {
+          this.authService.hideLoading();
+          this.openModalErro(res.retorno.exceptionMensagem);
+        }
+      },
+      (error) => {
+        this.authService.hideLoading();
+        //    this.openModalErro(error.mensagem);
+        console.log(error.mensagem);
+        this.select.close();
+        this.view.dismiss();
+      }
+    );
+  }
+
+
+  loadPeca() {
+
+    let uriConsultarChassi =
+      this.url +
+      '/Parte/Partes?token=' +
+      this.authService.getToken();
+
+
+    this.authService.showLoading();
+
+    this.http.get(uriConsultarChassi).subscribe(
+      (res: any) => {
+        ;
+        if (res.sucesso) {
+
+          this.authService.hideLoading();
+          this.partes = res.retorno;
+
+          console.log(this.superficies)
+        } else {
+          this.authService.hideLoading();
+          this.openModalErro(res.retorno.exceptionMensagem);
+        }
+      },
+      (error) => {
+        this.authService.hideLoading();
+        //    this.openModalErro(error.mensagem);
+        console.log(error.mensagem);
+        this.select.close();
+        this.view.dismiss();
+      }
+    );
+  }
+
+
+
+  loadTiposAnomalia() {
+
+    let uriConsultarChassi =
+      this.url +
+      '/tipoavaria/ListarTiposAvaria?token=' +
+      this.authService.getToken();
+
+
+    this.authService.showLoading();
+
+    this.http.get(uriConsultarChassi).subscribe(
+      (res: any) => {
+        ;
+        if (res.sucesso) {
+
+          this.authService.hideLoading();
+          this.tiposAnomalia = res.retorno;
+
+          console.log(this.superficies)
+        } else {
+          this.authService.hideLoading();
+          this.openModalErro(res.retorno.exceptionMensagem);
+        }
+      },
+      (error) => {
+        this.authService.hideLoading();
+        //    this.openModalErro(error.mensagem);
+        console.log(error.mensagem);
+        this.select.close();
+        this.view.dismiss();
+      }
+    );
+  }
+
+
+  loadGravidade() {
+
+    let uriConsultarChassi =
+      this.url +
+      '/nivelgravidadeavaria/ListarNivelGravidadeAvaria?token=' +
+      this.authService.getToken();
+
+
+    this.authService.showLoading();
+
+    this.http.get(uriConsultarChassi).subscribe(
+      (res: any) => {
+        ;
+        if (res.sucesso) {
+
+          this.authService.hideLoading();
+          this.niveisGravidade = res.retorno;
+
+          console.log(this.niveisGravidade)
+        } else {
+          this.authService.hideLoading();
+          this.openModalErro(res.retorno.exceptionMensagem);
+        }
+      },
+      (error) => {
+        this.authService.hideLoading();
+        //    this.openModalErro(error.mensagem);
+        console.log(error.mensagem);
+        this.select.close();
+        this.view.dismiss();
+      }
+    );
+  }
+
+  onSuperficieChange(data) {
+
+  }
+
+  onPartesChange() {
+
+  }
+
+  onTiposAnomaliaChange() {
+
+  }
+
+  onNivelGravidadeChange() {
+
+  }
+
+  // cadastraVeiculo() {
+  //   ;
+  //   let urlCadastrarVeiculo =
+  //     this.url +
+  //     '/Receber/CadastrarVeiculo?token=' +
+  //     this.authService.getToken() +
+  //     '&chassi=' +
+  //     this.novoChassi;
+
+  //   this.formRecebimentoData.chassi = this.novoChassi;
+  //   this.formRecebimentoData.token = this.authService.getToken();
+
+  //   this.http.post(urlCadastrarVeiculo, {}, httpOptions).subscribe(
+  //     (res: any) => {
+  //       ;
+  //       if (res.sucesso) {
+  //         this.authService.hideLoading();
+  //         this.select.close();
+  //         this.view.dismiss();
+  //         this.openModalRecebimento(this.formRecebimentoData);
+  //       } else {
+  //         this.authService.hideLoading();
+  //         //  this.openModalErro(res.mensagem);
+  //         console.log(res.mensagem);
+  //         this.select.close();
+  //         this.view.dismiss();
+  //       }
+  //     },
+  //     (error) => {
+  //       this.authService.hideLoading();
+  //       //this.openModalErro(error.mensagem);
+  //       console.log(error.mensagem);
+  //       this.select.close();
+  //       this.view.dismiss();
+  //     }
+  //   );
+
+  // }
+
 
   onChassisChange(selectedValue) {
     this.novoChassi = selectedValue;
