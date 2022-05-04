@@ -81,6 +81,7 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
   public fechamento: boolean = false;
   public contador: number = 0;
 
+  public clienteExterno = true;
 
   constructor(
     public navCtrl: NavController,
@@ -138,7 +139,7 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
           (res) => {
             this.destinos = res;
             if (this.configuracao.arquivo) {
-              debugger
+
               this.conferenciaService.destino = this.destinos[0];
             }
           },
@@ -391,8 +392,6 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
   }
 
   executarSincronizacao() {
-
-
     if (this.onLine) {
       if (this.totalUpload > 0) {
         this.authService.showSincronizacao();

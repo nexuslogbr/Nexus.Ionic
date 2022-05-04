@@ -26,34 +26,19 @@ export class ConferenciaDataService {
   }
 
   public carregarConfiguracoes() {
-    let url =
-      this.urlApi +
-      '/conferencias/configuracoes?token=' +
-      this.authService.getToken();
-
+    let url = this.urlApi + '/conferencias/configuracoes?token=' + this.authService.getToken();
     return this.http.get<any>(url, { headers: headers });
   }
 
   public carregarConfiguracao(id: number) {
-    let url =
-      this.urlApi +
-      '/conferencias/configuracoes/' +
-      id +
-      '/?token=' +
-      this.authService.getToken();
+    let token = this.authService.getToken();
+    let url = this.urlApi + '/conferencias/configuracoes/' + id + '/?token=' + token;
     return this.http.get<any>(url, { headers: headers });
   }
 
-  public consultarChassi(
-    chassi: string,
-    parteChassi: string,
-    navioId: number,
-    destinoLocalId: number
+  public consultarChassi(chassi: string, parteChassi: string, navioId: number, destinoLocalId: number
   ) {
-    let url =
-      this.urlApi +
-      '/conferencias/chassis/navio?token=' +
-      this.authService.getToken();
+    let url = this.urlApi + '/conferencias/chassis/navio?token=' + this.authService.getToken();
 
     if (chassi && chassi.length) {
       url += '&chassi=' + chassi;
@@ -70,10 +55,7 @@ export class ConferenciaDataService {
   }
 
   public consultarChassiPlanilha(chassi: string, arquivoId: number) {
-    let url =
-      this.urlApi +
-      '/conferencias/chassis/planilha?token=' +
-      this.authService.getToken();
+    let url = this.urlApi + '/conferencias/chassis/planilha?token=' + this.authService.getToken();
 
     url += '&chassi=' + chassi;
     url += '&arquivoId=' + arquivoId;
@@ -91,62 +73,30 @@ export class ConferenciaDataService {
     nomeUsuario: string;
     conferenciaLoteGUI: string;
   }): any {
-    let url =
-      this.urlApi +
-      '/conferencias/navio/chassis?token=' +
-      this.authService.getToken();
-
+    let url = this.urlApi + '/conferencias/navio/chassis?token=' + this.authService.getToken();
     return this.http.post<any>(url, JSON.stringify(data), { headers: headers });
   }
 
   conferirChassiPlanilha(data: { chassi: string; arquivoId: number }): any {
-    let url =
-      this.urlApi +
-      '/conferencias/planilhas/chassis?token=' +
-      this.authService.getToken();
-
+    let url = this.urlApi + '/conferencias/planilhas/chassis?token=' + this.authService.getToken();
     return this.http.post<any>(url, JSON.stringify(data), { headers: headers });
   }
 
   public listarConferenciaChassiResumo(arquivoId: number) {
-    let url =
-      this.urlApi +
-      '/conferencias/planilhas/' +
-      arquivoId +
-      '/resumo?token=' +
-      this.authService.getToken();
+    let url = this.urlApi + '/conferencias/planilhas/' + arquivoId + '/resumo?token=' + this.authService.getToken();
     return this.http.get<any>(url, { headers: headers });
   }
 
   //conferencias/arquivos/{arquivoId}/disponivel-conferencia
-  public atualizarDisponibilidadeArquivoConferencia(
-    arquivoId: number,
-    disponivelConferencia: boolean
-  ) {
-    let url =
-      this.urlApi +
-      '/conferencias/arquivos/' +
-      arquivoId +
-      '/disponivel-conferencia?disponivelConferencia=' +
-      disponivelConferencia +
-      '&token=' +
-      this.authService.getToken();
-
+  public atualizarDisponibilidadeArquivoConferencia( arquivoId: number, disponivelConferencia: boolean ) {
+    let url = this.urlApi + '/conferencias/arquivos/' + arquivoId + '/disponivel-conferencia?disponivelConferencia=' + disponivelConferencia + '&token=' + this.authService.getToken();
     return this.http.put<any>(url, {}, { headers: headers });
   }
 
-  public listarPlanilhas(
-    somenteDisponiveisParaConferencia: boolean,
-    somenteFinalizados?: boolean
+  public listarPlanilhas( somenteDisponiveisParaConferencia: boolean, somenteFinalizados?: boolean
   ) {
     //DisponivelConferencia
-    let url =
-      this.urlApi +
-      '/arquivos?token=' +
-      this.authService.getToken() +
-      '&somenteDisponiveisParaConferencia=' +
-      somenteDisponiveisParaConferencia +
-      '&arquivoTipo=5';
+    let url = this.urlApi + '/arquivos?token=' + this.authService.getToken() + '&somenteDisponiveisParaConferencia=' + somenteDisponiveisParaConferencia + '&arquivoTipo=5';
 
     if (somenteFinalizados) {
       url += '&somenteFinalizados=true';
@@ -158,121 +108,59 @@ export class ConferenciaDataService {
   }
 
   public carregarPlanilha(arquivoId: number, comChassis: boolean) {
-    let url =
-      this.urlApi +
-      '/conferencias/planilhas/' +
-      arquivoId +
-      '?token=' +
-      this.authService.getToken() +
-      '&comChassis=' +
-      comChassis;
+    let url = this.urlApi + '/conferencias/planilhas/' + arquivoId + '?token=' + '&comChassis=' + comChassis;
     return this.http.get<any>(url, { headers: headers });
   }
 
   public listarNavioAreas(navioId: number) {
-    let url =
-      this.urlApi +
-      '/conferencias/navios/' +
-      navioId +
-      '/areas/' +
-      '?token=' +
-      this.authService.getToken();
+    let url = this.urlApi + '/conferencias/navios/' + navioId + '/areas/' + '?token=' + this.authService.getToken();
     return this.http.get<any>(url, { headers: headers });
   }
 
   public listarNavioDispositivos(navioId: number) {
-    let url =
-      this.urlApi +
-      '/conferencias/navios/' +
-      navioId +
-      '/dispositivos/' +
-      '?token=' +
-      this.authService.getToken();
+    let url = this.urlApi + '/conferencias/navios/' + navioId + '/dispositivos/' + '?token=' + this.authService.getToken();
     return this.http.get<any>(url, { headers: headers });
   }
 
   public listarArquivoDispositivos(arquivoId: number) {
-    let url =
-      this.urlApi +
-      '/conferencias/arquivos/' +
-      arquivoId +
-      '/dispositivos/' +
-      '?token=' +
-      this.authService.getToken();
+    let url = this.urlApi + '/conferencias/arquivos/' + arquivoId + '/dispositivos/' + '?token=' + this.authService.getToken();
     return this.http.get<any>(url, { headers: headers });
   }
 
   public listarArquivoAreas(navioId: number) {
-    let url =
-      this.urlApi +
-      '/conferencias/arquivos/' +
-      navioId +
-      '/areas/' +
-      '?token=' +
-      this.authService.getToken();
+    let url = this.urlApi + '/conferencias/arquivos/' + navioId + '/areas/' + '?token=' + this.authService.getToken();
     return this.http.get<any>(url, { headers: headers });
   }
 
   public listarArquivoConferenciaConfiguracoes(arquivoId: number) {
-    let url =
-      this.urlApi +
-      '/conferencias/arquivos/' +
-      arquivoId +
-      '/configuracoes/' +
-      '?token=' +
-      this.authService.getToken();
+    let url = this.urlApi + '/conferencias/arquivos/' +  arquivoId + '/configuracoes/' + '?token=' + this.authService.getToken();
     return this.http.get<any>(url, { headers: headers });
   }
 
   public listarNavioConferenciaConfiguracoes(navioId: number) {
-    let url =
-      this.urlApi +
-      '/conferencias/navios/' +
-      navioId +
-      '/configuracoes/' +
-      '?token=' +
-      this.authService.getToken();
+    let url = this.urlApi + '/conferencias/navios/' + navioId + '/configuracoes/' + '?token=' + this.authService.getToken();
     return this.http.get<any>(url, { headers: headers });
   }
 
   public listarConferenciaTipos() {
-    let url =
-      this.urlApi +
-      '/conferencias/tipos/' +
-      '?token=' +
-      this.authService.getToken();
+    let url = this.urlApi + '/conferencias/tipos/' + '?token=' + this.authService.getToken();
     return this.http.get<any>(url, { headers: headers });
   }
 
-  public salvarConferenciaConfiguracoes(
-    configuracoes: ConferenciaConfiguracaoCriacao
-  ) {
-    let url =
-      this.urlApi +
-      '/conferencias/configuracoes?token=' +
-      this.authService.getToken();
-
-    return this.http.post<any>(url, JSON.stringify(configuracoes), {
-      headers: headers,
-    });
+  public salvarConferenciaConfiguracoes( configuracoes: ConferenciaConfiguracaoCriacao ) {
+    let url = this.urlApi + '/conferencias/configuracoes?token=' + this.authService.getToken();
+    return this.http.post<any>(url, JSON.stringify(configuracoes), { headers: headers, });
   }
 
   listarConfiguracoesDisponiveisDispositivo() {
-    let url =
-      this.urlApi +
-      '/conferencias/configuracoes/disponiveis?token=' +
-      this.authService.getToken();
-
-    return this.http.get<any>(url, {
-      headers: headers,
-    });
+    let token = this.authService.getToken();
+    let url = this.urlApi + '/conferencias/configuracoes/disponiveis?token=' + token;
+    return this.http.get<any>(url, { headers: headers, });
   }
 
   listarConfiguracoesFechamento(navioID?: number, arquivoID?: number) {
-    let url =
-      this.urlApi +
-      '/conferencias/configuracoes/para-fechamento?token=' +
-      this.authService.getToken();
+    let token = this.authService.getToken();
+    let url = this.urlApi + '/conferencias/configuracoes/para-fechamento?token=' + token;
 
     if (navioID) {
       url += '&navioID=' + navioID;
@@ -305,17 +193,9 @@ export class ConferenciaDataService {
   // }
 
   /// Cria um lote na fila e retorna o GUID como identificador do lote.
-  conferirChassisEmLote(
-    data: Conferencia[],
-    conferenciaConfiguracaoID: number
-  ) {
-    let url =
-      this.urlApi +
-      '/conferencias/' +
-      conferenciaConfiguracaoID +
-      '/upload/?token=' +
-      this.authService.getToken();
-
+  conferirChassisEmLote(data: Conferencia[], conferenciaConfiguracaoID: number) {
+    let token = this.authService.getToken();
+    let url = this.urlApi + '/conferencias/' + conferenciaConfiguracaoID + '/upload/?token=' + token;
     return this.http.post<any>(url, JSON.stringify(data), { headers: headers });
   }
 
@@ -331,46 +211,27 @@ export class ConferenciaDataService {
   //   return this.http.post<any>(url, JSON.stringify(data), { headers: headers });
   // }
 
-  anularConferenciaEmLote(
-    data: ConferenciaAnulacao[],
-    conferenciaConfiguracaoID: number
-  ): any {
-    let url =
-      this.urlApi +
-      '/conferencias/' +
-      conferenciaConfiguracaoID +
-      '/anular-conferencia/?token=' +
-      this.authService.getToken();
+  anularConferenciaEmLote(data: ConferenciaAnulacao[],conferenciaConfiguracaoID: number): any {
+    let token = this.authService.getToken();
+    let url = this.urlApi + '/conferencias/' + conferenciaConfiguracaoID + '/anular-conferencia/?token=' + token;
     return this.http.post<any>(url, JSON.stringify(data), { headers: headers });
   }
 
   public listarConferenciaMotivos() {
-    let url =
-      this.urlApi +
-      '/conferencias/motivos/' +
-      '?token=' +
-      this.authService.getToken();
+    let token = this.authService.getToken();
+    let url = this.urlApi + '/conferencias/motivos/' + '?token=' + token;
     return this.http.get<any>(url, { headers: headers });
   }
 
   public finalizarConferencia(id: number) {
-    let url =
-      this.urlApi +
-      '/conferencias/' +
-      id +
-      '/finalizar?token=' +
-      this.authService.getToken();
+    let token = this.authService.getToken();
+    let url = this.urlApi + '/conferencias/' + id + '/finalizar?token=' + token;
     return this.http.post<any>(url, JSON.stringify({}), { headers: headers });
   }
 
   public possuiConferenciaPendenteEmFila(conferenciaConfiguracaoId: number) {
-    let url =
-      this.urlApi +
-      '/conferencias/' +
-      conferenciaConfiguracaoId +
-      '/fila/status/' +
-      '?token=' +
-      this.authService.getToken();
+    let token = this.authService.getToken();
+    let url = this.urlApi + '/conferencias/' + conferenciaConfiguracaoId + '?token=' + token;
     return this.http.get<any>(url, { headers: headers });
   }
 }

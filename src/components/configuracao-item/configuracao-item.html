@@ -1,14 +1,13 @@
 <ion-grid
   class="grid-base grid-configuracao"
   (click)="gotoPageClick()"
-  [ngClass]="{ 'grid-cais': configuracao.area.tipo == 1 }" 
+  [ngClass]="{ 'grid-cais': configuracao.area.tipo == 1 }"
   [ngStyle]="{'background-color': primaryColor}"
 >
   <ion-row class="row-configuracao" [ngStyle]="{'background-color': primaryColor}">
     <ion-col col-8 class="col-configuracao" [ngStyle]="{'background-color': primaryColor}">
       <div class="titulo">
-        {{ configuracao.navio ? configuracao.navio.nome :
-        configuracao.arquivo.nomeOriginal }}
+        {{ configuracao.navio ? configuracao.navio.nome : configuracao.arquivo.nomeOriginal }}
       </div>
       <div class="subtitulo" *ngIf="configuracao.navio">
         {{ configuracao.navio.viagem }}

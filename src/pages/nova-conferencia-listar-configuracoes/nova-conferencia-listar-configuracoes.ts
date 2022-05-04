@@ -27,6 +27,7 @@ export class NovaConferenciaListarConfiguracoesPage {
   inputColor: string;
   buttonColor: string;
   private _storageKey: string = "NovaConferenciaListarConfiguracoesPageKey";
+  clienteExterno = true;
 
   constructor(
     public navCtrl: NavController,
@@ -57,8 +58,7 @@ export class NovaConferenciaListarConfiguracoesPage {
     if (navigator.onLine) {
       this.authService.showLoadingWhite();
 
-      this.conferenciaDataService
-        .listarConfiguracoesDisponiveisDispositivo()
+      this.conferenciaDataService.listarConfiguracoesDisponiveisDispositivo()
         .pipe(
           finalize(() => {
             this.authService.hideLoadingWhite();
@@ -69,9 +69,7 @@ export class NovaConferenciaListarConfiguracoesPage {
             if (res.sucesso) {
               if (res.retorno && res.retorno.length) {
                 this.configuracoes = res.retorno;
-                this.storage
-                  .ready()
-                  .then(() =>
+                this.storage.ready().then(() =>
                     this.storage.set(this._storageKey, this.configuracoes)
                   );
               } else {
@@ -137,8 +135,7 @@ export class NovaConferenciaListarConfiguracoesPage {
         this.salvando = false;
 
         this.authService.showDownload();
-        this.conferenciaDataService
-          .carregarConfiguracao(configuracao.id)
+        this.conferenciaDataService.carregarConfiguracao(configuracao.id)
           .pipe(
             switchMap((res) => {
               if (res.sucesso) {
@@ -146,18 +143,14 @@ export class NovaConferenciaListarConfiguracoesPage {
                 this.salvando = true;
                 var configuracao = res.retorno;
                 return concat(
-                  this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(
-                    configuracao.id
-                  ),
-                  this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(
-                    configuracao
-                  ),
+                  this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(configuracao.id),
+                  this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(configuracao),
                   of({ finalizado: true, configuracao: configuracao })
                 );
               } else {
                 throw res.mensagem;
               }
-            }),        
+            }),
             finalize(() => {
               this.authService.hideDownload();
               this.carregando = false;
@@ -173,11 +166,7 @@ export class NovaConferenciaListarConfiguracoesPage {
                 //this.nativePageTransitions.slide(this.naviteTransitionOptions);
                 this.storage
                   .ready()
-                  .then(() =>
-                    this.storage.set(
-                      res.configuracao.id.toString(),
-                      res.configuracao
-                    )
+                  .then(() => this.storage.set(res.configuracao.id.toString(),res.configuracao)
                   );
                 this.navCtrl.push(NovaConferenciaInputPage, {
                   configuracao: res.configuracao,
