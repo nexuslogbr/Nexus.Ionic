@@ -31,6 +31,7 @@ import { ConferenciaVeiculoMotivos } from '../../model/conferencia-veiculo-motiv
 import { InputChassiControllerComponent } from '../../components/input-chassi-controller/input-chassi-controller';
 import { Conferencia } from '../../model/Conferencia';
 import { NovaConferenciaMenuPage } from '../nova-conferencia-menu/nova-conferencia-menu';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'page-nova-conferencia-execucao',
@@ -391,130 +392,247 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
     }, 200);
   }
 
+  // executarSincronizacao() {
+  //   if (this.onLine) {
+  //     if (this.totalUpload > 0) {
+  //       this.authService.showSincronizacao();
+
+  //       this.conferenciaConfiguracaoADO
+  //         .loadConferenciasPendentes(this.configuracao.id)
+  //         .pipe(
+  //           switchMap(async (conferencias: Conferencia[]) => {
+
+  //             return await this.conferirChassisEmLotes(
+  //               conferencias,
+  //               this.configuracao.id
+  //             );
+  //           }),
+  //           // switchMap((guidLote: string) => {
+  //           //   console.log('guidLote', guidLote);
+  //           //   return this.conferenciaConfiguracaoADO.excluirConferencia(
+  //           //     this.configuracao.id
+  //           //   );
+  //           // }),
+  //           switchMap((res) =>
+  //             this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(
+  //               this.configuracao.id
+  //             )
+  //           ),
+  //           switchMap((res) =>
+  //             this.conferenciaDataService.carregarConfiguracao(
+  //               this.configuracao.id
+  //             )
+  //           ),
+  //           switchMap((res) =>
+  //             this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(
+  //               res.retorno
+  //             )
+  //           ),
+  //           finalize(() => {
+  //             this.authService.hideSincronizacao();
+  //           })
+  //         )
+  //         .subscribe(
+  //           (res) => {
+  //             this.authService.showLoading();
+  //             this.conferenciaService.update();
+
+  //             this.gotoListagemVeiculos();
+  //             this.authService.hideLoading();
+
+  //             this.contador = 0;
+  //             localStorage.setItem('contador', this.contador.toString())
+  //           },
+  //           (err) => {
+  //             console.error(err);
+  //             this.alertService.showError(
+  //               'ERRO AO EXECUTAR A SINCRONIZAÇÃO',
+  //               'FIQUE ONLINE E TENTE NOVAMENTE.'
+  //             );
+  //           }
+  //         );
+
+  //       // this.conferenciaConfiguracaoADO
+  //       //   .loadConferenciasPendentes(this.configuracao.id)
+  //       //   .pipe(
+  //       //     exhaustMap((res: Conferencia[]) => {
+  //       //       return forkJoin(
+  //       //         res.map((v) =>
+  //       //           this.conferenciaDataService.conferirChassi({
+  //       //             chassi: v.chassi,
+  //       //             turnoId: v.turnoID,
+  //       //             nomeUsuario: v.nomeUsuario,
+  //       //             conferenciaConfiguracaoID: v.conferenciaConfiguracaoID,
+  //       //             dataHoraConferencia: v.dataHoraConferencia,
+  //       //             conferenciaVeiculoMotivoID:
+  //       //               ConferenciaVeiculoMotivos.ItemConferido,
+  //       //           })
+  //       //         )
+  //       //       );
+  //       //     }),
+  //       //     exhaustMap((res: any[]) => {
+  //       //       return forkJoin(
+  //       //         res
+  //       //           .filter((r) => r.sucesso)
+  //       //           .map((v) =>
+  //       //             this.conferenciaConfiguracaoADO.excluirConferencia(
+  //       //               this.configuracao.id,
+  //       //               v.retorno.chassi
+  //       //             )
+  //       //           )
+  //       //       );
+  //       //     }),
+  //       //     switchMap((res) =>
+  //       //       this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(
+  //       //         this.configuracao.id
+  //       //       )
+  //       //     ),
+  //       //     switchMap((res) =>
+  //       //       this.conferenciaDataService.carregarConfiguracao(
+  //       //         this.configuracao.id
+  //       //       )
+  //       //     ),
+  //       //     tap((res) => {
+  //       //       if (res.sucesso) {
+  //       //       }
+  //       //     }),
+  //       //     switchMap((res) =>
+  //       //       this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(
+  //       //         res.retorno
+  //       //       )
+  //       //     ),
+  //       //     finalize(() => {
+  //       //       this.authService.hideSincronizacao();
+  //       //     })
+  //       //   )
+  //       //   .subscribe((res) => {
+  //       //     this.conferenciaService.update();
+  //       //   });
+  //     }
+  //   } else {
+  //     this.alertService.showError(
+  //       'SEM CONEXÃO COM A INTERNET',
+  //       'FIQUE ONLINE E TENTE NOVAMENTE.'
+  //     );
+  //   }
+  // }
+
   executarSincronizacao() {
     if (this.onLine) {
       if (this.totalUpload > 0) {
+
         this.authService.showSincronizacao();
-
         this.conferenciaConfiguracaoADO
-          .loadConferenciasPendentes(this.configuracao.id)
-          .pipe(
-            switchMap((conferencias: Conferencia[]) => {
+        .loadConferenciasPendentes(this.configuracao.id)
+        .subscribe((conferencias: Conferencia[]) => {
+          let model = [];
+          let size = 1;
+          let veiculosLidos: Conferencia[] = [];
 
-              return this.conferenciaDataService.conferirChassisEmLote(
-                conferencias,
-                this.configuracao.id
-              );
-            }),
-            // switchMap((guidLote: string) => {
-            //   console.log('guidLote', guidLote);
-            //   return this.conferenciaConfiguracaoADO.excluirConferencia(
-            //     this.configuracao.id
-            //   );
-            // }),
-            switchMap((res) =>
-              this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(
-                this.configuracao.id
-              )
-            ),
-            switchMap((res) =>
-              this.conferenciaDataService.carregarConfiguracao(
-                this.configuracao.id
-              )
-            ),
-            switchMap((res) =>
-              this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(
-                res.retorno
-              )
-            ),
-            finalize(() => {
-              this.authService.hideSincronizacao();
-            })
-          )
-          .subscribe(
-            (res) => {
-              this.authService.showLoading();
-              this.conferenciaService.update();
+          let totalLotes = 0;
+          let totalVeiculos = 0;
 
-              this.gotoListagemVeiculos();
-              this.authService.hideLoading();
+          for (let i = 0; i < conferencias.length; i++) {
+            const element = conferencias[i];
+            veiculosLidos.push(element);
+            if (i == size) {
+              this.conferenciaDataService.conferirChassisEmLote(veiculosLidos, this.configuracao.id)
+              .subscribe(result =>{
+                model.push(result);
+              });
 
-              this.contador = 0;
-              localStorage.setItem('contador', this.contador.toString())
-            },
-            (err) => {
-              console.error(err);
-              this.alertService.showError(
-                'ERRO AO EXECUTAR A SINCRONIZAÇÃO',
-                'FIQUE ONLINE E TENTE NOVAMENTE.'
-              );
+              size = size + 2;
+              veiculosLidos = [];
+              totalLotes++;
             }
-          );
+            else if ((totalVeiculos + 1) == conferencias.length) {
+              this.conferenciaDataService.conferirChassisEmLote(veiculosLidos, this.configuracao.id)
+              .subscribe(result => {
+                model.push(result);
+              });
+            }
 
-        // this.conferenciaConfiguracaoADO
-        //   .loadConferenciasPendentes(this.configuracao.id)
-        //   .pipe(
-        //     exhaustMap((res: Conferencia[]) => {
-        //       return forkJoin(
-        //         res.map((v) =>
-        //           this.conferenciaDataService.conferirChassi({
-        //             chassi: v.chassi,
-        //             turnoId: v.turnoID,
-        //             nomeUsuario: v.nomeUsuario,
-        //             conferenciaConfiguracaoID: v.conferenciaConfiguracaoID,
-        //             dataHoraConferencia: v.dataHoraConferencia,
-        //             conferenciaVeiculoMotivoID:
-        //               ConferenciaVeiculoMotivos.ItemConferido,
-        //           })
-        //         )
-        //       );
-        //     }),
-        //     exhaustMap((res: any[]) => {
-        //       return forkJoin(
-        //         res
-        //           .filter((r) => r.sucesso)
-        //           .map((v) =>
-        //             this.conferenciaConfiguracaoADO.excluirConferencia(
-        //               this.configuracao.id,
-        //               v.retorno.chassi
-        //             )
-        //           )
-        //       );
-        //     }),
-        //     switchMap((res) =>
-        //       this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(
-        //         this.configuracao.id
-        //       )
-        //     ),
-        //     switchMap((res) =>
-        //       this.conferenciaDataService.carregarConfiguracao(
-        //         this.configuracao.id
-        //       )
-        //     ),
-        //     tap((res) => {
-        //       if (res.sucesso) {
-        //       }
-        //     }),
-        //     switchMap((res) =>
-        //       this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(
-        //         res.retorno
-        //       )
-        //     ),
-        //     finalize(() => {
-        //       this.authService.hideSincronizacao();
-        //     })
-        //   )
-        //   .subscribe((res) => {
-        //     this.conferenciaService.update();
-        //   });
+            totalVeiculos++;
+          }
+
+          // this.conferenciaDataService.conferirChassisEmLote(conferencias,this.configuracao.id)
+          // .subscribe(() =>
+            this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(this.configuracao.id)
+            .subscribe(() =>
+              this.conferenciaDataService.carregarConfiguracao(this.configuracao.id)
+              .subscribe((res) =>
+                this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(res.retorno)
+                .subscribe(() => {
+                    this.conferenciaService.totalUpload$ = new BehaviorSubject<number>(0);
+                    this.authService.hideSincronizacao();
+                    this.authService.showLoading();
+                    this.conferenciaService.update();
+
+                    this.gotoListagemVeiculos();
+                    this.authService.hideLoading();
+
+                    this.contador = 0;
+                    localStorage.setItem('contador', this.contador.toString())
+                  },
+                  (err) => {
+                    console.error(err);
+                    this.alertService.showError(
+                      'ERRO AO EXECUTAR A SINCRONIZAÇÃO',
+                      'FIQUE ONLINE E TENTE NOVAMENTE.'
+                    );
+                  }
+                )
+              )
+            )
+          // );
+        });
       }
-    } else {
+    }
+    else {
       this.alertService.showError(
         'SEM CONEXÃO COM A INTERNET',
         'FIQUE ONLINE E TENTE NOVAMENTE.'
-      );
+        );
     }
   }
+
+  // conferirChassisEmLotes(data: Conferencia[], conferenciaConfiguracaoID: number) {
+  //   let model = [];
+  //   let size = 1;
+  //   let veiculosLidos: Conferencia[] = [];
+
+  //   let totalLotes = 0;
+  //   let totalVeiculos = 0;
+
+  //   for (let i = 0; i < data.length; i++) {
+  //     const element = data[i];
+  //     veiculosLidos.push(element);
+  //     if (i == size) {
+  //       this.conferenciaDataService.conferirChassisEmLote(veiculosLidos,conferenciaConfiguracaoID)
+  //       .subscribe(result =>{
+  //         model.push(result);
+  //       });
+
+  //       size = size + 2;
+  //       veiculosLidos = [];
+  //       totalLotes++;
+  //     }
+  //     else if ((totalVeiculos + 1) == data.length) {
+  //       this.conferenciaDataService.conferirChassisEmLote(veiculosLidos,conferenciaConfiguracaoID)
+  //       .subscribe(result => {
+  //         model.push(result);
+  //       });
+  //     }
+
+  //     totalVeiculos++;
+  //   }
+
+  //   console.log("Total de lotes: " + totalLotes);
+  //   console.log("Total de veiculos: " + totalVeiculos);
+
+  //   return model;
+  // }
+
 
   // persisteConfiguracao(configuracao: ConferenciaConfiguracao) {
   //   this.conferenciaConfiguracaoADO
