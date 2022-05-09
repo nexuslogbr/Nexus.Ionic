@@ -21,12 +21,12 @@
     <ion-list style="width: 100%;text-align: center;">
       <div style="width: 100%;margin:0 auto;margin-bottom: 10px;">
         <div style="width: 50%;float: left;text-align: start;padding-left: 21px;padding-top: 4px;">
-          <ion-label style="font-size: 18px;font-weight: bold;">1000</ion-label>
+          <ion-label style="font-size: 18px;font-weight: bold;">{{avarias.totalAvarias}}</ion-label>
           <ion-label style="font-size: 12px;font-weight: bold;">Total de</ion-label>
           <ion-label style="font-size: 12px;font-weight: bold;">Avarias</ion-label>
         </div>
         <div style="width: 50%;float: left;text-align: start; padding-left: 94px;padding-top: 4px;">
-          <ion-label style="font-size: 18px;font-weight: bold;">60%</ion-label>
+          <ion-label style="font-size: 18px;font-weight: bold;">{{avarias.porcentagemVeiculosAvariados | number }}%</ion-label>
           <ion-label style="font-size: 12px;font-weight: bold;">Veículos</ion-label>
           <ion-label style="font-size: 12px;font-weight: bold;">Avariados</ion-label>
         </div>
@@ -59,11 +59,11 @@
         Ultimas Avarias Cadastradas
       </ion-list-header>
 
-      <dashboard-accordion *ngFor="let avaria of avarias" style="font-size: 12px;" [navioNome]="avaria.modelo + ' - Chassi: ' + avaria.chassi">
+      <dashboard-accordion *ngFor="let avaria of avarias.lancamentosAvarias" style="font-size: 12px;" [navioNome]="avaria.modelo + ' - Chassi: ' + avaria.chassi">
 
         <ion-item>
           <ion-label>Tipo de Anomalia:</ion-label>
-          <ion-input type="text"  placeholder="{{avaria.tipoAnomalia}}" id="eta" [disabled]="true"></ion-input>
+          <ion-input type="text"  placeholder="{{avaria.tipoAvaria}}" id="eta" [disabled]="true"></ion-input>
         </ion-item>
 
         <ion-item>
@@ -73,12 +73,12 @@
 
         <ion-item>
           <ion-label>Nível de Avaria:</ion-label>
-          <ion-input type="text" placeholder="{{avaria.nivelAvaria}}" id="ets" [disabled]="true"></ion-input>
+          <ion-input type="text" placeholder="{{avaria.nivelGravidadeAvaria}}" id="ets" [disabled]="true"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label>Data:</ion-label>
-          <ion-input type="text" placeholder="{{avaria.data}}" id="quantity" [disabled]="true"></ion-input>
+          <ion-input type="text" placeholder="{{avaria.data | date: 'dd/MM/yyyy'}}" id="quantity" [disabled]="true"></ion-input>
         </ion-item>
 
         <!-- <ion-item class="hidden">

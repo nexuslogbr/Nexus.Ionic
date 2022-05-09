@@ -1,4 +1,4 @@
-page-qualidade-busca-avarias {
+page-qualidade-dashboard-busca-avarias {
     transition: all 0.4s ease-in-out;
     // background-color: #404040 !important;
     ion-content {
@@ -7,7 +7,7 @@ page-qualidade-busca-avarias {
             background-color: transparent;
 
             .chart-qualidade {
-                background-image: url("../../assets/images/qualidade_dashboard.png");
+                background-image: url("../../../assets/images/qualidade_dashboard.png");
                 background-repeat: no-repeat;
                 background-position: center center;
                 background-size: 100%;

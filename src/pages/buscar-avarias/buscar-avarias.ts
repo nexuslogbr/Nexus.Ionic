@@ -22,6 +22,7 @@ import "rxjs/add/operator/map";
 import * as $ from "jquery";
 import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-scanner";
 import { ListarAvariasPage } from "../listar-avarias/listar-avarias";
+import { Usuario } from "../../model/usuario";
 
 
 @Component({
@@ -39,28 +40,38 @@ export class BuscarAvariasPage {
   url: string;
   inputChassi: string;
   partes: any;
-  modelos:any;
-  tipoAvarias:any;
-  nivelAvarias:any;
+  modelos: any;
+  tipoAvarias: any;
+  nivelAvarias: any;
   modoOperacao: number;
 
   formData = {
-    "chassi": '',
-    "token":'',
-    "data": '',
-    "parte": '',
-    "modelo": '',
-    "tipoAvaria": '',
-    "nivelAvaria": ''
+    "token": "",
+    "skip": 0,
+    "take": 10,
+    "localID": 0,
+    "veiculoID": "",
+    "chassi":"",
+    "veiculoDesc": "",
+    "data": "",
+    "parteAvariadaID": 0,
+    "parteAvariaDesc": "",
+    "modelo": "",
+    "tipoAvariaID": 0,
+    "tipoAvariaDesc": "",
+    "gravidadeID": 0,
+    "gravidadeDesc": ""
   };
-  
+
+  userData: Usuario;
+
   primaryColor: string;
   secondaryColor: string;
   inputColor: string;
   buttonColor: string;
   qrCodeText: string;
   options: BarcodeScannerOptions;
-  responseData:any;
+  responseData: any;
 
   constructor(
     public http: HttpClient,
@@ -72,6 +83,7 @@ export class BuscarAvariasPage {
     this.title = "BUSCAR AVARIAS";
     console.log("BuscarAvariasPage");
     this.url = this.authService.getUrl();
+    this.userData = this.authService.getUserData();
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -100,65 +112,94 @@ export class BuscarAvariasPage {
     // });
 
   }
-  ionViewDidEnter() {
-    // this.ListarLayout();
 
+  ionViewDidEnter() {
+    this.ListarParte();
+    this.ListarModelos();
     this.ListarTipoAvaria();
     this.ListarNivelAvaria();
+    this.setLocalID();
   }
 
-  consultarChassiAvarias() {}
 
-  onParteChange(){}
+  consultarChassiAvarias() { }
 
-  onModeloChange(){}
-
-  onTipoAvariaChange(){}
-
-  onNivelAvariaChange(){}
-
-  avancar(){
-
-    this.navCtrl.push(ListarAvariasPage);
+  onParteChange(value) {
+    var item = this.partes.find(item => item['id'] === value);
+    this.formData.parteAvariadaID = item.id;
+    this.formData.parteAvariaDesc = item.nome;
   }
-  
 
-  
-  scan() {
-    this.options = {
-      showTorchButton: true,
-      prompt: '',
-      resultDisplayDuration: 0,
-    };
+  onModeloChange(value) {
+    var item = this.modelos.find(item => item['id'] === value);
+    this.formData.modelo = item.nome;
+  }
 
-    this.authService.showLoading();
+  onTipoAvariaChange(value) {
+    var item = this.tipoAvarias.find(item => item['id'] === value);
+    this.formData.tipoAvariaID = item.id;
+    this.formData.tipoAvariaDesc = item.nome;
+  }
 
-    this.barcodeScanner.scan(this.options).then(
-      (barcodeData) => {
-        this.qrCodeText = barcodeData.text;
-        if (this.qrCodeText && this.qrCodeText.length) {
-          let partChassi = this.qrCodeText.substr(
-            this.qrCodeText.length - 17,
-            17
-          );
-          this.formData['chassi'] = partChassi;
-          this.buscarChassi(partChassi, true);
-        }
-      },
-      (err) => {
-        this.authService.hideLoading();
-        let data = 'Erro de qr code!';
-        this.openModalErro(data);
+  onNivelAvariaChange(value) {
+    var item = this.nivelAvarias.find(item => item['id'] === value);
+    this.formData.gravidadeID = item.id;
+    this.formData.gravidadeDesc = item.nome;
+  }
+
+  setLocalID() {
+    this.formData.localID = this.userData.localModoOperacao;
+  }
+
+  avancar() {
+
+    if (this.inputChassi) {
+      this.buscarChassi(this.inputChassi, false)
+      if (this.validaCampos()) {
+        this.navCtrl.push(ListarAvariasPage, this.formData);
+      } else {
+        this.openModalErro('Preencha os campos da busca');
       }
-    );
+    } else {
+      if (this.validaCampos()) {
+        this.navCtrl.push(ListarAvariasPage, this.formData);
+      } else {
+        this.openModalErro('Preencha os campos da busca');
+      }
+    }
+
+
+
+  }
+
+  validaCampos(): Boolean {
+    var check: boolean = false;
+    if (this.formData.veiculoID) {
+      check = true;
+    }
+    if (this.formData.data) {
+      check = true;
+    }
+    if (this.formData.parteAvariadaID) {
+      check = true;
+    }
+    if (this.formData.modelo) {
+      check = true;
+    }
+    if (this.formData.tipoAvariaID) {
+      check = true;
+    }
+    if (this.formData.gravidadeID) {
+      check = true;
+    }
+    return check;
   }
 
   buscarChassi(partChassi, byScanner: boolean) {
-debugger
-    this.formData.chassi = partChassi;
+    //this.formData.veiculoID = partChassi;
     let uriBuscaChassi = '/veiculos/ConsultarChassi?token=' + this.authService.getToken() + '&chassi=' + partChassi;
 
-    this.authService.showLoading();
+
     this.formData.token = this.authService.getToken();
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
@@ -166,11 +207,11 @@ debugger
 
         this.responseData = res;
         if (this.responseData.sucesso) {
-          this.authService.hideLoading();
- //         this.openModalLancamentoAvaria(this.responseData.retorno, byScanner);
+          this.formData.veiculoID = this.responseData.retorno.id;
+          this.formData.chassi = this.inputChassi;
         }
         else {
-          this.authService.hideLoading();
+
           if (this.modoOperacao == 1 || partChassi.length < 17) {
             this.openModalErro(this.responseData.mensagem);
           }
@@ -181,15 +222,15 @@ debugger
             this.modoOperacao == 2 &&
             this.responseData.dataErro == 'CHASSI_NOT_FOUND'
           ) {
-           // this.openModalLancamentoAvaria([partChassi], byScanner);
+            // this.openModalLancamentoAvaria([partChassi], byScanner);
           }
           else {
-           this.openModalErro(this.responseData.mensagem);
+            this.openModalErro(this.responseData.mensagem);
           }
         }
       },
       (error) => {
-        this.authService.hideLoading();
+
         this.openModalErro(error.status + ' - ' + error.statusText);
       }
     );
@@ -197,32 +238,34 @@ debugger
 
 
 
-  ListarModelo() {
-    this.authService.showLoading();
+
+  ListarParte() {
+    //
 
     this.http
       .get(
         this.url +
-          "/ReceberParquear/ListarLayouts?token=" +
-          this.authService.getToken()
+        "/Parte/Partes?token=" +
+        this.authService.getToken()
       )
       .subscribe(
         (resultado) => {
           this.responseData = resultado;
 
           if (this.responseData.sucesso) {
-            this.authService.hideLoading();
-            this.modelos = this.responseData.retorno;
-            this.authService.hideLoading();
+            this.partes = this.responseData.retorno;
+
+            console.log(this.partes)
+
           } else {
-            this.authService.hideLoading();
+
             this.openModalErro(this.responseData.mensagem);
           }
         },
         (error) => {
-          this.authService.hideLoading();
+
           this.openModalErro(
-            "Erro ao carregar o layout, volte ao menu e tente novamente!"
+            "Erro ao carregar as partes, volte ao menu e tente novamente!"
           );
           console.log(error);
         }
@@ -230,31 +273,64 @@ debugger
   }
 
 
+  ListarModelos() {
 
-  ListarTipoAvaria() {
-    this.authService.showLoading();
 
     this.http
       .get(
         this.url +
-          "/tipoavaria/ListarTiposAvaria?token=" +
-          this.authService.getToken()
+        "/Modelo/Listar?token=" +
+        this.authService.getToken()
+      )
+      .subscribe(
+        (resultado) => {
+          this.responseData = resultado;
+          if (this.responseData.sucesso) {
+            this.modelos = this.responseData.retorno;
+          } else {
+
+            this.openModalErro(this.responseData.mensagem);
+          }
+        },
+        (error) => {
+
+          this.openModalErro(
+            "Erro ao carregar os modelos, volte ao menu e tente novamente!"
+          );
+          console.log(error);
+        }
+      );
+
+
+  }
+
+
+
+
+  ListarTipoAvaria() {
+
+
+    this.http
+      .get(
+        this.url +
+        "/tipoavaria/ListarTiposAvaria?token=" +
+        this.authService.getToken()
       )
       .subscribe(
         (resultado) => {
           this.responseData = resultado;
 
           if (this.responseData.sucesso) {
-            this.authService.hideLoading();
+
             this.tipoAvarias = this.responseData.retorno;
-            this.authService.hideLoading();
+
           } else {
-            this.authService.hideLoading();
+
             this.openModalErro(this.responseData.mensagem);
           }
         },
         (error) => {
-          this.authService.hideLoading();
+
           this.openModalErro(
             "Erro ao carregar o layout, volte ao menu e tente novamente!"
           );
@@ -267,29 +343,29 @@ debugger
 
 
   ListarNivelAvaria() {
-    this.authService.showLoading();
+
 
     this.http
       .get(
         this.url +
-          "/nivelgravidadeavaria/ListarNivelGravidadeAvaria?token=" +
-          this.authService.getToken()
+        "/nivelgravidadeavaria/ListarNivelGravidadeAvaria?token=" +
+        this.authService.getToken()
       )
       .subscribe(
         (resultado) => {
           this.responseData = resultado;
 
           if (this.responseData.sucesso) {
-            this.authService.hideLoading();
+
             this.nivelAvarias = this.responseData.retorno;
-            this.authService.hideLoading();
+
           } else {
-            this.authService.hideLoading();
+
             this.openModalErro(this.responseData.mensagem);
           }
         },
         (error) => {
-          this.authService.hideLoading();
+
           this.openModalErro(
             "Erro ao carregar o layout, volte ao menu e tente novamente!"
           );
@@ -298,218 +374,6 @@ debugger
       );
   }
 
-  // onLayoutChange(layout) {
-  //   this.bolsoes = null;
-  //   this.filas = null;
-  //   this.posicoes = null;
-
-  //   this.ListarBolsao(layout);
-  //   this.receberParquear.layoutID = layout;
-  //   this.receberParquear.layoutNome = this.select1.text;
-  //   console.log(this.receberParquear);
-  //   this.count = 1;
-  // }
-  // onBolsaoChange(bolsaoId) {
-  //   this.filas = null;
-  //   this.posicoes = null;
-
-  //   this.bolsao = bolsaoId;
-  //   this.ListarFila(bolsaoId);
-  //   this.receberParquear.bolsaoID = bolsaoId;
-  //   this.receberParquear.bolsaoNome = this.select2.text;
-
-  //   this.count = 2;
-  // }
-  // onFilaChange(fila) {
-  //   this.fila = fila;
-  //   this.receberParquear.filaID = fila;
-  //   this.receberParquear.filaNome = this.select3.text;
-  //   this.authService.setLayout(this.receberParquear);
-  //   this.ListarPosicoes(this.fila);
-
-  //   this.count = 3;
-  // }
-
-  // onPosicaoChange(posicao) {
-  //   this.posicao = posicao;
-  //   this.receberParquear.posicaoID = posicao;
-  //   this.receberParquear.posicaoNome = this.select4.text;
-  //   this.authService.setPosicao(this.posicao);
-  //   this.count = 4;
-  // }
-
-  // avancar() {
-  //   if (this.receberParquear.posicaoID != "") {
-  //     this.count = 0;
-  //     this.openModalQrCode(this.receberParquear);
-  //   } else {
-  //     this.openModalErro("Campos inválidos ou em branco.");
-  //   }
-  // }
-
-  // ListarLayout() {
-  //   this.authService.showLoading();
-
-  //   this.http
-  //     .get(
-  //       this.url +
-  //         "/ReceberParquear/ListarLayouts?token=" +
-  //         this.authService.getToken()
-  //     )
-  //     .subscribe(
-  //       (resultado) => {
-  //         this.responseData = resultado;
-
-  //         if (this.responseData.sucesso) {
-  //           this.authService.hideLoading();
-
-  //           //PREENCHER O SELECT DO LAYOUT
-  //           this.layouts = this.responseData.retorno;
-  //           this.authService.hideLoading();
-  //         } else {
-  //           this.authService.hideLoading();
-  //           this.openModalErro(this.responseData.mensagem);
-  //         }
-  //       },
-  //       (error) => {
-  //         this.authService.hideLoading();
-  //         this.openModalErro(
-  //           "Erro ao carregar o layout, volte ao menu e tente novamente!"
-  //         );
-  //         console.log(error);
-  //       }
-  //     );
-  // }
-
-  // ListarBolsao(layout) {
-  //   this.authService.showLoading();
-
-  //   this.http
-  //     .get(
-  //       this.url +
-  //         "/ReceberParquear/ListarBolsoes?token=" +
-  //         this.authService.getToken() +
-  //         "&layoutID=" +
-  //         layout
-  //     )
-  //     .subscribe(
-  //       (resultado) => {
-  //         this.responseData = {};
-  //         this.responseData = resultado;
-
-  //         if (this.responseData.sucesso) {
-  //           this.authService.hideLoading();
-
-  //           //PREENCHER O SELECT DO Bolsão
-  //           this.bolsoes = this.responseData.retorno;
-  //           this.authService.hideLoading();
-  //         } else {
-  //           this.authService.hideLoading();
-  //           this.openModalErro(this.responseData.mensagem);
-  //         }
-  //       },
-  //       (error) => {
-  //         this.authService.hideLoading();
-  //         this.openModalErro(
-  //           "Erro ao carregar o bolsão, volte ao menu e tente novamente!"
-  //         );
-  //         console.log(error);
-  //       }
-  //     );
-  // }
-
-  // ListarPosicoes(linhaID) {
-  //   this.authService.showLoading();
-
-  //   this.http
-  //     .get(
-  //       this.url +
-  //         "/ReceberParquear/ListarPosicoes?token=" +
-  //         this.authService.getToken() +
-  //         "&linhaID=" +
-  //         linhaID
-  //     )
-  //     .subscribe(
-  //       (resultado) => {
-  //         this.responseData = {};
-  //         this.responseData = resultado;
-
-  //         if (this.responseData.sucesso) {
-  //           this.authService.hideLoading();
-
-  //           if (this.responseData["retorno"] != "") {
-  //             console.log("há vagas livres.");
-  //             //PREENCHER O SELECT DO Bolsão
-  //             this.posicoes = this.responseData.retorno;
-  //             this.authService.hideLoading();
-  //           } else {
-  //             this.openModalErro("Não há vagas livres.");
-  //             console.log("Não há vagas livres.");
-
-  //             this.ListarFila(this.receberParquear.bolsaoID);
-  //           }
-  //         } else {
-  //           this.authService.hideLoading();
-  //           this.openModalErro(this.responseData.mensagem);
-  //         }
-  //       },
-  //       (error) => {
-  //         this.authService.hideLoading();
-  //         this.openModalErro(
-  //           "Erro ao carregar as vagas, volte ao menu e tente novamente!"
-  //         );
-  //         console.log(error);
-  //       }
-  //     );
-  // }
-
-  // ListarFila(bolsao) {
-  //   this.authService.showLoading();
-
-  //   this.http
-  //     .get(
-  //       this.url +
-  //         "/ReceberParquear/ListarLinhas?token=" +
-  //         this.authService.getToken() +
-  //         "&bolsaoID=" +
-  //         bolsao
-  //     )
-  //     .subscribe(
-  //       (resultado) => {
-  //         this.responseData = {};
-  //         this.responseData = resultado;
-
-  //         if (this.responseData.sucesso) {
-  //           this.authService.hideLoading();
-
-  //           //PREENCHER O SELECT DO Bolsão
-  //           this.filas = this.responseData.retorno;
-  //           this.authService.hideLoading();
-  //         } else {
-  //           this.authService.hideLoading();
-  //           this.openModalErro(this.responseData.mensagem);
-  //         }
-  //       },
-  //       (error) => {
-  //         this.authService.hideLoading();
-  //         this.openModalErro(
-  //           "Erro ao carregar as filas, volte ao menu e tente novamente!"
-  //         );
-  //         console.log(error);
-  //       }
-  //     );
-  // }
-
-  // openModalQrCode(data) {
-  //   const chassiModal: Modal = this.modal.create(
-  //     ModalReceberParquearComponent,
-  //     { data: data }
-  //   );
-  //   chassiModal.present();
-
-  //   chassiModal.onDidDismiss((data) => {});
-  //   chassiModal.onWillDismiss((data) => {});
-  // }
 
   toggleMenu = function (this) {
     $(".menu-body").toggleClass("show-menu");
@@ -518,7 +382,7 @@ debugger
     $("side-menu").toggleClass("show");
   };
 
- 
+
   openModalErro(data) {
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
       data: data,
@@ -526,18 +390,18 @@ debugger
     chassiModal.present();
 
     chassiModal.onDidDismiss((data) => {
-     this.inputChassi=''; // this.cleanInput(byScanner);
+      this.inputChassi = ''; // this.cleanInput(byScanner);
     });
   }
 
   cleanInput(byScanner: boolean) {
     if (!byScanner) {
       setTimeout(() => {
-      //  this.chassiInput.setFocus();
-      this.inputChassi='';
+        //  this.chassiInput.setFocus();
+        this.inputChassi = '';
       }, 1000);
     }
-    this.formData.chassi = '';
+    this.formData.veiculoID = '';
   }
 
 

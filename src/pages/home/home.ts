@@ -22,7 +22,7 @@ import { ObservacoesPage } from '../observacoes/observacoes';
 import { Storage } from '@ionic/storage';
 import { VistoriaPage } from '../vistoria/vistoria';
 import { BuscarAvariasPage } from '../buscar-avarias/buscar-avarias';
-import { QualidadeBuscaAvariasPage } from '../qualidade-busca-avarias/qualidade-busca-avarias';
+import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
 
 
 // 0: "mnu_mob_recebimento"
@@ -144,10 +144,10 @@ const menus = [
   },
 
   {
-    texto: 'Dashboard Busca Avaria',
+    texto: 'Qualidade',
     cssClass: 'historico-chassi',
     id: 3118,
-    nome: 'mnu_mob_dashboard_buscaavaria'
+    nome: 'mnu_mob_qualidade'
   },
 
 
@@ -177,8 +177,8 @@ export class HomePage {
     this.title = 'Sistema Pátio Automotivo';
     this.userData = this.authService.getUserData();
 
-    this.userData.nomesMenus.push('mnu_mob_buscaravaria')
-    this.userData.nomesMenus.push('mnu_mob_dashboard_buscaavaria')
+    // this.userData.nomesMenus.push('mnu_mob_buscaravaria')
+    this.userData.nomesMenus.push('mnu_mob_qualidade')
     
     console.log(this.userData)
 
@@ -376,12 +376,10 @@ export class HomePage {
       this.navCtrl.setRoot(ObservacoesPage);
     } else if (menu.nome == 'mnu_mob_servico') {
       this.navCtrl.setRoot(LancamentoServicoPage);
-    } else if (menu.nome == 'mnu_mob_buscaravaria') {
-      this.navCtrl.setRoot(BuscarAvariasPage);
     } else if (menu.nome == 'mnu_mob_vistoria') {
       this.navCtrl.setRoot(VistoriaPage);
-    } else if (menu.nome == 'mnu_mob_dashboard_buscaavaria') {
-      this.navCtrl.setRoot(QualidadeBuscaAvariasPage);
+    } else if (menu.nome == 'mnu_mob_qualidade') {
+      this.navCtrl.setRoot(QualidadeMenuPage);
     }
 
     

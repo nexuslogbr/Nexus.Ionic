@@ -198,7 +198,12 @@ import { ModalChassisVistoriaComponent } from '../components/modal-chassis-visto
 import { BuscarAvariasPage } from '../pages/buscar-avarias/buscar-avarias';
 import { ListarAvariasPage } from '../pages/listar-avarias/listar-avarias';
 import { EditarAvariasPage } from '../pages/editar-avarias/editar-avarias';
-import { QualidadeBuscaAvariasPage } from '../pages/qualidade-busca-avarias/qualidade-busca-avarias';
+import { QualidadeDashboardBuscaAvariasPage } from '../pages/qualidade-dashboard-busca-avarias/qualidade-dashboard-busca-avarias';
+import { QualidadeMenuPage } from '../pages/qualidade-menu/qualidade-menu';
+import { LancamentoAvariaPage } from '../pages/lancamento-avaria/lancamento-avaria';
+import { LancarAvariaComponent } from '../components/lancar-avaria/lancar-avaria';
+import { LancarAvariaSelecionarComponent } from '../components/lancar-avaria-selecionar/lancar-avaria-selecionar';
+
 
 @NgModule({
   declarations: [
@@ -357,7 +362,12 @@ import { QualidadeBuscaAvariasPage } from '../pages/qualidade-busca-avarias/qual
     BuscarAvariasPage,
     ListarAvariasPage,
     EditarAvariasPage,
-    QualidadeBuscaAvariasPage
+    QualidadeDashboardBuscaAvariasPage,
+    QualidadeMenuPage,
+    LancamentoAvariaPage,
+    LancarAvariaComponent,
+    LancarAvariaSelecionarComponent
+
   ],
   imports: [
     BrowserModule,
@@ -413,7 +423,7 @@ import { QualidadeBuscaAvariasPage } from '../pages/qualidade-busca-avarias/qual
     ChartsModule,
     DragulaModule,
     ModalCancelarChassiPageModule,
-    ModalCancelarCarregamentoPageModule,
+    ModalCancelarCarregamentoPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -569,7 +579,11 @@ import { QualidadeBuscaAvariasPage } from '../pages/qualidade-busca-avarias/qual
     BuscarAvariasPage,
     ListarAvariasPage,
     EditarAvariasPage,
-    QualidadeBuscaAvariasPage
+    QualidadeDashboardBuscaAvariasPage,
+    QualidadeMenuPage,
+    LancamentoAvariaPage,
+    LancarAvariaComponent,
+    LancarAvariaSelecionarComponent
   ],
   providers: [
     AuthService,

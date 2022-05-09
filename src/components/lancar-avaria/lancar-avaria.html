@@ -1,0 +1,55 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': secondaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': secondaryColor}">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
+  <form class="form-recebe-chassis" [ngStyle]="{'background-color': primaryColor}">
+    <ion-list>
+      <ion-list-header [ngStyle]="{'background-color': primaryColor}">
+        Resultado da Busca
+      </ion-list-header>
+      <ion-item [ngStyle]="{'background-color': '#7b0002'}">
+        <ion-label label-ios>Local:{{nomeLocal}}</ion-label>
+      </ion-item>
+      <!-- <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Chassi:</ion-label>
+        <ion-select (ionChange)="onChassisChange($event)" okText="Confirmar" cancelText="Cancelar" #select>
+          <ion-option *ngFor="let chassi of chassis" value="{{chassi}}" id="{{chassi}}">{{chassi}}</ion-option>
+        </ion-select>
+      </ion-item> -->
+    </ion-list>
+  </form>
+
+
+
+  <form class="form-recebe-chassis" [ngStyle]="{'background-color': primaryColor}">
+    <ion-list>
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Chassi:{{formLancarAvariaData[0].chassi}}</ion-label>
+      </ion-item>
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Modelo:{{formLancarAvariaData[0].modelo}}</ion-label>
+      </ion-item>
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Posição:{{formLancarAvariaData[0].posicaoAtual}}</ion-label>
+      </ion-item>
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Cor:{{formLancarAvariaData[0].corVeiculo}}</ion-label>
+      </ion-item>
+
+      <div class="login-content" [ngStyle]="{'background-color': primaryColor}">
+        <p></p>
+        <button ion-button round first class="btn-receiving btn-cancel" (click)="selecionar(formLancarAvariaData[0])" type="button">
+          Selecione Superficie Avariada
+        </button>
+
+      </div>
+    </ion-list>
+  </form>
+</ion-content>
+<modal-loading></modal-loading>

@@ -4,6 +4,7 @@ import {
   NavController,
   Modal,
   ModalController,
+  NavParams
 } from "ionic-angular";
 import { AuthService } from "../../providers/auth-service/auth-service";
 import { HomePage } from "../home/home";
@@ -17,13 +18,18 @@ import { CarregamentoExportPage } from "../carregamento-export/carregamento-expo
 import { CarregamentoPage } from "../carregamento/carregamento";
 import { RecebimentoPage } from "../recebimento/recebimento";
 import { Select } from "ionic-angular";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import "rxjs/add/operator/map";
 import * as $ from "jquery";
 import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-scanner";
 import { EditarAvariasPage } from "../editar-avarias/editar-avarias";
+import { BuscarAvariasPage } from "../buscar-avarias/buscar-avarias";
 
-
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+};
 @Component({
   selector: "page-listar-avarias",
   templateUrl: "listar-avarias.html",
@@ -39,39 +45,68 @@ export class ListarAvariasPage {
   url: string;
   inputChassi: string;
   partes: any;
-  modelos:any;
-  tipoAvarias:any;
-  nivelAvarias:any;
+  modelos: any;
+  tipoAvarias: any;
+  nivelAvarias: any;
   modoOperacao: number;
 
   formData = {
-    "chassi": '',
-    "token":'',
-    "data": '',
-    "parte": '',
-    "modelo": '',
-    "tipoAvaria": '',
-    "nivelAvaria": ''
+    "token": "",
+    "skip": 0,
+    "take": 0,
+    "localID": 0,
+    "veiculoID": 0,
+    "chassi":"",
+    "veiculoDesc": "",
+    "data": "",
+    "parteAvariadaID": 0,
+    "parteAvariaDesc": "",
+    "modelo": "",
+    "tipoAvariaID": 0,
+    "tipoAvariaDesc": "",
+    "gravidadeID": 0,
+    "gravidadeDesc": ""
   };
-  
+
+  insertData = {
+    "token": "",
+    "skip": 0,
+    "take": 0,
+    "localID": 0,
+    "veiculoID": 0,
+    "data": "",
+    "parteAvariadaID": 0,
+    "modelo": "",
+    "tipoAvariaID": 0,
+    "gravidadeID": 0
+  }
+
   primaryColor: string;
   secondaryColor: string;
   inputColor: string;
   buttonColor: string;
   qrCodeText: string;
   options: BarcodeScannerOptions;
-  responseData:any;
+   responseData: any;
+   listaAvarias:any;
 
   constructor(
     public http: HttpClient,
     private modal: ModalController,
     public navCtrl: NavController,
     public authService: AuthService,
-    private barcodeScanner: BarcodeScanner
+    private barcodeScanner: BarcodeScanner,
+    public navParams: NavParams
   ) {
     this.title = "Resultado Busca";
     console.log("ListarAvariasPage");
     this.url = this.authService.getUrl();
+
+
+
+    this.formData = this.navParams.data;
+
+    console.log(this.formData)
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -85,113 +120,63 @@ export class ListarAvariasPage {
       this.buttonColor = "#1c6381";
     }
 
-    // this.formData.valueChanges.debounceTime(500).subscribe((value) => {
-    //   if (value && value.length) {
-    //     {
-    //       if (value.length >= 6) {
-    //         let chassi = value.replace(/[\W_]+/g, '');
-    //         setTimeout(() => {
-    //           this.buscarChassi(chassi, false);
-    //           this.formData.chassi = '';
-    //         }, 500);
-    //       }
-    //     }
-    //   }
-    // });
 
   }
   ionViewDidEnter() {
-    // this.ListarLayout();
+    this.buscarDados();
   }
 
-  consultarChassiAvarias() {}
+  buscarDados() {
 
-  onParteChange(){}
-
-  onModeloChange(){}
-
-  onTipoAvariaChange(){}
-
-  onNivelAvariaChange(){}
-
-  editar(){
-
-    this.navCtrl.push(EditarAvariasPage);
-  }
-  
-
-  
-  scan() {
-    this.options = {
-      showTorchButton: true,
-      prompt: '',
-      resultDisplayDuration: 0,
-    };
 
     this.authService.showLoading();
+    let buscaAvaria = this.url + "/lancamentoAvaria/Listar";
 
-    this.barcodeScanner.scan(this.options).then(
-      (barcodeData) => {
-        this.qrCodeText = barcodeData.text;
-        if (this.qrCodeText && this.qrCodeText.length) {
-          let partChassi = this.qrCodeText.substr(
-            this.qrCodeText.length - 17,
-            17
-          );
-          this.formData['chassi'] = partChassi;
-          this.buscarChassi(partChassi, true);
-        }
-      },
-      (err) => {
-        this.authService.hideLoading();
-        let data = 'Erro de qr code!';
-        this.openModalErro(data, true);
-      }
-    );
-  }
 
-  buscarChassi(partChassi, byScanner: boolean) {
-debugger
-    this.formData.chassi = partChassi;
-    let uriBuscaChassi = '/veiculos/ConsultarChassi?token=' + this.authService.getToken() + '&chassi=' + partChassi;
+    this.insertData={
+      "token": this.authService.getToken(),
+      "skip": 0,
+      "take": 20,
+      "localID": this.formData.localID,
+      "veiculoID": this.formData.veiculoID,
+      "data": this.formData.data,
+      "parteAvariadaID": this.formData.parteAvariadaID,
+      "modelo": this.formData.modelo,
+      "tipoAvariaID": this.formData.tipoAvariaID,
+      "gravidadeID": this.formData.gravidadeID
+    }
 
-    this.authService.showLoading();
-    this.formData.token = this.authService.getToken();
+    this.http.post<string>(buscaAvaria, this.insertData, httpOptions)
+      .subscribe(res => {
 
-    this.http.get(this.url + uriBuscaChassi).subscribe(
-      (res) => {
+        var resultado = res;
 
         this.responseData = res;
+
+
         if (this.responseData.sucesso) {
-          this.authService.hideLoading();
- //         this.openModalLancamentoAvaria(this.responseData.retorno, byScanner);
+
+          this.listaAvarias = this.responseData.retorno;
         }
         else {
           this.authService.hideLoading();
-          if (this.modoOperacao == 1 || partChassi.length < 17) {
-            this.openModalErro(this.responseData.mensagem, byScanner);
-          }
-          else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
-            this.openModalErro(this.responseData.mensagem, byScanner);
-          }
-          else if (
-            this.modoOperacao == 2 &&
-            this.responseData.dataErro == 'CHASSI_NOT_FOUND'
-          ) {
-           // this.openModalLancamentoAvaria([partChassi], byScanner);
-          }
-          else {
-           this.openModalErro(this.responseData.mensagem, byScanner);
-          }
+          // this.openModalErro(this.retorno.mensagem);
+          // this.navCtrl.push(HomePage);         
         }
-      },
-      (error) => {
+
+      }, (error) => {
+
+        this.openModalErro(error.status + ' - ' + error.statusText);
         this.authService.hideLoading();
-        this.openModalErro(error.status + ' - ' + error.statusText, byScanner);
-      }
-    );
+        console.log(error);
+      });
+
   }
 
+
+  navigateToBuscarAvariaPage() {
+    this.navCtrl.push(BuscarAvariasPage);
+  }
   // onLayoutChange(layout) {
   //   this.bolsoes = null;
   //   this.filas = null;
@@ -412,27 +397,27 @@ debugger
     $("side-menu").toggleClass("show");
   };
 
- 
-  openModalErro(data, byScanner: boolean) {
+
+  openModalErro(data) {
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
       data: data,
     });
     chassiModal.present();
 
-    chassiModal.onDidDismiss((data) => {
-      this.cleanInput(byScanner);
-    });
+    // chassiModal.onDidDismiss((data) => {
+    //   this.cleanInput(false);
+    // });
   }
 
-  cleanInput(byScanner: boolean) {
-    if (!byScanner) {
-      setTimeout(() => {
-      //  this.chassiInput.setFocus();
-      this.inputChassi='';
-      }, 1000);
-    }
-    this.formData.chassi = '';
-  }
+  // cleanInput(byScanner: boolean) {
+  //   if (!byScanner) {
+  //     setTimeout(() => {
+  //       //  this.chassiInput.setFocus();
+  //       this.inputChassi = '';
+  //     }, 1000);
+  //   }
+  //   this.formData.veiculoID = '';
+  // }
 
 
   openModalSucesso(data) {
@@ -485,3 +470,4 @@ debugger
     return true;
   }
 }
+

@@ -1,0 +1,93 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': secondaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': secondaryColor}">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
+  <form class="form-recebe-chassis" [ngStyle]="{'background-color': primaryColor}">
+    <ion-list>
+      <!-- <ion-list-header [ngStyle]="{'background-color': primaryColor}">
+        Resultado da Busca
+      </ion-list-header> -->
+      <!-- <ion-item [ngStyle]="{'background-color': '#7b0002'}">
+        <ion-label label-ios>Local:{{nomeLocal}}</ion-label>
+      </ion-item> -->
+      <!-- <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Chassi:</ion-label>
+        <ion-select (ionChange)="onChassisChange($event)" okText="Confirmar" cancelText="Cancelar" #select>
+          <ion-option *ngFor="let chassi of chassis" value="{{chassi}}" id="{{chassi}}">{{chassi}}</ion-option>
+        </ion-select>
+      </ion-item> -->
+    </ion-list>
+  </form>
+
+
+
+  <form class="form-recebe-chassis" [ngStyle]="{'background-color': primaryColor}">
+    <ion-list>
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Chassi:{{formLancarAvariaData[0].chassi}}</ion-label>
+      </ion-item>
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Modelo:{{formLancarAvariaData[0].modelo}}</ion-label>
+      </ion-item>
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Selecionar Superficie:</ion-label>
+        <ion-select (ionChange)="onSuperficieChange($event)" okText="Confirmar" cancelText="Cancelar" #select>
+          <ion-option *ngFor="let superficie of superficies" value="{{superficie.id}}" id="{{superficie.id}}">
+            {{superficie.nome}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Selecionar Peça:</ion-label>
+        <ion-select (ionChange)="onPartesChange($event)" okText="Confirmar" cancelText="Cancelar" #select>
+          <ion-option *ngFor="let parte of partes" value="{{parte.id}}" id="{{parte.id}}">{{parte.nome}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Tipo da Anomalia:</ion-label>
+        <ion-select (ionChange)="onTiposAnomaliaChange($event)" okText="Confirmar" cancelText="Cancelar" #select>
+          <ion-option *ngFor="let tipoAnomalia of tiposAnomalia" value="{{tipoAnomalia.id}}" id="{{tipoAnomalia.id}}">
+            {{tipoAnomalia.nome}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Gravidade:</ion-label>
+        <ion-select (ionChange)="onNivelGravidadeChange($event)" okText="Confirmar" cancelText="Cancelar" #select>
+          <ion-option *ngFor="let nivelGravidade of niveisGravidade" value="{{nivelGravidade.id}}"
+            id="{{nivelGravidade.id}}">{{nivelGravidade.nome}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Observação</ion-label><br>
+        <ion-input type="text" [(ngModel)]="observacoces" [ngStyle]="{'background-color': primaryColor}"
+          name="observacoes" id="observacoes" placeholder="" value=""></ion-input>
+
+      </ion-item>
+
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-col class="col-icone">
+          <ion-icon md="md-cloud-upload"></ion-icon>
+        </ion-col>
+      </ion-item>
+
+      <div class="login-content" [ngStyle]="{'background-color': primaryColor}">
+        <p></p>
+        <button ion-button round first class="btn-receiving btn-cancel" (click)="salvar()" type="button">
+          Salvar
+        </button>
+
+      </div>
+    </ion-list>
+  </form>
+</ion-content>
+<modal-loading></modal-loading>
