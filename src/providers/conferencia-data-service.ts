@@ -319,6 +319,21 @@ export class ConferenciaDataService {
     return this.http.post<any>(url, JSON.stringify(data), { headers: headers });
   }
 
+  /// Cria um lote na fila e retorna o GUID como identificador do lote.
+  async conferirChassisEmLoteAsync(
+    data: Conferencia[],
+    conferenciaConfiguracaoID: number
+  ) {
+    let url =
+      this.urlApi +
+      '/conferencias/' +
+      conferenciaConfiguracaoID +
+      '/upload/?token=' +
+      this.authService.getToken();
+
+    return await this.http.post<any>(url, JSON.stringify(data), { headers: headers });
+  }
+
   // anularConferencia(data: {
   //   chassi: string;
   //   conferenciaConfiguracaoID: number;

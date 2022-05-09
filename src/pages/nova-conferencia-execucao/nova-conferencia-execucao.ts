@@ -390,124 +390,32 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
     }, 200);
   }
 
-  executarSincronizacao() {
-
+  async executarSincronizacao() {
 
     if (this.onLine) {
       if (this.totalUpload > 0) {
         this.authService.showSincronizacao();
 
-        this.conferenciaConfiguracaoADO
-          .loadConferenciasPendentes(this.configuracao.id)
-          .pipe(
-            switchMap((conferencias: Conferencia[]) => {
+        let conferencias: Conferencia[] = this.conferenciaConfiguracaoADO.loadConferenciasPendentes(this.configuracao.id);
 
-              return this.conferenciaDataService.conferirChassisEmLote(
-                conferencias,
-                this.configuracao.id
-              );
-            }),
-            // switchMap((guidLote: string) => {
-            //   console.log('guidLote', guidLote);
-            //   return this.conferenciaConfiguracaoADO.excluirConferencia(
-            //     this.configuracao.id
-            //   );
-            // }),
-            switchMap((res) =>
-              this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(
-                this.configuracao.id
-              )
-            ),
-            switchMap((res) =>
-              this.conferenciaDataService.carregarConfiguracao(
-                this.configuracao.id
-              )
-            ),
-            switchMap((res) =>
-              this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(
-                res.retorno
-              )
-            ),
-            finalize(() => {
-              this.authService.hideSincronizacao();
-            })
-          )
-          .subscribe(
-            (res) => {
-              this.authService.showLoading();
-              this.conferenciaService.update();
+        // Se isso funcionar, então fica mais fácil quebrar essa rotina em várias chamadas distintas
+        let retornoAPI = await this.conferenciaDataService.conferirChassisEmLoteAsync(conferencias, this.configuracao.id);
 
-              this.gotoListagemVeiculos();
-              this.authService.hideLoading();
+        this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(this.configuracao.id);
+        this.conferenciaDataService.carregarConfiguracao(this.configuracao.id);
+        this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(retornoAPI.retorno);
 
-              this.contador = 0;
-              localStorage.setItem('contador', this.contador.toString())
-            },
-            (err) => {
-              console.error(err);
-              this.alertService.showError(
-                'ERRO AO EXECUTAR A SINCRONIZAÇÃO',
-                'FIQUE ONLINE E TENTE NOVAMENTE.'
-              );
-            }
-          );
+        this.authService.hideSincronizacao();
 
-        // this.conferenciaConfiguracaoADO
-        //   .loadConferenciasPendentes(this.configuracao.id)
-        //   .pipe(
-        //     exhaustMap((res: Conferencia[]) => {
-        //       return forkJoin(
-        //         res.map((v) =>
-        //           this.conferenciaDataService.conferirChassi({
-        //             chassi: v.chassi,
-        //             turnoId: v.turnoID,
-        //             nomeUsuario: v.nomeUsuario,
-        //             conferenciaConfiguracaoID: v.conferenciaConfiguracaoID,
-        //             dataHoraConferencia: v.dataHoraConferencia,
-        //             conferenciaVeiculoMotivoID:
-        //               ConferenciaVeiculoMotivos.ItemConferido,
-        //           })
-        //         )
-        //       );
-        //     }),
-        //     exhaustMap((res: any[]) => {
-        //       return forkJoin(
-        //         res
-        //           .filter((r) => r.sucesso)
-        //           .map((v) =>
-        //             this.conferenciaConfiguracaoADO.excluirConferencia(
-        //               this.configuracao.id,
-        //               v.retorno.chassi
-        //             )
-        //           )
-        //       );
-        //     }),
-        //     switchMap((res) =>
-        //       this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(
-        //         this.configuracao.id
-        //       )
-        //     ),
-        //     switchMap((res) =>
-        //       this.conferenciaDataService.carregarConfiguracao(
-        //         this.configuracao.id
-        //       )
-        //     ),
-        //     tap((res) => {
-        //       if (res.sucesso) {
-        //       }
-        //     }),
-        //     switchMap((res) =>
-        //       this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(
-        //         res.retorno
-        //       )
-        //     ),
-        //     finalize(() => {
-        //       this.authService.hideSincronizacao();
-        //     })
-        //   )
-        //   .subscribe((res) => {
-        //     this.conferenciaService.update();
-        //   });
+        this.authService.showLoading();
+        this.conferenciaService.update();
+
+        this.gotoListagemVeiculos();
+        this.authService.hideLoading();
+
+        this.contador = 0;
+        localStorage.setItem('contador', this.contador.toString())
+
       }
     } else {
       this.alertService.showError(
@@ -516,31 +424,6 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
       );
     }
   }
-
-  // persisteConfiguracao(configuracao: ConferenciaConfiguracao) {
-  //   this.conferenciaConfiguracaoADO
-  //     .dropConferenciaConfiguracao(configuracao.id)
-  //     .subscribe(
-  //       res => {
-  //         this.conferenciaConfiguracaoADO
-  //           .saveConferenciaConfiguracao2(configuracao)
-  //           .subscribe(
-  //             res => {
-  //               this.conferenciaService.update();
-  //             },
-  //             error => {
-  //               console.error(error);
-  //               this.showErrorAlert('Erro ao persistir os dados no SQL local!', true);
-  //             }
-  //           );
-  //       },
-  //       error => {
-  //         console.error(error);
-  //         this.showErrorAlert('Erro ao persistir os dados no SQL local!', true);
-  //       }
-  //     );
-  // }
-
   gotoListagemVeiculos() {
     //this.nativePageTransitions.slide(this.naviteTransitionOptions);
     this.navCtrl.push(NovaConferenciaVeiculosPage, {
