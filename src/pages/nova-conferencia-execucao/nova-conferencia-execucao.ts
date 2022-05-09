@@ -396,7 +396,7 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
       if (this.totalUpload > 0) {
         this.authService.showSincronizacao();
 
-        let conferencias: Conferencia[] = this.conferenciaConfiguracaoADO.loadConferenciasPendentes(this.configuracao.id);
+        let conferencias: Conferencia[] = await this.conferenciaConfiguracaoADO.loadConferenciasPendentes(this.configuracao.id);
 
         // Se isso funcionar, então fica mais fácil quebrar essa rotina em várias chamadas distintas
         let retornoAPI = await this.conferenciaDataService.conferirChassisEmLoteAsync(conferencias, this.configuracao.id);
