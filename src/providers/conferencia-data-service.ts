@@ -36,6 +36,12 @@ export class ConferenciaDataService {
     return this.http.get<any>(url, { headers: headers });
   }
 
+  public async carregarConfiguracaoAsync(id: number) {
+    let token = this.authService.getToken();
+    let url = this.urlApi + '/conferencias/configuracoes/' + id + '/?token=' + token;
+    return this.http.get<any>(url, { headers: headers });
+  }
+
   public consultarChassi(chassi: string, parteChassi: string, navioId: number, destinoLocalId: number
   ) {
     let url = this.urlApi + '/conferencias/chassis/navio?token=' + this.authService.getToken();
@@ -197,6 +203,14 @@ export class ConferenciaDataService {
     let token = this.authService.getToken();
     let url = this.urlApi + '/conferencias/' + conferenciaConfiguracaoID + '/upload/?token=' + token;
     return this.http.post<any>(url, JSON.stringify(data), { headers: headers });
+  }
+
+  /// Cria um lote na fila e retorna o GUID como identificador do lote.
+  async conferirChassisEmLotesAsync(data: Conferencia[], conferenciaConfiguracaoID: number) {
+    let token = this.authService.getToken();
+    let url = this.urlApi + '/conferencias/' + conferenciaConfiguracaoID + '/upload/?token=' + token;
+    let result = this.http.post<any>(url, JSON.stringify(data), { headers: headers });
+    return result;
   }
 
   // anularConferencia(data: {

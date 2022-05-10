@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnDestroy, EventEmitter, Output } from '@angular/core';
 import {
   NavController,
   NavParams,
@@ -83,6 +83,7 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
   public contador: number = 0;
 
   public clienteExterno = true;
+  public porcentagem = 0;
 
   constructor(
     public navCtrl: NavController,
@@ -392,7 +393,7 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
     }, 200);
   }
 
-  // executarSincronizacaoo() {
+  // executarSincronizacao() {
   //   if (this.onLine) {
   //     if (this.totalUpload > 0) {
   //       this.authService.showSincronizacao();
@@ -402,18 +403,39 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
   //         .pipe(
   //           switchMap(async (conferencias: Conferencia[]) => {
 
-  //             return await this.conferenciaDataService.conferirChassisEmLote(
-  //             // return await this.conferirChassisEmLotes(
-  //               conferencias,
-  //               this.configuracao.id
-  //             );
+
+  //             //  A quantidade de veiculos do lote vai de 0 á 9
+  //             let tamanhoLote = 10;
+  //             let qtdDoLote = 9;
+  //             let loteVeiculos: Conferencia[] = [];
+  //             this.porcentagem = 0;
+
+  //             let totalVeiculosLidos = 0;
+
+  //             for (let i = 0; i < conferencias.length; i++) {
+  //               const element = conferencias[i];
+  //               loteVeiculos.push(element);
+  //               if (i == qtdDoLote) {
+  //                 await this.conferenciaDataService.conferirChassisEmLotesAsync(loteVeiculos, this.configuracao.id)
+
+  //                 this.porcentagem += (tamanhoLote*100)/conferencias.length;
+  //                 qtdDoLote += 10;
+  //                 loteVeiculos = [];
+  //               }
+  //               else if ((conferencias.length-totalVeiculosLidos) < tamanhoLote && (conferencias.length-1) == totalVeiculosLidos) {
+
+  //                 await this.conferenciaDataService.conferirChassisEmLotesAsync(loteVeiculos, this.configuracao.id)
+  //                 this.porcentagem = 100;
+  //               }
+
+  //               totalVeiculosLidos++;
+  //             }
+
+  //             // return this.conferenciaDataService.conferirChassisEmLote(
+  //             //   conferencias,
+  //             //   this.configuracao.id
+  //             // );
   //           }),
-  //           // switchMap((guidLote: string) => {
-  //           //   console.log('guidLote', guidLote);
-  //           //   return this.conferenciaConfiguracaoADO.excluirConferencia(
-  //           //     this.configuracao.id
-  //           //   );
-  //           // }),
   //           switchMap((res) =>
   //             this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(
   //               this.configuracao.id
@@ -452,63 +474,6 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
   //             );
   //           }
   //         );
-
-  //       // this.conferenciaConfiguracaoADO
-  //       //   .loadConferenciasPendentes(this.configuracao.id)
-  //       //   .pipe(
-  //       //     exhaustMap((res: Conferencia[]) => {
-  //       //       return forkJoin(
-  //       //         res.map((v) =>
-  //       //           this.conferenciaDataService.conferirChassi({
-  //       //             chassi: v.chassi,
-  //       //             turnoId: v.turnoID,
-  //       //             nomeUsuario: v.nomeUsuario,
-  //       //             conferenciaConfiguracaoID: v.conferenciaConfiguracaoID,
-  //       //             dataHoraConferencia: v.dataHoraConferencia,
-  //       //             conferenciaVeiculoMotivoID:
-  //       //               ConferenciaVeiculoMotivos.ItemConferido,
-  //       //           })
-  //       //         )
-  //       //       );
-  //       //     }),
-  //       //     exhaustMap((res: any[]) => {
-  //       //       return forkJoin(
-  //       //         res
-  //       //           .filter((r) => r.sucesso)
-  //       //           .map((v) =>
-  //       //             this.conferenciaConfiguracaoADO.excluirConferencia(
-  //       //               this.configuracao.id,
-  //       //               v.retorno.chassi
-  //       //             )
-  //       //           )
-  //       //       );
-  //       //     }),
-  //       //     switchMap((res) =>
-  //       //       this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(
-  //       //         this.configuracao.id
-  //       //       )
-  //       //     ),
-  //       //     switchMap((res) =>
-  //       //       this.conferenciaDataService.carregarConfiguracao(
-  //       //         this.configuracao.id
-  //       //       )
-  //       //     ),
-  //       //     tap((res) => {
-  //       //       if (res.sucesso) {
-  //       //       }
-  //       //     }),
-  //       //     switchMap((res) =>
-  //       //       this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(
-  //       //         res.retorno
-  //       //       )
-  //       //     ),
-  //       //     finalize(() => {
-  //       //       this.authService.hideSincronizacao();
-  //       //     })
-  //       //   )
-  //       //   .subscribe((res) => {
-  //       //     this.conferenciaService.update();
-  //       //   });
   //     }
   //   } else {
   //     this.alertService.showError(
@@ -523,14 +488,16 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
       if (this.totalUpload > 0) {
 
         this.authService.showSincronizacao();
-        this.conferenciaConfiguracaoADO
-        .loadConferenciasPendentes(this.configuracao.id)
-        .subscribe((conferencias: Conferencia[]) => {
 
-          let model = [];
+        this.conferenciaConfiguracaoADO.loadConferenciasPendentes(this.configuracao.id)
+        .subscribe(conferencias => {
+
           // A quantidade de veiculos do lote vai de 0 á 9
+          let tamanhoLote = 10;
           let qtdDoLote = 9;
           let loteVeiculos: Conferencia[] = [];
+          this.porcentagem = 0;
+          let processados = 0;
 
           let totalVeiculosLidos = 0;
 
@@ -538,56 +505,35 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
             const element = conferencias[i];
             loteVeiculos.push(element);
             if (i == qtdDoLote) {
-              this.conferenciaDataService.conferirChassisEmLote(loteVeiculos, this.configuracao.id)
-              .subscribe(result =>{
 
-                model.push(result);
-              });
+              this.conferenciaDataService.conferirChassisEmLote(loteVeiculos, this.configuracao.id)
+              .subscribe(() => {
+                this.porcentagem += (tamanhoLote*100)/conferencias.length;
+                processados += 10;
+                if (processados == conferencias.length) {
+                  this.loadVeiculos();
+                }
+              })
 
               qtdDoLote += 10;
               loteVeiculos = [];
             }
-            else if ((conferencias.length-totalVeiculosLidos) < 10 && (conferencias.length-1) == totalVeiculosLidos) {
-              this.conferenciaDataService.conferirChassisEmLote(loteVeiculos, this.configuracao.id)
-              .subscribe(result => {
+            else if ((conferencias.length-totalVeiculosLidos) < tamanhoLote && (conferencias.length-1) == totalVeiculosLidos) {
+              let tamanhoUltimoLote = loteVeiculos.length;
 
-                model.push(result);
+              this.conferenciaDataService.conferirChassisEmLote(loteVeiculos, this.configuracao.id)
+              .subscribe(() => {
+                this.porcentagem += (tamanhoUltimoLote*100)/conferencias.length;
+                processados += tamanhoUltimoLote;
+                if (processados == conferencias.length) {
+                  this.loadVeiculos();
+                }
               });
             }
 
             totalVeiculosLidos++;
           }
 
-          // this.conferenciaDataService.conferirChassisEmLote(conferencias,this.configuracao.id)
-          // .subscribe(() =>
-            this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(this.configuracao.id)
-            .subscribe(() =>
-              this.conferenciaDataService.carregarConfiguracao(this.configuracao.id)
-              .subscribe((res) =>
-                this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(res.retorno)
-                .subscribe(() => {
-                    this.conferenciaService.totalUpload$ = new BehaviorSubject<number>(0);
-                    this.authService.hideSincronizacao();
-                    this.authService.showLoading();
-                    this.conferenciaService.update();
-
-                    this.gotoListagemVeiculos();
-                    this.authService.hideLoading();
-
-                    this.contador = 0;
-                    localStorage.setItem('contador', this.contador.toString());
-                  },
-                  (err) => {
-                    console.error(err);
-                    this.alertService.showError(
-                      'ERRO AO EXECUTAR A SINCRONIZAÇÃO',
-                      'FIQUE ONLINE E TENTE NOVAMENTE.'
-                    );
-                  }
-                )
-              )
-            )
-          // );
         });
       }
     }
@@ -598,6 +544,38 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
         );
     }
   }
+
+  loadVeiculos(){
+    this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(this.configuracao.id)
+    .subscribe(() =>
+      this.conferenciaDataService.carregarConfiguracao(this.configuracao.id)
+      .subscribe((res) => {
+        this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(res.retorno)
+        .subscribe(() => {
+          this.authService.hideSincronizacao();
+          this.authService.showLoading();
+          this.conferenciaService.update();
+
+          this.gotoListagemVeiculos();
+          this.authService.hideLoading();
+
+          this.contador = 0;
+          localStorage.setItem('contador', this.contador.toString())
+
+            },
+            (err) => {
+              console.error(err);
+              this.alertService.showError(
+                'ERRO AO EXECUTAR A SINCRONIZAÇÃO',
+                'FIQUE ONLINE E TENTE NOVAMENTE.'
+              );
+            }
+          )
+      })
+    )
+  }
+
+
 
   // conferirChassisEmLotes(data: Conferencia[], conferenciaConfiguracaoID: number) {
   //   let model = [];
