@@ -1,7 +1,7 @@
 import { SincronizacaoInfoComponent } from './../components/sincronizacao-info/sincronizacao-info';
 import { PatioAutomotivo } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -16,7 +16,7 @@ import { Flashlight } from '@ionic-native/flashlight';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ChartsModule } from 'ng2-charts';
 import { DragulaModule } from 'ng2-dragula';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrMaskerModule } from 'brmasker-ionic-3';
 
 // Providers e Services
@@ -202,7 +202,7 @@ import { QualidadeDashboardBuscaAvariasPage } from '../pages/qualidade-dashboard
 import { QualidadeMenuPage } from '../pages/qualidade-menu/qualidade-menu';
 import { LancamentoAvariaPage } from '../pages/lancamento-avaria/lancamento-avaria';
 import { LancarAvariaComponent } from '../components/lancar-avaria/lancar-avaria';
-
+import {ProgressBarModule} from "angular-progress-bar"
 
 @NgModule({
   declarations: [
@@ -421,7 +421,10 @@ import { LancarAvariaComponent } from '../components/lancar-avaria/lancar-avaria
     ChartsModule,
     DragulaModule,
     ModalCancelarChassiPageModule,
-    ModalCancelarCarregamentoPageModule
+    ModalCancelarCarregamentoPageModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    ProgressBarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -612,5 +615,8 @@ import { LancarAvariaComponent } from '../components/lancar-avaria/lancar-avaria
     ConferenciaService,
     AlertService,
   ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class AppModule {}
