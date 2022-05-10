@@ -55,5 +55,15 @@ modal-sincronizando {
         }
       }
     }
+
+    .row-progress-bar-color {
+      color: darkred;
+    }
+  }
+
+  ion-progress-bar {
+    --buffer-background: var(--ion-background-color);
+    --background: var(--ion-background-color);
+    --progress-background: var(--ion-color-step-400);
   }
 }
