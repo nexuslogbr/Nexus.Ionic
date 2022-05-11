@@ -137,21 +137,15 @@
       <ion-grid class="grid-wrapper" [ngStyle]="{'background-color': primaryColor}">
         <ion-row>
           <ion-col>
-            <ion-grid
-              class="grid-resumo-destino"
-              *ngFor="let resumo of conferenciaService.sumDestinos$ | async"
-              [ngClass]="{'desabilitar': false}"
-            >
-              <ion-row class="row-destino">
+            <ion-grid class="grid-resumo-destino" *ngFor="let resumo of conferenciaService.sumDestinos$ | async" [ngClass]="{'desabilitar': false}">
+              <!-- <ion-row class="row-destino">
                 <ion-col class="text-left">
                   {{ resumo.destinoNome }}
                 </ion-col>
                 <ion-col class="col-resumo-quantidade">
-                  {{resumo.quantidadeConferidos}}/{{resumo.quantidadeVeiculos}}
-                  ({{ resumo.quantidadeVeiculos - resumo.quantidadeConferidos
-                  }})
+                  {{ resumo.quantidadeVeiculos - resumo.quantidadeConferidos }}/{{resumo.quantidadeConferidos}} ({{resumo.quantidadeVeiculos}})
                 </ion-col>
-              </ion-row>
+              </ion-row> -->
 
               <ion-row>
                 <ion-col class="col-grid-modelos">
@@ -167,10 +161,7 @@
                         <strong> {{ modelo.modeloNome }}</strong>
                       </ion-col>
                       <ion-col class="col-resumo-quantidade">
-                        {{ modelo.quantidadeConferidos }}/{{
-                        modelo.quantidadeVeiculos }} ({{
-                        modelo.quantidadeVeiculos - modelo.quantidadeConferidos
-                        }})
+                        {{ modelo.quantidadeVeiculos - modelo.quantidadeConferidos }}/{{ modelo.quantidadeConferidos }} ({{ modelo.quantidadeVeiculos }})
                       </ion-col>
                     </ion-row>
                   </ion-grid>

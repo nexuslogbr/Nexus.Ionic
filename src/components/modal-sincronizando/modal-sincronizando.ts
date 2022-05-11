@@ -11,7 +11,7 @@ export class ModalSincronizandoComponent {
   percent = 0;
 
   constructor(public authService: AuthService) {
-    setInterval(() =>  this.manageProgress(), 500);
+    setInterval(() =>  this.manageProgress(), 300);
   }
 
   manageProgress() {

@@ -55,8 +55,8 @@ export class AuthService {
 
    // TESTE NEXUS
 
-  //  url: string = 'http://api-nexus.luby.com.br/api';
-   url: string = 'http://localhost:9945//api'
+   url: string = 'http://api-nexus.luby.com.br/api';
+  //  url: string = 'http://localhost:9945//api'
    //headers: any =  {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'};
 
   private LOGIN_KEY = 'login_data';
