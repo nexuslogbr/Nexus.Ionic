@@ -184,7 +184,7 @@ import { DesbloquearPage } from '../pages/desbloquear/desbloquear';
 import { FormBloqueioComponent } from '../components/form-bloqueio/form-bloqueio';
 import { ModalChassisBloqueioComponent } from '../components/modal-chassis-bloqueio/modal-chassis-bloqueio';
 import { ModalChassisDesbloqueioComponent } from '../components/modal-chassis-desbloqueio/modal-chassis-desbloqueio';
-import { formatUrlPart } from 'ionic-angular/umd/navigation/url-serializer';
+// import { formatUrlPart } from 'ionic-angular/umd/navigation/url-serializer';
 import { FormDesbloqueioComponent } from '../components/form-desbloqueio/form-desbloqueio';
 import { LancamentoServicoPage } from '../pages/lancamento-servico/lancamento-servico';
 import { ModalLancamentoServicoComponent } from '../components/modal-lancamento-servico/modal-lancamento-servico';
