@@ -15,14 +15,11 @@
     </ion-col>
     <ion-col col-4 class="col-status">
       <div class="legenda">
-        Conferido/Total (Saldo)
+        Restante / Conferido (Total)
       </div>
       <div class="divtotais">
-        <sincronizacao-info
-          [conferenciaConfiguracaoId]="configuracao.id"
-        ></sincronizacao-info>
-        {{ totalConferidos }}/{{ totalVeiculos }}
-        <strong>({{totalVeiculos - totalConferidos}})</strong>
+        <sincronizacao-info [conferenciaConfiguracaoId]="configuracao.id"></sincronizacao-info>
+        {{totalVeiculos - totalConferidos}}/{{ totalConferidos }} <strong>({{ totalVeiculos }})</strong>
       </div>
     </ion-col>
   </ion-row>
