@@ -23,21 +23,21 @@
 <ion-content padding id="romaneio" class="romaneio" [ngStyle]="{'background-color': secondaryColor}">
   <div class="romaneio-container" [ngStyle]="{'background-color': secondaryColor}">
     <div class="login-content" *ngIf="userData.confereOnline || (!userData.confereOnline && !userData.confereOffline)">
-        <button ion-button round class="btn-default" (click)="navigateToConfiguracao()" type="button" [ngStyle]="{'background-color': buttonColor}">Configurar
-          Conferência</button>
-    </div>            
+        <button ion-button round class="btn-default" (click)="navigateToConfiguracao()" type="button" [ngStyle]="{'background-color': buttonColor}">
+          Configurar Conferência</button>
+    </div>
     <div class="login-content">
-        <button ion-button round class="btn-default" (click)="navigateToRealizar()" type="button" [ngStyle]="{'background-color': buttonColor}">Realizar
-          Conferência</button>
+        <button ion-button round class="btn-default" (click)="navigateToRealizar()" type="button" [ngStyle]="{'background-color': buttonColor}">
+          Realizar Conferência</button>
     </div>
     <div class="login-content" *ngIf="userData.confereOnline || (!userData.confereOnline && !userData.confereOffline)">
-      <button ion-button round class="btn-default" (click)="navigateToFinalizar()" type="button" [ngStyle]="{'background-color': buttonColor}">Concluir
-        Conferência</button>
+      <button ion-button round class="btn-default" (click)="navigateToFinalizar()" type="button" [ngStyle]="{'background-color': buttonColor}">
+        Concluir Conferência</button>
   </div>
   </div>
 
 </ion-content>
-<!-- 
+<!--
   <ion-grid class="first-row">
 
     <ion-row *ngIf="userData.confereOnline || (!userData.confereOnline && !userData.confereOffline)">
@@ -63,7 +63,7 @@
 
   </ion-grid> -->
 
-<!-- 
+<!--
 <ion-footer no-border>
   <ion-grid class="grid-botao-wrapper">
     <ion-row>
