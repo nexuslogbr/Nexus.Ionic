@@ -2,7 +2,7 @@ page-nova-conferencia-input {
   ion-input {
     ::placeholder {
       opacity: 0.5;
-      color: black !important;
+      color: white !important;
     }
   }
 
@@ -63,7 +63,7 @@ page-nova-conferencia-input {
 
     input {
       font: 14px 'avenir_demi';
-      width: 100%;      
+      width: 100%;
       border: none;
       border-radius: 0;
       color:black !important;
@@ -124,8 +124,8 @@ page-nova-conferencia-input {
     .grid-botao-wrapper {
       padding-left: 16px !important;
       padding-right: 16px !important;
-      padding-top: 0px;      
-  
+      padding-top: 0px;
+
       .btn-menu-internal {
         background-color: #DEDEDE;
         color: black;
