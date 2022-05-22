@@ -292,7 +292,7 @@
             SINCRONIZAÇÃO PENDENTES:
           </div>
           <div class="resumo">
-            {{conferenciaService.totalUpload$ | async}} <strong>/ {{ (conferenciaService.saldoConferencia$ | async) }})</strong>
+            {{conferenciaService.totalUpload$ | async}} <strong>/ {{conferenciaService.saldoConferencia$ | async }}</strong>
           </div>
         </ion-col>
         <ion-col class="col-icone">
@@ -356,4 +356,4 @@
   </ion-grid>
 </ion-footer>
 
-<modal-sincronizando></modal-sincronizando>
+<modal-sincronizando [progress]="porcentagem"></modal-sincronizando>
