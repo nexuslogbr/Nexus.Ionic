@@ -42,6 +42,7 @@ import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-sele
 // 3123	mnu_mob_observacao
 // 3124	mnu_mob_servico
 // 3141 mnu_mob_avaria
+// 3145 mnu_mob_buscaravaria
 
 
 const menus = [
@@ -124,19 +125,7 @@ const menus = [
     id: 3111,
     nome: 'mnu_mob_servico'
   },
-  {
-    texto: 'Vistoriar',
-    cssClass: 'vistoriar',
-    id: 3142,
-    nome: 'mnu_mob_vistoria'
-  },
 
-  {
-    texto: 'Buscar Avaria',
-    cssClass: 'vistoriar',
-    id: 3143,
-    nome: 'mnu_mob_buscaravaria'
-  },
   {
     texto: 'Histórico de Chassi',
     cssClass: 'historico-chassi',
@@ -145,17 +134,26 @@ const menus = [
   },
 
   {
-    texto: 'Qualidade',
+    texto: 'Módulo de Qualidade',
     cssClass: 'historico-chassi',
     id: 3118,
     nome: 'mnu_mob_qualidade'
   },
 
-  {
-    texto: 'Lançamento de Avaria',
-    cssClass: 'lancamento-servico',
-    id: 3141,
-  }
+  // {
+  //   texto: 'Vistoriar',
+  //   cssClass: 'vistoriar',
+  //   id: 3142,
+  //   nome: 'mnu_mob_vistoria'
+  // },
+
+  // {
+  //   texto: 'Buscar Avaria',
+  //   cssClass: 'vistoriar',
+  //   id: 3145,
+  //   nome: 'mnu_mob_buscaravaria'
+  // },
+
 ];
 @Component({
   selector: 'page-home',
@@ -186,13 +184,10 @@ export class HomePage {
 
     if (this.userData && this.userData.nomesMenus) {
       this.userMenus = menus.filter((m) =>
-        this.userData.nomesMenus.some((mm) => mm == m.nome)
-
-
+        this.userData.nomesMenus.some((mm) => mm == m['nome'])
       );
 
-      //  this.userData.nomesMenus.push('mnu_mob_buscaravaria')
-      console.log(this.userData.nomesMenus)
+      // console.log(this.userData.nomesMenus)
 
     }
 
@@ -210,15 +205,6 @@ export class HomePage {
       this.inputColor = '#06273f';
       this.buttonColor = "#1c6381";
     }
-
-    // if (this.userData && this.userData.menus) {
-    //   this.userMenus = menus.filter((m) =>
-    //     this.userData.menus.some((mm) => mm == m.id)
-    //   );
-    //   this.userMenus = menus;
-
-
-    // }
   }
 
   ionViewDidEnter() {
@@ -307,6 +293,7 @@ export class HomePage {
     // 3122	mnu_mob_bloqueio
     // 3123	mnu_mob_observacao
     // 3124	mnu_mob_servico
+    // 0000	mnu_mob_qualidade
 
     console.log(menu)
     // if (menu.id == 3101) {
@@ -378,19 +365,14 @@ export class HomePage {
       this.navCtrl.setRoot(ObservacoesPage);
     } else if (menu.nome == 'mnu_mob_servico') {
       this.navCtrl.setRoot(LancamentoServicoPage);
+    } else if (menu.nome == 'mnu_mob_qualidade') {
+      this.navCtrl.setRoot(QualidadeMenuPage);
     }
     // else if (menu.nome == 'mnu_mob_vistoria') {
     //   this.navCtrl.setRoot(VistoriaPage);
     // }
-    // else if (menu.nome == 'mnu_mob_qualidade') {
-    //   this.navCtrl.setRoot(QualidadeMenuPage);
-    // }
-
-    else if (menu.id == 3141) {
-      this.navCtrl.setRoot(LancamentoAvariaPage);
-    }
-    // else if (menu.id == 3141) {
-    //   this.navCtrl.setRoot(LancamentoAvariaSelecaoSuperficiePage);
+    // else if (menu.nome == 'mnu_mob_buscaravaria') {
+    //   this.navCtrl.setRoot(BuscarAvariasPage);
     // }
   }
 }
