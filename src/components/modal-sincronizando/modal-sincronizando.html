@@ -15,9 +15,13 @@
 
     <ion-row class="row-primary-text">
       <ion-col class="col-primary-text">
-        <p class="p-primary-text">SINCRONIZANDO!</p>
+        <p class="p-primary-text">SINCRONIZANDO...</p>
       </ion-col>
     </ion-row>
+
+    <div style="position: relative;">
+      <progress-bar [progress]="percent" [color]="'#488aff'"></progress-bar>
+    </div>
 
   </ion-grid>
 

@@ -1,7 +1,7 @@
 import { SincronizacaoInfoComponent } from './../components/sincronizacao-info/sincronizacao-info';
 import { PatioAutomotivo } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -16,7 +16,7 @@ import { Flashlight } from '@ionic-native/flashlight';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ChartsModule } from 'ng2-charts';
 import { DragulaModule } from 'ng2-dragula';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrMaskerModule } from 'brmasker-ionic-3';
 
 // Providers e Services
@@ -184,7 +184,6 @@ import { DesbloquearPage } from '../pages/desbloquear/desbloquear';
 import { FormBloqueioComponent } from '../components/form-bloqueio/form-bloqueio';
 import { ModalChassisBloqueioComponent } from '../components/modal-chassis-bloqueio/modal-chassis-bloqueio';
 import { ModalChassisDesbloqueioComponent } from '../components/modal-chassis-desbloqueio/modal-chassis-desbloqueio';
-import { formatUrlPart } from 'ionic-angular/umd/navigation/url-serializer';
 import { FormDesbloqueioComponent } from '../components/form-desbloqueio/form-desbloqueio';
 import { LancamentoServicoPage } from '../pages/lancamento-servico/lancamento-servico';
 import { ModalLancamentoServicoComponent } from '../components/modal-lancamento-servico/modal-lancamento-servico';
@@ -203,6 +202,7 @@ import { QualidadeMenuPage } from '../pages/qualidade-menu/qualidade-menu';
 import { LancamentoAvariaPage } from '../pages/lancamento-avaria/lancamento-avaria';
 import { LancarAvariaComponent } from '../components/lancar-avaria/lancar-avaria';
 import { LancarAvariaSelecionarComponent } from '../components/lancar-avaria-selecionar/lancar-avaria-selecionar';
+import { ProgressBarModule } from 'angular-progress-bar';
 
 
 @NgModule({
@@ -423,7 +423,10 @@ import { LancarAvariaSelecionarComponent } from '../components/lancar-avaria-sel
     ChartsModule,
     DragulaModule,
     ModalCancelarChassiPageModule,
-    ModalCancelarCarregamentoPageModule
+    ModalCancelarCarregamentoPageModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    ProgressBarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -615,5 +618,8 @@ import { LancarAvariaSelecionarComponent } from '../components/lancar-avaria-sel
     ConferenciaService,
     AlertService,
   ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class AppModule {}

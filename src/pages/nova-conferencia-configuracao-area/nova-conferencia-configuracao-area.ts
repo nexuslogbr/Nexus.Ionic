@@ -159,7 +159,7 @@ export class NovaConferenciaConfiguracaoAreaPage {
         )
         .subscribe((res) => {
 console.log('---->>',res)
-debugger
+
 
           if (res) {
             let configuracoesCadastradas = res.retorno;

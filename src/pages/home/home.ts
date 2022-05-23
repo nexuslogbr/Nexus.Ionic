@@ -177,9 +177,6 @@ export class HomePage {
     this.title = 'Sistema Pátio Automotivo';
     this.userData = this.authService.getUserData();
 
-    // this.userData.nomesMenus.push('mnu_mob_buscaravaria')
-    this.userData.nomesMenus.push('mnu_mob_qualidade')
-    
     console.log(this.userData)
 
     if (this.userData && this.userData.nomesMenus) {
@@ -382,7 +379,7 @@ export class HomePage {
       this.navCtrl.setRoot(QualidadeMenuPage);
     }
 
-    
+
     //   nome:'mnu_mob_parqueamento'
     //   nome:'mnu_mob_receberparquear'
     //   nome:'mnu_mob_conferencia'

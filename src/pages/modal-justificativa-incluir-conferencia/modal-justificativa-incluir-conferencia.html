@@ -43,7 +43,7 @@
             <ion-item>
               <ion-label label-ios>Turno:</ion-label>
               <ion-select (ionChange)="onTurnoChange($event)" okText="Confirmar" cancelText="Cancelar"
-                placeholder="Selecione o turno" [ngClass]="{ selecionado: turno != null }" #Field3>
+                placeholder="Selecione o turno" [ngStyle]="{'color': '#fff'}" #Field3>
                 <ion-option *ngFor="let turno of turnos" value="{{ turno.id }}" id="{{ turno.id }}">
                   {{ turno.turnoHoraFaixa }}</ion-option>
               </ion-select>

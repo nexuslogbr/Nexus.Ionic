@@ -142,7 +142,7 @@ export class VistoriaPage {
       prompt: '',
       resultDisplayDuration: 0,
     };
-    
+
     this.authService.showLoading();
 
     this.barcodeScanner.scan(this.options).then(
@@ -188,7 +188,7 @@ export class VistoriaPage {
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
-          debugger
+
           this.openModalChassis(this.responseData.retorno, byScanner);
         } else {
           this.authService.hideLoading();

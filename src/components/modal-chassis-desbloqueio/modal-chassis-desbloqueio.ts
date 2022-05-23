@@ -169,18 +169,18 @@ export class ModalChassisDesbloqueioComponent {
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-        
+
         this.responseData = res;
 
-        
+
         // this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
           //this.openModalChassis(this.responseData.retorno);
-          
+
           if(this.responseData.retorno.length > 0){
 
-            debugger
+
             this.responseData.retorno[0].chassi = this.novoChassi;
              this.openFormBloqueio(this.responseData);
           }else{
