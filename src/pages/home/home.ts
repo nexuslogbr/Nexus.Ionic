@@ -123,12 +123,12 @@ const menus = [
     id: 3111,
     nome: 'mnu_mob_servico'
   },
-  {
-    texto: 'Vistoriar',
-    cssClass: 'vistoriar',
-    id: 3142,
-    nome: 'mnu_mob_vistoria'
-  },
+  // {
+  //   texto: 'Vistoriar',
+  //   cssClass: 'vistoriar',
+  //   id: 3142,
+  //   nome: 'mnu_mob_vistoria'
+  // },
 
   {
     texto: 'Buscar Avaria',
@@ -143,12 +143,12 @@ const menus = [
     nome: 'mnu_mob_historicochassi'
   },
 
-  {
-    texto: 'Qualidade',
-    cssClass: 'historico-chassi',
-    id: 3118,
-    nome: 'mnu_mob_qualidade'
-  },
+  // {
+  //   texto: 'Qualidade',
+  //   cssClass: 'historico-chassi',
+  //   id: 3118,
+  //   nome: 'mnu_mob_qualidade'
+  // },
 
 
 ];
@@ -373,11 +373,13 @@ export class HomePage {
       this.navCtrl.setRoot(ObservacoesPage);
     } else if (menu.nome == 'mnu_mob_servico') {
       this.navCtrl.setRoot(LancamentoServicoPage);
-    } else if (menu.nome == 'mnu_mob_vistoria') {
-      this.navCtrl.setRoot(VistoriaPage);
-    } else if (menu.nome == 'mnu_mob_qualidade') {
-      this.navCtrl.setRoot(QualidadeMenuPage);
     }
+    // else if (menu.nome == 'mnu_mob_vistoria') {
+    //   this.navCtrl.setRoot(VistoriaPage);
+    // }
+    // else if (menu.nome == 'mnu_mob_qualidade') {
+    //   this.navCtrl.setRoot(QualidadeMenuPage);
+    // }
 
 
     //   nome:'mnu_mob_parqueamento'
