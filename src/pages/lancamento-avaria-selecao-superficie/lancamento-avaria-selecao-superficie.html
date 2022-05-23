@@ -1,0 +1,115 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>{{title}}</ion-title>
+</ion-header>
+
+<ion-content padding id="selecao-superficie" class="recebimento show">
+
+  <div>
+    <form [formGroup]="formSelecaoSuperficie" class="form-selecao-superficie">
+      <ion-list>
+        <div class="login-content">
+          <button ion-button round end class="btn-receiving-long btn-ok"  (click)="voltar()" type="button">Voltar</button>
+        </div>
+        <br>
+
+        <ion-item class="item-list-black">
+          <ion-label label-ios style="font-style: unset;">Chassi Avariado</ion-label>
+        </ion-item>
+
+        <ion-item class="item-list-grey">
+          <ion-label label-ios style="font-style: unset;"><b>Chassi: </b>{{formSelecaoSuperficie.controls.chassi.value}}</ion-label><p></p>
+          <!-- <ion-input label-ios style="font-style: unset; color: white;"  formControlName="chassi"></ion-input> -->
+        </ion-item>
+
+        <ion-item class="item-list-grey">
+          <ion-label label-ios style="font-style: unset;"><b>Modelo: </b>{{formSelecaoSuperficie.controls.modelo.value}}</ion-label>
+        </ion-item>
+
+        <ion-item class="item-list-grey">
+          <ion-label label-ios style="font-style: unset;"><b>Selecionar Parte:</b></ion-label>
+          <ion-select okText="Selecionar" cancelText="Cancelar">
+             <!-- <ion-option *ngFor="let momento of momentos" value="{{momento.id}}" id="{{momento.id}}">{{momento.nome}}</ion-option> -->
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="item-list-black">
+          <ion-label label-ios style="font-style: unset;" color="dark"><b>Selecionar Peças:</b></ion-label>
+          <ion-select okText="Selecionar" cancelText="Cancelar">
+            <!-- <ion-option *ngFor="let momento of momentos" value="{{momento.id}}" id="{{momento.id}}">{{momento.nome}}</ion-option> -->
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="item-list-black">
+          <ion-label label-ios style="font-style: unset;"><b>Selecionar Tipo Avaria:</b></ion-label>
+          <ion-select (ionChange)="onTipoAvariaChange($event)" okText="Selecionar" cancelText="Cancelar">
+            <ion-option *ngFor="let item of tiposAvaria" value="{{item.nome}}" id="{{item.id}}">{{item.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <img src="assets/images/car_model.PNG" style="width: 100%;">
+
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Tipo Avaria: </b>{{formSelecaoSuperficie.controls.tipoAvaria.value}}</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Posição Avaria: </b></ion-label><p></p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Gravidade: </b></ion-label>
+          <ion-select okText="Selecionar" cancelText="Cancelar">
+            <ion-option *ngFor="let gravidade of nivelGravidadeAvaria" value="{{gravidade.id}}" id="{{gravidade.id}}">{{gravidade.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Observação: </b></ion-label>
+          <ion-textarea label-ios style="font-style: unset; color: white;"  formControlName="observacao"></ion-textarea>
+        </ion-item>
+
+        <ion-item no-lines>
+          <ion-label label-ios style="font-style: unset;"><b>Imagens:</b></ion-label>
+        </ion-item>
+
+        <ion-toolbar color="primary">
+          <ion-row style="align-items: center;">
+            <ion-thumbnail>
+              <img src="assets/images/camera-white-model.png" class="align-camera" (click)="selectImage()">
+            </ion-thumbnail>
+          </ion-row>
+        </ion-toolbar>
+
+        <ion-item *ngFor="let img of images; index as pos" text-wrap>
+          <ion-thumbnail slot="start">
+            <ion-img [src]="img.path"></ion-img>
+          </ion-thumbnail>
+          <ion-label>{{ img.name }}</ion-label>
+
+          <button slot="end" fill="clear" (click)="startUpload(img)">
+            <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+          </button>
+
+          <button slot="end" fill="clear" (click)="deleteImage(img, pos)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </button>
+        </ion-item>
+      </ion-list>
+
+    </form>
+  </div>
+
+
+  <div class="login-content">
+    <button ion-button round first class="btn-receiving btn-cancel" type="button">Adicionar</button>
+    <button ion-button round end class="btn-receiving btn-ok" type="button">Salvar</button>
+  </div>
+
+
+</ion-content>
+<modal-error></modal-error>
+<modal-loading></modal-loading>

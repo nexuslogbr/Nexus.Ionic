@@ -23,24 +23,25 @@ import { Storage } from '@ionic/storage';
 import { VistoriaPage } from '../vistoria/vistoria';
 import { BuscarAvariasPage } from '../buscar-avarias/buscar-avarias';
 import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
+import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
+import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 
 
-// 0: "mnu_mob_recebimento"
-// 1: "mnu_mob_parqueamento"
-// 2: "mnu_mob_receberparquear"
-// 3: "mnu_mob_conferencia"
-// 4: "mnu_mob_parquearbloco"
-// 5: "mnu_mob_movimentacao"
-// 6: "mnu_mob_rechego"
-// 7: "mnu_mob_carregamento"
-// 8: "mnu_mob_carregamentoexportacao"
-// 9: "mnu_mob_romaneio"
-// 10: "mnu_mob_bloqueio"
-// 11: "mnu_mob_observacao"
-// 12: "mnu_mob_servico"
-// 13: "mnu_mob_avaria"
-// 14: "mnu_mob_historicochassi"
-// 15: "mnu_mob_vistoria"
+// 3101	mnu_mob_recebimento
+// 3102	mnu_mob_parqueamento
+// 3103	mnu_mob_receberparquear
+// 3104	mnu_mob_conferencia
+// 3105	mnu_mob_parquearbloco
+// 3106	mnu_mob_movimentacao
+// 3107	mnu_mob_rechego
+// 3108	mnu_mob_carregamento
+// 3109	mnu_mob_carregamentoexportacao
+// 3110	mnu_mob_romaneio
+// 3111	mnu_mob_historicochassi
+// 3122	mnu_mob_bloqueio
+// 3123	mnu_mob_observacao
+// 3124	mnu_mob_servico
+// 3141 mnu_mob_avaria
 
 
 const menus = [
@@ -123,12 +124,12 @@ const menus = [
     id: 3111,
     nome: 'mnu_mob_servico'
   },
-  // {
-  //   texto: 'Vistoriar',
-  //   cssClass: 'vistoriar',
-  //   id: 3142,
-  //   nome: 'mnu_mob_vistoria'
-  // },
+  {
+    texto: 'Vistoriar',
+    cssClass: 'vistoriar',
+    id: 3142,
+    nome: 'mnu_mob_vistoria'
+  },
 
   {
     texto: 'Buscar Avaria',
@@ -143,14 +144,18 @@ const menus = [
     nome: 'mnu_mob_historicochassi'
   },
 
-  // {
-  //   texto: 'Qualidade',
-  //   cssClass: 'historico-chassi',
-  //   id: 3118,
-  //   nome: 'mnu_mob_qualidade'
-  // },
+  {
+    texto: 'Qualidade',
+    cssClass: 'historico-chassi',
+    id: 3118,
+    nome: 'mnu_mob_qualidade'
+  },
 
-
+  {
+    texto: 'Lançamento de Avaria',
+    cssClass: 'lancamento-servico',
+    id: 3141,
+  }
 ];
 @Component({
   selector: 'page-home',
@@ -381,22 +386,11 @@ export class HomePage {
     //   this.navCtrl.setRoot(QualidadeMenuPage);
     // }
 
-
-    //   nome:'mnu_mob_parqueamento'
-    //   nome:'mnu_mob_receberparquear'
-    //   nome:'mnu_mob_conferencia'
-    //   nome:'mnu_mob_parquearbloco'
-    //   nome:'mnu_mob_movimentacao'
-    //   nome:'mnu_mob_rechego'
-    //   nome:'mnu_mob_carregamento'
-    //   nome:'mnu_mob_carregamentoexportacao'
-    //   nome:'mnu_mob_romaneio'
-    //   nome:'mnu_mob_historicochassi'
-    //   nome:'mnu_mob_bloqueio'
-    //   nome:'mnu_mob_observacao'
-    //   nome:'mnu_mob_servico'
-    //   nome:'mnu_mob_vistoria'
-    // },
-
+    else if (menu.id == 3141) {
+      this.navCtrl.setRoot(LancamentoAvariaPage);
+    }
+    // else if (menu.id == 3141) {
+    //   this.navCtrl.setRoot(LancamentoAvariaSelecaoSuperficiePage);
+    // }
   }
 }

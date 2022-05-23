@@ -79,8 +79,6 @@ export class ModalChassisBloqueioComponent {
     this.url = this.authService.getUrl();
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
-
-    
     var chassi_ = Array.of(this.navParam.get('data').chassi);
     console.log(chassi_)
     this.chassis = Array.of(chassi_);
@@ -145,7 +143,7 @@ export class ModalChassisBloqueioComponent {
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-        
+
         this.responseData = res;
         // this.responseData = res;
         if (this.responseData.sucesso) {

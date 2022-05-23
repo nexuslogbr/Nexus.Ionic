@@ -1,9 +1,9 @@
 carregamento-list {
     ion-content{
-         background-color: #404040 !important;  
+         background-color: #404040 !important;
         .lines-content{
             // background-color: #404040;
-            padding: 0 15px 25px 15px;  
+            padding: 0 15px 25px 15px;
             ion-list-header{
                 // background-color: #595959;
                 border-top: none;
@@ -13,8 +13,8 @@ carregamento-list {
                     color: #fff;
                     font: 16px 'avenir_demi';
                 }
-            }      
-            
+            }
+
             .item-md {
              padding-left: 0px !important;
             }
@@ -26,13 +26,13 @@ carregamento-list {
                     // background-color: #404040;
                     margin: 0;
                     list-style: none;
-                    
+
                     display: -webkit-box;
                     display: -moz-box;
                     display: -ms-flexbox;
                     display: -webkit-flex;
                     display: flex;
-                    
+
                     -webkit-flex-flow: row wrap;
                     justify-content: flex-start;
 
@@ -41,7 +41,7 @@ carregamento-list {
                     }
                     .line-item.border-green{
                         border: 3px solid #77bd5d;
-                    }                    
+                    }
                     .line-item{
                         padding: 5px;
                         width: 25%;
@@ -67,7 +67,7 @@ carregamento-list {
                         }
                         .circle-flag.checked{
                             background-color: #c74748;
-                        }                        
+                        }
                         .circle-flag.loaded{
                             background-color: #77bd5d;
                             background-image: url('../assets/images/icon-check.png');
@@ -78,8 +78,8 @@ carregamento-list {
                         }
                     }
                 }
-               
-            }              
+
+            }
         }
     }
     .shipping-company{
@@ -112,17 +112,17 @@ carregamento-list {
                 font: 19px 'avenir_bold';
             }
         }
-    }	
+    }
     modal-loading{
         // background-color: rgba(6, 39, 63, 0.2) !important;
-    }				
+    }
 }
 .line-item.border-blue.gu-mirror{
     border: 3px solid #0077d3;
 }
 .line-item.border-green.gu-mirror{
     border: 3px solid #77bd5d;
-} 
+}
 .gu-mirror {
     position: fixed !important;
     margin: 0 !important;
@@ -156,7 +156,7 @@ carregamento-list {
     }
     .circle-flag.checked{
         background-color: #c74748;
-    }                        
+    }
     .circle-flag.loaded{
         background-color: #77bd5d;
         background-image: url('../assets/images/icon-check.png');
@@ -164,7 +164,7 @@ carregamento-list {
     }
     .circle-flag.loading{
         background-color: #0077d3;
-    }    
+    }
   }
   .gu-hide {
     display: none !important;

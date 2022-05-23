@@ -144,7 +144,6 @@ export class HistoricoChassiPage {
     this.barcodeScanner.scan(this.options).then(
       (barcodeData) => {
 
-
         this.qrCodeText = barcodeData.text;
         this.consultarChassi(this.qrCodeText, true);
       },
@@ -197,7 +196,6 @@ export class HistoricoChassiPage {
 
       this.qrCodeText = this.formData['chassi'];
       this.consultarChassi(this.qrCodeText, true);
-
   }
 
   navigateToHomePage() {

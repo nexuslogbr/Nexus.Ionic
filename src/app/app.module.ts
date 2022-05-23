@@ -203,7 +203,21 @@ import { LancamentoAvariaPage } from '../pages/lancamento-avaria/lancamento-avar
 import { LancarAvariaComponent } from '../components/lancar-avaria/lancar-avaria';
 import { LancarAvariaSelecionarComponent } from '../components/lancar-avaria-selecionar/lancar-avaria-selecionar';
 import { ProgressBarModule } from 'angular-progress-bar';
+import { CommonModule } from '@angular/common';
 
+import { FormLancamentoAvariaComponent } from '../components/form-lancamento-avaria/form-lancamento-avaria';
+import { ModalLancamentoAvariaComponent } from '../components/modal-lancamento-avaria/modal-lancamento-avaria';
+import { MomentoDataService } from '../providers/momento-data-service';
+import { ModalBuscaChassiComponent } from '../pages/modal-busca-chassi/modal-busca-chassi';
+import { ModalSelecionarChassiComponent } from '../components/modal-selecionar-chassi/modal-selecionar-chassi';
+import { LancamentoAvariaSelecaoSuperficiePage } from '../pages/lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
+import { AvariaDataService } from '../providers/avaria-data-service';
+import { GravidadeDataService } from '../providers/gravidade-data-service';
+
+import { Camera } from '@ionic-native/Camera';
+import { File } from '@ionic-native/File';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { FilePath } from '@ionic-native/file-path';
 
 @NgModule({
   declarations: [
@@ -366,8 +380,13 @@ import { ProgressBarModule } from 'angular-progress-bar';
     QualidadeMenuPage,
     LancamentoAvariaPage,
     LancarAvariaComponent,
-    LancarAvariaSelecionarComponent
-
+    LancarAvariaSelecionarComponent,
+    FormLancamentoAvariaComponent,
+    ModalLancamentoAvariaComponent,
+    ModalBuscaChassiComponent,
+    ModalSelecionarChassiComponent,
+    LancamentoAvariaSelecaoSuperficiePage,
+    AlterarCorPage
   ],
   imports: [
     BrowserModule,
@@ -426,7 +445,8 @@ import { ProgressBarModule } from 'angular-progress-bar';
     ModalCancelarCarregamentoPageModule,
     HttpClientModule,
     ReactiveFormsModule,
-    ProgressBarModule
+    ProgressBarModule,
+    CommonModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -586,9 +606,17 @@ import { ProgressBarModule } from 'angular-progress-bar';
     QualidadeMenuPage,
     LancamentoAvariaPage,
     LancarAvariaComponent,
-    LancarAvariaSelecionarComponent
+    LancarAvariaSelecionarComponent,
+    FormLancamentoAvariaComponent,
+    ModalLancamentoAvariaComponent,
+    ModalBuscaChassiComponent,
+    ModalSelecionarChassiComponent,
+    LancamentoAvariaSelecaoSuperficiePage,
+    AlterarCorPage
+
   ],
   providers: [
+    Camera,
     AuthService,
     StatusBar,
     Network,
@@ -617,6 +645,12 @@ import { ProgressBarModule } from 'angular-progress-bar';
     ArquivoDataService,
     ConferenciaService,
     AlertService,
+    MomentoDataService,
+    AvariaDataService,
+    GravidadeDataService,
+    File,
+    WebView,
+    FilePath
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

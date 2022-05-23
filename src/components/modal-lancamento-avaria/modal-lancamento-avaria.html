@@ -1,0 +1,59 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()">
+  <button class="btn-menu">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>
+    {{title}}
+  </ion-title>
+</ion-header>
+<ion-content padding>
+  <form class="form-recebe-chassis">
+    <ion-list>
+      <ion-list-header>
+        Selecione o chassi
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label label-ios>Chassi:</ion-label>
+        <ion-select
+          (ionChange)="onChassisChange($event)"
+          okText="Confirmar"
+          cancelText="Cancelar"
+          #select
+        >
+          <ion-option
+            *ngFor="let chassi of chassis"
+            value="{{chassi}}"
+            id="{{chassi}}"
+            >{{chassi}}</ion-option
+          >
+        </ion-select>
+      </ion-item>
+      <div class="login-content">
+        <p>CONFIRMAR O LANÇAMENTO DE AVARIA?</p>
+        <button
+          ion-button
+          round
+          first
+          class="btn-receiving btn-cancel"
+          (click)="closeModal()"
+          type="button"
+        >
+          NÃO
+        </button>
+        <button
+          ion-button
+          round
+          end
+          class="btn-receiving btn-ok"
+          (click)="bloquearVeiculo()"
+          type="button"
+        >
+          SIM
+        </button>
+      </div>
+    </ion-list>
+  </form>
+</ion-content>
+<modal-loading></modal-loading>
