@@ -16,7 +16,7 @@ import { Turno } from '../../model/turno';
 import { ConferenciaConfiguracao } from '../../model/conferencia-configuracao';
 import { Navio } from '../../model/navio';
 import { Arquivo } from '../../model/arquivo';
-import { Local } from '../../model/Local';
+import { Local } from '../../model/local';
 import { ConferenciaOperacaoLote } from '../../model/conferencia-operacao-lote';
 import { Veiculo } from '../../model/veiculo';
 import { ConferenciaService } from '../../providers/conferencia-service';
@@ -29,7 +29,7 @@ import { AlertService } from '../../providers/alert-service';
 import { ModalSelecaoChassiPage } from '../modal-selecao-chassi/modal-selecao-chassi';
 import { ConferenciaVeiculoMotivos } from '../../model/conferencia-veiculo-motivos';
 import { InputChassiControllerComponent } from '../../components/input-chassi-controller/input-chassi-controller';
-import { Conferencia } from '../../model/Conferencia';
+import { Conferencia } from '../../model/conferencia';
 import { NovaConferenciaMenuPage } from '../nova-conferencia-menu/nova-conferencia-menu';
 import { BehaviorSubject } from 'rxjs';
 

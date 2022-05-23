@@ -20,8 +20,8 @@ import { ModalChassiCarregamentoComponent } from "../../components/modal-chassi-
 import * as $ from "jquery";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { DataService } from "../../providers/data-service";
-import { Romaneio } from "../../model/Romaneio";
-import { RomaneioDetalhe } from "../../model/RomaneioDetalhe";
+import { Romaneio } from "../../model/romaneio";
+import { RomaneioDetalhe } from "../../model/romaneiodetalhe";
 import { ModalCancelarCarregamentoPage } from "../../pages/modal-cancelar-carregamento/modal-cancelar-carregamento";
 import { CarregamentoPage } from "../../pages/carregamento/carregamento";
 

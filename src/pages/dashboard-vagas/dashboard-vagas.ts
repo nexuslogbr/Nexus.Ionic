@@ -11,7 +11,7 @@ import { DataService } from "../../providers/data-service";
 import { ModalErrorComponent } from "../../components/modal-error/modal-error";
 import { ModalSucessoComponent } from "../../components/modal-sucesso/modal-sucesso";
 import { DashboardVagasBolsaoPage } from "../dashboard-vagas-bolsao/dashboard-vagas-bolsao";
-import { Layout } from "../../model/Layout";
+import { Layout } from "../../model/layout";
 
 @Component({
   selector: "page-dashboard-vagas",

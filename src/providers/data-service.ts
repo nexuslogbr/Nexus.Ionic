@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AuthService } from "./auth-service/auth-service";
-import { Romaneio } from "../model/Romaneio";
-import { DataRetorno } from "../model/DataRetorno";
-import { RomaneioDetalhe } from "../model/RomaneioDetalhe";
-import { Local } from "../model/Local";
+import { Romaneio } from "../model/romaneio";
+import { DataRetorno } from "../model/dataretorno";
+import { RomaneioDetalhe } from "../model/romaneiodetalhe";
+import { Local } from "../model/local";
 
 const headers = new HttpHeaders({
   "Content-Type": "application/json"

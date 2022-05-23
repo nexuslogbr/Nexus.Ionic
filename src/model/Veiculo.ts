@@ -1,4 +1,4 @@
-import { Conferencia } from "./Conferencia";
+import { Conferencia } from "./conferencia";
 import { ConferenciaVeiculoMotivos } from "./conferencia-veiculo-motivos";
 
 export class Veiculo {

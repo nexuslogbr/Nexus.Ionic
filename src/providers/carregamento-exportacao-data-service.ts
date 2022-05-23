@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AuthService } from "./auth-service/auth-service";
-import { DataRetorno } from "../model/DataRetorno";
+import { DataRetorno } from "../model/dataretorno";
 
 const headers = new HttpHeaders({
     "Content-Type": "application/json"

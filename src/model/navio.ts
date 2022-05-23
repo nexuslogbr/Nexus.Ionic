@@ -1,5 +1,5 @@
 import { NavioOperacao } from './navio-operacao';
-import { Local } from './Local';
+import { Local } from './local';
 
 export class Navio {
   public id: number;
