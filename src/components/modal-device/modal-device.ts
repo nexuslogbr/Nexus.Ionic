@@ -60,7 +60,7 @@ export class ModalDeviceComponent {
 
   // }
   ConfirmarDispositivo(){
-    debugger
+
     if(this.code){
       // this.authService.setUrl(this.url);
       this.authService.salvarDispositivo(this.code);

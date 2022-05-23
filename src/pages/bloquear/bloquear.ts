@@ -123,7 +123,7 @@ export class BloquearPage {
     }, 1000);
 
     this.authService.hideLoading();
-    
+
   }
 
   cleanInput(byScanner: boolean) {
@@ -137,7 +137,7 @@ export class BloquearPage {
 
   scan() {
 
-    
+
     this.options = {
       showTorchButton: true,
       prompt: '',
@@ -157,7 +157,7 @@ export class BloquearPage {
           );
          // this.openModalErro(partChassi, true);
           this.formData['chassi'] = partChassi;
-            
+
 
           this.buscarChassi(partChassi, true);
         }
@@ -184,11 +184,11 @@ export class BloquearPage {
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-        
+
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
-          debugger
+
           this.openModalChassis(this.responseData.retorno, byScanner);
          //var veiculoId = this.responseData.retorno.id;
        //  this.consultarChassi(veiculoId, partChassi, byScanner);
@@ -230,7 +230,7 @@ export class BloquearPage {
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-        
+
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.authService.hideLoading();
@@ -283,7 +283,7 @@ export class BloquearPage {
 
   openModalChassis(data, byScanner: boolean) {
 
-    
+
     const chassiModal: Modal = this.modal.create(ModalChassisBloqueioComponent, {
       data: data,
     });
@@ -297,14 +297,14 @@ export class BloquearPage {
 
   openModalSucesso(data){
     const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {data: data });
-    chassiModal.present();  
+    chassiModal.present();
 
     chassiModal.onDidDismiss((data) => {
       console.log(data);
       this.navCtrl.push(MovimentacaoPage);
-      
-    })    
-  }  
+
+    })
+  }
   openModalErro(data, byScanner: boolean) {
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
       data: data,

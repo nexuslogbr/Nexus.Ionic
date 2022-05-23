@@ -74,7 +74,7 @@ export class FormParqueamentoComponent {
       this.buttonColor = "#1c6381";
     }
 
-  
+
   }
 
 
@@ -243,10 +243,10 @@ export class FormParqueamentoComponent {
         console.log(error);
       });
   }
-  
-  
+
+
   onPosicaoChange(selectedValue) {
-    debugger
+
     this.authService.showLoading();
     this.formRecebimentoData.posicao = selectedValue;
     this.authService.hideLoading();

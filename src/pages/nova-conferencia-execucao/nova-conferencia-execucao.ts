@@ -140,7 +140,7 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
           (res) => {
             this.destinos = res;
             if (this.configuracao.arquivo) {
-              debugger
+
               this.conferenciaService.destino = this.destinos[0];
             }
           },

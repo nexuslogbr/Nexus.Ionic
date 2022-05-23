@@ -143,7 +143,7 @@ export class ConferenciaConfiguracaoADO {
 
 
 
-    debugger
+
     let params = [
       conferenciaConfiguracao.id,
       conferenciaConfiguracao.areaID,

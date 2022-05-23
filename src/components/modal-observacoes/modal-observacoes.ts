@@ -83,7 +83,7 @@ export class ModalObservacoesComponent {
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
 
-    debugger
+
     var chassi_ = Array.of(this.navParam.get('data'));
     console.log(chassi_[0].chassi)
     this.chassis = Array.of(chassi_[0].chassi);
@@ -150,7 +150,7 @@ export class ModalObservacoesComponent {
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-        
+
         this.responseData = res;
         // this.responseData = res;
         if (this.responseData.sucesso) {
