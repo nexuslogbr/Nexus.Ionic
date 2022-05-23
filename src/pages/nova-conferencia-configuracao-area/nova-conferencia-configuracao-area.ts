@@ -72,6 +72,9 @@ export class NovaConferenciaConfiguracaoAreaPage {
     if (navParams.data.navio != null) {
       this.navio = navParams.data.navio;
     }
+    else{
+      this.showInfoAlert('Sem área cadastrada!');
+    }
 
     if (navParams.data.arquivo != null) {
       this.arquivo = navParams.data.arquivo;
@@ -328,6 +331,10 @@ console.log('---->>',res)
           }
         });
     }
+  }
+
+  showInfoAlert(message: string, onDismiss?: Function) {
+    this.alertService.showAlert(message, null, null, null, onDismiss);
   }
 
   changeAreaSelection(configuracao: ConferenciaConfiguracaoArea) {
