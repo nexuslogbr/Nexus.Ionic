@@ -17,49 +17,47 @@
 
   </div>
   <section class=" charts-content chart-qualidade">
-   
+
     <ion-list style="width: 100%;text-align: center;">
-      <div style="width: 100%;margin:0 auto;margin-bottom: 10px;">
-        <div style="width: 50%;float: left;text-align: start;padding-left: 21px;padding-top: 4px;">
-          <ion-label style="font-size: 18px;font-weight: bold;">{{avarias.totalAvarias}}</ion-label>
+      <div style="width: 100%;margin:0 auto;">
+        <div style="width: 50%;float: left;text-align: start;padding-left: 41px;padding-top: 4px;">
+          <ion-label style="font-size: 18px;font-weight: bold;">{{avarias['totalAvarias']}}</ion-label>
           <ion-label style="font-size: 12px;font-weight: bold;">Total de</ion-label>
           <ion-label style="font-size: 12px;font-weight: bold;">Avarias</ion-label>
         </div>
         <div style="width: 50%;float: left;text-align: start; padding-left: 94px;padding-top: 4px;">
-          <ion-label style="font-size: 18px;font-weight: bold;">{{avarias.porcentagemVeiculosAvariados | number }}%</ion-label>
+          <ion-label style="font-size: 18px;font-weight: bold;">{{avarias['porcentagemVeiculosAvariados'] | number }}%</ion-label>
           <ion-label style="font-size: 12px;font-weight: bold;">Veículos</ion-label>
           <ion-label style="font-size: 12px;font-weight: bold;">Avariados</ion-label>
         </div>
+
+        <div style="padding-top: 140px;color: white; background-color: transparent;">
+          <ion-slides pager="true" [options]="slideOpts" pager loop slidesPerView="3" style="padding-left: 20%;padding-right: 20%;" pager="{{false}}">
+            <ion-slide style="display: inline;" *ngFor="let nivel of avarias['nivelAvarias']">
+              <div style="padding: 0px 5px ;">
+                <round-progress [current]="nivel['porcentagem'].toFixed(1)" [max]="100" [stroke]="15" [radius]="125" [semicircle]="true" [rounded]="false"
+                  [responsive]="true" [clockwise]="true" [color]="'#FF0000'" [background]="'#eaeaea'"
+                  [duration]="80" [animation]="'easeOutCubic'" [animationDelay]="0">
+                </round-progress>
+              </div>
+              <div style="text-align: center; color: #fff;font-size: small;">{{nivel['porcentagem'].toFixed(1)}}</div>
+              <div style="text-align: center; color: #fff;font-size: small;">{{nivel['nome']}}</div>
+            </ion-slide>
+          </ion-slides>
+        </div>
       </div>
-      <ion-item class="inner-charts-content" [ngStyle]="{'background-color': 'transparent'}"
-        style="width: 30%; display: inline-block; border: none; padding-top: 58px; ">
-        <canvas id='statusVeiculo_severo'></canvas>
-        <div style="text-align: center; color: #fff; margin-top: -20px;">4</div>
-        <div style="text-align: center; color: #fff;">Severo</div>
-      </ion-item>
-      <ion-item class="inner-charts-content" [ngStyle]="{'background-color': 'transparent'}"
-        style="width: 30%; display: inline-block; border: none; padding-top: 15px;">
-        <canvas id='statusVeiculo_superficial'></canvas>
-        <div style="text-align: center; color: #fff; margin-top: -20px;">10</div>
-        <div style="text-align: center; color: #fff;">Superficial</div>
-      </ion-item>
-      <!-- <ion-item *ngFor="let item of modelos; let i = index" class="inner-charts-content"
-        [ngStyle]="{'background-color': 'transparent'}" style="width: 35%; display: inline-block; border: none;">
-        <canvas id='statusVeiculo_severo'></canvas>
-        <div style="text-align: center; color: #fff; margin-top: -20px;">{{item.percentagem}}</div>
-        <div style="text-align: center; color: #fff;">Severo</div>
-      </ion-item> -->
+
     </ion-list>
 
   </section>
 
-  <section class="charts-content" style="padding-right: 10px;" [ngStyle]="{'background-color': primaryColor}">
+  <section class="charts-content" style="padding-right: 8px;" [ngStyle]="{'background-color': primaryColor}">
     <ion-list>
       <ion-list-header [ngStyle]="{'background-color': secondaryColor}">
-        Ultimas Avarias Cadastradas
+        Últimas Avarias Cadastradas
       </ion-list-header>
 
-      <dashboard-accordion *ngFor="let avaria of avarias.lancamentosAvarias" style="font-size: 12px;" [navioNome]="avaria.modelo + ' - Chassi: ' + avaria.chassi">
+      <dashboard-accordion *ngFor="let avaria of avarias['lancamentosAvarias']" style="font-size: 8px;" [navioNome]="avaria.modelo + ' - Chassi: ' + avaria.chassi">
 
         <ion-item>
           <ion-label>Tipo de Anomalia:</ion-label>
@@ -81,15 +79,6 @@
           <ion-input type="text" placeholder="{{avaria.data | date: 'dd/MM/yyyy'}}" id="quantity" [disabled]="true"></ion-input>
         </ion-item>
 
-        <!-- <ion-item class="hidden">
-            <ion-label>Status:</ion-label>
-            <ion-input type="text" placeholder="25%" id="status" [disabled]="true"></ion-input>
-        </ion-item>  -->
-
-        <!-- <ion-item>
-          <ion-label>Type:</ion-label>
-          <ion-input type="text" placeholder="{{navio.sTipoOperacao}}" id="type" [disabled]="true"></ion-input>
-        </ion-item> -->
       </dashboard-accordion>
 
     </ion-list>

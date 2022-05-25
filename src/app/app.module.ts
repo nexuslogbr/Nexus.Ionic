@@ -218,6 +218,7 @@ import { Camera } from '@ionic-native/Camera';
 import { File } from '@ionic-native/File';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path';
+import {RoundProgressModule} from 'angular-svg-round-progressbar';
 
 @NgModule({
   declarations: [
@@ -447,6 +448,7 @@ import { FilePath } from '@ionic-native/file-path';
     ReactiveFormsModule,
     ProgressBarModule,
     CommonModule,
+    RoundProgressModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -85,6 +85,10 @@ export class QualidadeDashboardBuscaAvariasPage {
 
   userData: Usuario;
 
+  slideOpts = {
+    initialSlide: 1
+  };
+
   constructor(public http: HttpClient, private modal: ModalController, public authService: AuthService, public navCtrl: NavController, public navParams: NavParams) {
     this.title = "Módulo  Qualidade";
     this.authService.showLoading();
@@ -105,7 +109,7 @@ export class QualidadeDashboardBuscaAvariasPage {
   }
 
   ionViewDidLoad() {
-    console.log('DashboardPage');
+    this.authService.showLoading();
 
     // this.chartStatusVeiculo();
     // this.ProximosCarregamentos();
@@ -136,15 +140,10 @@ export class QualidadeDashboardBuscaAvariasPage {
     //     nivelAvaria: 'G1= 0 2,00 mm',
     //     data: '20/03/2022'
     //   }]
-
-
-    this.authService.hideLoading();
   }
 
 
   CarregarAvarias() {
-
-
     this.authService.showLoading();
     let dashboard = this.url + "/lancamentoAvaria/Dashboard";
 
@@ -156,24 +155,20 @@ export class QualidadeDashboardBuscaAvariasPage {
       "localID": 2
     }
 
-
     this.http.post<string>(dashboard, dadosFiltro, httpOptions)
       .subscribe(res => {
         this.retornoData = res;
 
         if (this.retornoData.sucesso) {
-
-          
           this.avarias = this.retornoData.retorno;
-
-          console.log(this.avarias)
           this.authService.hideLoading();
 
+          console.log(this.avarias);
         }
         else {
           this.authService.hideLoading();
           this.openModalErro("Falha ao carregado dados");
-          // this.navCtrl.push(HomePage);         
+          // this.navCtrl.push(HomePage);
         }
 
       }, (error) => {
@@ -182,13 +177,7 @@ export class QualidadeDashboardBuscaAvariasPage {
         this.authService.hideLoading();
         console.log(error);
       });
-
   }
-
-
-
-
-
 
   toggleMenu = function (this) {
     $('.menu-body').toggleClass('show-menu');
@@ -200,15 +189,12 @@ export class QualidadeDashboardBuscaAvariasPage {
   chartStatusVeiculo() {
 
     this.authService.showLoading();
-
     this.urlModelos = this.url + "/Monitoramento/ConsultarModelos?token=" + this.authService.getToken();
 
     this.http.get(this.urlModelos)
       .subscribe(data => {
 
         this.data = data;
-
-        console.log(data)
 
         if (this.data.sucesso) {
           this.modelos = [{ modelo: 'AMAROK', quantidade: 9, totalVagas: 206, percentagem: 4 }];
@@ -234,18 +220,11 @@ export class QualidadeDashboardBuscaAvariasPage {
             'rgba(51, 216, 56, 0.8)'
           ];
 
-
-
           setTimeout(function () {
 
-            // for(let i = 0; i < parametros.length; i++){
-
             let id = '#statusVeiculo_severo';
-
             let indexColor = Math.floor(Math.random() * colors.length);
-
             let color = colors[indexColor];
-
             let ctx = document.querySelector(id);
             let myChart = new Chart(ctx, {
               type: 'doughnut',
@@ -278,15 +257,7 @@ export class QualidadeDashboardBuscaAvariasPage {
               }
             });
 
-
-            //superficial
-
             let id_ = '#statusVeiculo_superficial';
-
-            // let indexColor = Math.floor(Math.random() * colors.length);
-
-            // let color = colors[indexColor];
-
             let ctx_ = document.querySelector(id_);
             let myChart_ = new Chart(ctx_, {
               type: 'doughnut',
@@ -318,29 +289,15 @@ export class QualidadeDashboardBuscaAvariasPage {
                 circumference: 1 * Math.PI
               }
             });
-
-
-
-
-
-
-
-
-
-
-
-            //   }
           }, 1000);
 
           this.authService.hideLoading();
         } else {
           this.authService.hideLoading();
-          // this.openModalErroCode(this.responseData.mensagem);
         }
 
       }, (error) => {
         this.authService.hideLoading();
-        // this.openModalErroCode(error);
       });
   }
 
@@ -483,8 +440,6 @@ export class QualidadeDashboardBuscaAvariasPage {
     } else {
       this.statusVagasClass = true;
     }
-    // this.statusVagasClass = !this.statusVagasClass;
-
   }
   modalOpenImportExport($event) {
     if (this.statusTempoClass) {
