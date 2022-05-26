@@ -11,14 +11,15 @@ import * as $ from 'jquery';
 import { Usuario } from '../../model/usuario';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
-
+import { Pagination } from '../../model/pagination';
+import { AvariaDataService } from '../../providers/avaria-data-service';
+import { finalize } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
   })
 };
-
 @Component({
   selector: 'page-qualidade-dashboard-busca-avarias',
   templateUrl: 'qualidade-dashboard-busca-avarias.html',
@@ -48,6 +49,7 @@ export class QualidadeDashboardBuscaAvariasPage {
   urlNavios: string;
   navios: any;
   avarias: any[] = [];
+  avariasLoading: any[] = [];
 
   volumeImport: string;
   volumeExport: string;
@@ -83,13 +85,19 @@ export class QualidadeDashboardBuscaAvariasPage {
   inputColor: string;
   buttonColor: string;
 
+  buttonColorDark = '#1E1E1E';
   userData: Usuario;
+  pagination: Pagination<any> = new Pagination<any>();
 
   slideOpts = {
     initialSlide: 1
   };
 
-  constructor(public http: HttpClient, private modal: ModalController, public authService: AuthService, public navCtrl: NavController, public navParams: NavParams) {
+  skip = 0;
+  take = 5;
+  localID: 2
+
+  constructor(public http: HttpClient, private modal: ModalController, public authService: AuthService, public navCtrl: NavController, public navParams: NavParams, private avariaService: AvariaDataService) {
     this.title = "Módulo  Qualidade";
     this.authService.showLoading();
     this.url = this.authService.getUrl();
@@ -110,40 +118,51 @@ export class QualidadeDashboardBuscaAvariasPage {
 
   ionViewDidLoad() {
     this.authService.showLoading();
-
-    // this.chartStatusVeiculo();
-    // this.ProximosCarregamentos();
-    this.CarregarAvarias();
-
-    // this.avarias = [
-    //   {
-    //     modelo: 'AMAROK',
-    //     chassi: '8AC907133ME989987',
-    //     tipoAnomalia: 'AM - Amassados',
-    //     parteAvariada: 'Calota Dianteira Esquerda',
-    //     nivelAvaria: 'G1= 0 2,00 mm',
-    //     data: '20/03/2022'
-    //   },
-    //   {
-    //     modelo: 'COBALT',
-    //     chassi: '8AC907133ME989993',
-    //     tipoAnomalia: 'AM - Amassados',
-    //     parteAvariada: 'Calota Dianteira Esquerda',
-    //     nivelAvaria: 'G1= 0 2,00 mm',
-    //     data: '20/03/2022'
-    //   },
-    //   {
-    //     modelo: 'HILUX',
-    //     chassi: '8AC907133ME989995',
-    //     tipoAnomalia: 'AM - Amassados',
-    //     parteAvariada: 'Calota Dianteira Esquerda',
-    //     nivelAvaria: 'G1= 0 2,00 mm',
-    //     data: '20/03/2022'
-    //   }]
+    this.CarregarAvariasAll();
+    this.carregarAvariasScroll(null, true);
   }
 
 
-  CarregarAvarias() {
+  carregarAvariasScroll(infiniteScroll?: any, reset: boolean = false) {
+    if (reset) {
+      this.pagination.page = 0;
+    }
+
+    var dadosFiltro = {
+      token: this.authService.getToken(),
+      skip: this.skip,
+      take: this.take,
+      localID: this.localID
+    }
+
+    this.avariaService.carregarAvarias(dadosFiltro)
+      .pipe(
+        finalize(() => {
+          if (infiniteScroll) {
+            infiniteScroll.complete();
+          }
+        })
+      )
+      .subscribe((res:any) => {
+        this.pagination = res.retorno.lancamentosAvarias;
+        if (!reset) {
+          this.skip += 5;
+          this.take += 5;
+          this.avarias = [...this.avarias, ...res.data];
+        } else {
+          this.avarias = res.retorno.lancamentosAvarias;
+        }
+      });
+  }
+
+  doInfinit(infiniteScroll) {
+    if (this.pagination.hasMoreData) {
+      this.pagination.page += 1;
+      this.carregarAvariasScroll(infiniteScroll);
+    }
+  }
+
+  CarregarAvariasAll() {
     this.authService.showLoading();
     let dashboard = this.url + "/lancamentoAvaria/Dashboard";
 
@@ -160,10 +179,8 @@ export class QualidadeDashboardBuscaAvariasPage {
         this.retornoData = res;
 
         if (this.retornoData.sucesso) {
-          this.avarias = this.retornoData.retorno;
+          this.avariasLoading = this.retornoData.retorno;
           this.authService.hideLoading();
-
-          console.log(this.avarias);
         }
         else {
           this.authService.hideLoading();
@@ -186,235 +203,6 @@ export class QualidadeDashboardBuscaAvariasPage {
     $('side-menu').toggleClass('show');
   }
 
-  chartStatusVeiculo() {
-
-    this.authService.showLoading();
-    this.urlModelos = this.url + "/Monitoramento/ConsultarModelos?token=" + this.authService.getToken();
-
-    this.http.get(this.urlModelos)
-      .subscribe(data => {
-
-        this.data = data;
-
-        if (this.data.sucesso) {
-          this.modelos = [{ modelo: 'AMAROK', quantidade: 9, totalVagas: 206, percentagem: 4 }];
-
-          let parametros = this.modelos;
-
-          // let colors = [
-          //   'rgba(179, 25, 8, 0.8)',
-          //   'rgba(51, 216, 56, 0.8)',
-          //   'rgba(245, 218, 129, 0.8)',
-          //   'rgba(216, 247, 129, 0.8)',
-          //   'rgba(88, 250, 88, 0.8)',
-          //   'rgba(46, 46, 254, 0.8)',
-          //   'rgba(191, 0, 255, 0.8)',
-          //   'rgba(255, 0, 255, 0.8)',
-          //   'rgba(223, 1, 58, 0.8)',
-          //   'rgba(132, 132, 132, 0.8)',
-          //   'rgba(4, 180, 95, 0.8)'
-          // ];
-
-          let colors = [
-            'rgba(179, 25, 8, 0.8)',
-            'rgba(51, 216, 56, 0.8)'
-          ];
-
-          setTimeout(function () {
-
-            let id = '#statusVeiculo_severo';
-            let indexColor = Math.floor(Math.random() * colors.length);
-            let color = colors[indexColor];
-            let ctx = document.querySelector(id);
-            let myChart = new Chart(ctx, {
-              type: 'doughnut',
-              data: {
-                datasets: [{
-                  data: [10, 100 - 30],
-                  backgroundColor: [
-                    'rgba(179, 25, 8, 0.8)',
-                    'rgba(45, 53, 61, 0.8)'
-                  ],
-                  borderColor: [
-                    'rgba(45, 53, 61, 1)',
-                    'rgba(45, 53, 61, 1)'
-                  ],
-                  borderWidth: 1
-                }]
-              },
-              options: {
-                tooltips: {
-                  enabled: false
-                },
-                cutoutPercentage: 80,
-                legend: {
-                  labels: {
-                    fontColor: '#fff'
-                  }
-                },
-                rotation: 1 * Math.PI,
-                circumference: 1 * Math.PI
-              }
-            });
-
-            let id_ = '#statusVeiculo_superficial';
-            let ctx_ = document.querySelector(id_);
-            let myChart_ = new Chart(ctx_, {
-              type: 'doughnut',
-              data: {
-                datasets: [{
-                  data: [10, 100 - 30],
-                  backgroundColor: [
-                    'rgba(51, 216, 56, 0.8)',
-                    'rgba(45, 53, 61, 0.8)'
-                  ],
-                  borderColor: [
-                    'rgba(45, 53, 61, 1)',
-                    'rgba(45, 53, 61, 1)'
-                  ],
-                  borderWidth: 1
-                }]
-              },
-              options: {
-                tooltips: {
-                  enabled: false
-                },
-                cutoutPercentage: 80,
-                legend: {
-                  labels: {
-                    fontColor: '#fff'
-                  }
-                },
-                rotation: 1 * Math.PI,
-                circumference: 1 * Math.PI
-              }
-            });
-          }, 1000);
-
-          this.authService.hideLoading();
-        } else {
-          this.authService.hideLoading();
-        }
-
-      }, (error) => {
-        this.authService.hideLoading();
-      });
-  }
-
-  chartExportVolume() {
-
-    this.volumeExport = this.url + "/Monitoramento/ConsultarVolumeExportacao?token=" + this.authService.getToken();
-
-    this.http.get(this.volumeExport)
-      .subscribe(res => {
-
-        this.dataExport = res;
-
-        for (let i = 0; i < this.dataExport.retorno.length; i++) {
-          this.mesExport.push(this.dataExport.retorno[i].mesNome);
-          this.quantexport.push(this.dataExport.retorno[i].quantidade);
-        }
-
-        if (this.dataExport.sucesso) {
-
-          let ctx = document.getElementById("exportVolume");
-          let myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: this.mesExport,
-              datasets: [{
-                data: this.quantexport,
-                backgroundColor: [
-                  'rgba(255, 87, 34, 0.8)',
-                  'rgba(255, 87, 34, 0.8)',
-                  'rgba(255, 87, 34, 0.8)',
-                  'rgba(255, 87, 34, 0.8)',
-                  'rgba(255, 87, 34, 0.8)',
-                  'rgba(255, 87, 34, 0.8)'
-                ],
-                borderColor: [
-                  'rgba(255, 87, 34, 1)',
-                  'rgba(255, 87, 34, 1)',
-                  'rgba(255, 87, 34, 1)',
-                  'rgba(255, 87, 34, 1)',
-                  'rgba(255, 87, 34, 1)',
-                  'rgba(255, 87, 34, 1)'
-                ],
-                borderWidth: 1
-              }]
-            },
-            options: {
-              legend: {
-                display: false,
-              },
-              title: {
-                display: true,
-                fontColor: '#fff',
-                text: 'Volume de Exportação'
-              },
-              scales: {
-                yAxes: [{
-                  ticks: {
-                    beginAtZero: true,
-                    fontColor: '#fff'
-                  },
-                  gridLines: {
-                    color: '#0e324b',
-                    lineWidth: 2
-                  }
-                }],
-                xAxes: [{
-                  ticks: {
-                    fontColor: '#fff',
-                    fontSize: 10
-                  },
-                  gridLines: {
-                    color: '#0e324b',
-                    lineWidth: 2
-                  }
-                }]
-              }
-            }
-          });
-
-        } else {
-          this.authService.hideLoading();
-          // this.openModalErroCode(this.responseData.mensagem);
-        }
-
-      }, (error) => {
-        this.authService.hideLoading();
-        // this.openModalErroCode(error);
-      });
-  }
-
-  ProximosCarregamentos() {
-
-    this.urlNavios = this.url + "/Monitoramento/ConsultarNavios?token=" + this.authService.getToken();
-
-    this.http.get(this.urlNavios)
-      .subscribe(res => {
-
-        this.data = res;
-
-        console.log(res)
-
-        if (this.data.sucesso) {
-
-          this.navios = this.data.retorno;
-
-        } else {
-          this.authService.hideLoading();
-          // this.openModalErroCode(this.responseData.mensagem);
-        }
-
-      }, (error) => {
-        this.authService.hideLoading();
-        // this.openModalErroCode(error);
-      });
-  }
-
-
   Voltar() {
     this.navCtrl.push(QualidadeMenuPage);
   }
@@ -432,7 +220,6 @@ export class QualidadeDashboardBuscaAvariasPage {
     })
   }
 
-
   modalOpen(event) {
 
     if (this.statusVagasClass) {
@@ -440,47 +227,6 @@ export class QualidadeDashboardBuscaAvariasPage {
     } else {
       this.statusVagasClass = true;
     }
-  }
-  modalOpenImportExport($event) {
-    if (this.statusTempoClass) {
-      this.statusTempoClass = false;
-    } else {
-      this.statusTempoClass = true;
-    }
-  }
-  modalvolumeImport($event) {
-    this.openModalVolumeImport($event.target.id);
-  }
-
-  openModalVolumeImport(dados) {
-
-    const recModal: Modal = this.modal.create(ModalVolumeImportacaoComponent, { data: dados });
-    recModal.present();
-
-    recModal.onDidDismiss((data) => {
-    })
-    recModal.onWillDismiss((data) => {
-    })
-  }
-
-  modalMovImport(dados) {
-    const recModal: Modal = this.modal.create(ModalImportMovimentacaoComponent, { data: dados });
-    recModal.present();
-
-    recModal.onDidDismiss((data) => {
-    })
-    recModal.onWillDismiss((data) => {
-    })
-  }
-
-  modalMovExport(dados) {
-    const recModal: Modal = this.modal.create(ModalExportMovimentacaoComponent, { data: dados });
-    recModal.present();
-
-    recModal.onDidDismiss((data) => {
-    })
-    recModal.onWillDismiss((data) => {
-    })
   }
 
 }
