@@ -27,58 +27,13 @@ const httpOptions = {
 export class QualidadeDashboardBuscaAvariasPage {
 
   url: string;
-  data: any;
-  dataExport: any;
-  posisoesTotal: any;
-  posicoesOcupadas: any;
-  posicoesNaoOcupadas: any;
-  urlTempoPermanencia: string;
-  urlModelos: string;
-  modelo: any;
-  retorno: any;
   retornoData:any;
-  modelos: any;
-  modelo1: string;
-  modelo2: string;
-  modelo3: string;
-  modelo4: string;
-  nome1: string;
-  nome2: string;
-  nome3: string;
-  nome4: string;
-  urlNavios: string;
-  navios: any;
   avarias: any[] = [];
-  avariasLoading: any[] = [];
+  lancamentosAvarias: any[] = [];
+  totalAvarias: number = 0;
+  porcentagemVeiculosAvariados: number = 0;
 
-  volumeImport: string;
-  volumeExport: string;
-  hide1: boolean;
-  hide2: boolean;
-  hide3: boolean;
-  hide4: boolean;
-  i: any;
-  modeloPercentagem: any;
-  meses: any[] = [];
-  quantidade: any[] = [];
-  mesExport: any[] = [];
-  quantexport: any[] = [];
-  mesHistMovImport: any[] = [];
-  quantHistMovImport: any[] = [];
-  mesHistMovExport: any[] = [];
-  quantHistMovExport: any[] = [];
-  urlHistMovImport: string;
-  HistMovImport: any;
-  urlHistMovExport: string;
-  HistMovExport: any;
-  statusVagasClass: boolean = false;
-  statusTempoClass: boolean = false;
-  volumeImportExport: boolean = false;
   title: string;
-  percentagem1: string;
-  percentagem2: string;
-  percentagem3: string;
-  percentagem4: string;
 
   primaryColor: string;
   secondaryColor: string;
@@ -87,15 +42,14 @@ export class QualidadeDashboardBuscaAvariasPage {
 
   buttonColorDark = '#1E1E1E';
   userData: Usuario;
-  pagination: Pagination<any> = new Pagination<any>();
 
   slideOpts = {
     initialSlide: 1
   };
 
-  skip = 0;
-  take = 5;
-  localID: 2
+  itemsPage: any = [];
+  private readonly offset: number = 6;
+  private index: number = 0;
 
   constructor(public http: HttpClient, private modal: ModalController, public authService: AuthService, public navCtrl: NavController, public navParams: NavParams, private avariaService: AvariaDataService) {
     this.title = "Módulo  Qualidade";
@@ -118,51 +72,10 @@ export class QualidadeDashboardBuscaAvariasPage {
 
   ionViewDidLoad() {
     this.authService.showLoading();
-    this.CarregarAvariasAll();
-    this.carregarAvariasScroll(null, true);
+    this.CarregarAvarias();
   }
 
-
-  carregarAvariasScroll(infiniteScroll?: any, reset: boolean = false) {
-    if (reset) {
-      this.pagination.page = 0;
-    }
-
-    var dadosFiltro = {
-      token: this.authService.getToken(),
-      skip: this.skip,
-      take: this.take,
-      localID: this.localID
-    }
-
-    this.avariaService.carregarAvarias(dadosFiltro)
-      .pipe(
-        finalize(() => {
-          if (infiniteScroll) {
-            infiniteScroll.complete();
-          }
-        })
-      )
-      .subscribe((res:any) => {
-        this.pagination = res.retorno.lancamentosAvarias;
-        if (!reset) {
-          this.skip += 5;
-          this.take += 5;
-          this.avarias = [...this.avarias, ...res.data];
-        } else {
-          this.avarias = res.retorno.lancamentosAvarias;
-        }
-      });
-  }
-
-  doInfinit(infiniteScroll) {
-    if (this.pagination.hasMoreData) {
-      this.pagination.page += 1;
-      this.carregarAvariasScroll(infiniteScroll);
-    }
-  }
-
-  CarregarAvariasAll() {
+  CarregarAvarias() {
     this.authService.showLoading();
     let dashboard = this.url + "/lancamentoAvaria/Dashboard";
 
@@ -179,7 +92,13 @@ export class QualidadeDashboardBuscaAvariasPage {
         this.retornoData = res;
 
         if (this.retornoData.sucesso) {
-          this.avariasLoading = this.retornoData.retorno;
+          this.avarias = this.retornoData.retorno;
+          this.totalAvarias = this.retornoData.retorno.totalAvarias;
+          this.porcentagemVeiculosAvariados = this.retornoData.retorno.porcentagemVeiculosAvariados;
+          this.lancamentosAvarias = this.retornoData.retorno.lancamentosAvarias;
+
+          this.itemsPage = this.lancamentosAvarias.slice(this.index, this.offset + this.index);
+          this.index += this.offset;
           this.authService.hideLoading();
         }
         else {
@@ -194,6 +113,25 @@ export class QualidadeDashboardBuscaAvariasPage {
         this.authService.hideLoading();
         console.log(error);
       });
+  }
+
+  loadData(infiniteScroll){
+    setTimeout(() => {
+      let array = this.lancamentosAvarias.slice(this.index, this.offset + this.index);
+      this.index += this.offset;
+
+      for (let i = 0; i < array.length; i++) {
+        this.itemsPage.push(array[i]);
+      }
+
+      infiniteScroll.complete();
+
+      if (this.itemsPage.length === this.avarias.length) {
+        infiniteScroll.disable = true;
+        console.log('Terminou!');
+      }
+
+    }, 100)
   }
 
   toggleMenu = function (this) {
@@ -219,14 +157,4 @@ export class QualidadeDashboardBuscaAvariasPage {
       console.log(data);
     })
   }
-
-  modalOpen(event) {
-
-    if (this.statusVagasClass) {
-      this.statusVagasClass = false;
-    } else {
-      this.statusVagasClass = true;
-    }
-  }
-
 }

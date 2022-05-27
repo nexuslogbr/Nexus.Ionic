@@ -9,34 +9,29 @@
 </ion-header>
 
 <ion-content padding [ngStyle]="{'background-color': secondaryColor}">
-  <!-- <div class="login-content" [ngStyle]="{'background-color': secondaryColor }"> -->
-  <button ion-button round class="btn" [ngStyle]="{'background-color': buttonColorDark}" style="margin-left: 2.5%;">Novo</button>
+  <button ion-button round class="btn" [ngStyle]="{'background-color': '#747474'}" style="margin-left: 2.5%;">Novo</button>
   <button ion-button round class="btn" [ngStyle]="{'background-color': buttonColor}" style="margin-left: 2.5%;">Buscar</button>
-  <!-- </div> -->
-  <div style="background-color: #000000;">
-
-  </div>
 
   <section class="charts-content chart-qualidade">
     <ion-list>
-      <div style="margin:0 auto; background-color: #1E1E1E;"> <!-- #1B1B1B -->
+      <div style="margin:0 auto; background-color: #1E1E1E;"> <!-- #1B1B1B #747474 -->
 
         <ion-row>
           <ion-col sm>
             <div style="width: 80%;float: right;text-align: end;padding-top: 4px;">
-              <ion-label style="font-size: 18px;font-weight: bold;">{{avariasLoading['totalAvarias']}}</ion-label>
+              <ion-label style="font-size: 18px;font-weight: bold;">{{totalAvarias}}</ion-label>
               <ion-label style="font-size: 12px;font-weight: bold;">Total de</ion-label>
               <ion-label style="font-size: 12px;font-weight: bold;">Avarias</ion-label>
             </div>
           </ion-col>
 
           <ion-col>
-            <img src="assets/images/qualidade_dashboard_small.PNG"  width="200" height="122" style="width: 100%;">
+            <img src="./assets/images/qualidade_dashboard_small.PNG"  width="200" height="122" style="width: 100%;">
           </ion-col>
 
           <ion-col>
             <div style="width: 80%;float: left;text-align: start; padding-top: 4px;">
-              <ion-label style="font-size: 18px;font-weight: bold;">{{avariasLoading['porcentagemVeiculosAvariados'] | number }}%</ion-label>
+              <ion-label style="font-size: 18px;font-weight: bold;">{{porcentagemVeiculosAvariados | number }}%</ion-label>
               <ion-label style="font-size: 12px;font-weight: bold;">Veículos</ion-label>
               <ion-label style="font-size: 12px;font-weight: bold;">Avariados</ion-label>
             </div>
@@ -45,7 +40,7 @@
 
         <div style="padding-bottom: 6px;color: white; background-color: transparent;">
           <ion-slides pager="true" [options]="slideOpts" pager loop slidesPerView="3" style="padding-left: 20%;padding-right: 20%;" pager="{{false}}">
-            <ion-slide style="display: inline;" *ngFor="let nivel of avariasLoading['nivelAvarias']">
+            <ion-slide style="display: inline;" *ngFor="let nivel of avarias['nivelAvarias']">
               <div style="padding: 0px 5px ;">
                 <round-progress [current]="nivel['porcentagem'].toFixed(1)" [max]="100" [stroke]="15" [radius]="125" [semicircle]="true"
                   [responsive]="true" [clockwise]="true" [color]="'#FF0000'" [background]="'#eaeaea'"
@@ -67,78 +62,48 @@
   </section>
   <br>
 
-  <section class="charts-content" [ngStyle]="{'background-color': buttonColorDark}">
-    <ion-item-divider style="background-color: #1E1E1E;">
+  <section class="charts-content" [ngStyle]="{'background-color': primaryColor}">
+    <ion-item-divider [ngStyle]="{'background-color': primaryColor}">
       <ion-label class="ion-label">
         Últimas Avarias Cadastradas
       </ion-label>
     </ion-item-divider>
 
     <ion-list style="padding-right: 3%;">
-      <dashboard-accordion *ngFor="let avaria of avarias" style="font-size: 5px;background-color: #1E1E1E;" [navioNome]="avaria.modelo + ' - Chassi: ' + avaria.chassi">
+      <dashboard-accordion *ngFor="let item of itemsPage" style="font-size: 5px;background-color: #595959;" [navioNome]="item.modelo + ' - Chassi: ' + item.chassi">
         <ion-item no-lines>
           <ion-label>Tipo de Anomalia:</ion-label>
-          <ion-input type="text"  placeholder="{{avaria.tipoAvaria}}" [disabled]="true"></ion-input>
+          <ion-input type="text"  placeholder="{{item.tipoAvaria}}" [disabled]="true"></ion-input>
         </ion-item>
 
         <ion-item no-lines>
           <ion-label>Parte Avariada:</ion-label>
-          <ion-input type="text" placeholder="{{avaria.parteAvariada}}" [disabled]="true"></ion-input>
+          <ion-input type="text" placeholder="{{item.parteAvariada}}" [disabled]="true"></ion-input>
         </ion-item>
 
         <ion-item no-lines>
           <ion-label>Nível de Avaria:</ion-label>
-          <ion-input type="text" placeholder="{{avaria.nivelGravidadeAvaria}}" [disabled]="true"></ion-input>
+          <ion-input type="text" placeholder="{{item.nivelGravidadeAvaria}}" [disabled]="true"></ion-input>
         </ion-item>
 
         <ion-item no-lines>
           <ion-label>Data:</ion-label>
-          <ion-input type="text" placeholder="{{avaria.data | date: 'dd/MM/yyyy'}}" [disabled]="true"></ion-input>
+          <ion-input type="text" placeholder="{{item.data | date: 'dd/MM/yyyy'}}" [disabled]="true"></ion-input>
         </ion-item>
       </dashboard-accordion>
+
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="Carregando...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
 
     </ion-list>
   </section>
 
-
-  <!-- <ion-grid class="grid-slide-wrapper">
-    <ion-row>
-      <ion-col class="col-slide-wrapper">
-
-    <ion-list style="padding-right: 3%;">
-      <dashboard-accordion *ngFor="let avaria of avarias" style="font-size: 5px;background-color: #1E1E1E;" [navioNome]="avaria.modelo + ' - Chassi: ' + avaria.chassi">
-        <ion-item no-lines>
-          <ion-label>Tipo de Anomalia:</ion-label>
-          <ion-input type="text"  placeholder="{{avaria.tipoAvaria}}" [disabled]="true"></ion-input>
-        </ion-item>
-
-        <ion-item no-lines>
-          <ion-label>Parte Avariada:</ion-label>
-          <ion-input type="text" placeholder="{{avaria.parteAvariada}}" [disabled]="true"></ion-input>
-        </ion-item>
-
-        <ion-item no-lines>
-          <ion-label>Nível de Avaria:</ion-label>
-          <ion-input type="text" placeholder="{{avaria.nivelGravidadeAvaria}}" [disabled]="true"></ion-input>
-        </ion-item>
-
-        <ion-item no-lines>
-          <ion-label>Data:</ion-label>
-          <ion-input type="text" placeholder="{{avaria.data | date: 'dd/MM/yyyy'}}" [disabled]="true"></ion-input>
-        </ion-item>
-      </dashboard-accordion>
-
-    </ion-list>
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
-
-  <ion-infinite-scroll (ionInfinite)="doInfinit($event)" *ngIf="pagination.hasMoreData">
-    <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-
   <div class="login-content" [ngStyle]="{'background-color': secondaryColor}">
-    <button ion-button round class="btn-default" (click)="Voltar()" [ngStyle]="{'background-color': '#1E1E1E'}">Voltar</button>
+    <button ion-button round class="btn-default" (click)="Voltar()" [ngStyle]="{'background-color': '#595959'}">Voltar</button>
   </div>
 
 </ion-content>

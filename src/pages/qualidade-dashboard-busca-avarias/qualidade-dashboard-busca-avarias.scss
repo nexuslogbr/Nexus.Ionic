@@ -7,7 +7,7 @@ page-qualidade-dashboard-busca-avarias {
             background-color: transparent;
 
             .chart-qualidade {
-                // background-image: url("assets/images/qualidade_dashboard.png");
+                // background-image: url("assets/images/qualidade_dashboard_small.png");
                 background-repeat: no-repeat;
                 background-position: center center;
                 background-size: 100%;
@@ -91,7 +91,7 @@ page-qualidade-dashboard-busca-avarias {
               ion-list {
                   margin: 0;
                   ion-list-header {
-                      background-color: #1E1E1E;
+                      background-color: #595959;
                       border-top: none;
                       margin: 0;
                       margin-left: 0%;
@@ -215,5 +215,6 @@ page-qualidade-dashboard-busca-avarias {
   margin: 0;
   margin-left: 0%;
   color: #fff;
+  background-color: #595959;
   font: 16px "avenir_demi";
 }
