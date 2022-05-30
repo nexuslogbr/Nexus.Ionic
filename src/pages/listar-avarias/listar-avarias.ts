@@ -24,6 +24,7 @@ import * as $ from "jquery";
 import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-scanner";
 import { EditarAvariasPage } from "../editar-avarias/editar-avarias";
 import { BuscarAvariasPage } from "../buscar-avarias/buscar-avarias";
+import { AvariaDataService } from "../../providers/avaria-data-service";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -87,8 +88,7 @@ export class ListarAvariasPage {
   buttonColor: string;
   qrCodeText: string;
   options: BarcodeScannerOptions;
-   responseData: any;
-   listaAvarias:any;
+  listaAvarias:any;
 
   constructor(
     public http: HttpClient,
@@ -96,17 +96,42 @@ export class ListarAvariasPage {
     public navCtrl: NavController,
     public authService: AuthService,
     private barcodeScanner: BarcodeScanner,
-    public navParams: NavParams
+    public navParams: NavParams,
+    private avariaService: AvariaDataService
   ) {
+    this.authService.showLoading();
     this.title = "Resultado Busca";
-    console.log("ListarAvariasPage");
     this.url = this.authService.getUrl();
-
-
-
     this.formData = this.navParams.data;
 
-    console.log(this.formData)
+    let model = {
+      token: this.authService.getToken(),
+      skip: 0,
+      take: 20,
+      localID: 2,
+      veiculoID: this.formData.veiculoID > 0 ? this.formData.veiculoID : 0,
+      data: this.formData.data != '' && this.formData.data != null ? this.formData.data : '' ,
+      parteAvariadaID: this.formData.parteAvariadaID > 0 ? this.formData.parteAvariadaID : 0,
+      modelo: this.formData.modelo != '' && this.formData.modelo != null ? this.formData.modelo : '' ,
+      tipoAvariaID: this.formData.tipoAvariaID > 0 ? this.formData.tipoAvariaID : 0,
+      gravidadeID: this.formData.gravidadeID > 0 ? this.formData.gravidadeID : 0
+    }
+
+    this.avariaService.listarAvaria(model).subscribe(res => {
+
+      if (res.sucesso) {
+        this.authService.hideLoading();
+        this.listaAvarias = res.retorno;
+      }
+      else {
+        this.authService.hideLoading();
+        // this.openModalErro(this.retorno.mensagem);
+        // this.navCtrl.push(HomePage);
+      }
+    }, (error) => {
+      this.openModalErro(error.status + ' - ' + error.statusText);
+      this.authService.hideLoading();
+    });
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -122,57 +147,7 @@ export class ListarAvariasPage {
 
 
   }
-  ionViewDidEnter() {
-    this.buscarDados();
-  }
-
-  buscarDados() {
-
-
-    this.authService.showLoading();
-    let buscaAvaria = this.url + "/lancamentoAvaria/Listar";
-
-
-    this.insertData={
-      "token": this.authService.getToken(),
-      "skip": 0,
-      "take": 20,
-      "localID": this.formData.localID,
-      "veiculoID": this.formData.veiculoID,
-      "data": this.formData.data,
-      "parteAvariadaID": this.formData.parteAvariadaID,
-      "modelo": this.formData.modelo,
-      "tipoAvariaID": this.formData.tipoAvariaID,
-      "gravidadeID": this.formData.gravidadeID
-    }
-
-    this.http.post<string>(buscaAvaria, this.insertData, httpOptions)
-      .subscribe(res => {
-
-        var resultado = res;
-
-        this.responseData = res;
-
-
-        if (this.responseData.sucesso) {
-
-          this.listaAvarias = this.responseData.retorno;
-        }
-        else {
-          this.authService.hideLoading();
-          // this.openModalErro(this.retorno.mensagem);
-          // this.navCtrl.push(HomePage);         
-        }
-
-      }, (error) => {
-
-        this.openModalErro(error.status + ' - ' + error.statusText);
-        this.authService.hideLoading();
-        console.log(error);
-      });
-
-  }
-
+  ionViewDidEnter() { }
 
   navigateToBuscarAvariaPage() {
     this.navCtrl.push(BuscarAvariasPage);
@@ -390,6 +365,10 @@ export class ListarAvariasPage {
   //   chassiModal.onWillDismiss((data) => {});
   // }
 
+  editar(){
+
+  }
+
   toggleMenu = function (this) {
     $(".menu-body").toggleClass("show-menu");
     $("menu-inner").toggleClass("show");
@@ -409,15 +388,15 @@ export class ListarAvariasPage {
     // });
   }
 
-  // cleanInput(byScanner: boolean) {
-  //   if (!byScanner) {
-  //     setTimeout(() => {
-  //       //  this.chassiInput.setFocus();
-  //       this.inputChassi = '';
-  //     }, 1000);
-  //   }
-  //   this.formData.veiculoID = '';
-  // }
+  cleanInput(byScanner: boolean) {
+    if (!byScanner) {
+      setTimeout(() => {
+         this.chassiInput.setFocus();
+        this.inputChassi = '';
+      }, 1000);
+    }
+    // this.formData.veiculoID = '';
+  }
 
 
   openModalSucesso(data) {
