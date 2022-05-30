@@ -23,6 +23,7 @@ import * as $ from "jquery";
 import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-scanner";
 import { ListarAvariasPage } from "../listar-avarias/listar-avarias";
 import { Usuario } from "../../model/usuario";
+import { QualidadeMenuPage } from "../qualidade-menu/qualidade-menu";
 
 
 @Component({
@@ -421,7 +422,7 @@ export class BuscarAvariasPage {
   }
 
   navigateToHomePage() {
-    this.navCtrl.push(HomePage);
+    this.navCtrl.push(QualidadeMenuPage);
   }
 
   toParqueamento() {

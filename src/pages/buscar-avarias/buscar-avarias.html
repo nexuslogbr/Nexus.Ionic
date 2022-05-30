@@ -13,9 +13,10 @@
   <form class="form-recebe-chassis">
 
     <ion-grid>
+      <ion-label style="padding-left: 1%;">Chassi</ion-label>
       <ion-row>
-        <ion-col col-10 style="align-self: flex-end;">
-          <ion-input type="text" style="background-color: #747474; height: 100%; border-radius: 2%;" placeholder="Chassi" value="" name="chassi"></ion-input>
+        <ion-col col-10>
+          <ion-input type="text" value="" name="chassi"></ion-input>
         </ion-col>
         <ion-col col-1 style="align-self: center;">
           <i class="icon qrcode-gray"></i>
@@ -24,21 +25,6 @@
     </ion-grid>
 
     <ion-list>
-        <!-- <ion-list [ngStyle]="{'background-color': primaryColor}">
-            <ion-label label-ios >Chassi:</ion-label>
-            <ion-grid>
-                <ion-row justify-content-start [ngStyle]="{'background-color': secondaryColor}">
-                    <ion-col col-9>
-                            <ion-input class="input-header"  type="text" id="chassi"  name="chassi"  [(ngModel)]="inputChassi" placeholder=""></ion-input>
-                    </ion-col>
-                    <ion-col col-3>
-                            <ion-label class="icon-qr-code" ></ion-label>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-list> -->
-
-
         <ion-item class="item-block item-ios item-select icon-clock" [ngStyle]="{'background-color': primaryColor}">
             <ion-label>Data:</ion-label>
             <ion-datetime min="2017" max="2030-10-31" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" id="data" name="data" [(ngModel)]="formData.data" cancelText="Cancelar" doneText="Confirmar"></ion-datetime>
@@ -56,13 +42,13 @@
             </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">
-            <ion-label label-ios>Tipo Avaria:</ion-label>
+            <ion-label label-ios>Tipo de Avaria:</ion-label>
             <ion-select  (ionChange)="onTipoAvariaChange($event)" okText="Confirmar" cancelText="Cancelar" #select4>
                 <ion-option *ngFor="let tipoAvaria of tipoAvarias" [value]="tipoAvaria.id" id="{{tipoAvaria.id}}">{{tipoAvaria.nome}}</ion-option>
             </ion-select>
         </ion-item>
-        <ion-item [ngStyle]="{'background-color': primaryColor}">
-            <ion-label label-ios>Nivel Avaria:</ion-label>
+        <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">
+            <ion-label label-ios>Nivel de Avaria:</ion-label>
             <ion-select  (ionChange)="onNivelAvariaChange($event)" okText="Confirmar" cancelText="Cancelar" #select4>
                 <ion-option *ngFor="let nivelAvaria of nivelAvarias" [value]="nivelAvaria.id" id="{{nivelAvaria.id}}">{{nivelAvaria.nome}}</ion-option>
             </ion-select>
@@ -70,8 +56,8 @@
     </ion-list>
   </form>
   <div class="login-content">
-      <!-- <button ion-button round first class="btn-receiving btn-cancel" (click)="navigateToHomePage()" type="button">VOLTAR</button> -->
-      <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" (click)="avancar()" type="button">BUSCAR</button>
+    <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" (click)="avancar()" type="button">BUSCAR</button>
+    <button ion-button round first class="btn-receiving btn-cancel" (click)="navigateToHomePage()" type="button">VOLTAR</button>
   </div>
 </ion-content>
 <modal-loading></modal-loading>
