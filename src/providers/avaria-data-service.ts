@@ -31,9 +31,22 @@ export class AvariaDataService{
   }
 
   public carregarAvarias(model: any){
-    let dashboard = this.urlApi + "/lancamentoAvaria/Dashboard";
-
     let url = this.urlApi + '/lancamentoAvaria/Dashboard';
+    return this.http.post<string>(url, model, httpOptions);
+  }
+
+  public listarAvaria(model:any) {
+    let url = this.urlApi + '/lancamentoAvaria/Listar';
+    return this.http.post<DataRetorno>(url, model, httpOptions);
+  }
+
+  public salvar() {
+    let url = this.urlApi + '/tipoavaria/Salvar';
+    return this.http.post<DataRetorno>(url, { headers: headers });
+  }
+
+  public consultarChassi(model: any){
+    let url = this.urlApi + '/lancamentoAvaria/ConsultarChassi';
     return this.http.post<string>(url, model, httpOptions);
   }
 }
