@@ -10,16 +10,16 @@
 
 <ion-content padding [ngStyle]="{'background-color': secondaryColor}">
 
-  <form class="form-recebe-chassis">
+  <form class="form-recebe-chassis" [formGroup]="form">
 
     <ion-grid>
       <ion-label style="padding-left: 1%;">Chassi</ion-label>
       <ion-row>
         <ion-col col-10>
-          <ion-input type="text" value="" name="chassi"></ion-input>
+          <ion-input type="text" value="" placeholder="Chassi" name="chassi"></ion-input>
         </ion-col>
         <ion-col col-1 style="align-self: center;">
-          <i class="icon qrcode-gray"></i>
+          <i class="icon qrcode-gray" (click)="scan()"></i>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -27,29 +27,29 @@
     <ion-list>
         <ion-item class="item-block item-ios item-select icon-clock" [ngStyle]="{'background-color': primaryColor}">
             <ion-label>Data:</ion-label>
-            <ion-datetime min="2017" max="2030-10-31" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" id="data" name="data" [(ngModel)]="formData.data" cancelText="Cancelar" doneText="Confirmar"></ion-datetime>
+            <ion-datetime formControlName="data" min="2017" max="2030-10-31" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY" id="data" name="data" cancelText="Cancelar" doneText="Confirmar"></ion-datetime>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">
             <ion-label label-ios>Parte:</ion-label>
-            <ion-select  (ionChange)="onParteChange($event)" okText="Confirmar" cancelText="Cancelar"  >
+            <ion-select  (ionChange)="onParteChange($event)" okText="Confirmar" cancelText="Cancelar" formControlName="parte">
                 <ion-option *ngFor="let parte of partes" [value]="parte.id" id="{{parte.id}}">{{parte.nome}}</ion-option>
             </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">
             <ion-label label-ios>Modelo:</ion-label>
-            <ion-select  (ionChange)="onModeloChange($event)" okText="Confirmar" cancelText="Cancelar" #select3>
+            <ion-select  (ionChange)="onModeloChange($event)" okText="Confirmar" cancelText="Cancelar" #select3 formControlName="modelo">
                 <ion-option *ngFor="let modelo of modelos" [value]="modelo.id" id="{{modelo.id}}">{{modelo.nome}}</ion-option>
             </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">
             <ion-label label-ios>Tipo de Avaria:</ion-label>
-            <ion-select  (ionChange)="onTipoAvariaChange($event)" okText="Confirmar" cancelText="Cancelar" #select4>
+            <ion-select  (ionChange)="onTipoAvariaChange($event)" okText="Confirmar" cancelText="Cancelar" #select4 formControlName="tipoAvaria">
                 <ion-option *ngFor="let tipoAvaria of tipoAvarias" [value]="tipoAvaria.id" id="{{tipoAvaria.id}}">{{tipoAvaria.nome}}</ion-option>
             </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">
             <ion-label label-ios>Nivel de Avaria:</ion-label>
-            <ion-select  (ionChange)="onNivelAvariaChange($event)" okText="Confirmar" cancelText="Cancelar" #select4>
+            <ion-select  (ionChange)="onNivelAvariaChange($event)" okText="Confirmar" cancelText="Cancelar" #select4 formControlName="nivelAvaria">
                 <ion-option *ngFor="let nivelAvaria of nivelAvarias" [value]="nivelAvaria.id" id="{{nivelAvaria.id}}">{{nivelAvaria.nome}}</ion-option>
             </ion-select>
         </ion-item>

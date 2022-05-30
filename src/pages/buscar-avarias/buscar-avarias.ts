@@ -24,6 +24,8 @@ import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-sca
 import { ListarAvariasPage } from "../listar-avarias/listar-avarias";
 import { Usuario } from "../../model/usuario";
 import { QualidadeMenuPage } from "../qualidade-menu/qualidade-menu";
+import { ModalBuscaChassiComponent } from "../modal-busca-chassi/modal-busca-chassi";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 
 
 @Component({
@@ -51,7 +53,7 @@ export class BuscarAvariasPage {
     "skip": 0,
     "take": 10,
     "localID": 0,
-    "veiculoID": "",
+    "veiculoID": 0,
     "chassi":"",
     "veiculoDesc": "",
     "data": "",
@@ -74,12 +76,16 @@ export class BuscarAvariasPage {
   options: BarcodeScannerOptions;
   responseData: any;
 
+  // formControlChassi = new FormControl('');
+  public form: FormGroup
+
   constructor(
     public http: HttpClient,
     private modal: ModalController,
     public navCtrl: NavController,
     public authService: AuthService,
-    private barcodeScanner: BarcodeScanner
+    private barcodeScanner: BarcodeScanner,
+    private formBuilber: FormBuilder
   ) {
     this.title = "BUSCAR AVARIAS";
     console.log("BuscarAvariasPage");
@@ -98,7 +104,15 @@ export class BuscarAvariasPage {
       this.buttonColor = "#1c6381";
     }
 
-    // this.formData.valueChanges.debounceTime(500).subscribe((value) => {
+    this.form = this.formBuilber.group({
+      data: [null],
+      parte: [0],
+      modelo: [0],
+      tipoAvaria: [0],
+      nivelAvaria: [0],
+    });
+
+    // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
     //   if (value && value.length) {
     //     {
     //       if (value.length >= 6) {
@@ -152,67 +166,73 @@ export class BuscarAvariasPage {
     this.formData.localID = this.userData.localModoOperacao;
   }
 
-  avancar() {
+  public avancar() {
+    if (this.validaCampos()) {
+      if (this.inputChassi) {
+        this.buscarChassi(this.inputChassi, false)
+      }
 
-    if (this.inputChassi) {
-      this.buscarChassi(this.inputChassi, false)
-      if (this.validaCampos()) {
-        this.navCtrl.push(ListarAvariasPage, this.formData);
-      } else {
-        this.openModalErro('Preencha os campos da busca');
+      let model = {
+        veiculoID: this.formData.veiculoID,
+        data:  this.form.controls.data.value,
+        parteAvariadaID:  this.form.controls.parte.value,
+        modelo:  this.form.controls.modelo.value,
+        tipoAvariaID:  this.form.controls.tipoAvaria.value,
+        gravidadeID:  this.form.controls.nivelAvaria.value
       }
-    } else {
-      if (this.validaCampos()) {
-        this.navCtrl.push(ListarAvariasPage, this.formData);
-      } else {
-        this.openModalErro('Preencha os campos da busca');
-      }
+
+      console.clear();
+      console.log(model);
+      this.navCtrl.push(ListarAvariasPage, model);
     }
-
-
-
+    else {
+      this.openModalErro('Preencha os campos da busca');
+    }
   }
 
-  validaCampos(): Boolean {
-    var check: boolean = false;
-    if (this.formData.veiculoID) {
-      check = true;
+  validaCampos() {
+    if (this.form.controls.data.value || this.form.controls.parte.value || this.form.controls.modelo.value || this.form.controls.tipoAvaria.value || this.form.controls.nivelAvaria.value)
+    {
+      return true;
     }
-    if (this.formData.data) {
-      check = true;
-    }
-    if (this.formData.parteAvariadaID) {
-      check = true;
-    }
-    if (this.formData.modelo) {
-      check = true;
-    }
-    if (this.formData.tipoAvariaID) {
-      check = true;
-    }
-    if (this.formData.gravidadeID) {
-      check = true;
-    }
-    return check;
+
+    return false;
+  }
+
+  scan() {
+    this.options = {
+      showTorchButton: true,
+      prompt: '',
+      resultDisplayDuration: 0,
+    };
+    this.authService.showLoading();
+    this.barcodeScanner.scan(this.options).then((barcodeData) => {
+        this.qrCodeText = barcodeData.text;
+        if (this.qrCodeText && this.qrCodeText.length) {
+          let partChassi = this.qrCodeText.substr(this.qrCodeText.length - 17, 17);
+          this.formData['chassi'] = partChassi;
+          this.buscarChassi(partChassi, true);
+        }
+      },
+      (err) => {
+        this.authService.hideLoading();
+        let data = 'Erro de qr code!';
+        this.openModalErro(data);
+      }
+    );
   }
 
   buscarChassi(partChassi, byScanner: boolean) {
-    //this.formData.veiculoID = partChassi;
     let uriBuscaChassi = '/veiculos/ConsultarChassi?token=' + this.authService.getToken() + '&chassi=' + partChassi;
-
-
     this.formData.token = this.authService.getToken();
-
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.formData.veiculoID = this.responseData.retorno.id;
           this.formData.chassi = this.inputChassi;
         }
         else {
-
           if (this.modoOperacao == 1 || partChassi.length < 17) {
             this.openModalErro(this.responseData.mensagem);
           }
@@ -231,18 +251,12 @@ export class BuscarAvariasPage {
         }
       },
       (error) => {
-
         this.openModalErro(error.status + ' - ' + error.statusText);
       }
     );
   }
 
-
-
-
   ListarParte() {
-    //
-
     this.http
       .get(
         this.url +
@@ -273,10 +287,7 @@ export class BuscarAvariasPage {
       );
   }
 
-
   ListarModelos() {
-
-
     this.http
       .get(
         this.url +
@@ -305,12 +316,7 @@ export class BuscarAvariasPage {
 
   }
 
-
-
-
   ListarTipoAvaria() {
-
-
     this.http
       .get(
         this.url +
@@ -340,12 +346,7 @@ export class BuscarAvariasPage {
       );
   }
 
-
-
-
   ListarNivelAvaria() {
-
-
     this.http
       .get(
         this.url +
@@ -375,14 +376,12 @@ export class BuscarAvariasPage {
       );
   }
 
-
   toggleMenu = function (this) {
     $(".menu-body").toggleClass("show-menu");
     $("menu-inner").toggleClass("show");
     $(".icon-menu").toggleClass("close-menu");
     $("side-menu").toggleClass("show");
   };
-
 
   openModalErro(data) {
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
@@ -402,9 +401,8 @@ export class BuscarAvariasPage {
         this.inputChassi = '';
       }, 1000);
     }
-    this.formData.veiculoID = '';
+    this.formData.veiculoID = 0;
   }
-
 
   openModalSucesso(data) {
     const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {
