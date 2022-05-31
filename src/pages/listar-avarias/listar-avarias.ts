@@ -104,11 +104,12 @@ export class ListarAvariasPage {
     this.url = this.authService.getUrl();
     this.formData = this.navParams.data;
 
-    let model = {
+    var model = {
       token: this.authService.getToken(),
       skip: 0,
       take: 20,
       localID: 2,
+
       veiculoID: this.formData.veiculoID > 0 ? this.formData.veiculoID : 0,
       data: this.formData.data != '' && this.formData.data != null ? this.formData.data : '' ,
       parteAvariadaID: this.formData.parteAvariadaID > 0 ? this.formData.parteAvariadaID : 0,
@@ -116,6 +117,8 @@ export class ListarAvariasPage {
       tipoAvariaID: this.formData.tipoAvariaID > 0 ? this.formData.tipoAvariaID : 0,
       gravidadeID: this.formData.gravidadeID > 0 ? this.formData.gravidadeID : 0
     }
+
+    model['teste'] = 0;
 
     this.avariaService.listarAvaria(model).subscribe(res => {
 
@@ -125,7 +128,6 @@ export class ListarAvariasPage {
       }
       else {
         this.authService.hideLoading();
-        // this.openModalErro(this.retorno.mensagem);
         // this.navCtrl.push(HomePage);
       }
     }, (error) => {
@@ -144,226 +146,13 @@ export class ListarAvariasPage {
       this.inputColor = '#06273f';
       this.buttonColor = "#1c6381";
     }
-
-
   }
+
   ionViewDidEnter() { }
 
   navigateToBuscarAvariaPage() {
     this.navCtrl.push(BuscarAvariasPage);
   }
-  // onLayoutChange(layout) {
-  //   this.bolsoes = null;
-  //   this.filas = null;
-  //   this.posicoes = null;
-
-  //   this.ListarBolsao(layout);
-  //   this.receberParquear.layoutID = layout;
-  //   this.receberParquear.layoutNome = this.select1.text;
-  //   console.log(this.receberParquear);
-  //   this.count = 1;
-  // }
-  // onBolsaoChange(bolsaoId) {
-  //   this.filas = null;
-  //   this.posicoes = null;
-
-  //   this.bolsao = bolsaoId;
-  //   this.ListarFila(bolsaoId);
-  //   this.receberParquear.bolsaoID = bolsaoId;
-  //   this.receberParquear.bolsaoNome = this.select2.text;
-
-  //   this.count = 2;
-  // }
-  // onFilaChange(fila) {
-  //   this.fila = fila;
-  //   this.receberParquear.filaID = fila;
-  //   this.receberParquear.filaNome = this.select3.text;
-  //   this.authService.setLayout(this.receberParquear);
-  //   this.ListarPosicoes(this.fila);
-
-  //   this.count = 3;
-  // }
-
-  // onPosicaoChange(posicao) {
-  //   this.posicao = posicao;
-  //   this.receberParquear.posicaoID = posicao;
-  //   this.receberParquear.posicaoNome = this.select4.text;
-  //   this.authService.setPosicao(this.posicao);
-  //   this.count = 4;
-  // }
-
-  // avancar() {
-  //   if (this.receberParquear.posicaoID != "") {
-  //     this.count = 0;
-  //     this.openModalQrCode(this.receberParquear);
-  //   } else {
-  //     this.openModalErro("Campos inválidos ou em branco.");
-  //   }
-  // }
-
-  // ListarLayout() {
-  //   this.authService.showLoading();
-
-  //   this.http
-  //     .get(
-  //       this.url +
-  //         "/ReceberParquear/ListarLayouts?token=" +
-  //         this.authService.getToken()
-  //     )
-  //     .subscribe(
-  //       (resultado) => {
-  //         this.responseData = resultado;
-
-  //         if (this.responseData.sucesso) {
-  //           this.authService.hideLoading();
-
-  //           //PREENCHER O SELECT DO LAYOUT
-  //           this.layouts = this.responseData.retorno;
-  //           this.authService.hideLoading();
-  //         } else {
-  //           this.authService.hideLoading();
-  //           this.openModalErro(this.responseData.mensagem);
-  //         }
-  //       },
-  //       (error) => {
-  //         this.authService.hideLoading();
-  //         this.openModalErro(
-  //           "Erro ao carregar o layout, volte ao menu e tente novamente!"
-  //         );
-  //         console.log(error);
-  //       }
-  //     );
-  // }
-
-  // ListarBolsao(layout) {
-  //   this.authService.showLoading();
-
-  //   this.http
-  //     .get(
-  //       this.url +
-  //         "/ReceberParquear/ListarBolsoes?token=" +
-  //         this.authService.getToken() +
-  //         "&layoutID=" +
-  //         layout
-  //     )
-  //     .subscribe(
-  //       (resultado) => {
-  //         this.responseData = {};
-  //         this.responseData = resultado;
-
-  //         if (this.responseData.sucesso) {
-  //           this.authService.hideLoading();
-
-  //           //PREENCHER O SELECT DO Bolsão
-  //           this.bolsoes = this.responseData.retorno;
-  //           this.authService.hideLoading();
-  //         } else {
-  //           this.authService.hideLoading();
-  //           this.openModalErro(this.responseData.mensagem);
-  //         }
-  //       },
-  //       (error) => {
-  //         this.authService.hideLoading();
-  //         this.openModalErro(
-  //           "Erro ao carregar o bolsão, volte ao menu e tente novamente!"
-  //         );
-  //         console.log(error);
-  //       }
-  //     );
-  // }
-
-  // ListarPosicoes(linhaID) {
-  //   this.authService.showLoading();
-
-  //   this.http
-  //     .get(
-  //       this.url +
-  //         "/ReceberParquear/ListarPosicoes?token=" +
-  //         this.authService.getToken() +
-  //         "&linhaID=" +
-  //         linhaID
-  //     )
-  //     .subscribe(
-  //       (resultado) => {
-  //         this.responseData = {};
-  //         this.responseData = resultado;
-
-  //         if (this.responseData.sucesso) {
-  //           this.authService.hideLoading();
-
-  //           if (this.responseData["retorno"] != "") {
-  //             console.log("há vagas livres.");
-  //             //PREENCHER O SELECT DO Bolsão
-  //             this.posicoes = this.responseData.retorno;
-  //             this.authService.hideLoading();
-  //           } else {
-  //             this.openModalErro("Não há vagas livres.");
-  //             console.log("Não há vagas livres.");
-
-  //             this.ListarFila(this.receberParquear.bolsaoID);
-  //           }
-  //         } else {
-  //           this.authService.hideLoading();
-  //           this.openModalErro(this.responseData.mensagem);
-  //         }
-  //       },
-  //       (error) => {
-  //         this.authService.hideLoading();
-  //         this.openModalErro(
-  //           "Erro ao carregar as vagas, volte ao menu e tente novamente!"
-  //         );
-  //         console.log(error);
-  //       }
-  //     );
-  // }
-
-  // ListarFila(bolsao) {
-  //   this.authService.showLoading();
-
-  //   this.http
-  //     .get(
-  //       this.url +
-  //         "/ReceberParquear/ListarLinhas?token=" +
-  //         this.authService.getToken() +
-  //         "&bolsaoID=" +
-  //         bolsao
-  //     )
-  //     .subscribe(
-  //       (resultado) => {
-  //         this.responseData = {};
-  //         this.responseData = resultado;
-
-  //         if (this.responseData.sucesso) {
-  //           this.authService.hideLoading();
-
-  //           //PREENCHER O SELECT DO Bolsão
-  //           this.filas = this.responseData.retorno;
-  //           this.authService.hideLoading();
-  //         } else {
-  //           this.authService.hideLoading();
-  //           this.openModalErro(this.responseData.mensagem);
-  //         }
-  //       },
-  //       (error) => {
-  //         this.authService.hideLoading();
-  //         this.openModalErro(
-  //           "Erro ao carregar as filas, volte ao menu e tente novamente!"
-  //         );
-  //         console.log(error);
-  //       }
-  //     );
-  // }
-
-  // openModalQrCode(data) {
-  //   const chassiModal: Modal = this.modal.create(
-  //     ModalReceberParquearComponent,
-  //     { data: data }
-  //   );
-  //   chassiModal.present();
-
-  //   chassiModal.onDidDismiss((data) => {});
-  //   chassiModal.onWillDismiss((data) => {});
-  // }
 
   editar(){
 
@@ -376,16 +165,15 @@ export class ListarAvariasPage {
     $("side-menu").toggleClass("show");
   };
 
-
   openModalErro(data) {
     const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
       data: data,
     });
     chassiModal.present();
 
-    // chassiModal.onDidDismiss((data) => {
-    //   this.cleanInput(false);
-    // });
+    chassiModal.onDidDismiss((data) => {
+      this.cleanInput(false);
+    });
   }
 
   cleanInput(byScanner: boolean) {

@@ -1,21 +1,9 @@
 import { Component, ViewChild } from "@angular/core";
-import {
-  IonicPage,
-  NavController,
-  Modal,
-  ModalController,
-} from "ionic-angular";
+import { IonicPage,  NavController, Modal, ModalController, ViewController } from "ionic-angular";
 import { AuthService } from "../../providers/auth-service/auth-service";
 import { HomePage } from "../home/home";
 import { ModalErrorComponent } from "../../components/modal-error/modal-error";
 import { ModalSucessoComponent } from "../../components/modal-sucesso/modal-sucesso";
-import { ModalReceberParquearComponent } from "../../components/modal-receber-parquear/modal-receber-parquear";
-import { RomaneioPage } from "../romaneio/romaneio";
-import { MovimentacaoPage } from "../movimentacao/movimentacao";
-import { ParqueamentoPage } from "../parqueamento/parqueamento";
-import { CarregamentoExportPage } from "../carregamento-export/carregamento-export";
-import { CarregamentoPage } from "../carregamento/carregamento";
-import { RecebimentoPage } from "../recebimento/recebimento";
 import { Select } from "ionic-angular";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
@@ -24,20 +12,15 @@ import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-sca
 import { ListarAvariasPage } from "../listar-avarias/listar-avarias";
 import { Usuario } from "../../model/usuario";
 import { QualidadeMenuPage } from "../qualidade-menu/qualidade-menu";
-import { ModalBuscaChassiComponent } from "../modal-busca-chassi/modal-busca-chassi";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-
 
 @Component({
   selector: "page-buscar-avarias",
   templateUrl: "buscar-avarias.html",
 })
 export class BuscarAvariasPage {
-  @ViewChild("select1") select1: Select;
-  @ViewChild("select2") select2: Select;
-  @ViewChild("select3") select3: Select;
-  @ViewChild("select4") select4: Select;
   @ViewChild('chassiInput') chassiInput;
+  @ViewChild('select') select: Select;
 
   title: string;
   url: string;
@@ -46,7 +29,9 @@ export class BuscarAvariasPage {
   modelos: any;
   tipoAvarias: any;
   nivelAvarias: any;
+  chassis: any = [];
   modoOperacao: number;
+  showModal: Boolean = false;
 
   formData = {
     "token": "",
@@ -74,9 +59,9 @@ export class BuscarAvariasPage {
   buttonColor: string;
   qrCodeText: string;
   options: BarcodeScannerOptions;
-  responseData: any;
+  car: any;
 
-  // formControlChassi = new FormControl('');
+  formControlChassi = new FormControl("");
   public form: FormGroup
 
   constructor(
@@ -85,7 +70,8 @@ export class BuscarAvariasPage {
     public navCtrl: NavController,
     public authService: AuthService,
     private barcodeScanner: BarcodeScanner,
-    private formBuilber: FormBuilder
+    private formBuilber: FormBuilder,
+    private view: ViewController,
   ) {
     this.title = "BUSCAR AVARIAS";
     console.log("BuscarAvariasPage");
@@ -105,6 +91,7 @@ export class BuscarAvariasPage {
     }
 
     this.form = this.formBuilber.group({
+      chassi: [''],
       data: [null],
       parte: [0],
       modelo: [0],
@@ -112,19 +99,17 @@ export class BuscarAvariasPage {
       nivelAvaria: [0],
     });
 
-    // this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
-    //   if (value && value.length) {
-    //     {
-    //       if (value.length >= 6) {
-    //         let chassi = value.replace(/[\W_]+/g, '');
-    //         setTimeout(() => {
-    //           this.buscarChassi(chassi, false);
-    //           this.formData.chassi = '';
-    //         }, 500);
-    //       }
-    //     }
-    //   }
-    // });
+    this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
+      if (value && value.length) {
+        if (value.length >= 6) {
+          let chassi = value.replace(/[\W_]+/g, '');
+          setTimeout(() => {
+            this.buscarChassi(chassi, false);
+            this.formData.chassi = '';
+          }, 500);
+        }
+      }
+    });
 
   }
 
@@ -135,7 +120,6 @@ export class BuscarAvariasPage {
     this.ListarNivelAvaria();
     this.setLocalID();
   }
-
 
   consultarChassiAvarias() { }
 
@@ -174,6 +158,7 @@ export class BuscarAvariasPage {
 
       let model = {
         veiculoID: this.formData.veiculoID,
+        chassi:  this.form.controls.chassi.value,
         data:  this.form.controls.data.value,
         parteAvariadaID:  this.form.controls.parte.value,
         modelo:  this.form.controls.modelo.value,
@@ -192,11 +177,13 @@ export class BuscarAvariasPage {
 
   validaCampos() {
     if (this.form.controls.data.value || this.form.controls.parte.value || this.form.controls.modelo.value || this.form.controls.tipoAvaria.value || this.form.controls.nivelAvaria.value)
-    {
       return true;
-    }
 
     return false;
+  }
+
+  find(qrCodeText:any){
+    let partChassi = this.qrCodeText.substr(qrCodeText.length - 17, 17);
   }
 
   scan() {
@@ -223,30 +210,39 @@ export class BuscarAvariasPage {
   }
 
   buscarChassi(partChassi, byScanner: boolean) {
+
     let uriBuscaChassi = '/veiculos/ConsultarChassi?token=' + this.authService.getToken() + '&chassi=' + partChassi;
+    this.authService.showLoading();
     this.formData.token = this.authService.getToken();
+
     this.http.get(this.url + uriBuscaChassi).subscribe(
       (res) => {
-        this.responseData = res;
-        if (this.responseData.sucesso) {
-          this.formData.veiculoID = this.responseData.retorno.id;
-          this.formData.chassi = this.inputChassi;
+        this.car = res;
+        if (this.car.sucesso) {
+          this.chassis = this.car.retorno;
+          this.showModal = true;
+
+          this.form.patchValue({
+            chassi: partChassi,
+            veiculoID: this.car.retorno.id
+          });
+          this.authService.hideLoading();
         }
         else {
           if (this.modoOperacao == 1 || partChassi.length < 17) {
-            this.openModalErro(this.responseData.mensagem);
+            this.openModalErro(this.car.mensagem);
           }
-          else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
-            this.openModalErro(this.responseData.mensagem);
+          else if (this.car.dataErro == 'CHASSI_ALREADY_RECEIVED') {
+            this.openModalErro(this.car.mensagem);
           }
           else if (
             this.modoOperacao == 2 &&
-            this.responseData.dataErro == 'CHASSI_NOT_FOUND'
+            this.car.dataErro == 'CHASSI_NOT_FOUND'
           ) {
             // this.openModalLancamentoAvaria([partChassi], byScanner);
           }
           else {
-            this.openModalErro(this.responseData.mensagem);
+            this.openModalErro(this.car.mensagem);
           }
         }
       },
@@ -257,25 +253,13 @@ export class BuscarAvariasPage {
   }
 
   ListarParte() {
-    this.http
-      .get(
-        this.url +
-        "/Parte/Partes?token=" +
-        this.authService.getToken()
-      )
-      .subscribe(
-        (resultado) => {
-          this.responseData = resultado;
-
-          if (this.responseData.sucesso) {
-            this.partes = this.responseData.retorno;
-
-            console.log(this.partes)
-
-          } else {
-
-            this.openModalErro(this.responseData.mensagem);
-          }
+    this.http.get(this.url + "/Parte/Partes?token=" + this.authService.getToken())
+      .subscribe( (resultado) => {
+          this.car = resultado;
+          if (this.car.sucesso)
+            this.partes = this.car.retorno;
+          else
+            this.openModalErro(this.car.mensagem);
         },
         (error) => {
 
@@ -289,27 +273,17 @@ export class BuscarAvariasPage {
 
   ListarModelos() {
     this.http
-      .get(
-        this.url +
-        "/Modelo/Listar?token=" +
-        this.authService.getToken()
-      )
-      .subscribe(
-        (resultado) => {
-          this.responseData = resultado;
-          if (this.responseData.sucesso) {
-            this.modelos = this.responseData.retorno;
-          } else {
-
-            this.openModalErro(this.responseData.mensagem);
-          }
+      .get(this.url + "/Modelo/Listar?token=" + this.authService.getToken())
+      .subscribe((resultado) => {
+          this.car = resultado;
+          if (this.car.sucesso)
+            this.modelos = this.car.retorno;
+          else
+            this.openModalErro(this.car.mensagem);
         },
         (error) => {
 
-          this.openModalErro(
-            "Erro ao carregar os modelos, volte ao menu e tente novamente!"
-          );
-          console.log(error);
+          this.openModalErro( "Erro ao carregar os modelos, volte ao menu e tente novamente!" );
         }
       );
 
@@ -317,61 +291,37 @@ export class BuscarAvariasPage {
   }
 
   ListarTipoAvaria() {
-    this.http
-      .get(
-        this.url +
-        "/tipoavaria/ListarTiposAvaria?token=" +
-        this.authService.getToken()
-      )
-      .subscribe(
-        (resultado) => {
-          this.responseData = resultado;
+    this.http.get(this.url + "/tipoavaria/ListarTiposAvaria?token=" + this.authService.getToken())
+      .subscribe((resultado) => {
+          this.car = resultado;
+          if (this.car.sucesso)
+            this.tipoAvarias = this.car.retorno;
 
-          if (this.responseData.sucesso) {
-
-            this.tipoAvarias = this.responseData.retorno;
-
-          } else {
-
-            this.openModalErro(this.responseData.mensagem);
-          }
+          else
+            this.openModalErro(this.car.mensagem);
         },
         (error) => {
 
-          this.openModalErro(
-            "Erro ao carregar o layout, volte ao menu e tente novamente!"
-          );
-          console.log(error);
+          this.openModalErro("Erro ao carregar o layout, volte ao menu e tente novamente!");
         }
       );
   }
 
   ListarNivelAvaria() {
     this.http
-      .get(
-        this.url +
-        "/nivelgravidadeavaria/ListarNivelGravidadeAvaria?token=" +
-        this.authService.getToken()
-      )
-      .subscribe(
-        (resultado) => {
-          this.responseData = resultado;
-
-          if (this.responseData.sucesso) {
-
-            this.nivelAvarias = this.responseData.retorno;
-
-          } else {
-
-            this.openModalErro(this.responseData.mensagem);
-          }
+      .get(this.url + "/nivelgravidadeavaria/ListarNivelGravidadeAvaria?token=" + this.authService.getToken())
+      .subscribe((resultado) => {
+          this.car = resultado;
+          if (this.car.sucesso)
+            this.nivelAvarias = this.car.retorno;
+          else
+            this.openModalErro(this.car.mensagem);
         },
         (error) => {
 
           this.openModalErro(
             "Erro ao carregar o layout, volte ao menu e tente novamente!"
           );
-          console.log(error);
         }
       );
   }
@@ -397,7 +347,7 @@ export class BuscarAvariasPage {
   cleanInput(byScanner: boolean) {
     if (!byScanner) {
       setTimeout(() => {
-        //  this.chassiInput.setFocus();
+        this.chassiInput.setFocus();
         this.inputChassi = '';
       }, 1000);
     }
@@ -423,34 +373,38 @@ export class BuscarAvariasPage {
     this.navCtrl.push(QualidadeMenuPage);
   }
 
-  toParqueamento() {
-    this.navCtrl.push(ParqueamentoPage);
-  }
-
-  toRecebimento() {
-    this.navCtrl.push(RecebimentoPage);
-  }
-
-  toMovimentacao() {
-    this.navCtrl.push(MovimentacaoPage);
-  }
-
-  toCarregamento() {
-    this.navCtrl.push(CarregamentoPage);
-  }
-
-  toRomaneio() {
-    this.navCtrl.push(RomaneioPage);
-  }
-
-  toCarregamentoExport() {
-    this.navCtrl.push(CarregamentoExportPage);
-  }
-
   isEmpty(obj) {
     for (var x in obj) {
       if (obj.hasOwnProperty(x)) return false;
     }
     return true;
   }
+
+  onChassisChange(selectedValue) {
+    // this.novoChassi = selectedValue;
+    $('.login-content').css('display', 'block');
+  }
+
+  closeModal() {
+    const data = {
+      name: 'Hingo',
+      cargo: 'Front',
+    };
+    this.select.close();
+    this.view.dismiss(data);
+  }
+
+  openModalChassis() {
+    this.showModal = false;
+
+    // const chassiModal: Modal = this.modal.create(LancamentoAvariaPage, {
+    //   data: this.responseData[0],
+    // });
+    // chassiModal.present();
+
+    // chassiModal.onDidDismiss((data) => {
+    //   this.cleanInput(true);
+    // });
+  }
+
 }

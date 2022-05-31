@@ -9,32 +9,31 @@
 </ion-header>
 
 <ion-content padding [ngStyle]="{'background-color': secondaryColor}">
+
   <ion-list>
-    <div *ngFor="let avaria of listaAvarias" [ngStyle]="{'background-color': primaryColor}">
-      <ion-item (click)="editar()" [ngStyle]="{'background-color': primaryColor}" no-lines>
+    <ion-item [ngStyle]="{'background-color': '#000000'}" no-lines>
+      <label class="title-header">Chassi: </label>
+      <span> Teste</span>
+    </ion-item>
+    <div *ngFor="let avaria of listaAvarias" (click)="editar()" [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 3%;">
+      <ion-item [ngStyle]="{'background-color': primaryColor}" no-lines>
         <label class="title-header">Chassi: </label>
         <span> {{avaria.chassi}}</span>
       </ion-item>
-      <ion-item (click)="editar()" [ngStyle]="{'background-color': primaryColor}" no-lines>
+      <ion-item [ngStyle]="{'background-color': primaryColor}" no-lines>
         <label class="title-header">Modelo: </label>
         <span> {{avaria.modelo}}</span>
       </ion-item>
-      <ion-item (click)="editar()" [ngStyle]="{'background-color': primaryColor}">
+      <ion-item [ngStyle]="{'background-color': primaryColor}" no-lines>
         <label class="title-header">Data: </label>
         <span> {{avaria.data | date : "dd/MM/yyyy"}}</span>
       </ion-item>
-      <!-- <div style="margin-bottom: 10px;">
-      </div>
-      <div style="margin-bottom: 10px;">
-      </div>
-      <div>
-      </div> -->
+
     </div>
   </ion-list>
-
   <div class="login-content">
-      <button ion-button round first class="btn-receiving btn-cancel" (click)="navigateToBuscarAvariaPage()" type="button">VOLTAR</button>
-      <!-- <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" (click)="avancar()" type="button">BUSCAR</button> -->
+    <button ion-button round first class="btn-receiving btn-cancel" (click)="navigateToBuscarAvariaPage()" type="button">VOLTAR</button>
+    <!-- <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" (click)="avancar()" type="button">BUSCAR</button> -->
   </div>
 
 </ion-content>
