@@ -20,6 +20,8 @@
     "@angular/http": "5.0.3",
     "@angular/platform-browser": "5.0.3",
     "@angular/platform-browser-dynamic": "5.0.3",
+    "@capacitor/android": "^3.5.1",
+    "@capacitor/cli": "^3.5.1",
     "@capacitor/core": "^3.5.1",
     "@ionic-native/app-version": "4.5.3",
     "@ionic-native/barcode-scanner": "^4.20.0",
@@ -67,10 +69,10 @@
     "ionic-native": "^2.9.0",
     "ionic2-super-tabs": "4.1.4",
     "ionicons": "3.0.0",
+    "jetifier": "^2.0.0",
     "jquery": "3.3.1",
     "ng2-charts": "1.6.0",
     "ng2-dragula": "1.5.0",
-    "phonegap-plugin-barcodescanner": "github:phonegap/phonegap-plugin-barcodescanner",
     "q": "^1.5.1",
     "rxjs": "5.5.11",
     "sw-toolbox": "3.6.0",
@@ -80,7 +82,8 @@
   "devDependencies": {
     "@ionic/app-scripts": "3.2.4",
     "@ionic/lab": "1.0.15",
-    "typescript": "^2.8.1"
+    "phonegap-plugin-barcodescanner": "github:phonegap/phonegap-plugin-barcodescanner",
+    "typescript": "^2.9.2"
   },
   "description": "Patio Automotivo App",
   "cordova": {

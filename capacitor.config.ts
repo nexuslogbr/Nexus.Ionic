@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'com.patioautomotivo.app',
   appName: 'patio-automotivo-app',
   webDir: 'www',
   bundledWebRuntime: false,
