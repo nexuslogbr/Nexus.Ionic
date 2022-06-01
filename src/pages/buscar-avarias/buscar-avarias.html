@@ -60,23 +60,5 @@
     <button ion-button round first class="btn-receiving btn-cancel" (click)="navigateToHomePage()" type="button">VOLTAR</button>
   </div>
 
-  <form class="form-seleciona-chassis" *ngIf="showModal">
-    <ion-list>
-      <ion-list-header>Selecione o chassi</ion-list-header>
-
-      <ion-item>
-        <ion-label label-ios>Chassi:</ion-label>
-        <ion-select (ionChange)="onChassisChange($event)" okText="Confirmar" cancelText="Cancelar" #select>
-          <ion-option *ngFor="let chassi of chassis" value="{{chassi}}" id="{{chassi}}">{{chassi}}</ion-option>
-        </ion-select>
-      </ion-item>
-      <div class="login-content">
-        <p>Selecionar o chassi?</p>
-        <button ion-button round end class="btn-receiving btn-ok" (click)="closeModal()" type="button">NÃO</button>
-        <button ion-button round first class="btn-receiving btn-cancel" (click)="openModalChassis()" type="button">SIM</button>
-      </div>
-    </ion-list>
-  </form>
-
 </ion-content>
 <modal-loading></modal-loading>

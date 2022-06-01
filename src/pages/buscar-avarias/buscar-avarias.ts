@@ -13,6 +13,8 @@ import { ListarAvariasPage } from "../listar-avarias/listar-avarias";
 import { Usuario } from "../../model/usuario";
 import { QualidadeMenuPage } from "../qualidade-menu/qualidade-menu";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { ModalSelecionarChassiComponent } from "../../components/modal-selecionar-chassi/modal-selecionar-chassi";
+import { ModalSelecionarChassiBuscaComponent } from "../../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca";
 
 @Component({
   selector: "page-buscar-avarias",
@@ -182,16 +184,13 @@ export class BuscarAvariasPage {
     return false;
   }
 
-  find(qrCodeText:any){
-    let partChassi = this.qrCodeText.substr(qrCodeText.length - 17, 17);
-  }
-
   scan() {
     this.options = {
       showTorchButton: true,
       prompt: '',
       resultDisplayDuration: 0,
     };
+
     this.authService.showLoading();
     this.barcodeScanner.scan(this.options).then((barcodeData) => {
         this.qrCodeText = barcodeData.text;
@@ -219,8 +218,8 @@ export class BuscarAvariasPage {
       (res) => {
         this.car = res;
         if (this.car.sucesso) {
-          this.chassis = this.car.retorno;
-          this.showModal = true;
+          this.chassis.push(this.car.retorno);
+          this.openModal(this.chassis);
 
           this.form.patchValue({
             chassi: partChassi,
@@ -231,9 +230,11 @@ export class BuscarAvariasPage {
         else {
           if (this.modoOperacao == 1 || partChassi.length < 17) {
             this.openModalErro(this.car.mensagem);
+            this.authService.hideLoading();
           }
           else if (this.car.dataErro == 'CHASSI_ALREADY_RECEIVED') {
             this.openModalErro(this.car.mensagem);
+            this.authService.hideLoading();
           }
           else if (
             this.modoOperacao == 2 &&
@@ -243,11 +244,13 @@ export class BuscarAvariasPage {
           }
           else {
             this.openModalErro(this.car.mensagem);
+            this.authService.hideLoading();
           }
         }
       },
       (error) => {
         this.openModalErro(error.status + ' - ' + error.statusText);
+        this.authService.hideLoading();
       }
     );
   }
@@ -344,13 +347,11 @@ export class BuscarAvariasPage {
     });
   }
 
-  cleanInput(byScanner: boolean) {
-    if (!byScanner) {
+  cleanInput() {
       setTimeout(() => {
         this.chassiInput.setFocus();
         this.inputChassi = '';
       }, 1000);
-    }
     this.formData.veiculoID = 0;
   }
 
@@ -381,7 +382,7 @@ export class BuscarAvariasPage {
   }
 
   onChassisChange(selectedValue) {
-    // this.novoChassi = selectedValue;
+    this.formControlChassi = selectedValue;
     $('.login-content').css('display', 'block');
   }
 
@@ -392,6 +393,17 @@ export class BuscarAvariasPage {
     };
     this.select.close();
     this.view.dismiss(data);
+  }
+
+  openModal(data) {
+    const modal: Modal = this.modal.create(ModalSelecionarChassiBuscaComponent, {
+      data: data,
+    });
+    modal.present();
+
+    modal.onDidDismiss(() => {
+      this.cleanInput();
+    });
   }
 
   openModalChassis() {
