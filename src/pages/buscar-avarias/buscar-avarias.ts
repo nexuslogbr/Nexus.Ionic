@@ -1,7 +1,6 @@
 import { Component, ViewChild } from "@angular/core";
-import { IonicPage,  NavController, Modal, ModalController, ViewController } from "ionic-angular";
+import { NavController, Modal, ModalController, ViewController } from "ionic-angular";
 import { AuthService } from "../../providers/auth-service/auth-service";
-import { HomePage } from "../home/home";
 import { ModalErrorComponent } from "../../components/modal-error/modal-error";
 import { ModalSucessoComponent } from "../../components/modal-sucesso/modal-sucesso";
 import { Select } from "ionic-angular";
@@ -13,7 +12,6 @@ import { ListarAvariasPage } from "../listar-avarias/listar-avarias";
 import { Usuario } from "../../model/usuario";
 import { QualidadeMenuPage } from "../qualidade-menu/qualidade-menu";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ModalSelecionarChassiComponent } from "../../components/modal-selecionar-chassi/modal-selecionar-chassi";
 import { ModalSelecionarChassiBuscaComponent } from "../../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca";
 
 @Component({
@@ -26,7 +24,7 @@ export class BuscarAvariasPage {
 
   title: string;
   url: string;
-  inputChassi: string;
+  inputChassi: string = '';
   partes: any;
   modelos: any;
   tipoAvarias: any;
@@ -41,7 +39,7 @@ export class BuscarAvariasPage {
     "take": 10,
     "localID": 0,
     "veiculoID": 0,
-    "chassi":"",
+    "chassi": "",
     "veiculoDesc": "",
     "data": "",
     "parteAvariadaID": 0,
@@ -76,7 +74,6 @@ export class BuscarAvariasPage {
     private view: ViewController,
   ) {
     this.title = "BUSCAR AVARIAS";
-    console.log("BuscarAvariasPage");
     this.url = this.authService.getUrl();
     this.userData = this.authService.getUserData();
 
@@ -93,7 +90,7 @@ export class BuscarAvariasPage {
     }
 
     this.form = this.formBuilber.group({
-      chassi: [''],
+      chassi: [this.formData.chassi],
       data: [null],
       parte: [0],
       modelo: [0],
@@ -122,8 +119,6 @@ export class BuscarAvariasPage {
     this.ListarNivelAvaria();
     this.setLocalID();
   }
-
-  consultarChassiAvarias() { }
 
   onParteChange(value) {
     var item = this.partes.find(item => item['id'] === value);
@@ -209,7 +204,6 @@ export class BuscarAvariasPage {
   }
 
   buscarChassi(partChassi, byScanner: boolean) {
-
     let uriBuscaChassi = '/veiculos/ConsultarChassi?token=' + this.authService.getToken() + '&chassi=' + partChassi;
     this.authService.showLoading();
     this.formData.token = this.authService.getToken();
@@ -218,8 +212,9 @@ export class BuscarAvariasPage {
       (res) => {
         this.car = res;
         if (this.car.sucesso) {
+          this.inputChassi = partChassi;
           this.chassis.push(this.car.retorno);
-          this.openModal(this.chassis);
+          this.openModal(this.car.retorno);
 
           this.form.patchValue({
             chassi: partChassi,
@@ -355,44 +350,8 @@ export class BuscarAvariasPage {
     this.formData.veiculoID = 0;
   }
 
-  openModalSucesso(data) {
-    const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {
-      data: data,
-    });
-    chassiModal.present();
-
-    chassiModal.onDidDismiss((data) => {
-      console.log(data);
-    });
-    chassiModal.onWillDismiss((data) => {
-      console.log("data");
-      console.log(data);
-    });
-  }
-
   navigateToHomePage() {
     this.navCtrl.push(QualidadeMenuPage);
-  }
-
-  isEmpty(obj) {
-    for (var x in obj) {
-      if (obj.hasOwnProperty(x)) return false;
-    }
-    return true;
-  }
-
-  onChassisChange(selectedValue) {
-    this.formControlChassi = selectedValue;
-    $('.login-content').css('display', 'block');
-  }
-
-  closeModal() {
-    const data = {
-      name: 'Hingo',
-      cargo: 'Front',
-    };
-    this.select.close();
-    this.view.dismiss(data);
   }
 
   openModal(data) {
@@ -405,18 +364,4 @@ export class BuscarAvariasPage {
       this.cleanInput();
     });
   }
-
-  openModalChassis() {
-    this.showModal = false;
-
-    // const chassiModal: Modal = this.modal.create(LancamentoAvariaPage, {
-    //   data: this.responseData[0],
-    // });
-    // chassiModal.present();
-
-    // chassiModal.onDidDismiss((data) => {
-    //   this.cleanInput(true);
-    // });
-  }
-
 }
