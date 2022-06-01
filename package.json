@@ -83,7 +83,7 @@
     "@ionic/app-scripts": "3.2.4",
     "@ionic/lab": "1.0.15",
     "phonegap-plugin-barcodescanner": "github:phonegap/phonegap-plugin-barcodescanner",
-    "typescript": "^2.9.2"
+    "typescript": "^2.4.2"
   },
   "description": "Patio Automotivo App",
   "cordova": {
