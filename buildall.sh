@@ -9,8 +9,8 @@ cd android
 ./gradlew assembleRelease
 ./gradlew bundleRelease
 cd ..
-jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore ./keystore/nexuspatio.keystore -signedjar patio_signed.apk -storepass K3y5Tore! ./android/app/build/outputs/apk/release/app-release-unsigned.apk nexuspatio
-jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore ./keystore/nexuspatio.keystore -signedjar patio_signed.aab -storepass K3y5Tore! ./android/app/build/outputs/bundle/release/app-release.aab nexuspatio
+jarsigner -sigalg SHA256withRSA -digestalg SHA-256 -keystore ./keystore/nexuspatio.keystore -signedjar patio_signed.apk -storepass K3y5Tore! ./android/app/build/outputs/apk/release/app-release-unsigned.apk nexuspatio
+jarsigner -sigalg SHA256withRSA -digestalg SHA-256 -keystore ./keystore/nexuspatio.keystore -signedjar patio_signed.aab -storepass K3y5Tore! ./android/app/build/outputs/bundle/release/app-release.aab nexuspatio
 
 buildend=`date +%s`
 buildruntime=$((buildend-buildstart))
