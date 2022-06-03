@@ -2,7 +2,7 @@ FROM node:14
 
 EXPOSE 8100
 
-ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV GRADLE_HOME /usr/local/gradle
 ENV GRADLE_VERSION 7.4.2
 ENV ANDROID_API_LEVELS android-28
