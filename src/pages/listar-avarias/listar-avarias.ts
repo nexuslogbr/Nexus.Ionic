@@ -25,6 +25,7 @@ import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-sca
 import { EditarAvariasPage } from "../editar-avarias/editar-avarias";
 import { BuscarAvariasPage } from "../buscar-avarias/buscar-avarias";
 import { AvariaDataService } from "../../providers/avaria-data-service";
+import { LancamentoAvariaPage } from "../lancamento-avaria/lancamento-avaria";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -66,7 +67,10 @@ export class ListarAvariasPage {
     "tipoAvariaID": 0,
     "tipoAvariaDesc": "",
     "gravidadeID": 0,
-    "gravidadeDesc": ""
+    "gravidadeDesc": "",
+
+    "filtro": "",
+    "filtroValor": ""
   };
 
   insertData = {
@@ -88,7 +92,11 @@ export class ListarAvariasPage {
   buttonColor: string;
   qrCodeText: string;
   options: BarcodeScannerOptions;
-  listaAvarias:any;
+  list:any;
+  public disableContinuar: boolean = true;
+
+  filtro = '';
+  filtroValor = '';
 
   constructor(
     public http: HttpClient,
@@ -117,14 +125,16 @@ export class ListarAvariasPage {
       tipoAvariaID: this.formData.tipoAvariaID > 0 ? this.formData.tipoAvariaID : 0,
       gravidadeID: this.formData.gravidadeID > 0 ? this.formData.gravidadeID : 0
     }
+    this.filtro = this.formData.filtro;
+    this.filtroValor = this.formData.filtroValor;
 
     model['teste'] = 0;
 
     this.avariaService.listarAvaria(model).subscribe(res => {
 
       if (res.sucesso) {
+        this.list = res.retorno;
         this.authService.hideLoading();
-        this.listaAvarias = res.retorno;
       }
       else {
         this.authService.hideLoading();
@@ -154,8 +164,8 @@ export class ListarAvariasPage {
     this.navCtrl.push(BuscarAvariasPage);
   }
 
-  editar(){
-
+  editar(event:any){
+    this.disableContinuar = false;
   }
 
   toggleMenu = function (this) {
@@ -206,35 +216,9 @@ export class ListarAvariasPage {
     this.navCtrl.push(HomePage);
   }
 
-  toParqueamento() {
-    this.navCtrl.push(ParqueamentoPage);
+  toLancamentoAvaria() {
+    this.navCtrl.push(LancamentoAvariaPage);
   }
 
-  toRecebimento() {
-    this.navCtrl.push(RecebimentoPage);
-  }
-
-  toMovimentacao() {
-    this.navCtrl.push(MovimentacaoPage);
-  }
-
-  toCarregamento() {
-    this.navCtrl.push(CarregamentoPage);
-  }
-
-  toRomaneio() {
-    this.navCtrl.push(RomaneioPage);
-  }
-
-  toCarregamentoExport() {
-    this.navCtrl.push(CarregamentoExportPage);
-  }
-
-  isEmpty(obj) {
-    for (var x in obj) {
-      if (obj.hasOwnProperty(x)) return false;
-    }
-    return true;
-  }
 }
 

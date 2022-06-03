@@ -16,7 +16,7 @@
       <ion-label style="padding-left: 1%;">Chassi</ion-label>
       <ion-row>
         <ion-col col-10>
-          <ion-input class="input-header input-has-focus" type="text" value="" placeholder="Chassi" [formControl]="formControlChassi" #chassiInput></ion-input>
+          <ion-input class="input-header input-has-focus" type="text" [value]="formData.chassi" placeholder="Chassi" [formControl]="formControlChassi" #chassiInput></ion-input>
         </ion-col>
         <ion-col col-1 style="align-self: center;">
           <i class="icon qrcode-gray" (click)="scan()"></i>
@@ -31,26 +31,26 @@
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">
             <ion-label label-ios>Parte:</ion-label>
-            <ion-select  (ionChange)="onParteChange($event)" okText="Confirmar" cancelText="Cancelar" formControlName="parte">
-                <ion-option *ngFor="let parte of partes" [value]="parte.id" id="{{parte.id}}">{{parte.nome}}</ion-option>
+            <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="parte">
+                <ion-option *ngFor="let parte of partes" [value]="parte.nome" id="{{parte.id}}">{{parte.nome}}</ion-option>
             </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">
             <ion-label label-ios>Modelo:</ion-label>
-            <ion-select  (ionChange)="onModeloChange($event)" okText="Confirmar" cancelText="Cancelar" #select3 formControlName="modelo">
-                <ion-option *ngFor="let modelo of modelos" [value]="modelo.id" id="{{modelo.id}}">{{modelo.nome}}</ion-option>
+            <ion-select okText="Confirmar" cancelText="Cancelar" #select3 formControlName="modelo">
+                <ion-option *ngFor="let modelo of modelos" [value]="modelo.nome" id="{{modelo.id}}">{{modelo.nome}}</ion-option>
             </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">
             <ion-label label-ios>Tipo de Avaria:</ion-label>
-            <ion-select  (ionChange)="onTipoAvariaChange($event)" okText="Confirmar" cancelText="Cancelar" #select4 formControlName="tipoAvaria">
-                <ion-option *ngFor="let tipoAvaria of tipoAvarias" [value]="tipoAvaria.id" id="{{tipoAvaria.id}}">{{tipoAvaria.nome}}</ion-option>
+            <ion-select okText="Confirmar" cancelText="Cancelar" #select4 formControlName="tipoAvaria">
+                <ion-option *ngFor="let tipoAvaria of tipoAvarias" [value]="tipoAvaria.nome" id="{{tipoAvaria.id}}">{{tipoAvaria.nome}}</ion-option>
             </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">
             <ion-label label-ios>Nivel de Avaria:</ion-label>
-            <ion-select  (ionChange)="onNivelAvariaChange($event)" okText="Confirmar" cancelText="Cancelar" #select4 formControlName="nivelAvaria">
-                <ion-option *ngFor="let nivelAvaria of nivelAvarias" [value]="nivelAvaria.id" id="{{nivelAvaria.id}}">{{nivelAvaria.nome}}</ion-option>
+            <ion-select okText="Confirmar" cancelText="Cancelar" #select4 formControlName="nivelAvaria">
+                <ion-option *ngFor="let nivelAvaria of nivelAvarias" [value]="nivelAvaria.nome" id="{{nivelAvaria.id}}">{{nivelAvaria.nome}}</ion-option>
             </ion-select>
         </ion-item>
     </ion-list>

@@ -1,7 +1,6 @@
 import { Component, ViewChild } from "@angular/core";
-import { IonicPage,  NavController, Modal, ModalController, ViewController } from "ionic-angular";
+import { NavController, Modal, ModalController, ViewController, NavParams } from "ionic-angular";
 import { AuthService } from "../../providers/auth-service/auth-service";
-import { HomePage } from "../home/home";
 import { ModalErrorComponent } from "../../components/modal-error/modal-error";
 import { ModalSucessoComponent } from "../../components/modal-sucesso/modal-sucesso";
 import { Select } from "ionic-angular";
@@ -13,8 +12,8 @@ import { ListarAvariasPage } from "../listar-avarias/listar-avarias";
 import { Usuario } from "../../model/usuario";
 import { QualidadeMenuPage } from "../qualidade-menu/qualidade-menu";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ModalSelecionarChassiComponent } from "../../components/modal-selecionar-chassi/modal-selecionar-chassi";
 import { ModalSelecionarChassiBuscaComponent } from "../../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca";
+import { AlertService } from "../../providers/alert-service";
 
 @Component({
   selector: "page-buscar-avarias",
@@ -26,12 +25,10 @@ export class BuscarAvariasPage {
 
   title: string;
   url: string;
-  inputChassi: string;
   partes: any;
   modelos: any;
   tipoAvarias: any;
   nivelAvarias: any;
-  chassis: any = [];
   modoOperacao: number;
   showModal: Boolean = false;
 
@@ -41,7 +38,7 @@ export class BuscarAvariasPage {
     "take": 10,
     "localID": 0,
     "veiculoID": 0,
-    "chassi":"",
+    "chassi": "",
     "veiculoDesc": "",
     "data": "",
     "parteAvariadaID": 0,
@@ -63,6 +60,9 @@ export class BuscarAvariasPage {
   options: BarcodeScannerOptions;
   car: any;
 
+  filtro = '';
+  filtroValor = '';
+
   formControlChassi = new FormControl("");
   public form: FormGroup
 
@@ -74,11 +74,17 @@ export class BuscarAvariasPage {
     private barcodeScanner: BarcodeScanner,
     private formBuilber: FormBuilder,
     private view: ViewController,
+    public alertService: AlertService,
+    private navParam: NavParams,
   ) {
     this.title = "BUSCAR AVARIAS";
-    console.log("BuscarAvariasPage");
     this.url = this.authService.getUrl();
     this.userData = this.authService.getUserData();
+
+    var model = this.navParam.get('data');
+    if (model) {
+      this.formData.chassi =  model.chassi
+    }
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -93,7 +99,6 @@ export class BuscarAvariasPage {
     }
 
     this.form = this.formBuilber.group({
-      chassi: [''],
       data: [null],
       parte: [0],
       modelo: [0],
@@ -123,49 +128,26 @@ export class BuscarAvariasPage {
     this.setLocalID();
   }
 
-  consultarChassiAvarias() { }
-
-  onParteChange(value) {
-    var item = this.partes.find(item => item['id'] === value);
-    this.formData.parteAvariadaID = item.id;
-    this.formData.parteAvariaDesc = item.nome;
-  }
-
-  onModeloChange(value) {
-    var item = this.modelos.find(item => item['id'] === value);
-    this.formData.modelo = item.nome;
-  }
-
-  onTipoAvariaChange(value) {
-    var item = this.tipoAvarias.find(item => item['id'] === value);
-    this.formData.tipoAvariaID = item.id;
-    this.formData.tipoAvariaDesc = item.nome;
-  }
-
-  onNivelAvariaChange(value) {
-    var item = this.nivelAvarias.find(item => item['id'] === value);
-    this.formData.gravidadeID = item.id;
-    this.formData.gravidadeDesc = item.nome;
-  }
-
   setLocalID() {
     this.formData.localID = this.userData.localModoOperacao;
   }
 
-  public avancar() {
+  public avancar(onDismiss?: Function) {
     if (this.validaCampos()) {
-      if (this.inputChassi) {
-        this.buscarChassi(this.inputChassi, false)
+      if (this.formData.chassi) {
+        this.buscarChassi(this.formData.chassi, false)
       }
 
       let model = {
         veiculoID: this.formData.veiculoID,
-        chassi:  this.form.controls.chassi.value,
+        chassi:  this.formData.chassi,
         data:  this.form.controls.data.value,
         parteAvariadaID:  this.form.controls.parte.value,
         modelo:  this.form.controls.modelo.value,
         tipoAvariaID:  this.form.controls.tipoAvaria.value,
-        gravidadeID:  this.form.controls.nivelAvaria.value
+        gravidadeID:  this.form.controls.nivelAvaria.value,
+        filtro: this.filtro,
+        filtroValor: this.filtroValor
       }
 
       console.clear();
@@ -173,15 +155,45 @@ export class BuscarAvariasPage {
       this.navCtrl.push(ListarAvariasPage, model);
     }
     else {
-      this.openModalErro('Preencha os campos da busca');
+    this.alertService.showAlert('Sem dados para busca');
+      // this.openModalErro('Preencha os campos da busca');
     }
   }
 
   validaCampos() {
-    if (this.form.controls.data.value || this.form.controls.parte.value || this.form.controls.modelo.value || this.form.controls.tipoAvaria.value || this.form.controls.nivelAvaria.value)
-      return true;
+    let valido = false;
 
-    return false;
+    if (this.form.controls.data.value){
+      var data = this.form.controls.data.value;
+
+      this.filtro = 'Data:';
+      this.filtroValor = data.replace(/-/g,'/');
+      valido = true;
+    }
+    if (this.form.controls.parte.value){
+      this.filtro = 'Parte:';
+      this.filtroValor = this.form.controls.parte.value;
+      valido = true;
+    }
+    if (this.form.controls.modelo.value){
+      this.filtro = 'Modelo:';
+      this.filtroValor = this.form.controls.modelo.value;
+      valido = true;
+    }
+    if (this.form.controls.tipoAvaria.value){
+      this.filtro = 'Tipo Avaria:';
+      this.filtroValor = this.form.controls.tipoAvaria.value;
+      valido = true;
+    }
+    if (this.form.controls.nivelAvaria.value){
+      this.filtro = 'Nível Avaria:';
+      this.filtroValor = this.form.controls.nivelAvaria.value;
+      valido = true;
+    }
+    // if (this.form.controls.data.value || this.form.controls.parte.value || this.form.controls.modelo.value || this.form.controls.tipoAvaria.value || this.form.controls.nivelAvaria.value)
+    //   return true;
+
+    return valido;
   }
 
   scan() {
@@ -209,7 +221,6 @@ export class BuscarAvariasPage {
   }
 
   buscarChassi(partChassi, byScanner: boolean) {
-
     let uriBuscaChassi = '/veiculos/ConsultarChassi?token=' + this.authService.getToken() + '&chassi=' + partChassi;
     this.authService.showLoading();
     this.formData.token = this.authService.getToken();
@@ -218,13 +229,8 @@ export class BuscarAvariasPage {
       (res) => {
         this.car = res;
         if (this.car.sucesso) {
-          this.chassis.push(this.car.retorno);
-          this.openModal(this.chassis);
-
-          this.form.patchValue({
-            chassi: partChassi,
-            veiculoID: this.car.retorno.id
-          });
+          this.formData['chassi']  = partChassi;
+          this.openModal(this.car.retorno);
           this.authService.hideLoading();
         }
         else {
@@ -343,56 +349,19 @@ export class BuscarAvariasPage {
     chassiModal.present();
 
     chassiModal.onDidDismiss((data) => {
-      this.inputChassi = ''; // this.cleanInput(byScanner);
+      this.cleanInput();
     });
   }
 
   cleanInput() {
-      setTimeout(() => {
-        this.chassiInput.setFocus();
-        this.inputChassi = '';
-      }, 1000);
-    this.formData.veiculoID = 0;
-  }
-
-  openModalSucesso(data) {
-    const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {
-      data: data,
-    });
-    chassiModal.present();
-
-    chassiModal.onDidDismiss((data) => {
-      console.log(data);
-    });
-    chassiModal.onWillDismiss((data) => {
-      console.log("data");
-      console.log(data);
-    });
+      // setTimeout(() => {
+      //   this.chassiInput.setFocus();
+      // }, 1000);
+    this.formData.chassi = '';
   }
 
   navigateToHomePage() {
     this.navCtrl.push(QualidadeMenuPage);
-  }
-
-  isEmpty(obj) {
-    for (var x in obj) {
-      if (obj.hasOwnProperty(x)) return false;
-    }
-    return true;
-  }
-
-  onChassisChange(selectedValue) {
-    this.formControlChassi = selectedValue;
-    $('.login-content').css('display', 'block');
-  }
-
-  closeModal() {
-    const data = {
-      name: 'Hingo',
-      cargo: 'Front',
-    };
-    this.select.close();
-    this.view.dismiss(data);
   }
 
   openModal(data) {
@@ -405,18 +374,4 @@ export class BuscarAvariasPage {
       this.cleanInput();
     });
   }
-
-  openModalChassis() {
-    this.showModal = false;
-
-    // const chassiModal: Modal = this.modal.create(LancamentoAvariaPage, {
-    //   data: this.responseData[0],
-    // });
-    // chassiModal.present();
-
-    // chassiModal.onDidDismiss((data) => {
-    //   this.cleanInput(true);
-    // });
-  }
-
 }
