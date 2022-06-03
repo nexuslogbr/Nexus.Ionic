@@ -354,9 +354,9 @@ export class BuscarAvariasPage {
   }
 
   cleanInput() {
-      // setTimeout(() => {
-      //   this.chassiInput.setFocus();
-      // }, 1000);
+    setTimeout(() => {
+      this.chassiInput.setFocus();
+    }, 1000);
     this.formData.chassi = '';
   }
 
