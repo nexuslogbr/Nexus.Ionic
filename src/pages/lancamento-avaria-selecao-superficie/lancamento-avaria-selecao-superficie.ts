@@ -29,6 +29,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   tiposAvaria: Array<TipoAvaria> = [];
   posicaoAvaria: Array<any> = [];
   nivelGravidadeAvaria: Array<NivelGravidadeAvaria> = [];
+  partesAvaria: Array<any> = [];
   formSelecaoSuperficie: FormGroup;
   images = [];
   urlImagem = 'http://nexus.luby.com.br/Arquivos/Empresas/';
@@ -67,7 +68,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     private filePath: FilePath,
     private modal: ModalController
   ) {
-    this.authService.showLoading();
     this.title = 'Lançamento de Avaria';
     this.formData = this.navParams.get('data');
 
@@ -77,56 +77,80 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         token: ''}).subscribe((res: any) => {
           this.urlImagem += res.retorno.imagem;
         });
+      }
+
+      this.formSelecaoSuperficie = formBuilder.group({
+        observacao: [''],
+        chassi: [this.formData.chassi, Validators.required],
+        modelo: [this.formData.modelo, Validators.required],
+        tipoAvaria: ['', Validators.required],
+        posiçãoAvaria: ['', Validators.required]
+      });
     }
 
-    this.formSelecaoSuperficie = formBuilder.group({
-      observacao: [''],
-      chassi: [this.formData.chassi, Validators.required],
-      modelo: [this.formData.modelo, Validators.required],
-      tipoAvaria: ['', Validators.required]
-    });
-  }
+    ionViewDidEnter() {
+      this.loadPartes();
+    }
 
-  ionViewDidEnter() {
-    this.loadTipoAvaria();
-  }
+    toggleMenu = function (this) {
+      $('.menu-body').toggleClass('show-menu');
+      $('menu-inner').toggleClass('show');
+      $('.icon-menu').toggleClass('close-menu');
+      $('side-menu').toggleClass('show');
+    };
 
-  toggleMenu = function (this) {
-    $('.menu-body').toggleClass('show-menu');
-    $('menu-inner').toggleClass('show');
-    $('.icon-menu').toggleClass('close-menu');
-    $('side-menu').toggleClass('show');
-  };
+    loadPartes(){
+      this.authService.showLoading();
+      this.avariaService.listarPartes({
+        chassi: this.formData.chassi,
+      })
+      .subscribe(res => {
+        this.partesAvaria = res.retorno;
+        this.loadPosicaoAvaria();
+      });
+    }
 
-  loadPosicaoAvaria(){
-    this.avariaService.carregarposicaoAvarias()
-    .subscribe(res => {
-      this.posicaoAvaria = res.retorno;
-      this.loadTipoAvaria();
-    });
-   }
+    loadPosicaoAvaria(){
+      this.avariaService.carregarPosicaoAvarias()
+      .subscribe(res => {
+        this.posicaoAvaria = res.retorno;
+        this.loadTipoAvaria();
+      });
+    }
 
-  loadTipoAvaria(){
-    this.avariaService.carregarTipoAvarias()
-    .subscribe(res => {
-      this.tiposAvaria = res.retorno;
-      this.loadGravidade();
-    })
-  }
+    loadTipoAvaria(){
+      this.avariaService.carregarTipoAvarias()
+      .subscribe(res => {
+        this.tiposAvaria = res.retorno;
+        this.loadGravidade();
+      })
+    }
 
-  loadGravidade(){
-    this.gravidadeService.carregarGravidades()
-    .subscribe(res => {
-      this.nivelGravidadeAvaria = res.retorno;
-      this.authService.hideLoading();
-    })
-  }
+    loadGravidade(){
+      this.gravidadeService.carregarGravidades()
+      .subscribe(res => {
+        this.nivelGravidadeAvaria = res.retorno;
+        this.authService.hideLoading();
+      })
+    }
 
-  onTipoAvariaChange(event){
-    this.formSelecaoSuperficie.patchValue({
-      tipoAvaria: event
-    });
-  }
+    selectTipoAvariaChange(event){
+      this.formSelecaoSuperficie.patchValue({
+        tipoAvaria: event
+      });
+    }
+
+    selectPosicaoAvariaChange(event){
+      this.formSelecaoSuperficie.patchValue({
+        posiçãoAvaria: event
+      });
+    }
+
+    selectPartesAvariaChange(event){
+      this.formSelecaoSuperficie.patchValue({
+        posiçãoAvaria: event
+      });
+    }
 
 
 

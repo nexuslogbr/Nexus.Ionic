@@ -25,7 +25,13 @@ export class AvariaDataService{
     this.urlApi = this.authService.getUrl();
   }
 
-  public carregarposicaoAvarias() {
+  public listarPartes(model: any) {
+    let url = this.urlApi + '/lancamentoAvaria/ListarPartesModelo';
+    model.token = this.authService.getToken();
+    return this.http.post<DataRetorno>(url, model, httpOptions);
+  }
+
+  public carregarPosicaoAvarias() {
     let url = this.urlApi + '/posicaosuperficiechassi/ListarPosicaoSuperficieChassi?token=' + this.authService.getToken();
     return this.http.get<DataRetorno>(url, { headers: headers });
   }

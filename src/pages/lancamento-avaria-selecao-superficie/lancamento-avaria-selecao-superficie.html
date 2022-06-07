@@ -26,15 +26,15 @@
 
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Posição Avaria: </b></ion-label><p></p>
-          <ion-select okText="Selecionar" cancelText="Cancelar">
-             <ion-option *ngFor="let pos of posicaoAvaria" value="{{pos.id}}" id="{{pos.id}}">{{pos.nome}}</ion-option>
+          <ion-select (ionChange)="selectPosicaoAvariaChange($event)" okText="Selecionar" cancelText="Cancelar">
+             <ion-option *ngFor="let item of posicaoAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
 
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Selecionar Parte / Peças:</b></ion-label>
-          <ion-select okText="Selecionar" cancelText="Cancelar">
-             <!-- <ion-option *ngFor="let momento of momentos" value="{{momento.id}}" id="{{momento.id}}">{{momento.nome}}</ion-option> -->
+          <ion-select (ionChange)="selectPartesAvariaChange($event)" okText="Selecionar" cancelText="Cancelar">
+             <ion-option *ngFor="let item of partesAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
 
@@ -47,7 +47,7 @@
 
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Selecionar Tipo Avaria:</b></ion-label>
-          <ion-select (ionChange)="onTipoAvariaChange($event)" okText="Selecionar" cancelText="Cancelar">
+          <ion-select (ionChange)="selectTipoAvariaChange($event)" okText="Selecionar" cancelText="Cancelar">
             <ion-option *ngFor="let item of tiposAvaria" value="{{item.nome}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
@@ -60,9 +60,13 @@
         </ion-item>
 
         <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Posição da Avaria: </b>Mudar</ion-label>
+        </ion-item>
+
+        <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Gravidade: </b></ion-label>
           <ion-select okText="Selecionar" cancelText="Cancelar">
-            <ion-option *ngFor="let gravidade of nivelGravidadeAvaria" value="{{gravidade.id}}" id="{{gravidade.id}}">{{gravidade.nome}}</ion-option>
+            <ion-option *ngFor="let item of nivelGravidadeAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
 
