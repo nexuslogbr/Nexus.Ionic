@@ -15,6 +15,7 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Storage } from '@ionic/storage';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/index';
+import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
 
 const STORAGE_KEY = 'my_images';
 
@@ -26,9 +27,11 @@ const STORAGE_KEY = 'my_images';
 export class LancamentoAvariaSelecaoSuperficiePage {
   title: string;
   tiposAvaria: Array<TipoAvaria> = [];
+  posicaoAvaria: Array<any> = [];
   nivelGravidadeAvaria: Array<NivelGravidadeAvaria> = [];
   formSelecaoSuperficie: FormGroup;
   images = [];
+  urlImagem = 'http://nexus.luby.com.br/Arquivos/Empresas/';
 
   formData = {
     id: 0,
@@ -64,11 +67,20 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     private filePath: FilePath,
     private modal: ModalController
   ) {
+    this.authService.showLoading();
     this.title = 'Lançamento de Avaria';
     this.formData = this.navParams.get('data');
 
+    if (this.formData.chassi) {
+      this.avariaService.consultarChassi({
+        chassi: this.formData.chassi,
+        token: ''}).subscribe((res: any) => {
+          this.urlImagem += res.retorno.imagem;
+        });
+    }
+
     this.formSelecaoSuperficie = formBuilder.group({
-      observacao: [this.formData.observacao],
+      observacao: [''],
       chassi: [this.formData.chassi, Validators.required],
       modelo: [this.formData.modelo, Validators.required],
       tipoAvaria: ['', Validators.required]
@@ -86,16 +98,21 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     $('side-menu').toggleClass('show');
   };
 
+  loadPosicaoAvaria(){
+    this.avariaService.carregarposicaoAvarias()
+    .subscribe(res => {
+      this.posicaoAvaria = res.retorno;
+      this.loadTipoAvaria();
+    });
+   }
+
   loadTipoAvaria(){
-    this.authService.showLoading();
     this.avariaService.carregarTipoAvarias()
     .subscribe(res => {
       this.tiposAvaria = res.retorno;
       this.loadGravidade();
     })
   }
-
-  loadPosicaoAvaria(){ }
 
   loadGravidade(){
     this.gravidadeService.carregarGravidades()
@@ -292,11 +309,11 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   voltar(){
-    this.view.dismiss();
-    // this.navCtrl.push(LancamentoAvariaPage);
-    const chassiModal: Modal = this.modal.create(LancamentoAvariaPage, {
-      data: this.formData
-    });
-    chassiModal.present();
+    this.navCtrl.push(QualidadeMenuPage);
+    // this.view.dismiss();
+    // const chassiModal: Modal = this.modal.create(QualidadeMenuPage, {
+    //   data: this.formData
+    // });
+    // chassiModal.present();
   }
 }

@@ -16,6 +16,7 @@ import { ModalSelecionarChassiComponent } from '../../components/modal-seleciona
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { ModalSucessoComponent } from '../../components/modal-sucesso/modal-sucesso';
 import { LancarAvariaComponent } from '../../components/lancar-avaria/lancar-avaria';
+import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
 
 @Component({
   selector: 'page-lancamento-avaria',
@@ -152,9 +153,9 @@ export class LancamentoAvariaPage {
 
   initializeFormControl(){
     this.formLancamentoAvaria = this.formBuilder.group({
-      chassi: [this.formData.chassi, Validators.required],
+      chassi: [this.formData.chassi],
       observacao: [''],
-      momento: ['']
+      momento: ['', Validators.required]
     });
   }
 
@@ -342,7 +343,7 @@ export class LancamentoAvariaPage {
 
   voltar(){
     this.view.dismiss();
-    this.navCtrl.push(HomePage);
+    // this.navCtrl.push(QualidadeMenuPage);
   }
 
   openModalSelecionarSuperficie(){

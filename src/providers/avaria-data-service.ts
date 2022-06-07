@@ -25,6 +25,11 @@ export class AvariaDataService{
     this.urlApi = this.authService.getUrl();
   }
 
+  public carregarposicaoAvarias() {
+    let url = this.urlApi + '/posicaosuperficiechassi/ListarPosicaoSuperficieChassi?token=' + this.authService.getToken();
+    return this.http.get<DataRetorno>(url, { headers: headers });
+  }
+
   public carregarTipoAvarias() {
     let url = this.urlApi + '/tipoavaria/listartiposavaria?token=' + this.authService.getToken();
     return this.http.get<DataRetorno>(url, { headers: headers });
@@ -47,6 +52,7 @@ export class AvariaDataService{
 
   public consultarChassi(model: any){
     let url = this.urlApi + '/lancamentoAvaria/ConsultarChassi';
+    model.token = this.authService.getToken();
     return this.http.post<string>(url, model, httpOptions);
   }
 }
