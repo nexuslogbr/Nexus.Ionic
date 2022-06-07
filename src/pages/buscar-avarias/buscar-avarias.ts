@@ -39,15 +39,11 @@ export class BuscarAvariasPage {
     "localID": 0,
     "veiculoID": 0,
     "chassi": "",
-    "veiculoDesc": "",
     "data": "",
     "parteAvariadaID": 0,
-    "parteAvariaDesc": "",
     "modelo": "",
     "tipoAvariaID": 0,
-    "tipoAvariaDesc": "",
     "gravidadeID": 0,
-    "gravidadeDesc": ""
   };
 
   userData: Usuario;
@@ -59,6 +55,7 @@ export class BuscarAvariasPage {
   qrCodeText: string;
   options: BarcodeScannerOptions;
   car: any;
+  public search = true;
 
   filtro = '';
   filtroValor = '';
@@ -98,34 +95,112 @@ export class BuscarAvariasPage {
       this.buttonColor = "#1c6381";
     }
 
-    this.form = this.formBuilber.group({
-      data: [null],
-      parte: [0],
-      modelo: [0],
-      tipoAvaria: [0],
-      nivelAvaria: [0],
-    });
-
     this.formControlChassi.valueChanges.debounceTime(500).subscribe((value) => {
       if (value && value.length) {
         if (value.length >= 6) {
           let chassi = value.replace(/[\W_]+/g, '');
           setTimeout(() => {
             this.buscarChassi(chassi, false);
-            this.formData.chassi = '';
+            // this.formData.chassi = '';
           }, 500);
         }
       }
     });
-
   }
 
   ionViewDidEnter() {
+    this.loadForm();
     this.ListarParte();
     this.ListarModelos();
     this.ListarTipoAvaria();
     this.ListarNivelAvaria();
     this.setLocalID();
+  }
+
+  loadForm(){
+    this.form = this.formBuilber.group({
+      chassi: [''],
+      data: [''],
+      parte: [0],
+      modelo: [0],
+      tipoAvaria: [0],
+      nivelAvaria: [0],
+    });
+
+  }
+
+  ListarParte() {
+    this.http.get(this.url + "/Parte/Partes?token=" + this.authService.getToken())
+      .subscribe( (resultado) => {
+          this.car = resultado;
+          if (this.car.sucesso)
+            this.partes = this.car.retorno;
+          else
+            this.openModalErro(this.car.mensagem);
+        },
+        (error) => {
+
+          this.openModalErro(
+            "Erro ao carregar as partes, volte ao menu e tente novamente!"
+          );
+          console.log(error);
+        }
+      );
+  }
+
+  ListarModelos() {
+    this.http
+      .get(this.url + "/Modelo/Listar?token=" + this.authService.getToken())
+      .subscribe((resultado) => {
+          this.car = resultado;
+          if (this.car.sucesso)
+            this.modelos = this.car.retorno;
+          else
+            this.openModalErro(this.car.mensagem);
+        },
+        (error) => {
+
+          this.openModalErro( "Erro ao carregar os modelos, volte ao menu e tente novamente!" );
+        }
+      );
+
+
+  }
+
+  ListarTipoAvaria() {
+    this.http.get(this.url + "/tipoavaria/ListarTiposAvaria?token=" + this.authService.getToken())
+      .subscribe((resultado) => {
+          this.car = resultado;
+          if (this.car.sucesso)
+            this.tipoAvarias = this.car.retorno;
+
+          else
+            this.openModalErro(this.car.mensagem);
+        },
+        (error) => {
+
+          this.openModalErro("Erro ao carregar o layout, volte ao menu e tente novamente!");
+        }
+      );
+  }
+
+  ListarNivelAvaria() {
+    this.http
+      .get(this.url + "/nivelgravidadeavaria/ListarNivelGravidadeAvaria?token=" + this.authService.getToken())
+      .subscribe((resultado) => {
+          this.car = resultado;
+          if (this.car.sucesso)
+            this.nivelAvarias = this.car.retorno;
+          else
+            this.openModalErro(this.car.mensagem);
+        },
+        (error) => {
+
+          this.openModalErro(
+            "Erro ao carregar o layout, volte ao menu e tente novamente!"
+          );
+        }
+      );
   }
 
   setLocalID() {
@@ -150,8 +225,6 @@ export class BuscarAvariasPage {
         filtroValor: this.filtroValor
       }
 
-      console.clear();
-      console.log(model);
       this.navCtrl.push(ListarAvariasPage, model);
     }
     else {
@@ -259,80 +332,6 @@ export class BuscarAvariasPage {
         this.authService.hideLoading();
       }
     );
-  }
-
-  ListarParte() {
-    this.http.get(this.url + "/Parte/Partes?token=" + this.authService.getToken())
-      .subscribe( (resultado) => {
-          this.car = resultado;
-          if (this.car.sucesso)
-            this.partes = this.car.retorno;
-          else
-            this.openModalErro(this.car.mensagem);
-        },
-        (error) => {
-
-          this.openModalErro(
-            "Erro ao carregar as partes, volte ao menu e tente novamente!"
-          );
-          console.log(error);
-        }
-      );
-  }
-
-  ListarModelos() {
-    this.http
-      .get(this.url + "/Modelo/Listar?token=" + this.authService.getToken())
-      .subscribe((resultado) => {
-          this.car = resultado;
-          if (this.car.sucesso)
-            this.modelos = this.car.retorno;
-          else
-            this.openModalErro(this.car.mensagem);
-        },
-        (error) => {
-
-          this.openModalErro( "Erro ao carregar os modelos, volte ao menu e tente novamente!" );
-        }
-      );
-
-
-  }
-
-  ListarTipoAvaria() {
-    this.http.get(this.url + "/tipoavaria/ListarTiposAvaria?token=" + this.authService.getToken())
-      .subscribe((resultado) => {
-          this.car = resultado;
-          if (this.car.sucesso)
-            this.tipoAvarias = this.car.retorno;
-
-          else
-            this.openModalErro(this.car.mensagem);
-        },
-        (error) => {
-
-          this.openModalErro("Erro ao carregar o layout, volte ao menu e tente novamente!");
-        }
-      );
-  }
-
-  ListarNivelAvaria() {
-    this.http
-      .get(this.url + "/nivelgravidadeavaria/ListarNivelGravidadeAvaria?token=" + this.authService.getToken())
-      .subscribe((resultado) => {
-          this.car = resultado;
-          if (this.car.sucesso)
-            this.nivelAvarias = this.car.retorno;
-          else
-            this.openModalErro(this.car.mensagem);
-        },
-        (error) => {
-
-          this.openModalErro(
-            "Erro ao carregar o layout, volte ao menu e tente novamente!"
-          );
-        }
-      );
   }
 
   toggleMenu = function (this) {
