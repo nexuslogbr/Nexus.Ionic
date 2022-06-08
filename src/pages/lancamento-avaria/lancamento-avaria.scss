@@ -78,7 +78,7 @@ page-lancamento-avaria {
                       ion-chip{
                         width: 100px;
                         text-align: center;
-                        margin-left: 8%;
+                        margin-left: 1%;
                       }
 
                 }
@@ -141,6 +141,39 @@ page-lancamento-avaria {
         }
     }
 
+  ion-footer {
+    height: 200px;
+    background-color: #404040;
+    text-align: center;
+    display: flex;
+
+    .grid-botao-wrapper {
+      padding: 12px 2px !important;
+
+      .btn-receiving-long {
+        width: 90%;
+        height: auto;
+        .button-inner {
+            padding: 25px 15px 25px 15px;
+            font: 19px 'avenir_bold';
+        }
+      }
+      .btn-receiving {
+        width: 45%;
+        height: auto;
+        .button-inner {
+            padding: 25px 15px;
+            font: 19px 'avenir_bold';
+        }
+      }
+      .btn-ok {
+        background-color: #747474;
+      }
+      .btn-cancel {
+        background-color: #404040;
+      }
+    }
+  }
 }
 
 .btn {

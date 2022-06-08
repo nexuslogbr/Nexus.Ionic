@@ -57,24 +57,31 @@ page-lancamento-avaria-selecao-superficie {
               }
           }
           ion-item{
-              background-color: #404040;
-              padding: 0;
-              border-bottom: 1px solid #747474;
-              .item-inner{
-                  padding-left: 15px;
-                  border-bottom: 1px solid transparent !important;
-                  ion-label{
-                      color: #fff;
-                  }
-                  ion-select{
-                      max-width: 85%;
-                      .select-text{
-                          padding-right: 10px;
-                          color: #fff;
-                          font: 14px 'avenir_demi';
-                      }
-                  }
+            background-color: #404040;
+            padding: 0;
+            border-bottom: 1px solid #747474;
+            .item-inner{
+              padding-left: 15px;
+              border-bottom: 1px solid transparent !important;
+              ion-label{
+                color: #fff;
               }
+              ion-select{
+                max-width: 85%;
+                .select-text{
+                    padding-right: 10px;
+                    color: #fff;
+                    font: 14px 'avenir_demi';
+                }
+              }
+            }
+            ion-chip{
+              color: #fff;
+              width: 80px;
+              text-align: center;
+              // display: flex;
+              justify-content: center;
+            }
           }
       }
       .item-list-grey{
@@ -103,40 +110,39 @@ page-lancamento-avaria-selecao-superficie {
         margin-bottom: 15px;
         text-transform: uppercase;
     }
-    .login-content {
-        margin-top: 15px;
-        padding: 0;
-        width: 100%;
-        text-align: center;
-        display: block;
-        p {
-            color: #fff;
-            text-align: center;
-            font: 16px 'avenir_demi';
-            margin: 30px 0;
-        }
-        .btn-receiving {
-            width: 45%;
-            height: auto;
-            .button-inner {
-                padding: 25px 15px 25px 15px;
-                font: 19px 'avenir_bold';
-            }
-        }
-        .btn-receiving-long {
-            width: 90%;
-            height: auto;
-            .button-inner {
-                padding: 25px 15px 25px 15px;
-                font: 19px 'avenir_bold';
-            }
-        }
-        .btn-ok {
-            background-color: #747474;
-        }
-        .btn-cancel {
-            background-color: #404040;
-        }
+  }
+
+  ion-footer {
+    height: 120px;
+    background-color: #404040;
+    // margin-top: 15px;
+    // width: 100%;
+    text-align: center;
+    // display: block;
+
+    .grid-botao-wrapper {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+      padding-top: 0px;
+
+      .btn-menu-internal {
+        background-color: #DEDEDE;
+        color: black;
+      }
     }
-}
+    .btn-ok {
+      background-color: #747474;
+    }
+    .btn-cancel {
+      background-color: #404040;
+    }
+    .btn-receiving {
+      width: 45%;
+      height: auto;
+      .button-inner {
+          padding: 25px 15px;
+          font: 19px 'avenir_bold';
+      }
+    }
+  }
 }

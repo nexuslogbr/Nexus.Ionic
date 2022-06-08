@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
-import { Modal, ModalController, NavController, NavParams } from 'ionic-angular';
+import { Modal, ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { ModalObservacoesComponent } from '../../components/modal-observacoes/modal-observacoes';
 import { AuthService } from '../../providers/auth-service/auth-service';
@@ -52,6 +52,7 @@ export class ModalBuscaChassiComponent {
     private modal: ModalController,
     private navCtrl: NavController,
     private storage: Storage,
+    private view: ViewController,
     public navParams: NavParams,
     private authService: AuthService
   ) {
@@ -163,9 +164,7 @@ export class ModalBuscaChassiComponent {
     });
     modal.present();
 
-    modal.onDidDismiss(() => {
-      this.cleanInput();
-    });
+    this.view.dismiss();
   }
 
   navigateToHomePage() {

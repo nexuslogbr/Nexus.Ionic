@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, LoadingController, Modal, ModalController, NavController, NavParams, Platform, ToastController, ViewController } from 'ionic-angular';
+import { ActionSheetController, LoadingController, Modal, ModalController, NavController, NavParams, Platform, Select, ToastController, ViewController } from 'ionic-angular';
 import * as $ from 'jquery';
 import { NivelGravidadeAvaria } from '../../model/NivelGravidadeAvaria';
 import { TipoAvaria } from '../../model/TipoAvaria';
@@ -16,6 +16,8 @@ import { Storage } from '@ionic/storage';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/index';
 import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
+import { PosicaoSuperficieChassi } from '../../model/PosicaoSuperficieChassi';
+import { Parte } from '../../model/Parte';
 
 const STORAGE_KEY = 'my_images';
 
@@ -27,12 +29,21 @@ const STORAGE_KEY = 'my_images';
 export class LancamentoAvariaSelecaoSuperficiePage {
   title: string;
   tiposAvaria: Array<TipoAvaria> = [];
-  posicaoAvaria: Array<any> = [];
+  posicoesAvaria: Array<PosicaoSuperficieChassi> = [];
   nivelGravidadeAvaria: Array<NivelGravidadeAvaria> = [];
-  partesAvaria: Array<any> = [];
+  partesAvaria: Array<Parte> = [];
   formSelecaoSuperficie: FormGroup;
   images = [];
   urlImagem = 'http://nexus.luby.com.br/Arquivos/Empresas/';
+  // @ViewChild('tipoAvaria') tipoAvaria: Select;
+  tipoAvaria = new TipoAvaria();
+  posicaoAvaria = new PosicaoSuperficieChassi();
+  parteAvaria = new Parte();
+
+  primaryColor: string;
+  secondaryColor: string;
+  inputColor: string;
+  buttonColor: string;
 
   formData = {
     id: 0,
@@ -86,6 +97,18 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         tipoAvaria: ['', Validators.required],
         posiçãoAvaria: ['', Validators.required]
       });
+
+      if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
+        this.primaryColor = '#595959';
+        this.secondaryColor = '#484848';
+        this.inputColor = '#595959';
+        this.buttonColor = "#595959";
+      } else {
+        this.primaryColor = '#06273f';
+        this.secondaryColor = '#00141b';
+        this.inputColor = '#06273f';
+        this.buttonColor = "#1c6381";
+      }
     }
 
     ionViewDidEnter() {
@@ -113,7 +136,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     loadPosicaoAvaria(){
       this.avariaService.carregarPosicaoAvarias()
       .subscribe(res => {
-        this.posicaoAvaria = res.retorno;
+        this.posicoesAvaria = res.retorno;
         this.loadTipoAvaria();
       });
     }
@@ -134,19 +157,22 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       })
     }
 
-    selectTipoAvariaChange(event){
+    selectTipoAvariaChange(event:any){
+      this.tipoAvaria = this.tiposAvaria.filter(x => x.id == event).map(x => x)[0]
       this.formSelecaoSuperficie.patchValue({
-        tipoAvaria: event
+        tipoAvaria: this.tipoAvaria.nome
       });
     }
 
     selectPosicaoAvariaChange(event){
+      this.posicaoAvaria = this.posicoesAvaria.filter(x => x.id == event).map(x => x)[0]
       this.formSelecaoSuperficie.patchValue({
-        posiçãoAvaria: event
+        posiçãoAvaria: this.posicaoAvaria.nome
       });
     }
 
     selectPartesAvariaChange(event){
+      this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0]
       this.formSelecaoSuperficie.patchValue({
         posiçãoAvaria: event
       });

@@ -153,9 +153,9 @@ export class LancamentoAvariaPage {
 
   initializeFormControl(){
     this.formLancamentoAvaria = this.formBuilder.group({
-      chassi: [this.formData.chassi],
-      observacao: [''],
+      chassi: [this.formData.chassi, Validators.required],
       momento: ['', Validators.required]
+      // observacao: [''],
     });
   }
 
@@ -342,8 +342,8 @@ export class LancamentoAvariaPage {
   }
 
   voltar(){
-    this.view.dismiss();
-    // this.navCtrl.push(QualidadeMenuPage);
+    // this.view.dismiss();
+    this.navCtrl.push(QualidadeMenuPage);
   }
 
   openModalSelecionarSuperficie(){
