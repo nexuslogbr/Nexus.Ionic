@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
 import * as $ from 'jquery';
 import { ModalJustificativaNaoConferidoPage } from '../modal-justificativa-nao-conferido/modal-justificativa-nao-conferido';
-import { Conferencia } from '../../model/Conferencia';
+import { Conferencia } from '../../model/conferencia';
 import { Veiculo } from '../../model/veiculo';
 import { ConferenciaConfiguracao } from '../../model/conferencia-configuracao';
 import { ConferenciaConfiguracaoADO } from '../../providers/database/conferencia-configuracao-ado';

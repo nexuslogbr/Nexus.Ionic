@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'patio-automotivo-app',
+  appId: 'com.patioautomotivo.app',
+  appName: 'Gestão Pátio Automotivo Nexus',
   webDir: 'www',
   bundledWebRuntime: false,
   cordova: {

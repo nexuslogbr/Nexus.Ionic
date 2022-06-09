@@ -4,7 +4,7 @@ import * as $ from 'jquery';
 import { Navio } from '../../model/navio';
 import { ConferenciaDataService } from '../../providers/conferencia-data-service';
 import { AuthService } from '../../providers/auth-service/auth-service';
-import { Local } from '../../model/Local';
+import { Local } from '../../model/local';
 import { ConferenciaExecucaoPage } from '../conferencia-execucao/conferencia-execucao';
 import { ConferenciaConfiguracaoStorageProvider } from '../../providers/storage/conferencia-configuracao-storage-provider';
 import { ConferenciaNavioLote } from '../../model/conferencia-navio-lote';

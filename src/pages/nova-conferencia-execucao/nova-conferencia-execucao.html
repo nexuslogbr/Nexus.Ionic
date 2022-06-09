@@ -68,10 +68,8 @@
                   cancelText="Cancelar"
                   #selectDestino
                   placeholder="Selecione um destino"
-                  [ngClass]="{
-                    selecionado: conferenciaService.destino != null
-                  }"
-                  [ngStyle]="{'background-color': primaryColor}"
+                  [ngClass]="{selecionado: conferenciaService.destino != null}"
+                  [ngStyle]="{'background-color': '#F84042'}"
                 >
                   <ion-option
                     *ngFor="let destino of destinos"
@@ -139,21 +137,15 @@
       <ion-grid class="grid-wrapper" [ngStyle]="{'background-color': primaryColor}">
         <ion-row>
           <ion-col>
-            <ion-grid
-              class="grid-resumo-destino"
-              *ngFor="let resumo of conferenciaService.sumDestinos$ | async"
-              [ngClass]="{'desabilitar': false}"
-            >
-              <ion-row class="row-destino">
+            <ion-grid class="grid-resumo-destino" *ngFor="let resumo of conferenciaService.sumDestinos$ | async" [ngClass]="{'desabilitar': false}">
+              <!-- <ion-row class="row-destino">
                 <ion-col class="text-left">
                   {{ resumo.destinoNome }}
                 </ion-col>
                 <ion-col class="col-resumo-quantidade">
-                  {{resumo.quantidadeConferidos}}/{{resumo.quantidadeVeiculos}}
-                  ({{ resumo.quantidadeVeiculos - resumo.quantidadeConferidos
-                  }})
+                  {{ resumo.quantidadeVeiculos - resumo.quantidadeConferidos }}/{{resumo.quantidadeConferidos}} ({{resumo.quantidadeVeiculos}})
                 </ion-col>
-              </ion-row>
+              </ion-row> -->
 
               <ion-row>
                 <ion-col class="col-grid-modelos">
@@ -169,10 +161,7 @@
                         <strong> {{ modelo.modeloNome }}</strong>
                       </ion-col>
                       <ion-col class="col-resumo-quantidade">
-                        {{ modelo.quantidadeConferidos }}/{{
-                        modelo.quantidadeVeiculos }} ({{
-                        modelo.quantidadeVeiculos - modelo.quantidadeConferidos
-                        }})
+                        {{ modelo.quantidadeVeiculos - modelo.quantidadeConferidos }}/{{ modelo.quantidadeConferidos }} ({{ modelo.quantidadeVeiculos }})
                       </ion-col>
                     </ion-row>
                   </ion-grid>
@@ -285,13 +274,13 @@
   [ngClass]="{'small-footer': configuracao.conferenciaConfiguracaoStatusID==3}"
   [ngStyle]="{'background-color': primaryColor}"
 >
-  <ion-grid class="grid-botao-wrapper" no-padding [ngStyle]="{'background-color': primaryColor}"> 
+  <ion-grid class="grid-botao-wrapper" no-padding [ngStyle]="{'background-color': primaryColor}">
     <ion-grid
       class="grid-dados"
       [ngClass]="{'amarelo': (  contador ) > 0, 'offline': !onLine }"
       *ngIf="!fechamento"
       (click)="executarSincronizacao()"
-      
+
     >
       <ion-row [ngStyle]="{'background-color': primaryColor}">
         <ion-col col-8>
@@ -299,19 +288,8 @@
             SINCRONIZAÇÃO PENDENTES:
           </div>
           <div class="resumo">
-
-          {{contador}} / {{conferenciaService.totalUpload$ | async}}
-            <!-- {{ (conferenciaService.totalConferidos$ | async) -
-            (conferenciaService.totalUpload$ | async) }}/{{
-            conferenciaService.totalVeiculos$ | async }} -->
-            <strong
-              >
-
-              ({{ (conferenciaService.saldoConferencia$ | async) }})
-              <!-- ({{ (conferenciaService.saldoConferencia$ | async) +
-              (conferenciaService.totalUpload$ | async) }}) -->
-              </strong
-            >
+            {{conferenciaService.totalUpload$ | async}} / {{ (conferenciaService.saldoConferencia$ | async) }}
+            <!-- {{contador}} / {{conferenciaService.totalUpload$ | async}} <strong>({{ (conferenciaService.saldoConferencia$ | async) }})</strong> -->
           </div>
         </ion-col>
         <ion-col class="col-icone">
@@ -355,7 +333,7 @@
                 type="button"
                 size="small"
                 [ngStyle]="{'background-color': buttonColor}"
-                
+
               >
                 OK
               </button>
@@ -375,4 +353,4 @@
   </ion-grid>
 </ion-footer>
 
-<modal-sincronizando></modal-sincronizando>
+<modal-sincronizando [progress]="porcentagem"></modal-sincronizando>

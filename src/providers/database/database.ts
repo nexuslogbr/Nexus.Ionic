@@ -26,6 +26,7 @@ export class DatabaseProvider {
       //     .catch(error => reject(error));
       // } else
       {
+        console.log('Criando banco WebSQL...');
         this.db = window['openDatabase'](this.dbname, '1.0', 'Test DB', -1);
         this.createTables(this.db);
         console.log('db criado no WebSQL!');
@@ -52,12 +53,15 @@ export class DatabaseProvider {
       //   });
       // } else
       {
+        console.log('Vai rodar query: ' + q);
         this.db.transaction((tx) => {
           tx.executeSql(
             q,
             params,
             (tx, res) => {
+              console.log('Rodando query: ' + q);
               resolve(res);
+              console.log('Rodou query: ' + q);
             },
             (tx, err) => {
               console.error('-->', err);
@@ -89,10 +93,12 @@ export class DatabaseProvider {
       //   });
       // } else
       {
+        console.log('Vai rodar bulkquery: ' + q);
         this.db.transaction((tx) => {
           try {
             for (let i = 0; i < params.length; i++) {
               let p = params[i];
+              console.log('Rodando bulkquery: ' + q);
               tx.executeSql(
                 q,
                 p,
@@ -106,6 +112,7 @@ export class DatabaseProvider {
               );
               //console.log('executeSql->', q, p);
             }
+            console.log('Rodou bulkquery: ' + q);
             resolve(true);
           } catch (ex) {
             reject(ex);
@@ -116,6 +123,7 @@ export class DatabaseProvider {
   }
 
   private createTables(db: any) {
+    console.log('Criando tabelas');
     this.query(
       'CREATE TABLE IF NOT EXISTS ConferenciaConfiguracao (id INTEGER, areaId INTEGER, conferenciaId INTEGER, areaNome TEXT)'
     )
@@ -227,6 +235,7 @@ export class DatabaseProvider {
     //   });
 
     //CREATE [UNIQUE] INDEX index_name ON table_name(indexed_column);
+    console.log('Tabelas criadas');
   }
 
   // constructor(private sqlite: SQLite) {}

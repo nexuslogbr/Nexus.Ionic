@@ -1,0 +1,1 @@
+docker exec -it ionic_build_projects_14 bash

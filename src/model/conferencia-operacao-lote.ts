@@ -1,6 +1,6 @@
 import { Veiculo } from "./veiculo";
 import { Modelo } from "./modelo";
-import { Local } from "./Local";
+import { Local } from "./local";
 
 export class ConferenciaOperacaoLote {
   public operacaoLoteID: number;

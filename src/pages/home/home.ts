@@ -143,12 +143,12 @@ const menus = [
     nome: 'mnu_mob_historicochassi'
   },
 
-  {
-    texto: 'Qualidade',
-    cssClass: 'historico-chassi',
-    id: 3118,
-    nome: 'mnu_mob_qualidade'
-  },
+  // {
+  //   texto: 'Qualidade',
+  //   cssClass: 'historico-chassi',
+  //   id: 3118,
+  //   nome: 'mnu_mob_qualidade'
+  // },
 
 
 ];
@@ -177,9 +177,6 @@ export class HomePage {
     this.title = 'Sistema Pátio Automotivo';
     this.userData = this.authService.getUserData();
 
-    // this.userData.nomesMenus.push('mnu_mob_buscaravaria')
-    this.userData.nomesMenus.push('mnu_mob_qualidade')
-    
     console.log(this.userData)
 
     if (this.userData && this.userData.nomesMenus) {
@@ -378,11 +375,12 @@ export class HomePage {
       this.navCtrl.setRoot(LancamentoServicoPage);
     } else if (menu.nome == 'mnu_mob_vistoria') {
       this.navCtrl.setRoot(VistoriaPage);
-    } else if (menu.nome == 'mnu_mob_qualidade') {
-      this.navCtrl.setRoot(QualidadeMenuPage);
     }
+    // else if (menu.nome == 'mnu_mob_qualidade') {
+    //   this.navCtrl.setRoot(QualidadeMenuPage);
+    // }
 
-    
+
     //   nome:'mnu_mob_parqueamento'
     //   nome:'mnu_mob_receberparquear'
     //   nome:'mnu_mob_conferencia'

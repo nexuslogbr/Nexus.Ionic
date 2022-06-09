@@ -8,25 +8,24 @@ import { take } from 'rxjs/operators';
   selector: 'sincronizacao-info',
   templateUrl: 'sincronizacao-info.html',
 })
-export class SincronizacaoInfoComponent implements OnDestroy {
+export class SincronizacaoInfoComponent {
   @Input('conferenciaConfiguracaoId') conferenciaConfiguracaoId: number;
 
-  subscription: Subscription;
   possuiConferenciaEmFila: boolean;
 
   constructor(conferenciaDataService: ConferenciaDataService) {
-    let checkTimer = timer(0, 10000);
-    this.subscription = checkTimer.subscribe((t) => {
-      conferenciaDataService
-        .possuiConferenciaPendenteEmFila(this.conferenciaConfiguracaoId)
+
+    if (this.conferenciaConfiguracaoId && this.conferenciaConfiguracaoId > 0) {
+    conferenciaDataService.possuiConferenciaPendenteEmFila(this.conferenciaConfiguracaoId)
         .pipe(take(1))
-        .subscribe((res) => {
-          this.possuiConferenciaEmFila = res.retorno;
-        });
-    });
+          .subscribe((res) => {
+            this.possuiConferenciaEmFila = res.retorno;
+          });
+      }
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+  // ngOnDestroy(): void {
+  //   this.subscription = null;
+  //   // this.subscription.unsubscribe();
+  // }
 }

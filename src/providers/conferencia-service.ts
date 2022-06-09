@@ -1,13 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ConferenciaConfiguracaoADO } from './database/conferencia-configuracao-ado';
 import { ConferenciaConfiguracao } from '../model/conferencia-configuracao';
-import { Local } from '../model/Local';
+import { Local } from '../model/local';
 import { tap } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ConferenciaSumDestino } from '../model/conferencia-sum-destino';
 import { of } from 'rxjs/observable/of';
 import { Veiculo } from '../model/veiculo';
-import { Conferencia } from '../model/Conferencia';
+import { Conferencia } from '../model/conferencia';
 import { ConferenciaResumoTurno } from '../model/conferencia-resumo-turno';
 import { ConferenciaResumoHora } from '../model/conferencia-resumo-hora';
 
@@ -117,7 +117,7 @@ export class ConferenciaService implements OnDestroy {
           this.saldoConferencia$.next(
             quantidadeVeiculos - quantidadeConferidos
 
-            
+
           );
 
           res.forEach((d) => {
