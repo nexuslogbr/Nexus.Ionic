@@ -3,8 +3,10 @@
 buildstart=`date +%s`
 rm patio_signed.aab patio_signed.apk
 npm run build
+cordova-res android --skip-config --copy --icon-background-source '#A42430'
 ionic capacitor sync
 ionic capacitor copy android --prod --release
+cordova-res android --skip-config --copy --icon-background-source '#A42430'
 cd android
 ./gradlew assembleRelease
 ./gradlew bundleRelease

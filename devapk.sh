@@ -5,6 +5,7 @@ rm patio_dev_signed.apk
 npm run build
 ionic capacitor sync
 ionic capacitor copy android
+cordova-res android --skip-config --copy --icon-background-source '#A42430'
 cd android
 ./gradlew assembleDebug
 cd ..
