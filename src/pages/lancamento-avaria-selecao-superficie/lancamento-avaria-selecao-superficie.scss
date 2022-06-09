@@ -48,14 +48,6 @@ page-lancamento-avaria-selecao-superficie {
       }
       ion-list{
           margin: 0;
-          ion-list-header{
-              background-color: #747474;
-              border-top: none;
-              ion-label{
-                  color: #fff;
-                  font: 16px 'avenir_demi';
-              }
-          }
           ion-item{
             background-color: #404040;
             padding: 0;
@@ -83,6 +75,30 @@ page-lancamento-avaria-selecao-superficie {
               justify-content: center;
             }
           }
+          canvas {
+            display: block;
+            border: 1px solid rgb(187,178,178);
+            position: relative;
+          }
+          img {
+            position: absolute;
+            width: 600;
+          }
+          .myOverlay{
+            width: 100%;
+            height: 60px;
+            position: absolute;
+            z-index: 99;
+            bottom: 0px;
+            background: transparent;
+            color: #000;
+
+            ion-chip{
+              width: 100px;
+              text-align: center;
+              margin-left: 1%;
+            }
+        }
       }
       .item-list-grey{
         background-color: #595959;

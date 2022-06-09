@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, LoadingController, Modal, ModalController, NavController, NavParams, Platform, Select, ToastController, ViewController } from 'ionic-angular';
+import { ActionSheetController, Content, LoadingController, Modal, ModalController, NavController, NavParams, normalizeURL, Platform, Select, ToastController, ViewController } from 'ionic-angular';
 import * as $ from 'jquery';
 import { NivelGravidadeAvaria } from '../../model/NivelGravidadeAvaria';
 import { TipoAvaria } from '../../model/TipoAvaria';
@@ -18,6 +18,7 @@ import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/i
 import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
 import { PosicaoSuperficieChassi } from '../../model/PosicaoSuperficieChassi';
 import { Parte } from '../../model/Parte';
+import { SuperficieChassiParte } from '../../model/superficieChassiParte';
 
 const STORAGE_KEY = 'my_images';
 
@@ -39,6 +40,16 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   tipoAvaria = new TipoAvaria();
   posicaoAvaria = new PosicaoSuperficieChassi();
   parteAvaria = new Parte();
+  @Output() onSuperficieParteChassiInputed: EventEmitter<SuperficieChassiParte> = new EventEmitter<SuperficieChassiParte>();
+
+  @ViewChild('imageCanvas') canvas: any;
+  canvasElement: any;
+
+  saveX: number;
+  saveY: number;
+
+  @ViewChild(Content) content: Content;
+  @ViewChild('fixedContainer') fixedContainer: any;
 
   primaryColor: string;
   secondaryColor: string;
@@ -59,25 +70,22 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private avariaService: AvariaDataService,
-    private gravidadeService: GravidadeDataService,
     private view: ViewController,
     private formBuilder: FormBuilder,
     private platform: Platform,
-    public authService: AuthService,
-
     private camera: Camera,
     private file: File,
-    private http: HttpClient,
     private webview: WebView,
     private actionSheetController: ActionSheetController,
     private toastController: ToastController,
     private storage: Storage,
-    private plt: Platform,
-    private loadingController: LoadingController,
     private ref: ChangeDetectorRef,
     private filePath: FilePath,
-    private modal: ModalController
+
+    private modal: ModalController,
+    private avariaService: AvariaDataService,
+    private gravidadeService: GravidadeDataService,
+    public authService: AuthService,
   ) {
     this.title = 'Lançamento de Avaria';
     this.formData = this.navParams.get('data');
@@ -87,6 +95,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         chassi: this.formData.chassi,
         token: ''}).subscribe((res: any) => {
           this.urlImagem += res.retorno.imagem;
+          this.canvas = this.urlImagem;
         });
       }
 
@@ -113,7 +122,124 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
     ionViewDidEnter() {
       this.loadPartes();
+
+      // https://github.com/ionic-team/ionic/issues/9071#issuecomment-362920591
+    // Get the height of the fixed item
+    // let itemHeight = this.fixedContainer.nativeElement.offsetHeight;
+    let scroll = this.content.getScrollElement();
+
+    // Add preexisting scroll margin to fixed container size
+    // itemHeight = Number.parseFloat(scroll.style.marginTop.replace("px", "")) + itemHeight;
+    // scroll.style.marginTop = itemHeight + 'px';
     }
+
+    ionViewDidLoad() {
+      // Set the Canvas Element and its size
+      this.canvasElement = this.canvas.nativeElement;
+      this.canvasElement.width = 381;
+      this.canvasElement.height = 241;
+    }
+
+    touched(event){
+      var canvasPosition = this.canvasElement.getBoundingClientRect();
+      this.saveX = event.touches[0].pageX - canvasPosition.x;
+      this.saveY = event.touches[0].pageY - canvasPosition.y;
+    }
+
+    startDrawing(event){
+      var canvasPosition = this.canvasElement.getBoundingClientRect();
+
+      this.saveX = event.touches[0].pageX - canvasPosition.x;
+      this.saveY = event.touches[0].pageY - canvasPosition.y;
+    }
+
+    moved(event) {
+      var canvasPosition = this.canvasElement.getBoundingClientRect();
+
+      let ctx = this.canvasElement.getContext('2d');
+      let currentX = event.touches[0].pageX - canvasPosition.x;
+      let currentY = event.touches[0].pageY - canvasPosition.y;
+
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = '#FF0000';
+      ctx.lineWidth = 5;
+
+      ctx.beginPath();
+      ctx.moveTo(this.saveX, this.saveY);
+      ctx.lineTo(currentX, currentY);
+      ctx.closePath();
+
+      ctx.stroke();
+
+      this.saveX = currentX;
+      this.saveY = currentY;
+    }
+
+    saveCanvasImage() {
+      var dataUrl = this.canvasElement.toDataURL();
+
+      let ctx = this.canvasElement.getContext('2d');
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+
+      var data = dataUrl.split(',')[1];
+    }
+
+    storeImage(imageName) {
+      let saveObj = { img: imageName };
+      // this.storedImages.push(saveObj);
+      // this.storage.set(STORAGE_KEY, this.storedImages).then(() => {
+      //   setTimeout(() =>  {
+      //     this.content.scrollToBottom();
+      //   }, 500);
+      // });
+    }
+
+    getImagePath(imageName) {
+      let path = this.urlImagem;
+      // https://ionicframework.com/docs/wkwebview/#my-local-resources-do-not-load
+      path = normalizeURL(path);
+      return path;
+    }
+
+    // https://forum.ionicframework.com/t/save-base64-encoded-image-to-specific-filepath/96180/3
+    b64toBlob(b64Data, contentType) {
+      contentType = contentType || '';
+      var sliceSize = 512;
+      var byteCharacters = atob(b64Data);
+      var byteArrays = [];
+
+      for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+      }
+
+      var blob = new Blob(byteArrays, { type: contentType });
+      return blob;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     toggleMenu = function (this) {
       $('.menu-body').toggleClass('show-menu');
@@ -176,6 +302,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       this.formSelecaoSuperficie.patchValue({
         posiçãoAvaria: event
       });
+
+      this.onSuperficieParteChassiInputed.emit(this.parteAvaria.superficieChassiParte);
     }
 
 
