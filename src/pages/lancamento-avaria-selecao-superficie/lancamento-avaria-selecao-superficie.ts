@@ -36,7 +36,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   formSelecaoSuperficie: FormGroup;
   images = [];
   urlImagem = 'http://nexus.luby.com.br/Arquivos/Empresas/';
-  // @ViewChild('tipoAvaria') tipoAvaria: Select;
+  img = new Image();
   tipoAvaria = new TipoAvaria();
   posicaoAvaria = new PosicaoSuperficieChassi();
   parteAvaria = new Parte();
@@ -95,7 +95,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         chassi: this.formData.chassi,
         token: ''}).subscribe((res: any) => {
           this.urlImagem += res.retorno.imagem;
-          this.canvas = this.urlImagem;
+          this.getImageDimenstion(this.urlImagem);
+          // this.canvas = this.urlImagem;
         });
       }
 
@@ -118,37 +119,34 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         this.inputColor = '#06273f';
         this.buttonColor = "#1c6381";
       }
+
     }
 
     ionViewDidEnter() {
       this.loadPartes();
-
-      // https://github.com/ionic-team/ionic/issues/9071#issuecomment-362920591
-    // Get the height of the fixed item
-    // let itemHeight = this.fixedContainer.nativeElement.offsetHeight;
-    let scroll = this.content.getScrollElement();
-
-    // Add preexisting scroll margin to fixed container size
-    // itemHeight = Number.parseFloat(scroll.style.marginTop.replace("px", "")) + itemHeight;
-    // scroll.style.marginTop = itemHeight + 'px';
     }
 
     ionViewDidLoad() {
-      // Set the Canvas Element and its size
       this.canvasElement = this.canvas.nativeElement;
-      this.canvasElement.width = 381;
+      this.platform.width() + '';
       this.canvasElement.height = 241;
+      this.canvasElement.width = 375;
     }
+
+    getImageDimenstion(imgUrl){
+      let img = new Image();
+      img.src = imgUrl;
+      img.onload = function (event) {
+           let  loadedImage = event.currentTarget;
+           let width =  loadedImage['width'];
+           let height = loadedImage['height'];
+           console.log('height: '+height);
+           console.log('width: '+width);
+      }
+   }
 
     touched(event){
       var canvasPosition = this.canvasElement.getBoundingClientRect();
-      this.saveX = event.touches[0].pageX - canvasPosition.x;
-      this.saveY = event.touches[0].pageY - canvasPosition.y;
-    }
-
-    startDrawing(event){
-      var canvasPosition = this.canvasElement.getBoundingClientRect();
-
       this.saveX = event.touches[0].pageX - canvasPosition.x;
       this.saveY = event.touches[0].pageY - canvasPosition.y;
     }

@@ -45,21 +45,22 @@
           </ion-select>
         </ion-item>
 
-        <ion-item *ngIf="tipoAvaria.id">
+        <!-- <ion-item *ngIf="tipoAvaria.id">
           <div>
             <ion-chip [ngStyle]="{'background-color': tipoAvaria.cor}"><b>{{tipoAvaria.sigla}}</b></ion-chip> <i>{{tipoAvaria.nome}}</i>
           </div>
-        </ion-item>
+        </ion-item> -->
 
         <ion-row>
-          <ion-col style="align-items: center;">
+          <ion-col style="padding-right: 10%;">
             <img [src]="urlImagem">
 
             <div class="myOverlay">
-              <ion-chip style="background: #1cdbc5;">AV</ion-chip>
+              <!-- <ion-chip style="background: #1cdbc5;">AV</ion-chip> -->
+              <ion-chip [ngStyle]="{'background-color': tipoAvaria.cor}" class="chip"><b>{{tipoAvaria.sigla}}</b></ion-chip>
             </div>
 
-            <canvas #imageCanvas (touchstart)="touched($event)"></canvas>
+            <canvas #imageCanvas (touchstart)="touched($event)" (touchmove)="moved($event)"></canvas>
           </ion-col>
         </ion-row>
         <!-- <canvas-draw *ngIf="urlImagem" src="data:image/jpeg;base64,{{urlImagem}}" #myCanvasDraw></canvas-draw> -->
