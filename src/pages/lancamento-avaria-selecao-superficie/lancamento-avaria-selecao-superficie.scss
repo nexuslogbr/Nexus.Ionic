@@ -47,50 +47,60 @@ page-lancamento-avaria-selecao-superficie {
           padding-right: 15px;
       }
       ion-list{
-          margin: 0;
-          ion-item{
-            background-color: #404040;
-            padding: 0;
-            border-bottom: 1px solid #747474;
-            .item-inner{
-              padding-left: 15px;
-              border-bottom: 1px solid transparent !important;
-              ion-label{
-                color: #fff;
-              }
-              ion-select{
-                max-width: 85%;
-                .select-text{
-                    padding-right: 10px;
-                    color: #fff;
-                    font: 14px 'avenir_demi';
-                }
+        margin: 0;
+        ion-item{
+          background-color: #404040;
+          padding: 0;
+          border-bottom: 1px solid #747474;
+          .item-inner{
+            padding-left: 15px;
+            border-bottom: 1px solid transparent !important;
+            ion-label{
+              color: #fff;
+            }
+            ion-select{
+              max-width: 85%;
+              .select-text{
+                  padding-right: 10px;
+                  color: #fff;
+                  font: 14px 'avenir_demi';
               }
             }
           }
-          ion-chip{
-            color: #fff;
-            width: 80px;
-            text-align: center;
-            // display: flex;
-            justify-content: center;
-          }
-          canvas {
-            display: block;
-            // border: 1px solid rgb(187,178,178);
-            position: relative;
-          }
-          img {
-            position: absolute;
-            width: 600;
-          }
+        }
+        ion-chip{
+          color: #fff;
+          width: 80px;
+          text-align: center;
+          // display: flex;
+          justify-content: center;
+        }
+        canvas {
+          // display: block;
+          // border: 1px solid rgb(187,178,178);
+          position: absolute;
+          // top: 300px;
+          // width: 378px;
+          // height: 235px;
+        }
+        img {
+          position: relative;
+          width: 100%;
+          height: 100%;
+        }
+        .chip{
+          height: 30px;
+          position: absolute;
+          z-index: 4;
+          background: transparent;
+        }
+        #canvasWrapper {
+          position: absolute;
 
-          .chip{
-            height: 30px;
-            position: absolute;
-            z-index: 4;
-            background: transparent;
-          }
+          top: 298px;
+          width: 378px;
+          height: 235px;
+        }
       }
       .item-list-grey{
         background-color: #595959;

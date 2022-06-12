@@ -35,8 +35,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   partesAvaria: Array<Parte> = [];
   formSelecaoSuperficie: FormGroup;
   images = [];
-  urlImagem = 'http://nexus.luby.com.br/Arquivos/Empresas/';
-  img = new Image();
   tipoAvaria = new TipoAvaria();
   posicaoAvaria = new PosicaoSuperficieChassi();
   parteAvaria = new Parte();
@@ -50,6 +48,9 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   @ViewChild(Content) content: Content;
   @ViewChild('fixedContainer') fixedContainer: any;
+
+  urlImagem = 'http://nexus.luby.com.br/Arquivos/Empresas/';
+  image = new Image();
 
   primaryColor: string;
   secondaryColor: string;
@@ -87,18 +88,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     private gravidadeService: GravidadeDataService,
     public authService: AuthService,
   ) {
-    this.title = 'Lançamento de Avaria';
-    this.formData = this.navParams.get('data');
-
-    if (this.formData.chassi) {
-      this.avariaService.consultarChassi({
-        chassi: this.formData.chassi,
-        token: ''}).subscribe((res: any) => {
-          this.urlImagem += res.retorno.imagem;
-          this.getImageDimenstion(this.urlImagem);
-          // this.canvas = this.urlImagem;
-        });
-      }
+      this.title = 'Lançamento de Avaria';
+      this.formData = this.navParams.get('data');
 
       this.formSelecaoSuperficie = formBuilder.group({
         observacao: [''],
@@ -123,27 +114,40 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     }
 
     ionViewDidEnter() {
-      this.loadPartes();
+
+    if (this.formData.chassi) {
+      this.avariaService.consultarChassi({
+        chassi: this.formData.chassi,
+        token: ''}).subscribe((res: any) => {
+          this.urlImagem += res.retorno.imagem;
+
+          this.image.src = this.urlImagem;
+          this.image.onload = function (event) {
+              let  loadedImage = event.currentTarget;
+              let width =  loadedImage['width'];
+              let height = loadedImage['height'];
+              console.log('height: '+height);
+              console.log('width: '+width);
+            }
+
+            let imagem = document.getElementById('image')
+            var width = imagem.clientWidth;
+            var height = imagem.clientHeight;
+
+            this.getImageDimenstion(width,height);
+            this.loadPartes();
+        });
+      }
+
     }
 
-    ionViewDidLoad() {
+    getImageDimenstion(width: number, height: number){
       this.canvasElement = this.canvas.nativeElement;
       this.platform.width() + '';
-      this.canvasElement.height = 241;
-      this.canvasElement.width = 375;
+      // this.canvasElement.height = height;
+      this.canvasElement.height = 600;
+      this.canvasElement.width = width;
     }
-
-    getImageDimenstion(imgUrl){
-      let img = new Image();
-      img.src = imgUrl;
-      img.onload = function (event) {
-           let  loadedImage = event.currentTarget;
-           let width =  loadedImage['width'];
-           let height = loadedImage['height'];
-           console.log('height: '+height);
-           console.log('width: '+width);
-      }
-   }
 
     touched(event){
       var canvasPosition = this.canvasElement.getBoundingClientRect();
