@@ -68,38 +68,17 @@ page-lancamento-avaria-selecao-superficie {
             }
           }
         }
-        ion-chip{
-          color: #fff;
-          width: 80px;
-          text-align: center;
-          // display: flex;
-          justify-content: center;
-        }
         canvas {
-          // display: block;
-          // border: 1px solid rgb(187,178,178);
           position: absolute;
-          // top: 300px;
-          // width: 378px;
-          // height: 235px;
         }
         img {
           position: relative;
           width: 100%;
           height: 100%;
         }
-        .chip{
-          height: 30px;
-          position: absolute;
-          z-index: 4;
-          background: transparent;
-        }
         #canvasWrapper {
           position: absolute;
-
           top: 298px;
-          width: 378px;
-          height: 235px;
         }
       }
       .item-list-grey{
@@ -133,10 +112,7 @@ page-lancamento-avaria-selecao-superficie {
   ion-footer {
     height: 120px;
     background-color: #404040;
-    // margin-top: 15px;
-    // width: 100%;
     text-align: center;
-    // display: block;
 
     .grid-botao-wrapper {
       padding-left: 16px !important;

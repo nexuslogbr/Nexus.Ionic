@@ -141,6 +141,20 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
     }
 
+    styleObject(): Object {
+      return {
+        'background-color': this.tipoAvaria.cor,
+        'color': '#fff',
+        'text-align': 'center',
+        'justify-content': 'center',
+        'transform': 'translate(150px, -150px)',
+        'position': 'absolute',
+        'z-index': 4,
+        'background': 'transparent',
+        'width': '80px'
+      }
+    }
+
     getImageDimenstion(width: number, height: number){
       this.canvasElement = this.canvas.nativeElement;
       this.platform.width() + '';

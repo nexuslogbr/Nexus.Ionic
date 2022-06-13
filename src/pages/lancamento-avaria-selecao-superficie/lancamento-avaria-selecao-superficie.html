@@ -55,7 +55,8 @@
           <img [src]="urlImagem" id="image">
 
           <div>
-            <ion-chip [ngStyle]="{'background-color': tipoAvaria.cor}" class="chip"><b>{{tipoAvaria.sigla}}</b></ion-chip>
+            <!-- <ion-chip [ngStyle]="{'background-color': tipoAvaria.cor}" class="chip"><b>{{tipoAvaria.sigla}}</b></ion-chip> -->
+            <ion-chip [ngStyle]="styleObject()"><b>{{tipoAvaria.sigla}}</b></ion-chip>
           </div>
 
           <div id="canvasWrapper">
