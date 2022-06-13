@@ -45,6 +45,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   saveX: number;
   saveY: number;
+  abcissaX: number = 1;
+  ordenadaY: number = -245;
 
   @ViewChild(Content) content: Content;
   @ViewChild('fixedContainer') fixedContainer: any;
@@ -144,14 +146,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     styleObject(): Object {
       return {
         'background-color': this.tipoAvaria.cor,
-        'color': '#fff',
-        'text-align': 'center',
-        'justify-content': 'center',
-        'transform': 'translate(150px, -150px)',
-        'position': 'absolute',
-        'z-index': 4,
-        'background': 'transparent',
-        'width': '80px'
+        'transform': "translate(" + this.abcissaX + "px," + this.ordenadaY + "px)",
       }
     }
 
@@ -164,9 +159,14 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     }
 
     touched(event){
+      this.ordenadaY = -245;
+
       var canvasPosition = this.canvasElement.getBoundingClientRect();
       this.saveX = event.touches[0].pageX - canvasPosition.x;
       this.saveY = event.touches[0].pageY - canvasPosition.y;
+
+      this.abcissaX = event.touches[0].pageX - canvasPosition.x;
+      this.ordenadaY -= ((event.touches[0].pageY - canvasPosition.y)* -1);
     }
 
     moved(event) {
