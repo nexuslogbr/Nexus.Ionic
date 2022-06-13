@@ -60,7 +60,8 @@
           </div>
 
           <div id="canvasWrapper">
-            <canvas #imageCanvas (touchstart)="touched($event)" (touchmove)="moved($event)"></canvas>
+            <!-- <canvas #imageCanvas id="canvas"></canvas> -->
+            <canvas #imageCanvas (touchstart)="touched($event)" (touchmove)="moved($event)" id="canvas"></canvas>
           </div>
         </div>
         <!-- <canvas-draw *ngIf="urlImagem" src="data:image/jpeg;base64,{{urlImagem}}" #myCanvasDraw></canvas-draw> -->
@@ -70,6 +71,13 @@
 
         <ion-item *ngIf="tipoAvaria.id">
           <ion-label label-ios style="font-style: unset;"><b>Tipo Avaria: </b>{{tipoAvaria.sigla}} - {{tipoAvaria.nome}}</ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="tipoAvaria.id">
+          <ion-label label-ios style="font-style: unset;"><b>Subárea: </b>02</ion-label>
+          <ion-select okText="Selecionar" cancelText="Cancelar">
+            <ion-option *ngFor="let item of nivelGravidadeAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
+          </ion-select>
         </ion-item>
 
         <ion-item>
