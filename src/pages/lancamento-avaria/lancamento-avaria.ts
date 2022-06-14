@@ -145,6 +145,7 @@ export class LancamentoAvariaPage {
   }
 
   ionViewDidEnter() {
+    this.authService.showLoading();
     this.loadMomentos();
     setTimeout(() => {
       // this.chassiInput.setFocus();
@@ -164,7 +165,6 @@ export class LancamentoAvariaPage {
       chassi: this.formData.chassi,
       momento: this.formData.momento
     });
-    this.authService.showLoading();
     this.momentoService.carregarMomentos().subscribe(result => {
       this.momentos = result.retorno;
       this.authService.hideLoading();

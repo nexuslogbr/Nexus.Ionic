@@ -49,12 +49,16 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   ordenadaY: number = -245;
   width = 0;
   height = 0;
+  posicoesSubArea = [];
+  divideEmPartes: number;
+  radiusX = 0;
+  radiusY = 0;
 
   @ViewChild(Content) content: Content;
   @ViewChild('fixedContainer') fixedContainer: any;
 
   urlImagem = 'http://nexus.luby.com.br/Arquivos/Empresas/';
-  image = new Image();
+  // image = new Image();
 
   primaryColor: string;
   secondaryColor: string;
@@ -100,6 +104,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       chassi: [this.formData.chassi, Validators.required],
       modelo: [this.formData.modelo, Validators.required],
       tipoAvaria: ['', Validators.required],
+      subArea: [1],
+      partePeca: [false, Validators.required],
       posiçãoAvaria: ['', Validators.required]
     });
 
@@ -119,27 +125,29 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   ionViewDidEnter() {
 
+  this.authService.showLoading();
+
   if (this.formData.chassi) {
     this.avariaService.consultarChassi({
       chassi: this.formData.chassi,
       token: ''}).subscribe((res: any) => {
         this.urlImagem += res.retorno.imagem;
 
-        this.image.src = this.urlImagem;
-        this.image.onload = function (event) {
-            let  loadedImage = event.currentTarget;
-            let width =  loadedImage['width'];
-            let height = loadedImage['height'];
-            console.log('height: '+height);
-            console.log('width: '+width);
-          }
+        // this.image.src = this.urlImagem;
+        // this.image.onload = function (event) {
+        //   let  loadedImage = event.currentTarget;
+        //   let width =  loadedImage['width'];
+        //   let height = loadedImage['height'];
+        //   console.log('height: '+height);
+        //   console.log('width: '+width);
+        // }
 
-          let imagem = document.getElementById('image')
-          this.width = imagem.clientWidth;
-          this.height = (imagem.clientHeight * 10); //+ 3;
+        let imagem = document.getElementById('image')
+        this.width = imagem.clientWidth;
+        this.height = (imagem.clientHeight * 10); //+ 3;
 
-          this.getImageDimenstion(this.width,this.height);
-          this.loadPartes();
+        this.getImageDimenstion(this.width,this.height);
+        this.loadPartes();
       });
     }
 
@@ -161,40 +169,40 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   touched(event){
-    this.ordenadaY = -245;
+    // this.ordenadaY = -245;
 
-    var canvasPosition = this.canvasElement.getBoundingClientRect();
-    this.saveX = event.touches[0].pageX - canvasPosition.x;
-    this.saveY = event.touches[0].pageY - canvasPosition.y;
+    // var canvasPosition = this.canvasElement.getBoundingClientRect();
+    // this.saveX = event.touches[0].pageX - canvasPosition.x;
+    // this.saveY = event.touches[0].pageY - canvasPosition.y;
 
-    this.abcissaX = event.touches[0].pageX - canvasPosition.x;
-    this.ordenadaY -= ((event.touches[0].pageY - canvasPosition.y)* -1);
+    // this.abcissaX = event.touches[0].pageX - canvasPosition.x;
+    // this.ordenadaY -= ((event.touches[0].pageY - canvasPosition.y)* -1);
   }
 
   moved(event) {
-    var canvasPosition = this.canvasElement.getBoundingClientRect();
+    // var canvasPosition = this.canvasElement.getBoundingClientRect();
 
-    let ctx = this.canvasElement.getContext('2d');
-    let currentX = event.touches[0].pageX - canvasPosition.x;
-    let currentY = event.touches[0].pageY - canvasPosition.y;
+    // let ctx = this.canvasElement.getContext('2d');
+    // let currentX = event.touches[0].pageX - canvasPosition.x;
+    // let currentY = event.touches[0].pageY - canvasPosition.y;
 
-    ctx.lineJoin = 'round';
-    ctx.strokeStyle = '#FF0000';
-    ctx.lineWidth = 3;
+    // ctx.lineJoin = 'round';
+    // ctx.strokeStyle = '#FF0000';
+    // ctx.lineWidth = 3;
 
-    ctx.beginPath();
-    ctx.moveTo(this.saveX, this.saveY);
-    ctx.lineTo(currentX, currentY);
-    ctx.closePath();
+    // ctx.beginPath();
+    // ctx.moveTo(this.saveX, this.saveY);
+    // ctx.lineTo(currentX, currentY);
+    // ctx.closePath();
 
-    ctx.stroke();
+    // ctx.stroke();
 
-    this.saveX = currentX;
-    this.saveY = currentY;
+    // this.saveX = currentX;
+    // this.saveY = currentY;
   }
 
-
   assembleGrid(data) {
+    this.posicoesSubArea = [];
     let superficieChassi = data;
 
     let ctx = this.canvasElement.getContext('2d');
@@ -203,18 +211,17 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     var imageWidth = this.width;
     var imageHeight = this.height;
 
-    // estilize o contexto
-    ctx.lineWidth = 3;
+    // espessura das linhas do grid
+    ctx.lineWidth = 2;
 
-    // calcular onde a tela está na janela
-    // (usado para ajudar a calcular mouseX/mouseY)
+    // calcular onde a tela está na janela (usado para ajudar a calcular mouseX/mouseY)
     var $canvas = $("#canvas");
     var canvasOffset = $canvas.offset();
     var offsetX = canvasOffset.left;
     var offsetY = canvasOffset.top;
     var scrollX = $canvas.scrollLeft();
     var scrollY = $canvas.scrollTop();
-    var divideEmPartes = superficieChassi.tipoSelecao;
+    this.divideEmPartes = superficieChassi.tipoSelecao;
 
     // essas vars irão manter a posição inicial do mouse
     var startX = 0;
@@ -226,104 +233,92 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     endX = (imageWidth / 100) * superficieChassi.fimX;
 
     startY = ((imageHeight / 100) * superficieChassi.inicioY) + 5.5;
-    endY = ((imageHeight / 100) * superficieChassi.fimY) + 5.5;
+    endY = ((imageHeight / 100) * superficieChassi.fimY) + 8.5;
 
     ctx.strokeStyle = superficieChassi.cor;
 
     var width = endX - startX;
     var height = endY - startY;
 
-    var clickPosition = 0;
+    // var clickPosition = 0;
 
     //Capturar o evento de click do mouse
-    $("#canvas").mousedown(function (e) {
+    // $("#canvas").mousedown(function (e) {
 
-        let mouseX = document.documentElement.scrollLeft;
-        let mouseY = document.documentElement.scrollTop;
+    //     let mouseX = document.documentElement.scrollLeft;
+    //     let mouseY = document.documentElement.scrollTop;
 
-        // Salvar as coordenadas X e Y do início do retângulo
-        let clickX = (e.clientX - offsetX) + mouseX;
-        let clickY = (e.clientY - offsetY) + mouseY;
+    //     // Salvar as coordenadas X e Y do início do retângulo
+    //     let clickX = (e.clientX - offsetX) + mouseX;
+    //     let clickY = (e.clientY - offsetY) + mouseY;
+    //     this.abcissaX = (e.clientX - offsetX) + mouseX;
+    //     this.ordenadaY = (e.clientY - offsetY) + mouseY;
 
-        // // Definir o flag que indica que um retângulo está sendo desenhado agora
-        // isDown = true;
+    //     let larguraQuadro = (endX - startX) / 3;
+    //     let alturaQuadro = (endY - startY) / 3;
 
-        let larguraQuadro = (endX - startX) / 3;
-        let alturaQuadro = (endY - startY) / 3;
+    //     var larguraTerco1 = startX + larguraQuadro;
+    //     var alturaTerco1 = startY + alturaQuadro;
 
-        var larguraTerco1 = startX + larguraQuadro;
-        var alturaTerco1 = startY + alturaQuadro;
+    //     var larguraTerco2 = startX + (larguraQuadro * 2);
+    //     var alturaTerco2 = startY + (alturaQuadro * 2);
 
-        var larguraTerco2 = startX + (larguraQuadro * 2);
-        var alturaTerco2 = startY + (alturaQuadro * 2);
+    //     var larguraTerco3 = startX + (larguraQuadro * 3);
+    //     var alturaTerco3 = startY + (alturaQuadro * 3);
 
-        var larguraTerco3 = startX + (larguraQuadro * 3);
-        var alturaTerco3 = startY + (alturaQuadro * 3);
+    //     // Pegar o click de coluna 1
+    //     if (clickX > startX && clickX <= (larguraTerco1)) {
 
-        // Pegar o click de coluna 1
-        if (clickX > startX && clickX <= (larguraTerco1)) {
+    //       // Pegar o click de linha
+    //       if (clickY > startY && clickY <= (alturaTerco1)) {
+    //         clickPosition = 7;
+    //       }
+    //       else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
+    //         clickPosition = 8;
+    //       }
+    //       else if (clickY > alturaTerco2 && clickY <= alturaTerco3) {
+    //         clickPosition = 9;
+    //       }
+    //     }
+    //     // Pegar o click de coluna 2
+    //     else if (clickX > larguraTerco1 && clickX <= larguraTerco2) {
+    //       // Pegar o click de linha
+    //       if (clickY > startY && clickY <= (alturaTerco1)) {
+    //         clickPosition = 4;
+    //       }
+    //       else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
+    //         clickPosition = 5;
+    //       }
+    //       else if (clickY > alturaTerco2 && clickY <= alturaTerco3) {
+    //         clickPosition = 6;
+    //       }
+    //     }
+    //     // Pegar o click de coluna 3
+    //     else if (clickX > larguraTerco2 && clickX <= larguraTerco3) {
+    //       // Pegar o click de linha
+    //       if (clickY > startY && clickY <= (alturaTerco1)) {
+    //         clickPosition = 1;
+    //       }
+    //       else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
+    //         clickPosition = 2;
+    //       }
+    //       else if (clickY > alturaTerco2 && clickY <= alturaTerco3) {
+    //         clickPosition = 3;
+    //       }
+    //     }
 
-            // Pegar o click de linha
-            if (clickY > startY && clickY <= (alturaTerco1)) {
-                // alert("7");
-                clickPosition = 7;
-            }
-            else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
-                // alert("8");
-                clickPosition = 8;
-            }
-            else if (clickY > alturaTerco2 && clickY <= alturaTerco3) {
-                // alert("9");
-                clickPosition = 9;
-            }
-        }
-        // Pegar o click de coluna 2
-        else if (clickX > larguraTerco1 && clickX <= larguraTerco2) {
+    //     for (let coluna = 3; coluna >= 1; coluna--) {
+    //       for (let linha = 1; linha <= 3; linha++) {
+    //         if (coluna == clickPosition && linha == clickPosition) {
+    //           var combo = document.getElementById("subareaID");
+    //           // console.log(combo.value);
+    //           // combo.value = parseInt(clickPosition);
+    //         }
+    //       }
+    //     }
+    // });
 
-            // Pegar o click de linha
-            if (clickY > startY && clickY <= (alturaTerco1)) {
-                // alert("4");
-                clickPosition = 4;
-            }
-            else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
-                // alert("5");
-                clickPosition = 5;
-            }
-            else if (clickY > alturaTerco2 && clickY <= alturaTerco3) {
-                // alert("6");
-                clickPosition = 6;
-            }
-        }
-        // Pegar o click de coluna 3
-        else if (clickX > larguraTerco2 && clickX <= larguraTerco3) {
-
-            // Pegar o click de linha
-            if (clickY > startY && clickY <= (alturaTerco1)) {
-                // alert("1");
-                clickPosition = 1;
-            }
-            else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
-                // alert("2");
-                clickPosition = 2;
-            }
-            else if (clickY > alturaTerco2 && clickY <= alturaTerco3) {
-                // alert("3");
-                clickPosition = 3;
-            }
-        }
-
-        for (let coluna = 3; coluna >= 1; coluna--) {
-            for (let linha = 1; linha <= 3; linha++) {
-                if (coluna == clickPosition && linha == clickPosition) {
-                    var combo = document.getElementById("subareaID");
-                    // console.log(combo.value);
-                    // combo.value = parseInt(clickPosition);
-                }
-            }
-        }
-    });
-
-    if (divideEmPartes == 1) {
+    if (this.divideEmPartes == 1) {
         $('#subAreaCombo').removeClass("hidden");
 
         // Espessura da borda externa do retângulo
@@ -356,18 +351,24 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         ctx.fillStyle = superficieChassi.cor;
         ctx.textAlign = "center";
         var numeroQuadrante = 1;
+
         for (let coluna = 3; coluna >= 1; coluna--) {
             for (let linha = 1; linha <= 3; linha++) {
                 var quadrante = [larguraTerco * (coluna - 0.5), alturaTerco * (linha - 0.30)];
                 ctx.fillText(numeroQuadrante, startX + quadrante[0], startY + quadrante[1]);
+                this.posicoesSubArea.push({ posicao: numeroQuadrante, coordenadaX: startX + quadrante[0], coordenadaY: startY + quadrante[1] });
                 numeroQuadrante++;
             }
         }
     }
-    else if (divideEmPartes == 0) {
+    else if (this.divideEmPartes == 0) {
         $('#subAreaCombo').addClass("hidden");
     }
 
+    // this.radiusX =
+    // this.radiusY =
+    this.radiusX = startX + ((endX - startX)/2);
+    this.radiusY = startY + ((endY - startY)/2);
     ctx.strokeRect(startX, startY, endX - startX, endY - startY);
   }
 
@@ -394,7 +395,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   };
 
   loadPartes(){
-    this.authService.showLoading();
     this.avariaService.listarPartes({
       chassi: this.formData.chassi,
     })
@@ -428,11 +428,29 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     })
   }
 
-  selectTipoAvariaChange(event:any){
-    this.tipoAvaria = this.tiposAvaria.filter(x => x.id == event).map(x => x)[0]
+  selectTipoAvariaChange(id:number){
+    this.tipoAvaria = this.tiposAvaria.filter(x => x.id == id).map(x => x)[0]
     this.formSelecaoSuperficie.patchValue({
-      tipoAvaria: this.tipoAvaria.nome
+      tipoAvaria: this.tipoAvaria.nome,
+      partePeca: true
     });
+
+    if(this.divideEmPartes == 1){
+      if (this.formSelecaoSuperficie.controls.subArea.value > 0) {
+        let pos = this.posicoesSubArea.filter(x => x.posicao == this.formSelecaoSuperficie.controls.subArea.value).map(x => x)[0];
+        this.abcissaX = pos.coordenadaX;
+        this.ordenadaY = pos.coordenadaY;
+      }
+      // else if(this.formSelecaoSuperficie.controls.subArea.value == 0){
+      //   let pos = this.posicoesSubArea.filter(x => x.posicao == 1).map(x => x)[0];
+      //   this.abcissaX = pos.coordenadaX;
+      //   this.ordenadaY = pos.coordenadaY;
+      // }
+    }
+    else if (this.divideEmPartes == 0){
+      this.abcissaX = this.radiusX;
+      this.ordenadaY = this.radiusY;
+    }
   }
 
   selectPosicaoAvariaChange(event){
@@ -445,10 +463,18 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   selectPartesAvariaChange(event){
     this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0]
     this.formSelecaoSuperficie.patchValue({
-      posiçãoAvaria: event
+      posiçãoAvaria: event,
+      partePeca: false,
+      // tipoAvaria: ''
     });
 
     this.assembleGrid(this.parteAvaria.superficieChassiParte);
+  }
+
+  selectSubareaChange(subArea: number){
+    let pos = this.posicoesSubArea.filter(x => x.posicao == subArea).map(x => x)[0];
+    this.abcissaX = pos.coordenadaX;
+    this.ordenadaY = pos.coordenadaY;
   }
 
 

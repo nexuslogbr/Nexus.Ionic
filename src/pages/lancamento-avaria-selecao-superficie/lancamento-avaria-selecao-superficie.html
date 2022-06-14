@@ -52,12 +52,14 @@
         </ion-item> -->
 
         <div >
-          <img [src]="urlImagem" id="image">
-
-          <div>
-            <!-- <ion-chip [ngStyle]="{'background-color': tipoAvaria.cor}" class="chip"><b>{{tipoAvaria.sigla}}</b></ion-chip> -->
-            <ion-chip size="small" [ngStyle]="styleObject()"><b class="ion-chip-label">{{tipoAvaria.sigla}}</b></ion-chip>
+          <div *ngIf="formSelecaoSuperficie.controls.partePeca.value">
+            <ion-chip size="small" [ngStyle]="styleObject()">
+              <b class="ion-chip-label">{{tipoAvaria.sigla}}</b>
+              <!-- <ion-label color="secondary">SL</ion-label> -->
+            </ion-chip>
           </div>
+
+          <img [src]="urlImagem" id="image">
 
           <div id="canvasWrapper">
             <!-- <canvas #imageCanvas id="canvas"></canvas> -->
@@ -68,21 +70,29 @@
         <!-- <canvas-draw [image]="urlImagem"></canvas-draw> -->
         <!-- <img [src]="urlImagem" style="width: 100%;"> -->
         <!-- <img src="assets/images/car_model.PNG" style="width: 100%;"> -->
-
+<!--
         <ion-item *ngIf="tipoAvaria.id">
           <ion-label label-ios style="font-style: unset;"><b>Tipo Avaria: </b>{{tipoAvaria.sigla}} - {{tipoAvaria.nome}}</ion-label>
-        </ion-item>
+        </ion-item> -->
 
-        <ion-item *ngIf="tipoAvaria.id">
-          <ion-label label-ios style="font-style: unset;"><b>Subárea: </b>02</ion-label>
-          <ion-select okText="Selecionar" cancelText="Cancelar">
-            <ion-option *ngFor="let item of nivelGravidadeAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
+        <ion-item class="hidden" id="subAreaCombo">
+          <ion-label label-ios style="font-style: unset;"><b>Subárea: </b></ion-label>
+          <ion-select (ionChange)="selectSubareaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="subArea">
+            <ion-option value="{{1}}">1</ion-option>
+            <ion-option value="{{2}}">2</ion-option>
+            <ion-option value="{{3}}">3</ion-option>
+            <ion-option value="{{4}}">4</ion-option>
+            <ion-option value="{{5}}">5</ion-option>
+            <ion-option value="{{6}}">6</ion-option>
+            <ion-option value="{{7}}">7</ion-option>
+            <ion-option value="{{8}}">8</ion-option>
+            <ion-option value="{{9}}">9</ion-option>
           </ion-select>
         </ion-item>
-
+<!--
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Posição da Avaria: </b>{{posicaoAvaria.nome}}</ion-label>
-        </ion-item>
+        </ion-item> -->
 
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Gravidade: </b></ion-label>
