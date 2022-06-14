@@ -19,6 +19,7 @@ import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
 import { PosicaoSuperficieChassi } from '../../model/PosicaoSuperficieChassi';
 import { Parte } from '../../model/Parte';
 import { SuperficieChassiParte } from '../../model/superficieChassiParte';
+import { AlertService } from '../../providers/alert-service';
 
 const STORAGE_KEY = 'my_images';
 
@@ -35,9 +36,12 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   partesAvaria: Array<Parte> = [];
   formSelecaoSuperficie: FormGroup;
   images = [];
+
   tipoAvaria = new TipoAvaria();
   posicaoAvaria = new PosicaoSuperficieChassi();
   parteAvaria = new Parte();
+  gravidadeAvaria: any;
+
   @Output() onSuperficieParteChassiInputed: EventEmitter<SuperficieChassiParte> = new EventEmitter<SuperficieChassiParte>();
 
   @ViewChild('imageCanvas') canvas: any;
@@ -73,7 +77,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     cor: '',
     status: '',
     observacao: '',
-    momento: ''
+    momentoID: ''
   };
 
   constructor(
@@ -90,6 +94,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   private storage: Storage,
   private ref: ChangeDetectorRef,
   private filePath: FilePath,
+  public alertService: AlertService,
 
   private modal: ModalController,
   private avariaService: AvariaDataService,
@@ -98,15 +103,18 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 ) {
     this.title = 'Lançamento de Avaria';
     this.formData = this.navParams.get('data');
+    console.clear();
+    console.log(this.formData);
 
     this.formSelecaoSuperficie = formBuilder.group({
-      observacao: [''],
       chassi: [this.formData.chassi, Validators.required],
       modelo: [this.formData.modelo, Validators.required],
+      posicaoAvaria: ['', Validators.required],
+      partePeca: [false, Validators.required],
       tipoAvaria: ['', Validators.required],
       subArea: [1],
-      partePeca: [false, Validators.required],
-      posiçãoAvaria: ['', Validators.required]
+      gravidadeAvaria: ['', Validators.required],
+      observacao: [''],
     });
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
@@ -456,14 +464,14 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   selectPosicaoAvariaChange(event){
     this.posicaoAvaria = this.posicoesAvaria.filter(x => x.id == event).map(x => x)[0]
     this.formSelecaoSuperficie.patchValue({
-      posiçãoAvaria: this.posicaoAvaria.nome
+      posicaoAvaria: this.posicaoAvaria.nome
     });
   }
 
   selectPartesAvariaChange(event){
     this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0]
     this.formSelecaoSuperficie.patchValue({
-      posiçãoAvaria: event,
+      posicaoAvaria: event,
       partePeca: false,
       // tipoAvaria: ''
     });
@@ -475,6 +483,15 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     let pos = this.posicoesSubArea.filter(x => x.posicao == subArea).map(x => x)[0];
     this.abcissaX = pos.coordenadaX;
     this.ordenadaY = pos.coordenadaY;
+  }
+
+  selectGravidadeChange(id){
+    this.gravidadeAvaria = this.nivelGravidadeAvaria.filter(x => x.id == id).map(x => x)[0]
+    this.formSelecaoSuperficie.patchValue({
+      gravidadeAvaria: this.gravidadeAvaria.nome
+    });
+
+    this.assembleGrid(this.parteAvaria.superficieChassiParte);
   }
 
 
@@ -664,5 +681,28 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     //   data: this.formData
     // });
     // chassiModal.present();
+  }
+
+  save(){
+    this.authService.showLoading();
+    this.avariaService.salvar({
+      id: 0,
+      veiculoID: this.formData.id,
+      momentoID: parseInt(this.formData.momentoID),
+      posicaoSuperficieChassiID: this.posicaoAvaria.id,
+      tipoAvariaID: this.tipoAvaria.id,
+      avariaID: 0,
+      parteID: this.parteAvaria.id,
+      superficieChassiParteID: this.parteAvaria.superficieChassiParte.id,
+      nivelGravidadeAvariaID: this.gravidadeAvaria.id,
+      observacao: this.formSelecaoSuperficie.controls.observacao.value,
+      quadrante: this.formSelecaoSuperficie.controls.subArea.value,
+    }).subscribe((response:any) => {
+
+      this.authService.hideLoading();
+    }, (error: any) => {
+      this.authService.hideLoading();
+      this.alertService.showError('Erro ao salvar avaria');
+    });
   }
 }

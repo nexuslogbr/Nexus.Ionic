@@ -59,7 +59,7 @@ export class LancamentoAvariaPage {
     posicaoAtual: '',
     cor: '',
     observacao: '',
-    momento: ''
+    momentoID: ''
   };
 
   formBloqueioData = {
@@ -163,7 +163,7 @@ export class LancamentoAvariaPage {
   loadMomentos(){
     this.formLancamentoAvaria.patchValue({
       chassi: this.formData.chassi,
-      momento: this.formData.momento
+      momento: this.formData.momentoID
     });
     this.momentoService.carregarMomentos().subscribe(result => {
       this.momentos = result.retorno;
@@ -338,7 +338,7 @@ export class LancamentoAvariaPage {
   }
 
   onMomentoChange(event){
-    this.formData.observacao = event;
+    this.formData.momentoID = event;
   }
 
   voltar(){

@@ -51,9 +51,10 @@ export class AvariaDataService{
     return this.http.post<DataRetorno>(url, model, httpOptions);
   }
 
-  public salvar() {
-    let url = this.urlApi + '/tipoavaria/Salvar';
-    return this.http.post<DataRetorno>(url, { headers: headers });
+  public salvar(model: any) {
+    let url = this.urlApi + '/lancamentoAvaria/Salvar';
+    model.token = this.authService.getToken();
+    return this.http.post<DataRetorno>(url, model, httpOptions);
   }
 
   public consultarChassi(model: any){

@@ -22,7 +22,7 @@
         <ion-item>
           <ion-label label-ios>Momento:</ion-label>
           <ion-select  (ionChange)="onMomentoChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="momento" name="momento">
-              <ion-option *ngFor="let momento of momentos" value="{{momento.nome}}">{{momento.nome}}</ion-option>
+              <ion-option *ngFor="let momento of momentos" value="{{momento.id}}">{{momento.nome}}</ion-option>
           </ion-select>
         </ion-item>
       </ion-list>
