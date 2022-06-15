@@ -41,7 +41,7 @@
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Selecionar Tipo Avaria:</b></ion-label>
           <ion-select (ionChange)="selectTipoAvariaChange($event)" okText="Selecionar" cancelText="Cancelar">
-            <ion-option *ngFor="let item of tiposAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
+            <ion-option *ngFor="let item of avarias" value="{{item.id}}" id="{{item.id}}">{{item.tipoAvaria.nome}}</ion-option>
           </ion-select>
         </ion-item>
 
@@ -54,7 +54,7 @@
         <div >
           <div *ngIf="formSelecaoSuperficie.controls.partePeca.value">
             <ion-chip size="small" [ngStyle]="styleObject()">
-              <b class="ion-chip-label">{{tipoAvaria.sigla}}</b>
+              <b class="ion-chip-label">{{avaria.tipoAvaria.sigla}}</b>
               <!-- <ion-label color="secondary">SL</ion-label> -->
             </ion-chip>
           </div>

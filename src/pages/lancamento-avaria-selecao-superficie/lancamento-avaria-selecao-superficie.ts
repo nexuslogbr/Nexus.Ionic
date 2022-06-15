@@ -20,24 +20,26 @@ import { PosicaoSuperficieChassi } from '../../model/PosicaoSuperficieChassi';
 import { Parte } from '../../model/Parte';
 import { SuperficieChassiParte } from '../../model/superficieChassiParte';
 import { AlertService } from '../../providers/alert-service';
+import { finalize } from 'rxjs/operators';
+import { Avaria } from '../../model/avaria';
 
 const STORAGE_KEY = 'my_images';
 
 @Component({
   selector: 'page-lancamento-avaria-selecao-superficie',
-  templateUrl: 'lancamento-avaria-selecao-superficie.html',
+templateUrl: 'lancamento-avaria-selecao-superficie.html',
   providers: [Camera]
 })
 export class LancamentoAvariaSelecaoSuperficiePage {
   title: string;
-  tiposAvaria: Array<TipoAvaria> = [];
+  avarias: Array<Avaria> = [];
   posicoesAvaria: Array<PosicaoSuperficieChassi> = [];
   nivelGravidadeAvaria: Array<NivelGravidadeAvaria> = [];
   partesAvaria: Array<Parte> = [];
   formSelecaoSuperficie: FormGroup;
   images = [];
 
-  tipoAvaria = new TipoAvaria();
+  avaria = new Avaria();
   posicaoAvaria = new PosicaoSuperficieChassi();
   parteAvaria = new Parte();
   gravidadeAvaria: any;
@@ -103,8 +105,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 ) {
     this.title = 'Lançamento de Avaria';
     this.formData = this.navParams.get('data');
-    console.clear();
-    console.log(this.formData);
 
     this.formSelecaoSuperficie = formBuilder.group({
       chassi: [this.formData.chassi, Validators.required],
@@ -161,9 +161,16 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   }
 
+  toggleMenu = function (this) {
+    $('.menu-body').toggleClass('show-menu');
+    $('menu-inner').toggleClass('show');
+    $('.icon-menu').toggleClass('close-menu');
+    $('side-menu').toggleClass('show');
+  };
+
   styleObject(): Object {
     return {
-      'background-color': this.tipoAvaria.cor,
+      'background-color': this.avaria.tipoAvaria.cor,
       'transform': "translate(" + this.abcissaX + "px," + this.ordenadaY + "px)",
     }
   }
@@ -174,6 +181,99 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     // this.canvasElement.height = height;
     this.canvasElement.width = width;
     this.canvasElement.height = height;
+  }
+
+
+  loadPartes(){
+    this.avariaService.listarPartes({
+      chassi: this.formData.chassi,
+    })
+    .subscribe(res => {
+      this.partesAvaria = res.retorno;
+      this.loadPosicaoAvaria();
+    });
+  }
+
+  loadPosicaoAvaria(){
+    this.avariaService.carregarPosicaoAvarias()
+    .subscribe(res => {
+      this.posicoesAvaria = res.retorno;
+      this.loadTipoAvaria();
+    });
+  }
+
+  loadTipoAvaria(){
+    this.avariaService.carregarTipoAvarias()
+    .subscribe(res => {
+      this.avarias = res.retorno;
+      this.loadGravidade();
+    })
+  }
+
+  loadGravidade(){
+    this.gravidadeService.carregarGravidades()
+    .subscribe(res => {
+      this.nivelGravidadeAvaria = res.retorno;
+      this.authService.hideLoading();
+    })
+  }
+
+  selectTipoAvariaChange(id:number){
+    this.avaria = this.avarias.filter(x => x.id == id).map(x => x)[0]
+    this.formSelecaoSuperficie.patchValue({
+      tipoAvaria: this.avaria.tipoAvaria.nome,
+      partePeca: true
+    });
+
+    if(this.divideEmPartes == 1){
+      if (this.formSelecaoSuperficie.controls.subArea.value > 0) {
+        let pos = this.posicoesSubArea.filter(x => x.posicao == this.formSelecaoSuperficie.controls.subArea.value).map(x => x)[0];
+        this.abcissaX = pos.coordenadaX;
+        this.ordenadaY = pos.coordenadaY;
+      }
+      // else if(this.formSelecaoSuperficie.controls.subArea.value == 0){
+      //   let pos = this.posicoesSubArea.filter(x => x.posicao == 1).map(x => x)[0];
+      //   this.abcissaX = pos.coordenadaX;
+      //   this.ordenadaY = pos.coordenadaY;
+      // }
+    }
+    else if (this.divideEmPartes == 0){
+      this.abcissaX = this.radiusX;
+      this.ordenadaY = this.radiusY;
+    }
+  }
+
+  selectPosicaoAvariaChange(event){
+    this.posicaoAvaria = this.posicoesAvaria.filter(x => x.id == event).map(x => x)[0]
+    this.formSelecaoSuperficie.patchValue({
+      posicaoAvaria: this.posicaoAvaria.nome
+    });
+  }
+
+  selectPartesAvariaChange(event){
+    this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0]
+    this.formSelecaoSuperficie.patchValue({
+      posicaoAvaria: event,
+      partePeca: false,
+      // tipoAvaria: ''
+    });
+
+    this.assembleGrid(this.parteAvaria.superficieChassiParte);
+  }
+
+  selectSubareaChange(subArea: number){
+    let pos = this.posicoesSubArea.filter(x => x.posicao == subArea).map(x => x)[0];
+    this.abcissaX = pos.coordenadaX;
+    this.ordenadaY = pos.coordenadaY;
+  }
+
+  selectGravidadeChange(id){
+    this.gravidadeAvaria = this.nivelGravidadeAvaria.filter(x => x.id == id).map(x => x)[0]
+    this.formSelecaoSuperficie.patchValue({
+      gravidadeAvaria: this.gravidadeAvaria.nome
+    });
+
+    this.assembleGrid(this.parteAvaria.superficieChassiParte);
   }
 
   touched(event){
@@ -380,200 +480,48 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     ctx.strokeRect(startX, startY, endX - startX, endY - startY);
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  toggleMenu = function (this) {
-    $('.menu-body').toggleClass('show-menu');
-    $('menu-inner').toggleClass('show');
-    $('.icon-menu').toggleClass('close-menu');
-    $('side-menu').toggleClass('show');
-  };
-
-  loadPartes(){
-    this.avariaService.listarPartes({
-      chassi: this.formData.chassi,
-    })
-    .subscribe(res => {
-      this.partesAvaria = res.retorno;
-      this.loadPosicaoAvaria();
-    });
-  }
-
-  loadPosicaoAvaria(){
-    this.avariaService.carregarPosicaoAvarias()
-    .subscribe(res => {
-      this.posicoesAvaria = res.retorno;
-      this.loadTipoAvaria();
-    });
-  }
-
-  loadTipoAvaria(){
-    this.avariaService.carregarTipoAvarias()
-    .subscribe(res => {
-      this.tiposAvaria = res.retorno;
-      this.loadGravidade();
-    })
-  }
-
-  loadGravidade(){
-    this.gravidadeService.carregarGravidades()
-    .subscribe(res => {
-      this.nivelGravidadeAvaria = res.retorno;
-      this.authService.hideLoading();
-    })
-  }
-
-  selectTipoAvariaChange(id:number){
-    this.tipoAvaria = this.tiposAvaria.filter(x => x.id == id).map(x => x)[0]
-    this.formSelecaoSuperficie.patchValue({
-      tipoAvaria: this.tipoAvaria.nome,
-      partePeca: true
-    });
-
-    if(this.divideEmPartes == 1){
-      if (this.formSelecaoSuperficie.controls.subArea.value > 0) {
-        let pos = this.posicoesSubArea.filter(x => x.posicao == this.formSelecaoSuperficie.controls.subArea.value).map(x => x)[0];
-        this.abcissaX = pos.coordenadaX;
-        this.ordenadaY = pos.coordenadaY;
-      }
-      // else if(this.formSelecaoSuperficie.controls.subArea.value == 0){
-      //   let pos = this.posicoesSubArea.filter(x => x.posicao == 1).map(x => x)[0];
-      //   this.abcissaX = pos.coordenadaX;
-      //   this.ordenadaY = pos.coordenadaY;
-      // }
-    }
-    else if (this.divideEmPartes == 0){
-      this.abcissaX = this.radiusX;
-      this.ordenadaY = this.radiusY;
-    }
-  }
-
-  selectPosicaoAvariaChange(event){
-    this.posicaoAvaria = this.posicoesAvaria.filter(x => x.id == event).map(x => x)[0]
-    this.formSelecaoSuperficie.patchValue({
-      posicaoAvaria: this.posicaoAvaria.nome
-    });
-  }
-
-  selectPartesAvariaChange(event){
-    this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0]
-    this.formSelecaoSuperficie.patchValue({
-      posicaoAvaria: event,
-      partePeca: false,
-      // tipoAvaria: ''
-    });
-
-    this.assembleGrid(this.parteAvaria.superficieChassiParte);
-  }
-
-  selectSubareaChange(subArea: number){
-    let pos = this.posicoesSubArea.filter(x => x.posicao == subArea).map(x => x)[0];
-    this.abcissaX = pos.coordenadaX;
-    this.ordenadaY = pos.coordenadaY;
-  }
-
-  selectGravidadeChange(id){
-    this.gravidadeAvaria = this.nivelGravidadeAvaria.filter(x => x.id == id).map(x => x)[0]
-    this.formSelecaoSuperficie.patchValue({
-      gravidadeAvaria: this.gravidadeAvaria.nome
-    });
-
-    this.assembleGrid(this.parteAvaria.superficieChassiParte);
-  }
-
-
-
-
-  startUpload(imgEntry) {
-    this.file.resolveLocalFilesystemUrl(imgEntry.filePath)
-        .then(entry => {
-            ( < FileEntry > entry).file(file => this.readFile(file))
-        })
-        .catch(err => {
-            this.presentToast('Erro ao ler o arquivo.');
-        });
-  }
-
-  readFile(file: any) {
-    const reader = new FileReader();
-    reader.onload = () => {
-        const formData = new FormData();
-        const imgBlob = new Blob([reader.result], {
-            type: file.type
-        });
-        formData.append('file', imgBlob, file.name);
-        this.uploadImageData(formData);
-    };
-    reader.readAsArrayBuffer(file);
-  }
-
-  async uploadImageData(formData: FormData) {
-
-    // const loading = await this.loadingController.create({
-    //     message: 'Carregando imagem...',
+  voltar(){
+    // this.navCtrl.push(QualidadeMenuPage);
+    this.view.dismiss();
+    // const chassiModal: Modal = this.modal.create(QualidadeMenuPage, {
+    //   data: this.formData
     // });
-    // await loading.present();
-
-    // this.http.post("http://localhost:9945/uploadImage", formData)
-    //     .pipe(
-    //         finalize(() => {
-    //             loading.dismiss();
-    //         })
-    //     )
-    //     .subscribe(res => {
-    //         if (res['success']) {
-    //             this.presentToast('File upload complete.')
-    //         } else {
-    //             this.presentToast('File upload failed.')
-    //         }
-    //     });
+    // chassiModal.present();
   }
 
-  // loadStoredImages() {
-  //   this.storage.get(STORAGE_KEY).then(images => {
-  //     if (images) {
-  //       let arr = JSON.parse(images);
-  //       this.images = [];
-  //       for (let img of arr) {
-  //         let filePath = this.file.dataDirectory + img;
-  //         let resPath = this.pathForImage(filePath);
-  //         this.images.push({ name: img, path: resPath, filePath: filePath });
-  //       }
-  //     }
-  //   });
-  // }
-
-  pathForImage(img) {
-    if (img === null) {
-      return '';
-    } else {
-      let converted = this.webview.convertFileSrc(img);
-      return converted;
-    }
-  }
-
-  async presentToast(text) {
-    const toast = await this.toastController.create({
-        message: text,
-        position: 'bottom',
-        duration: 3000
+  save(){
+    this.authService.showLoading();
+    this.avariaService.salvar({
+      id: 0,
+      veiculoID: this.formData.id,
+      momentoID: parseInt(this.formData.momentoID),
+      posicaoSuperficieChassiID: this.posicaoAvaria.id,
+      tipoAvariaID: this.avaria.tipoAvaria.id,
+      avariaID: this.avaria.id,
+      parteID: this.parteAvaria.id,
+      superficieChassiParteID: this.parteAvaria.superficieChassiParte.id,
+      nivelGravidadeAvariaID: this.gravidadeAvaria.id,
+      observacao: this.formSelecaoSuperficie.controls.observacao.value,
+      quadrante: parseInt(this.formSelecaoSuperficie.controls.subArea.value),
+    })
+    .pipe(
+      finalize(() => {
+        this.authService.hideLoading();
+        this.navCtrl.push(QualidadeMenuPage);
+      })
+    )
+    .subscribe((response:any) => {
+      console.log(response);
+    }, (error: any) => {
+      this.alertService.showError('Erro ao salvar avaria');
     });
-    toast.present();
   }
 
+
+
+
+
+  /// Selecionar uma imagem da biblioteca do dispositivo
   async selectImage() {
       const actionSheet = await this.actionSheetController.create({
           title: 'Selecionar imagem',
@@ -633,29 +581,83 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       });
   }
 
-  updateStoredImages(name) {
-      this.storage.get(STORAGE_KEY).then(images => {
-          let arr = JSON.parse(images);
-          if (!arr) {
-              let newImages = [name];
-              this.storage.set(STORAGE_KEY, JSON.stringify(newImages));
-          } else {
-              arr.push(name);
-              this.storage.set(STORAGE_KEY, JSON.stringify(arr));
-          }
+  startUpload(imgEntry) {
+    this.file.resolveLocalFilesystemUrl(imgEntry.filePath)
+        .then(entry => {
+            ( < FileEntry > entry).file(file => this.readFile(file))
+        })
+        .catch(err => {
+            this.presentToast('Erro ao ler o arquivo.');
+        });
+  }
 
-          let filePath = this.file.dataDirectory + name;
+  readFile(file: any) {
+    const reader = new FileReader();
+    reader.onload = () => {
+        const formData = new FormData();
+        const imgBlob = new Blob([reader.result], {
+            type: file.type
+        });
+        formData.append('file', imgBlob, file.name);
+        this.uploadImageData(formData);
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  loadStoredImages() {
+    this.storage.get(STORAGE_KEY).then(images => {
+      if (images) {
+        let arr = JSON.parse(images);
+        this.images = [];
+        for (let img of arr) {
+          let filePath = this.file.dataDirectory + img;
           let resPath = this.pathForImage(filePath);
+          this.images.push({ name: img, path: resPath, filePath: filePath });
+        }
+      }
+    });
+  }
 
-          let newEntry = {
-              name: name,
-              path: resPath,
-              filePath: filePath
-          };
+  updateStoredImages(name) {
+    this.storage.get(STORAGE_KEY).then(images => {
+        let arr = JSON.parse(images);
+        if (!arr) {
+            let newImages = [name];
+            this.storage.set(STORAGE_KEY, JSON.stringify(newImages));
+        } else {
+            arr.push(name);
+            this.storage.set(STORAGE_KEY, JSON.stringify(arr));
+        }
 
-          this.images = [newEntry, ...this.images];
-          this.ref.detectChanges();
-      });
+        let filePath = this.file.dataDirectory + name;
+        let resPath = this.pathForImage(filePath);
+
+        let newEntry = {
+            name: name,
+            path: resPath,
+            filePath: filePath
+        };
+
+        this.images = [newEntry, ...this.images];
+        this.ref.detectChanges();
+    });
+  }
+
+  uploadImageData(formData: FormData) {
+    this.authService.showLoading();
+    this.avariaService.uploadImagens(formData)
+    .pipe(
+      finalize(() => {
+        this.authService.hideLoading();
+      })
+    )
+    .subscribe((response: any) => {
+      var data = response;
+      console.log(data);
+    }, (error:any) => {
+      console.log(error);
+      this.authService.hideLoading();
+    });
   }
 
   deleteImage(imgEntry, position) {
@@ -674,35 +676,21 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     });
   }
 
-  voltar(){
-    // this.navCtrl.push(QualidadeMenuPage);
-    this.view.dismiss();
-    // const chassiModal: Modal = this.modal.create(QualidadeMenuPage, {
-    //   data: this.formData
-    // });
-    // chassiModal.present();
+  async presentToast(text) {
+    const toast = await this.toastController.create({
+        message: text,
+        position: 'bottom',
+        duration: 3000
+    });
+    toast.present();
   }
 
-  save(){
-    this.authService.showLoading();
-    this.avariaService.salvar({
-      id: 0,
-      veiculoID: this.formData.id,
-      momentoID: parseInt(this.formData.momentoID),
-      posicaoSuperficieChassiID: this.posicaoAvaria.id,
-      tipoAvariaID: this.tipoAvaria.id,
-      avariaID: 0,
-      parteID: this.parteAvaria.id,
-      superficieChassiParteID: this.parteAvaria.superficieChassiParte.id,
-      nivelGravidadeAvariaID: this.gravidadeAvaria.id,
-      observacao: this.formSelecaoSuperficie.controls.observacao.value,
-      quadrante: this.formSelecaoSuperficie.controls.subArea.value,
-    }).subscribe((response:any) => {
-
-      this.authService.hideLoading();
-    }, (error: any) => {
-      this.authService.hideLoading();
-      this.alertService.showError('Erro ao salvar avaria');
-    });
+  pathForImage(img) {
+    if (img === null) {
+      return '';
+    } else {
+      let converted = this.webview.convertFileSrc(img);
+      return converted;
+    }
   }
 }
