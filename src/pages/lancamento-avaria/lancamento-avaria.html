@@ -1,11 +1,12 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-  <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
   </button>
-  <ion-title>{{title}}</ion-title>
+  <ion-title>
+    {{title}}
+  </ion-title>
 </ion-header>
-
 <ion-content padding id="recebimento" class="recebimento show">
   <div class="qr-code-container">
     <form form class="form-lancar-avaria" [formGroup]="formLancamentoAvaria">
@@ -37,23 +38,8 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-<!--
-      <ion-list>
-        <ion-item>
-          <ion-label label-ios style="font-style: unset;"><b>Observação:</b></ion-label>
-          <ion-textarea label-ios style="font-style: unset; color: white;" formControlName="observacao" name="observacao"></ion-textarea>
-        </ion-item>
-      </ion-list> -->
-
     </form>
   </div>
-<!--
-  <div class="login-content">
-    <button ion-button round first class="btn-receiving btn-cancel" (click)="voltar()" type="button" *ngIf="!showInfoCar">Voltar</button>
-    <button ion-button round end class="btn-receiving btn-ok" (click)="modalBuscarChassi()" type="button" *ngIf="!showInfoCar">Busca</button>
-  </div> -->
-
-  <br>
 
   <div class="qr-code-container" *ngIf="showInfoCar">
     <form form class="form-lancar-avaria">

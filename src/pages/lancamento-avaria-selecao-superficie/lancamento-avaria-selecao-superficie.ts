@@ -507,7 +507,10 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     .pipe(
       finalize(() => {
         this.authService.hideLoading();
-        this.navCtrl.push(QualidadeMenuPage);
+        this.alertService.showInfo('Avaria cadastrada com sucesso');
+        setTimeout(() => {
+          this.voltar();
+        }, 500);
       })
     )
     .subscribe((response:any) => {
