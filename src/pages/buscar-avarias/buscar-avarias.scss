@@ -11,9 +11,7 @@ page-buscar-avarias {
                 color: #747474;
                 text-align: left;
                 padding-right: 10px;
-                *::-webkit-input-placeholder {
-                  color: #747474 !important;
-                }
+                background-color: #404040;
             }
             label {
                 font: 10px 'avenir_demi';

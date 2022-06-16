@@ -10,6 +10,7 @@ import * as $ from 'jquery';
 import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
 import { ModalSelecionarChassiComponent } from '../../components/modal-selecionar-chassi/modal-selecionar-chassi';
+import { ModalSelecionarChassiBuscaComponent } from '../../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
 
 @Component({
   selector: 'modal-busca-chassi',
@@ -27,7 +28,8 @@ export class ModalBuscaChassiComponent {
   modoOperacao: number;
   formData = {
     chassi: '',
-    observacao: ''
+    observacao: '',
+    buscaAvaria: false
   };
 
   formBloqueioData = {
@@ -44,6 +46,7 @@ export class ModalBuscaChassiComponent {
 
   @ViewChild('chassiInput') chassiInput;
   formControlChassi = new FormControl('');
+  modalChassi: Modal
 
   constructor(
     private http: HttpClient,
@@ -159,10 +162,17 @@ export class ModalBuscaChassiComponent {
 
   openModal(data, byScanner: boolean) {
     data['momento'] = this.formData.observacao;
-    const modal: Modal = this.modal.create(ModalSelecionarChassiComponent, {
-      data: data,
-    });
-    modal.present();
+    if (this.formData.buscaAvaria) {
+      this.modalChassi = this.modal.create(ModalSelecionarChassiBuscaComponent, {
+        data: data,
+      });
+    }
+    else{
+      this.modalChassi = this.modal.create(ModalSelecionarChassiComponent, {
+        data: data,
+      });
+    }
+    this.modalChassi.present();
 
     this.view.dismiss();
   }

@@ -131,7 +131,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
 
   this.authService.showLoading();
 

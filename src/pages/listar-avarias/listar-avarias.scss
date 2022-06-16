@@ -53,8 +53,17 @@ page-listar-avarias {
       padding-top: 0px;
 
       .btn-menu-internal {
-        background-color: #DEDEDE;
-        color: black;
+        // background-color: #DEDEDE;
+        // color: black;
+      }
+      .btn-ok {
+        // background-color: #747474;
+        background-color: #A7FF8D !important;
+        color: black !important;
+      }
+      .btn-cancel {
+        background-color: #404040;
+        color: #fff !important;
       }
     }
   }

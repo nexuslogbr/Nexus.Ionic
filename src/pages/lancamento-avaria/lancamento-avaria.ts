@@ -144,7 +144,7 @@ export class LancamentoAvariaPage {
     });
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     this.authService.showLoading();
     this.loadMomentos();
     setTimeout(() => {

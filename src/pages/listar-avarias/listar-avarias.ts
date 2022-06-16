@@ -92,11 +92,13 @@ export class ListarAvariasPage {
   buttonColor: string;
   qrCodeText: string;
   options: BarcodeScannerOptions;
-  list:any;
+  list = [];
   public disableContinuar: boolean = true;
 
   filtro = '';
   filtroValor = '';
+
+  model: any;
 
   constructor(
     public http: HttpClient,
@@ -107,12 +109,11 @@ export class ListarAvariasPage {
     public navParams: NavParams,
     private avariaService: AvariaDataService
   ) {
-    this.authService.showLoading();
     this.title = "Resultado Busca";
     this.url = this.authService.getUrl();
     this.formData = this.navParams.data;
 
-    var model = {
+    this.model = {
       token: this.authService.getToken(),
       skip: 0,
       take: 20,
@@ -128,22 +129,7 @@ export class ListarAvariasPage {
     this.filtro = this.formData.filtro;
     this.filtroValor = this.formData.filtroValor;
 
-    model['teste'] = 0;
-
-    this.avariaService.listarAvaria(model).subscribe(res => {
-
-      if (res.sucesso) {
-        this.list = res.retorno;
-        this.authService.hideLoading();
-      }
-      else {
-        this.authService.hideLoading();
-        // this.navCtrl.push(HomePage);
-      }
-    }, (error) => {
-      this.openModalErro(error.status + ' - ' + error.statusText);
-      this.authService.hideLoading();
-    });
+    // model['teste'] = 0;
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -158,7 +144,26 @@ export class ListarAvariasPage {
     }
   }
 
-  ionViewDidEnter() { }
+  ionViewWillEnter() {
+    this.authService.showLoading();
+    this.loadAvaria(this.model);
+   }
+
+   loadAvaria(model:any){
+    this.avariaService.listarAvaria(model).subscribe(res => {
+      if (res.sucesso) {
+        this.list = res.retorno;
+        this.authService.hideLoading();
+      }
+      else {
+        this.authService.hideLoading();
+      }
+    }, (error) => {
+      this.openModalErro(error.status + ' - ' + error.statusText);
+      this.authService.hideLoading();
+    });
+
+   }
 
   navigateToBuscarAvariaPage() {
     this.navCtrl.push(BuscarAvariasPage);

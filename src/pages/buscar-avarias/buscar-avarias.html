@@ -16,16 +16,11 @@
       <ion-label style="padding-left: 1%;">Chassi</ion-label>
       <ion-row>
         <ion-col col-10>
-          <ion-input
-          class="input-header input-has-focus"
-          type="text"
-          [value]="formData.chassi"
-          placeholder="Chassi"
-          [formControl]="formControlChassi"
-          #chassiInput></ion-input>
+          <!-- <ion-input class="input-header input-has-focus" type="text" [value]="formData.chassi" placeholder="Chassi" [formControl]="formControlChassi" #chassiInput></ion-input> -->
+          <ion-input type="text" [value]="formData.chassi" placeholder="CHASSI" formControlName="chassi" (click)="modalBuscarChassi()"></ion-input>
         </ion-col>
         <ion-col col-1 style="align-self: center;">
-          <i class="icon qrcode-gray" (click)="scan()"></i>
+          <i class="icon qrcode-gray" (click)="modalBuscarChassi()"></i>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -43,19 +38,19 @@
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">
             <ion-label label-ios>Modelo:</ion-label>
-            <ion-select okText="Confirmar" cancelText="Cancelar" #select3 formControlName="modelo">
+            <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="modelo">
                 <ion-option *ngFor="let modelo of modelos" [value]="modelo.nome" id="{{modelo.id}}">{{modelo.nome}}</ion-option>
             </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">
             <ion-label label-ios>Tipo de Avaria:</ion-label>
-            <ion-select okText="Confirmar" cancelText="Cancelar" #select4 formControlName="tipoAvaria">
+            <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="tipoAvaria">
                 <ion-option *ngFor="let tipoAvaria of tipoAvarias" [value]="tipoAvaria.nome" id="{{tipoAvaria.id}}">{{tipoAvaria.nome}}</ion-option>
             </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">
             <ion-label label-ios>Nivel de Avaria:</ion-label>
-            <ion-select okText="Confirmar" cancelText="Cancelar" #select4 formControlName="nivelAvaria">
+            <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="nivelAvaria">
                 <ion-option *ngFor="let nivelAvaria of nivelAvarias" [value]="nivelAvaria.nome" id="{{nivelAvaria.id}}">{{nivelAvaria.nome}}</ion-option>
             </ion-select>
         </ion-item>
