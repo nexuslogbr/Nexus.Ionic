@@ -1,3 +1,4 @@
+<side-menu></side-menu>
 <ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
   <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
@@ -6,23 +7,24 @@
     Módulo Qualidade
   </ion-title>
 </ion-header>
+
 <ion-content padding id="romaneio" class="romaneio" [ngStyle]="{'background-color': secondaryColor}">
   <div class="romaneio-container" [ngStyle]="{'background-color': secondaryColor}">
     <div class="login-content">
       <button ion-button round class="btn-default" (click)="navigateToDashboard()" type="button"
-        [ngStyle]="{'background-color': buttonColor}"> Dashboard</button>
+        [ngStyle]="{'background-color': buttonColor}">Dashboard</button>
     </div>
   </div>
   <div class="romaneio-container" [ngStyle]="{'background-color': secondaryColor}">
     <div class="login-content">
       <button ion-button round class="btn-default" (click)="navigateToBuscar()" type="button"
-        [ngStyle]="{'background-color': buttonColor}"> Buscar Avarias</button>
+        [ngStyle]="{'background-color': buttonColor}">Buscar Avarias</button>
     </div>
   </div>
   <div class="romaneio-container" [ngStyle]="{'background-color': secondaryColor}">
     <div class="login-content">
       <button ion-button round class="btn-default" (click)="navigateToLancar()" type="button"
-        [ngStyle]="{'background-color': buttonColor}"> Lançar Avarias</button>
+        [ngStyle]="{'background-color': buttonColor}">Lançar Avarias</button>
     </div>
   </div>
 

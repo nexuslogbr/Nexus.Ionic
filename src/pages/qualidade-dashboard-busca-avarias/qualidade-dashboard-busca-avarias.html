@@ -16,27 +16,27 @@
     <ion-list>
       <div style="margin:0 auto; background-color: #1E1E1E;"> <!-- #1B1B1B #747474 -->
 
-        <ion-row>
-          <ion-col sm>
+        <!-- <ion-row> -->
+          <!-- <ion-col sm>
             <div style="width: 80%;float: right;text-align: end;padding-top: 4px;">
               <ion-label style="font-size: 18px;font-weight: bold;">{{totalAvarias}}</ion-label>
               <ion-label style="font-size: 12px;font-weight: bold;">Total de</ion-label>
               <ion-label style="font-size: 12px;font-weight: bold;">Avarias</ion-label>
             </div>
-          </ion-col>
+          </ion-col> -->
 
-          <ion-col>
-            <img src="./assets/images/qualidade_dashboard_small.PNG"  width="200" height="122" style="width: 100%;">
-          </ion-col>
+          <div class="align">
+            <img [src]="image">
+          </div>
 
-          <ion-col>
+          <!-- <ion-col>
             <div style="width: 80%;float: left;text-align: start; padding-top: 4px;">
               <ion-label style="font-size: 18px;font-weight: bold;">{{porcentagemVeiculosAvariados | number }}%</ion-label>
               <ion-label style="font-size: 12px;font-weight: bold;">Veículos</ion-label>
               <ion-label style="font-size: 12px;font-weight: bold;">Avariados</ion-label>
             </div>
-          </ion-col>
-        </ion-row>
+          </ion-col> -->
+        <!-- </ion-row> -->
 
         <div style="padding-bottom: 6px;color: white; background-color: transparent;">
           <ion-slides pager="true" [options]="slideOpts" pager loop slidesPerView="3" style="padding-left: 20%;padding-right: 20%;" pager="{{false}}">
