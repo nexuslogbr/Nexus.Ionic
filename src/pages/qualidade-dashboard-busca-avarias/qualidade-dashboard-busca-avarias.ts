@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, Modal, ModalController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, Modal, ModalController, NavParams, ViewController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { ModalVolumeImportacaoComponent } from '../../components/modal-volume-importacao/modal-volume-importacao';
@@ -14,6 +14,8 @@ import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
 import { Pagination } from '../../model/pagination';
 import { AvariaDataService } from '../../providers/avaria-data-service';
 import { finalize } from 'rxjs/operators';
+import { BuscarAvariasPage } from '../buscar-avarias/buscar-avarias';
+import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -52,7 +54,14 @@ export class QualidadeDashboardBuscaAvariasPage {
   private readonly offset: number = 6;
   private index: number = 0;
 
-  constructor(public http: HttpClient, private modal: ModalController, public authService: AuthService, public navCtrl: NavController, public navParams: NavParams, private avariaService: AvariaDataService) {
+  constructor(public http: HttpClient,
+    private modal: ModalController,
+    public authService: AuthService,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private avariaService: AvariaDataService,
+    private view: ViewController,
+    ) {
     this.title = "Módulo  Qualidade";
     this.authService.showLoading();
     this.url = this.authService.getUrl();
@@ -143,7 +152,8 @@ export class QualidadeDashboardBuscaAvariasPage {
   }
 
   Voltar() {
-    this.navCtrl.push(QualidadeMenuPage);
+    this.view.dismiss();
+    // this.navCtrl.push(QualidadeMenuPage);
   }
 
   openModalErro(data) {
@@ -157,5 +167,13 @@ export class QualidadeDashboardBuscaAvariasPage {
       console.log('data');
       console.log(data);
     })
+  }
+
+  navigateToBuscar() {
+    this.navCtrl.push(BuscarAvariasPage);
+  }
+
+  navigateToLancar() {
+    this.navCtrl.push(LancamentoAvariaPage);
   }
 }

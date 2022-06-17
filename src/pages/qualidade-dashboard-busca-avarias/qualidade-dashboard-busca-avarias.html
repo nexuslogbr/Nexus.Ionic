@@ -9,8 +9,8 @@
 </ion-header>
 
 <ion-content padding [ngStyle]="{'background-color': secondaryColor}">
-  <button ion-button round class="btn" [ngStyle]="{'background-color': '#747474'}" style="margin-left: 2.5%;">Novo</button>
-  <button ion-button round class="btn" [ngStyle]="{'background-color': buttonColor}" style="margin-left: 2.5%;">Buscar</button>
+  <button ion-button round class="btn" [ngStyle]="{'background-color': '#747474'}" (click)="navigateToLancar()" style="margin-left: 2.5%;">Novo</button>
+  <button ion-button round class="btn" [ngStyle]="{'background-color': buttonColor}" (click)="navigateToBuscar()" style="margin-left: 2.5%;">Buscar</button>
 
   <section class="charts-content chart-qualidade">
     <ion-list>
@@ -95,12 +95,17 @@
 
     </ion-list>
   </section>
-
-  <div class="login-content" [ngStyle]="{'background-color': secondaryColor}">
-    <button ion-button round class="btn-default" (click)="Voltar()" [ngStyle]="{'background-color': '#595959'}">Voltar</button>
-  </div>
-
 </ion-content>
+
+<ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+        <button ion-button round class="btn-receiving-long btn-cancel"(click)="Voltar()" type="button">Voltar</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
 
 <modal-error></modal-error>
 <modal-loading></modal-loading>

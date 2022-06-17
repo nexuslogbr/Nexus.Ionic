@@ -383,7 +383,8 @@ export class BuscarAvariasPage {
   }
 
   navigateToHomePage() {
-    this.navCtrl.push(QualidadeMenuPage);
+    this.view.dismiss();
+    // this.navCtrl.push(QualidadeMenuPage);
   }
 
   openModal(data) {

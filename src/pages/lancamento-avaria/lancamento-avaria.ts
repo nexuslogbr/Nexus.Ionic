@@ -342,8 +342,8 @@ export class LancamentoAvariaPage {
   }
 
   voltar(){
-    // this.view.dismiss();
-    this.navCtrl.push(QualidadeMenuPage);
+    this.view.dismiss();
+    // this.navCtrl.push(QualidadeMenuPage);
   }
 
   openModalSelecionarSuperficie(){
