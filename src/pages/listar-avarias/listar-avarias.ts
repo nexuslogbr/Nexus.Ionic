@@ -4,7 +4,8 @@ import {
   NavController,
   Modal,
   ModalController,
-  NavParams
+  NavParams,
+  ViewController
 } from "ionic-angular";
 import { AuthService } from "../../providers/auth-service/auth-service";
 import { HomePage } from "../home/home";
@@ -26,6 +27,9 @@ import { EditarAvariasPage } from "../editar-avarias/editar-avarias";
 import { BuscarAvariasPage } from "../buscar-avarias/buscar-avarias";
 import { AvariaDataService } from "../../providers/avaria-data-service";
 import { LancamentoAvariaPage } from "../lancamento-avaria/lancamento-avaria";
+import { DataRetorno } from "../../model/DataRetorno";
+import { finalize } from "rxjs/operators";
+import { AlertService } from "../../providers/alert-service";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -94,11 +98,10 @@ export class ListarAvariasPage {
   options: BarcodeScannerOptions;
   list = [];
   public disableContinuar: boolean = true;
+  userData: any;
 
   filtro = '';
   filtroValor = '';
-
-  model: any;
 
   constructor(
     public http: HttpClient,
@@ -107,25 +110,21 @@ export class ListarAvariasPage {
     public authService: AuthService,
     private barcodeScanner: BarcodeScanner,
     public navParams: NavParams,
-    private avariaService: AvariaDataService
-  ) {
+    private avariaService: AvariaDataService,
+    public alertService: AlertService,
+    private view: ViewController
+    ) {
     this.title = "Resultado Busca";
     this.url = this.authService.getUrl();
+    this.userData = this.authService.getUserData();
+
+
     this.formData = this.navParams.data;
+    this.formData.token = this.authService.getToken(),
+    this.formData.skip = 0,
+    this.formData.take = 20,
+    this.formData.localID = this.userData.localID,
 
-    this.model = {
-      token: this.authService.getToken(),
-      skip: 0,
-      take: 20,
-      localID: 2,
-
-      veiculoID: this.formData.veiculoID > 0 ? this.formData.veiculoID : 0,
-      data: this.formData.data != '' && this.formData.data != null ? this.formData.data : '' ,
-      parteAvariadaID: this.formData.parteAvariadaID > 0 ? this.formData.parteAvariadaID : 0,
-      modelo: this.formData.modelo != '' && this.formData.modelo != null ? this.formData.modelo : '' ,
-      tipoAvariaID: this.formData.tipoAvariaID > 0 ? this.formData.tipoAvariaID : 0,
-      gravidadeID: this.formData.gravidadeID > 0 ? this.formData.gravidadeID : 0
-    }
     this.filtro = this.formData.filtro;
     this.filtroValor = this.formData.filtroValor;
 
@@ -146,21 +145,34 @@ export class ListarAvariasPage {
 
   ionViewWillEnter() {
     this.authService.showLoading();
-    this.loadAvaria(this.model);
-   }
+  }
 
-   loadAvaria(model:any){
-    this.avariaService.listarAvaria(model).subscribe(res => {
-      if (res.sucesso) {
-        this.list = res.retorno;
+  ionViewDidEnter(){
+    this.loadAvaria();
+  }
+
+  loadAvaria(){
+    console.clear();
+    console.log(this.formData);
+
+    this.avariaService
+    .listarAvaria(this.formData)
+    .pipe(
+      finalize(() => {
         this.authService.hideLoading();
-      }
-      else {
-        this.authService.hideLoading();
-      }
-    }, (error) => {
+      })
+     )
+    .subscribe(
+      (res:DataRetorno) => {
+        if (res.retorno.length != 0) {
+          this.list = res.retorno;
+        }
+        else {
+          this.alertService.showAlert('Nenhuma avaria para esse chassi');
+          this.view.dismiss();
+        }
+    }, error => {
       this.openModalErro(error.status + ' - ' + error.statusText);
-      this.authService.hideLoading();
     });
 
    }
