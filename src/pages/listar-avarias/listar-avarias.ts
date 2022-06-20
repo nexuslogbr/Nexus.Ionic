@@ -11,25 +11,18 @@ import { AuthService } from "../../providers/auth-service/auth-service";
 import { HomePage } from "../home/home";
 import { ModalErrorComponent } from "../../components/modal-error/modal-error";
 import { ModalSucessoComponent } from "../../components/modal-sucesso/modal-sucesso";
-import { ModalReceberParquearComponent } from "../../components/modal-receber-parquear/modal-receber-parquear";
-import { RomaneioPage } from "../romaneio/romaneio";
-import { MovimentacaoPage } from "../movimentacao/movimentacao";
-import { ParqueamentoPage } from "../parqueamento/parqueamento";
-import { CarregamentoExportPage } from "../carregamento-export/carregamento-export";
-import { CarregamentoPage } from "../carregamento/carregamento";
-import { RecebimentoPage } from "../recebimento/recebimento";
 import { Select } from "ionic-angular";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import "rxjs/add/operator/map";
 import * as $ from "jquery";
 import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-scanner";
-import { EditarAvariasPage } from "../editar-avarias/editar-avarias";
 import { BuscarAvariasPage } from "../buscar-avarias/buscar-avarias";
 import { AvariaDataService } from "../../providers/avaria-data-service";
-import { LancamentoAvariaPage } from "../lancamento-avaria/lancamento-avaria";
 import { DataRetorno } from "../../model/DataRetorno";
 import { finalize } from "rxjs/operators";
 import { AlertService } from "../../providers/alert-service";
+import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
+
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -77,18 +70,14 @@ export class ListarAvariasPage {
     "filtroValor": ""
   };
 
-  insertData = {
-    "token": "",
-    "skip": 0,
-    "take": 0,
-    "localID": 0,
-    "veiculoID": 0,
-    "data": "",
-    "parteAvariadaID": 0,
-    "modelo": "",
-    "tipoAvariaID": 0,
-    "gravidadeID": 0
-  }
+  editData = {
+    chassi: '',
+    modelo: '',
+    posicaoAtual: '',
+    cor: '',
+    observacao: '',
+    momentoID: ''
+  };
 
   primaryColor: string;
   secondaryColor: string;
@@ -128,8 +117,6 @@ export class ListarAvariasPage {
     this.filtro = this.formData.filtro;
     this.filtroValor = this.formData.filtroValor;
 
-    // model['teste'] = 0;
-
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
       this.secondaryColor = '#484848';
@@ -152,9 +139,6 @@ export class ListarAvariasPage {
   }
 
   loadAvaria(){
-    console.clear();
-    console.log(this.formData);
-
     this.avariaService
     .listarAvaria(this.formData)
     .pipe(
@@ -181,10 +165,6 @@ export class ListarAvariasPage {
     this.navCtrl.push(BuscarAvariasPage);
   }
 
-  editar(event:any){
-    this.disableContinuar = false;
-  }
-
   toggleMenu = function (this) {
     $(".menu-body").toggleClass("show-menu");
     $("menu-inner").toggleClass("show");
@@ -203,6 +183,11 @@ export class ListarAvariasPage {
     });
   }
 
+  editar(item: any){
+    this.editData = item;
+    this.disableContinuar = false;
+  }
+
   cleanInput(byScanner: boolean) {
     if (!byScanner) {
       setTimeout(() => {
@@ -210,9 +195,7 @@ export class ListarAvariasPage {
         this.inputChassi = '';
       }, 1000);
     }
-    // this.formData.veiculoID = '';
   }
-
 
   openModalSucesso(data) {
     const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {
@@ -234,8 +217,13 @@ export class ListarAvariasPage {
   }
 
   toLancamentoAvaria() {
-    this.navCtrl.push(LancamentoAvariaPage);
-  }
+    const modal: Modal = this.modal.create(LancamentoAvariaSelecaoSuperficiePage, {
+      data: this.editData,
+    });
+    modal.present();
 
+    modal.onDidDismiss(data => {});
+    modal.onWillDismiss(data => {});
+  }
 }
 

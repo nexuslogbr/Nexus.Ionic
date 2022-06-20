@@ -15,7 +15,7 @@
       <label class="title-header">{{filtro}}</label>
       <span style="font-weight: bold;"> {{filtroValor}}</span>
     </ion-item>
-    <div *ngFor="let item of list" (click)="editar(item)" [ngStyle]="{'background-color': primaryColor}" class="color">
+    <div *ngFor="let item of list" (click)="editar(item)" id="'{{item.id}}" class="color background-color-no-selected">
       <ion-item [ngStyle]="{'background-color': primaryColor}" no-lines *ngIf="filtro != 'Chassi:'">
         <label class="title-header">Chassi: </label>
         <span> {{item.chassi}}</span>

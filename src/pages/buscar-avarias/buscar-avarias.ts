@@ -105,7 +105,6 @@ export class BuscarAvariasPage {
           let chassi = value.replace(/[\W_]+/g, '');
           setTimeout(() => {
             this.buscarChassi(chassi, false);
-            // this.formData.chassi = '';
           }, 500);
         }
       }
@@ -123,7 +122,7 @@ export class BuscarAvariasPage {
       chassi: [''],
       data: [''],
       parte: [0],
-      modelo: [0],
+      modelo: [''],
       tipoAvaria: [0],
       nivelAvaria: [0],
     });
@@ -218,12 +217,9 @@ export class BuscarAvariasPage {
 
   public avancar(onDismiss?: Function) {
     if (this.validaCampos()) {
-      // if (this.formData.chassi) {
-      //   this.buscarChassi(this.formData.chassi, false)
-      // }
 
       let model = {
-        veiculoID: this.formData.id,
+        veiculoID: this.formData.id == null ? 0 : this.formData.id,
         chassi:  this.formData.chassi,
         data:  this.form.controls.data.value,
         parteAvariadaID:  this.form.controls.parte.value,
