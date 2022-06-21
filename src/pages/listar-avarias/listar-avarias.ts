@@ -148,6 +148,7 @@ export class ListarAvariasPage {
      )
     .subscribe(
       (res:DataRetorno) => {
+
         if (res.retorno.length != 0) {
           this.list = res.retorno;
         }
@@ -186,6 +187,7 @@ export class ListarAvariasPage {
 
   editar(item: any){
     this.editData = item;
+    console.log(this.editData);
     this.disableContinuar = false;
   }
 

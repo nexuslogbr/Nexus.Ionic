@@ -215,7 +215,7 @@ export class BuscarAvariasPage {
     this.formData.localID = this.userData.localModoOperacao;
   }
 
-  public avancar(onDismiss?: Function) {
+  avancar(onDismiss?: Function) {
     if (this.validaCampos()) {
 
       let model = {

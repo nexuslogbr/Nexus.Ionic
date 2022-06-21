@@ -132,23 +132,15 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   ionViewWillEnter() {
+    this.authService.showLoading();
 
-  this.authService.showLoading();
-
-  if (this.formData.chassi) {
-    this.avariaService.consultarChassi({
-      chassi: this.formData.chassi,
-      token: ''}).subscribe((res: any) => {
+    if (this.formData.chassi) {
+      this.avariaService.consultarChassi({
+        chassi: this.formData.chassi,
+        token: ''
+      })
+      .subscribe((res: any) => {
         this.urlImagem += res.retorno.imagem;
-
-        // this.image.src = this.urlImagem;
-        // this.image.onload = function (event) {
-        //   let  loadedImage = event.currentTarget;
-        //   let width =  loadedImage['width'];
-        //   let height = loadedImage['height'];
-        //   console.log('height: '+height);
-        //   console.log('width: '+width);
-        // }
 
         let imagem = document.getElementById('image')
         this.width = imagem.clientWidth;

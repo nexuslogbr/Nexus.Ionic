@@ -18,15 +18,15 @@
     <div *ngFor="let item of list" (click)="editar(item)" id="'{{item.id}}" class="color background-color-no-selected">
       <ion-item [ngStyle]="{'background-color': primaryColor}" no-lines *ngIf="filtro != 'Chassi:'">
         <label class="title-header">Chassi: </label>
-        <span> {{item.chassi}}</span>
+        <span> {{item.veiculo.chassi}}</span>
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}" no-lines *ngIf="filtro != 'Modelo:'">
         <label class="title-header">Modelo: </label>
-        <span> {{item.modelo}}</span>
+        <span> {{item.veiculo.modelo}}</span>
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}" no-lines *ngIf="filtro != 'Data:'">
         <label class="title-header">Data: </label>
-        <span> {{item.data | date : "dd/MM/yyyy"}}</span>
+        <span> {{item.veiculo.dataCadastro | date : "dd/MM/yyyy"}}</span>
       </ion-item>
 
     </div>
