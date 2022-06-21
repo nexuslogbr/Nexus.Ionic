@@ -281,6 +281,8 @@ export class BuscarAvariasPage {
 
   modalBuscarChassi(){
     this.formData.buscaAvaria = true;
+    this.navCtrl.pop();
+    this.formData.chassi = '';
     const chassiModal: Modal = this.modal.create(ModalBuscaChassiComponent, {
       data: this.formData
     });
@@ -379,7 +381,8 @@ export class BuscarAvariasPage {
   }
 
   navigateToHomePage() {
-    this.view.dismiss();
+    this.navCtrl.pop();
+    // this.view.dismiss();
     // this.navCtrl.push(QualidadeMenuPage);
   }
 

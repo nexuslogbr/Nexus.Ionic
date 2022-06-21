@@ -162,7 +162,8 @@ export class ListarAvariasPage {
    }
 
   navigateToBuscarAvariaPage() {
-    this.navCtrl.push(BuscarAvariasPage);
+    this.navCtrl.pop();
+    // this.navCtrl.push(BuscarAvariasPage);
   }
 
   toggleMenu = function (this) {
