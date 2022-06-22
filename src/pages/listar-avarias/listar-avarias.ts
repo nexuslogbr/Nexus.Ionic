@@ -187,7 +187,8 @@ export class ListarAvariasPage {
 
   editar(item: any){
     this.editData = item;
-    console.log(this.editData);
+    this.editData.chassi = item.veiculo.chassi;
+    this.editData.modelo = item.veiculo.modelo;
     this.disableContinuar = false;
   }
 
