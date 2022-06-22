@@ -26,7 +26,7 @@
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}" no-lines *ngIf="filtro != 'Data:'">
         <label class="title-header">Data: </label>
-        <span> {{item.veiculo.dataCadastro | date : "dd/MM/yyyy"}}</span>
+        <span> {{item.dataCadastro | date : "dd/MM/yyyy"}}</span>
       </ion-item>
 
     </div>
@@ -35,11 +35,11 @@
 
 <ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
   <ion-grid class="grid-botao-wrapper">
-    <ion-row>
+    <!-- <ion-row>
       <ion-col>
         <button ion-button class="btn-menu-internal btn-ok" (click)="toLancamentoAvaria()" type="button" [disabled]="disableContinuar">Editar</button>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
     <ion-row>
       <ion-col>
         <button ion-button class="btn-menu-internal btn-cancel" (click)="navigateToBuscarAvariaPage()" type="button">Voltar</button>

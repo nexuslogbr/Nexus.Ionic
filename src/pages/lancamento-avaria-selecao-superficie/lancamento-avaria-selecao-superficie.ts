@@ -22,6 +22,8 @@ import { SuperficieChassiParte } from '../../model/superficieChassiParte';
 import { AlertService } from '../../providers/alert-service';
 import { finalize } from 'rxjs/operators';
 import { Avaria } from '../../model/avaria';
+import { Veiculo } from '../../model/veiculo';
+import { Momento } from '../../model/Momento';
 
 const STORAGE_KEY = 'my_images';
 
@@ -64,7 +66,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   @ViewChild('fixedContainer') fixedContainer: any;
 
   urlImagem = 'http://nexus.luby.com.br/Arquivos/Empresas/';
-  // image = new Image();
 
   primaryColor: string;
   secondaryColor: string;
@@ -73,13 +74,15 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   formData = {
     id: 0,
-    chassi: '',
-    modelo: '',
-    posicaoAtual: '',
-    cor: '',
-    status: '',
     observacao: '',
-    momentoID: ''
+    quadrante: null,
+
+    veiculo: new Veiculo(),
+    momento: new Momento(),
+    posicaoSuperficieChassi: new PosicaoSuperficieChassi(),
+    superficieChassiParte: new SuperficieChassiParte(),
+    tipoAvaria: new TipoAvaria(),
+    nivelGravidadeAvaria: new NivelGravidadeAvaria()
   };
 
   constructor(
@@ -104,17 +107,31 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   public authService: AuthService,
 ) {
     this.title = 'Lançamento de Avaria';
-    this.formData = this.navParams.get('data');
+    let data = this.navParams.get('data');
+    this.formData = data;
+
+    console.clear();
+    console.log(this.formData);
+
+    let posicaoAvaria = this.formData.posicaoSuperficieChassi == undefined ? '' : this.formData.posicaoSuperficieChassi.id;
+    let superficieChassiParte = this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID;
+    let tipoAvaria = this.formData.tipoAvaria == undefined ? '' : this.formData.tipoAvaria.id;
+    let subArea = this.formData.quadrante == undefined ? '' : this.formData.quadrante;
+    let gravidadeAvaria = this.formData.nivelGravidadeAvaria == undefined ? '' : this.formData.nivelGravidadeAvaria.id;
+    let observacao = this.formData.observacao == undefined ? '' : this.formData.observacao;
 
     this.formSelecaoSuperficie = formBuilder.group({
-      chassi: [this.formData.chassi, Validators.required],
-      modelo: [this.formData.modelo, Validators.required],
-      posicaoAvaria: ['', Validators.required],
+      chassi: [this.formData.veiculo.chassi, Validators.required],
+      modelo: [this.formData.veiculo.modelo, Validators.required],
       partePeca: [false, Validators.required],
-      tipoAvaria: ['', Validators.required],
-      subArea: [1],
-      gravidadeAvaria: ['', Validators.required],
-      observacao: [''],
+
+
+      posicaoAvaria: [posicaoAvaria, Validators.required],
+      superficieChassiParte: [superficieChassiParte, Validators.required],
+      tipoAvaria: [tipoAvaria, Validators.required],
+      subArea: [subArea],
+      gravidadeAvaria: [gravidadeAvaria, Validators.required],
+      observacao: [observacao],
     });
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
@@ -134,9 +151,9 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   ionViewWillEnter() {
     this.authService.showLoading();
 
-    if (this.formData.chassi) {
+    if (this.formData.veiculo.chassi) {
       this.avariaService.consultarChassi({
-        chassi: this.formData.chassi,
+        chassi: this.formData.veiculo.chassi,
         token: ''
       })
       .subscribe((res: any) => {
@@ -178,7 +195,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   loadPartes(){
     this.avariaService.listarPartes({
-      chassi: this.formData.chassi,
+      chassi: this.formData.veiculo.chassi,
     })
     .subscribe(res => {
       this.partesAvaria = res.retorno;
@@ -205,6 +222,10 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   loadGravidade(){
     this.gravidadeService.carregarGravidades()
     .subscribe(res => {
+      if (this.formData.superficieChassiParte && this.formData.superficieChassiParte.tipoSelecao == 1) {
+        $('#subAreaCombo').removeClass("hidden");
+      }
+
       this.nivelGravidadeAvaria = res.retorno;
       this.authService.hideLoading();
     })
@@ -213,7 +234,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   selectTipoAvariaChange(id:number){
     this.avaria = this.avarias.filter(x => x.id == id).map(x => x)[0]
     this.formSelecaoSuperficie.patchValue({
-      tipoAvaria: this.avaria.tipoAvaria.nome,
+      // tipoAvaria: this.avaria.tipoAvaria.nome,
       partePeca: true
     });
 
@@ -237,17 +258,16 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   selectPosicaoAvariaChange(event){
     this.posicaoAvaria = this.posicoesAvaria.filter(x => x.id == event).map(x => x)[0]
-    this.formSelecaoSuperficie.patchValue({
-      posicaoAvaria: this.posicaoAvaria.nome
-    });
+    // this.formSelecaoSuperficie.patchValue({
+    //   posicaoAvaria: this.posicaoAvaria.nome
+    // });
   }
 
   selectPartesAvariaChange(event){
     this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0]
     this.formSelecaoSuperficie.patchValue({
-      posicaoAvaria: event,
+      // posicaoAvaria: event,
       partePeca: false,
-      // tipoAvaria: ''
     });
 
     this.assembleGrid(this.parteAvaria.superficieChassiParte);
@@ -261,9 +281,9 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   selectGravidadeChange(id){
     this.gravidadeAvaria = this.nivelGravidadeAvaria.filter(x => x.id == id).map(x => x)[0]
-    this.formSelecaoSuperficie.patchValue({
-      gravidadeAvaria: this.gravidadeAvaria.nome
-    });
+    // this.formSelecaoSuperficie.patchValue({
+    //   gravidadeAvaria: this.gravidadeAvaria.nome
+    // });
 
     this.assembleGrid(this.parteAvaria.superficieChassiParte);
   }
@@ -483,19 +503,28 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   save(){
     this.authService.showLoading();
-    this.avariaService.salvar({
-      id: 0,
-      veiculoID: this.formData.id,
-      momentoID: parseInt(this.formData.momentoID),
-      posicaoSuperficieChassiID: this.posicaoAvaria.id,
-      tipoAvariaID: this.avaria.tipoAvaria.id,
-      avariaID: this.avaria.id,
-      parteID: this.parteAvaria.id,
-      superficieChassiParteID: this.parteAvaria.superficieChassiParte.id,
-      nivelGravidadeAvariaID: this.gravidadeAvaria.id,
+
+    let id = this.formData.id > 0 ? this.formData.id : 0;
+    let avariaID = this.avaria.id != undefined ? this.avaria.id : this.formData['avaria'].id;
+    let parteID = this.parteAvaria.id != undefined ? this.parteAvaria.id : this.formData.superficieChassiParte.parteID;
+
+    let model  = {
+      id: id,
+      veiculoID: this.formData.veiculo.id,
+      momentoID: this.formData.momento.id,
+      posicaoSuperficieChassiID: this.formSelecaoSuperficie.controls.posicaoAvaria.value,
+      tipoAvariaID: this.formSelecaoSuperficie.controls.tipoAvaria.value,
+
+      avariaID: avariaID,
+      parteID: parteID,
+
+      superficieChassiParteID: this.formSelecaoSuperficie.controls.superficieChassiParte.value,
+      nivelGravidadeAvariaID: this.formSelecaoSuperficie.controls.gravidadeAvaria.value,
       observacao: this.formSelecaoSuperficie.controls.observacao.value,
       quadrante: parseInt(this.formSelecaoSuperficie.controls.subArea.value),
-    })
+    };
+
+    this.avariaService.salvar(model)
     .pipe(
       finalize(() => {
         this.authService.hideLoading();

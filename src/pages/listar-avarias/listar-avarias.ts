@@ -83,8 +83,6 @@ export class ListarAvariasPage {
   secondaryColor: string;
   inputColor: string;
   buttonColor: string;
-  qrCodeText: string;
-  options: BarcodeScannerOptions;
   list = [];
   public disableContinuar: boolean = true;
   userData: any;
@@ -97,7 +95,6 @@ export class ListarAvariasPage {
     private modal: ModalController,
     public navCtrl: NavController,
     public authService: AuthService,
-    private barcodeScanner: BarcodeScanner,
     public navParams: NavParams,
     private avariaService: AvariaDataService,
     public alertService: AlertService,
@@ -139,20 +136,16 @@ export class ListarAvariasPage {
   }
 
   loadAvaria(){
-    this.avariaService
-    .listarAvaria(this.formData)
-    .pipe(
-      finalize(() => {
-        this.authService.hideLoading();
-      })
-     )
+    this.avariaService.listarAvaria(this.formData)
     .subscribe(
       (res:DataRetorno) => {
-
         if (res.retorno.length != 0) {
           this.list = res.retorno;
+          console.log(this.list);
+          this.authService.hideLoading();
         }
         else {
+          this.authService.hideLoading();
           this.alertService.showAlert('Nenhuma avaria para esse chassi');
           this.view.dismiss();
         }
@@ -186,10 +179,19 @@ export class ListarAvariasPage {
   }
 
   editar(item: any){
+    console.log(item);
     this.editData = item;
     this.editData.chassi = item.veiculo.chassi;
     this.editData.modelo = item.veiculo.modelo;
     this.disableContinuar = false;
+
+    const modal: Modal = this.modal.create(LancamentoAvariaSelecaoSuperficiePage, {
+      data: this.editData,
+    });
+    modal.present();
+
+    modal.onDidDismiss(data => {});
+    modal.onWillDismiss(data => {});
   }
 
   cleanInput(byScanner: boolean) {
