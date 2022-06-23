@@ -22,6 +22,12 @@ import { DataRetorno } from "../../model/DataRetorno";
 import { finalize } from "rxjs/operators";
 import { AlertService } from "../../providers/alert-service";
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
+import { Veiculo } from "../../model/veiculo";
+import { Momento } from "../../model/Momento";
+import { GravidadeAvaria } from "../../model/gravidadeAvaria";
+import { TipoAvaria } from "../../model/TipoAvaria";
+import { SuperficieChassiParte } from "../../model/superficieChassiParte";
+import { PosicaoSuperficieChassi } from "../../model/PosicaoSuperficieChassi";
 
 
 const httpOptions = {
@@ -76,7 +82,14 @@ export class ListarAvariasPage {
     posicaoAtual: '',
     cor: '',
     observacao: '',
-    momentoID: ''
+    momentoID: '',
+
+    veiculo: new Veiculo(),
+    momento: new Momento(),
+    posicaoSuperficieChassi: new PosicaoSuperficieChassi(),
+    superficieChassiParte: new SuperficieChassiParte(),
+    tipoAvaria: new TipoAvaria(),
+    gravidadeAvaria: new GravidadeAvaria()
   };
 
   primaryColor: string;
@@ -179,7 +192,6 @@ export class ListarAvariasPage {
   }
 
   editar(item: any){
-    console.log(item);
     this.editData = item;
     this.editData.chassi = item.veiculo.chassi;
     this.editData.modelo = item.veiculo.modelo;
