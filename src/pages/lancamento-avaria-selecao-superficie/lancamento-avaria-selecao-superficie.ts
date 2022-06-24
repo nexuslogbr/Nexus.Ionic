@@ -160,6 +160,11 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         this.height = (imagem.clientHeight * 10); //+ 3;
 
         this.getImageDimenstion(this.width,this.height);
+
+        if (this.formData.id > 0) {
+          this.assembleGrid(this.formData.superficieChassiParte);
+        }
+
         this.loadPartes();
       });
     }
@@ -503,10 +508,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     let veiculoID = this.formData.veiculo.id > 0 ? this.formData.veiculo.id : 0;
     let momentoID = this.formData.momento.id > 0 ? this.formData.momento.id : 0;
     let posicaoSuperficieChassiID = this.posicaoAvaria.id != undefined ? this.posicaoAvaria.id : this.formSelecaoSuperficie.controls.posicaoAvaria.value;
-
-    let tipoAvariaID = this.avaria.id != undefined ? this.avaria.tipoAvaria.id : this.formData.tipoAvaria.id;
-
-    let avariaID = this.avaria.id != undefined ? this.avaria.id : this.formData['avaria'].id;
+    let avariaID = this.avaria.id != undefined ? this.avaria.id : this.formData.avaria.id;
+    let tipoAvariaID = this.avaria.id != undefined ? this.avaria.tipoAvaria.id : this.formData.avaria.tipoAvaria.id;
     let parteID = this.parteAvaria.id != undefined ? this.parteAvaria.id : this.formData.superficieChassiParte.parteID;
     let superficieChassiParteID = this.parteAvaria.id != undefined ? this.parteAvaria.superficieChassiParte.id : this.formData.superficieChassiParte.superficieChassiID;
     let gravidadeAvariaID = this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.id : this.formData.gravidadeAvaria.id;
