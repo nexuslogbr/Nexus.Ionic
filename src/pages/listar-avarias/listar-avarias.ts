@@ -18,7 +18,7 @@ import * as $ from "jquery";
 import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-scanner";
 import { BuscarAvariasPage } from "../buscar-avarias/buscar-avarias";
 import { AvariaDataService } from "../../providers/avaria-data-service";
-import { DataRetorno } from "../../model/DataRetorno";
+import { DataRetorno } from "../../model/dataretorno";
 import { finalize } from "rxjs/operators";
 import { AlertService } from "../../providers/alert-service";
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';

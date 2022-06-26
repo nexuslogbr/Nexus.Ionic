@@ -17,7 +17,7 @@ import { FilePath } from '@ionic-native/file-path';
 import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/index';
 import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
 import { PosicaoSuperficieChassi } from '../../model/PosicaoSuperficieChassi';
-import { Parte } from '../../model/Parte';
+import { Parte } from '../../model/parte';
 import { SuperficieChassiParte } from '../../model/superficieChassiParte';
 import { AlertService } from '../../providers/alert-service';
 import { finalize } from 'rxjs/operators';

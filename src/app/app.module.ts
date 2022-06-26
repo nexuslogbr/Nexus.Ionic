@@ -214,7 +214,7 @@ import { LancamentoAvariaSelecaoSuperficiePage } from '../pages/lancamento-avari
 import { AvariaDataService } from '../providers/avaria-data-service';
 import { GravidadeDataService } from '../providers/gravidade-data-service';
 
-import { Camera } from '@ionic-native/Camera';
+import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/File';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path';
