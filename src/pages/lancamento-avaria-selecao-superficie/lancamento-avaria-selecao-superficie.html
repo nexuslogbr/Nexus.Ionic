@@ -54,12 +54,11 @@
         </ion-item> -->
 
         <div >
-          <div *ngIf="formSelecaoSuperficie.controls.partePeca.value">
+          <!-- <div *ngIf="formSelecaoSuperficie.controls.partePeca.value">
             <ion-chip size="small" [ngStyle]="styleObject()">
               <b class="ion-chip-label">{{avaria.tipoAvaria.sigla}}</b>
-              <!-- <ion-label color="secondary">SL</ion-label> -->
             </ion-chip>
-          </div>
+          </div> -->
 
           <img [src]="urlImagem" id="image">
 
@@ -99,7 +98,7 @@
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Gravidade: </b></ion-label>
           <ion-select (ionChange)="selectGravidadeChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="gravidadeAvaria">
-            <ion-option *ngFor="let item of nivelGravidadeAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
+            <ion-option *ngFor="let item of gravidadesAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
 

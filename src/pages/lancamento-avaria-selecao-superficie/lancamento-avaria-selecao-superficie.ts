@@ -1,16 +1,13 @@
 import { ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, Content, LoadingController, Modal, ModalController, NavController, NavParams, normalizeURL, Platform, Select, ToastController, ViewController } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActionSheetController, Content, ModalController, NavController, NavParams, Platform, ToastController, ViewController } from 'ionic-angular';
 import * as $ from 'jquery';
-import { NivelGravidadeAvaria } from '../../model/NivelGravidadeAvaria';
 import { TipoAvaria } from '../../model/TipoAvaria';
 import { AvariaDataService } from '../../providers/avaria-data-service';
 import { GravidadeDataService } from '../../providers/gravidade-data-service';
-import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
 import { AuthService } from '../../providers/auth-service/auth-service';
 
 import { File, FileEntry } from '@ionic-native/File';
-import { HttpClient } from '@angular/common/http';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Storage } from '@ionic/storage';
 import { FilePath } from '@ionic-native/file-path';
@@ -24,6 +21,7 @@ import { finalize } from 'rxjs/operators';
 import { Avaria } from '../../model/avaria';
 import { Veiculo } from '../../model/veiculo';
 import { Momento } from '../../model/Momento';
+import { GravidadeAvaria } from '../../model/gravidadeAvaria';
 
 const STORAGE_KEY = 'my_images';
 
@@ -36,7 +34,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   title: string;
   avarias: Array<Avaria> = [];
   posicoesAvaria: Array<PosicaoSuperficieChassi> = [];
-  nivelGravidadeAvaria: Array<NivelGravidadeAvaria> = [];
+  gravidadesAvaria: Array<GravidadeAvaria> = [];
   partesAvaria: Array<Parte> = [];
   formSelecaoSuperficie: FormGroup;
   images = [];
@@ -44,7 +42,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   avaria = new Avaria();
   posicaoAvaria = new PosicaoSuperficieChassi();
   parteAvaria = new Parte();
-  gravidadeAvaria: any;
+  gravidadeAvaria = new GravidadeAvaria();
 
   @Output() onSuperficieParteChassiInputed: EventEmitter<SuperficieChassiParte> = new EventEmitter<SuperficieChassiParte>();
 
@@ -81,8 +79,9 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     momento: new Momento(),
     posicaoSuperficieChassi: new PosicaoSuperficieChassi(),
     superficieChassiParte: new SuperficieChassiParte(),
+    avaria: new Avaria(),
     tipoAvaria: new TipoAvaria(),
-    nivelGravidadeAvaria: new NivelGravidadeAvaria()
+    gravidadeAvaria: new GravidadeAvaria()
   };
 
   constructor(
@@ -110,14 +109,11 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     let data = this.navParams.get('data');
     this.formData = data;
 
-    console.clear();
-    console.log(this.formData);
-
     let posicaoAvaria = this.formData.posicaoSuperficieChassi == undefined ? '' : this.formData.posicaoSuperficieChassi.id;
     let superficieChassiParte = this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID;
-    let tipoAvaria = this.formData.tipoAvaria == undefined ? '' : this.formData.tipoAvaria.id;
+    let tipoAvaria = this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id;
     let subArea = this.formData.quadrante == undefined ? '' : this.formData.quadrante;
-    let gravidadeAvaria = this.formData.nivelGravidadeAvaria == undefined ? '' : this.formData.nivelGravidadeAvaria.id;
+    let gravidadeAvaria = this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id;
     let observacao = this.formData.observacao == undefined ? '' : this.formData.observacao;
 
     this.formSelecaoSuperficie = formBuilder.group({
@@ -164,6 +160,11 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         this.height = (imagem.clientHeight * 10); //+ 3;
 
         this.getImageDimenstion(this.width,this.height);
+
+        if (this.formData.id > 0) {
+          this.assembleGrid(this.formData.superficieChassiParte);
+        }
+
         this.loadPartes();
       });
     }
@@ -191,7 +192,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     this.canvasElement.width = width;
     this.canvasElement.height = height;
   }
-
 
   loadPartes(){
     this.avariaService.listarPartes({
@@ -226,7 +226,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         $('#subAreaCombo').removeClass("hidden");
       }
 
-      this.nivelGravidadeAvaria = res.retorno;
+      this.gravidadesAvaria = res.retorno;
       this.authService.hideLoading();
     })
   }
@@ -280,12 +280,12 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   selectGravidadeChange(id){
-    this.gravidadeAvaria = this.nivelGravidadeAvaria.filter(x => x.id == id).map(x => x)[0]
+    this.gravidadeAvaria = this.gravidadesAvaria.filter(x => x.id == id).map(x => x)[0]
     // this.formSelecaoSuperficie.patchValue({
     //   gravidadeAvaria: this.gravidadeAvaria.nome
     // });
 
-    this.assembleGrid(this.parteAvaria.superficieChassiParte);
+    // this.assembleGrid(this.parteAvaria.superficieChassiParte);
   }
 
   touched(event){
@@ -505,22 +505,29 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     this.authService.showLoading();
 
     let id = this.formData.id > 0 ? this.formData.id : 0;
-    let avariaID = this.avaria.id != undefined ? this.avaria.id : this.formData['avaria'].id;
+    let veiculoID = this.formData.veiculo.id > 0 ? this.formData.veiculo.id : 0;
+    let momentoID = this.formData.momento.id > 0 ? this.formData.momento.id : 0;
+    let posicaoSuperficieChassiID = this.posicaoAvaria.id != undefined ? this.posicaoAvaria.id : this.formSelecaoSuperficie.controls.posicaoAvaria.value;
+    let avariaID = this.avaria.id != undefined ? this.avaria.id : this.formData.avaria.id;
+    let tipoAvariaID = this.avaria.id != undefined ? this.avaria.tipoAvaria.id : this.formData.avaria.tipoAvaria.id;
     let parteID = this.parteAvaria.id != undefined ? this.parteAvaria.id : this.formData.superficieChassiParte.parteID;
+    let superficieChassiParteID = this.parteAvaria.id != undefined ? this.parteAvaria.superficieChassiParte.id : this.formData.superficieChassiParte.superficieChassiID;
+    let gravidadeAvariaID = this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.id : this.formData.gravidadeAvaria.id;
+    let nivelGravidadeAvariaID = this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.nivelGravidadeAvaria.id : this.formData.gravidadeAvaria.nivelGravidadeAvaria.id;
+    let observacao = this.formSelecaoSuperficie.controls.observacao.value;
+    let quadrante = this.formSelecaoSuperficie.controls.subArea.value;
 
     let model  = {
       id: id,
-      veiculoID: this.formData.veiculo.id,
-      momentoID: this.formData.momento.id,
-      posicaoSuperficieChassiID: this.formSelecaoSuperficie.controls.posicaoAvaria.value,
-      tipoAvariaID: this.formSelecaoSuperficie.controls.tipoAvaria.value,
-
+      veiculoID: veiculoID,
+      momentoID: momentoID,
+      posicaoSuperficieChassiID: posicaoSuperficieChassiID,
+      tipoAvariaID: tipoAvariaID,
       avariaID: avariaID,
       parteID: parteID,
-
-      superficieChassiParteID: this.formSelecaoSuperficie.controls.superficieChassiParte.value,
-      nivelGravidadeAvariaID: this.formSelecaoSuperficie.controls.gravidadeAvaria.value,
-      observacao: this.formSelecaoSuperficie.controls.observacao.value,
+      superficieChassiParteID: superficieChassiParteID,
+      nivelGravidadeAvariaID: nivelGravidadeAvariaID,
+      observacao: observacao,
       quadrante: parseInt(this.formSelecaoSuperficie.controls.subArea.value),
     };
 
@@ -528,9 +535,15 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     .pipe(
       finalize(() => {
         this.authService.hideLoading();
-        this.alertService.showInfo('Avaria cadastrada com sucesso');
+        if (model.id > 0) {
+          this.alertService.showInfo('Avaria alterada com sucesso');
+        }
+        else{
+          this.alertService.showInfo('Avaria cadastrada com sucesso');
+        }
         setTimeout(() => {
-          this.voltar();
+          this.navCtrl.push(QualidadeMenuPage);
+          // this.voltar();
         }, 500);
       })
     )
