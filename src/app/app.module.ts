@@ -184,7 +184,6 @@ import { DesbloquearPage } from '../pages/desbloquear/desbloquear';
 import { FormBloqueioComponent } from '../components/form-bloqueio/form-bloqueio';
 import { ModalChassisBloqueioComponent } from '../components/modal-chassis-bloqueio/modal-chassis-bloqueio';
 import { ModalChassisDesbloqueioComponent } from '../components/modal-chassis-desbloqueio/modal-chassis-desbloqueio';
-// import { formatUrlPart } from 'ionic-angular/umd/navigation/url-serializer';
 import { FormDesbloqueioComponent } from '../components/form-desbloqueio/form-desbloqueio';
 import { LancamentoServicoPage } from '../pages/lancamento-servico/lancamento-servico';
 import { ModalLancamentoServicoComponent } from '../components/modal-lancamento-servico/modal-lancamento-servico';
@@ -202,7 +201,26 @@ import { QualidadeDashboardBuscaAvariasPage } from '../pages/qualidade-dashboard
 import { QualidadeMenuPage } from '../pages/qualidade-menu/qualidade-menu';
 import { LancamentoAvariaPage } from '../pages/lancamento-avaria/lancamento-avaria';
 import { LancarAvariaComponent } from '../components/lancar-avaria/lancar-avaria';
-import {ProgressBarModule} from "angular-progress-bar"
+import { LancarAvariaSelecionarComponent } from '../components/lancar-avaria-selecionar/lancar-avaria-selecionar';
+import { ProgressBarModule } from 'angular-progress-bar';
+import { CommonModule } from '@angular/common';
+
+import { FormLancamentoAvariaComponent } from '../components/form-lancamento-avaria/form-lancamento-avaria';
+import { ModalLancamentoAvariaComponent } from '../components/modal-lancamento-avaria/modal-lancamento-avaria';
+import { MomentoDataService } from '../providers/momento-data-service';
+import { ModalBuscaChassiComponent } from '../pages/modal-busca-chassi/modal-busca-chassi';
+import { ModalSelecionarChassiComponent } from '../components/modal-selecionar-chassi/modal-selecionar-chassi';
+import { LancamentoAvariaSelecaoSuperficiePage } from '../pages/lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
+import { AvariaDataService } from '../providers/avaria-data-service';
+import { GravidadeDataService } from '../providers/gravidade-data-service';
+
+import { Camera } from '@ionic-native/Camera';
+import { File } from '@ionic-native/File';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { FilePath } from '@ionic-native/file-path';
+import {RoundProgressModule} from 'angular-svg-round-progressbar';
+import { ModalSelecionarChassiBuscaComponent } from '../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
+import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
 
 @NgModule({
   declarations: [
@@ -364,8 +382,16 @@ import {ProgressBarModule} from "angular-progress-bar"
     QualidadeDashboardBuscaAvariasPage,
     QualidadeMenuPage,
     LancamentoAvariaPage,
-    LancarAvariaComponent
-
+    LancarAvariaComponent,
+    LancarAvariaSelecionarComponent,
+    FormLancamentoAvariaComponent,
+    ModalLancamentoAvariaComponent,
+    ModalBuscaChassiComponent,
+    ModalSelecionarChassiComponent,
+    LancamentoAvariaSelecaoSuperficiePage,
+    AlterarCorPage,
+    ModalSelecionarChassiBuscaComponent,
+    CanvasDrawComponent
   ],
   imports: [
     BrowserModule,
@@ -424,7 +450,9 @@ import {ProgressBarModule} from "angular-progress-bar"
     ModalCancelarCarregamentoPageModule,
     HttpClientModule,
     ReactiveFormsModule,
-    ProgressBarModule
+    ProgressBarModule,
+    CommonModule,
+    RoundProgressModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -583,9 +611,19 @@ import {ProgressBarModule} from "angular-progress-bar"
     QualidadeDashboardBuscaAvariasPage,
     QualidadeMenuPage,
     LancamentoAvariaPage,
-    LancarAvariaComponent
+    LancarAvariaComponent,
+    LancarAvariaSelecionarComponent,
+    FormLancamentoAvariaComponent,
+    ModalLancamentoAvariaComponent,
+    ModalBuscaChassiComponent,
+    ModalSelecionarChassiComponent,
+    LancamentoAvariaSelecaoSuperficiePage,
+    AlterarCorPage,
+    ModalSelecionarChassiBuscaComponent,
+    CanvasDrawComponent
   ],
   providers: [
+    Camera,
     AuthService,
     StatusBar,
     Network,
@@ -614,6 +652,12 @@ import {ProgressBarModule} from "angular-progress-bar"
     ArquivoDataService,
     ConferenciaService,
     AlertService,
+    MomentoDataService,
+    AvariaDataService,
+    GravidadeDataService,
+    File,
+    WebView,
+    FilePath
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

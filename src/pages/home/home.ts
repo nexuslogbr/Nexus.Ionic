@@ -23,24 +23,26 @@ import { Storage } from '@ionic/storage';
 import { VistoriaPage } from '../vistoria/vistoria';
 import { BuscarAvariasPage } from '../buscar-avarias/buscar-avarias';
 import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
+import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
+import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 
 
-// 0: "mnu_mob_recebimento"
-// 1: "mnu_mob_parqueamento"
-// 2: "mnu_mob_receberparquear"
-// 3: "mnu_mob_conferencia"
-// 4: "mnu_mob_parquearbloco"
-// 5: "mnu_mob_movimentacao"
-// 6: "mnu_mob_rechego"
-// 7: "mnu_mob_carregamento"
-// 8: "mnu_mob_carregamentoexportacao"
-// 9: "mnu_mob_romaneio"
-// 10: "mnu_mob_bloqueio"
-// 11: "mnu_mob_observacao"
-// 12: "mnu_mob_servico"
-// 13: "mnu_mob_avaria"
-// 14: "mnu_mob_historicochassi"
-// 15: "mnu_mob_vistoria"
+// 3101	mnu_mob_recebimento
+// 3102	mnu_mob_parqueamento
+// 3103	mnu_mob_receberparquear
+// 3104	mnu_mob_conferencia
+// 3105	mnu_mob_parquearbloco
+// 3106	mnu_mob_movimentacao
+// 3107	mnu_mob_rechego
+// 3108	mnu_mob_carregamento
+// 3109	mnu_mob_carregamentoexportacao
+// 3110	mnu_mob_romaneio
+// 3111	mnu_mob_historicochassi
+// 3122	mnu_mob_bloqueio
+// 3123	mnu_mob_observacao
+// 3124	mnu_mob_servico
+// 3141 mnu_mob_avaria
+// 3145 mnu_mob_buscaravaria
 
 
 const menus = [
@@ -123,19 +125,7 @@ const menus = [
     id: 3111,
     nome: 'mnu_mob_servico'
   },
-  {
-    texto: 'Vistoriar',
-    cssClass: 'vistoriar',
-    id: 3142,
-    nome: 'mnu_mob_vistoria'
-  },
 
-  {
-    texto: 'Buscar Avaria',
-    cssClass: 'vistoriar',
-    id: 3143,
-    nome: 'mnu_mob_buscaravaria'
-  },
   {
     texto: 'Histórico de Chassi',
     cssClass: 'historico-chassi',
@@ -143,13 +133,26 @@ const menus = [
     nome: 'mnu_mob_historicochassi'
   },
 
+  {
+    texto: 'Módulo de Qualidade',
+    cssClass: 'historico-chassi',
+    id: 3118,
+    nome: 'mnu_mob_qualidade'
+  },
+
   // {
-  //   texto: 'Qualidade',
-  //   cssClass: 'historico-chassi',
-  //   id: 3118,
-  //   nome: 'mnu_mob_qualidade'
+  //   texto: 'Vistoriar',
+  //   cssClass: 'vistoriar',
+  //   id: 3142,
+  //   nome: 'mnu_mob_vistoria'
   // },
 
+  // {
+  //   texto: 'Buscar Avaria',
+  //   cssClass: 'vistoriar',
+  //   id: 3145,
+  //   nome: 'mnu_mob_buscaravaria'
+  // },
 
 ];
 @Component({
@@ -181,13 +184,10 @@ export class HomePage {
 
     if (this.userData && this.userData.nomesMenus) {
       this.userMenus = menus.filter((m) =>
-        this.userData.nomesMenus.some((mm) => mm == m.nome)
-
-
+        this.userData.nomesMenus.some((mm) => mm == m['nome'])
       );
 
-      //  this.userData.nomesMenus.push('mnu_mob_buscaravaria')
-      console.log(this.userData.nomesMenus)
+      // console.log(this.userData.nomesMenus)
 
     }
 
@@ -205,15 +205,6 @@ export class HomePage {
       this.inputColor = '#06273f';
       this.buttonColor = "#1c6381";
     }
-
-    // if (this.userData && this.userData.menus) {
-    //   this.userMenus = menus.filter((m) =>
-    //     this.userData.menus.some((mm) => mm == m.id)
-    //   );
-    //   this.userMenus = menus;
-
-
-    // }
   }
 
   ionViewDidEnter() {
@@ -302,6 +293,7 @@ export class HomePage {
     // 3122	mnu_mob_bloqueio
     // 3123	mnu_mob_observacao
     // 3124	mnu_mob_servico
+    // 0000	mnu_mob_qualidade
 
     console.log(menu)
     // if (menu.id == 3101) {
@@ -375,27 +367,14 @@ export class HomePage {
       this.navCtrl.setRoot(LancamentoServicoPage);
     } else if (menu.nome == 'mnu_mob_vistoria') {
       this.navCtrl.setRoot(VistoriaPage);
+    } else if (menu.nome == 'mnu_mob_qualidade') {
+      this.navCtrl.setRoot(QualidadeMenuPage);
     }
-    // else if (menu.nome == 'mnu_mob_qualidade') {
-    //   this.navCtrl.setRoot(QualidadeMenuPage);
+    // else if (menu.nome == 'mnu_mob_vistoria') {
+    //   this.navCtrl.setRoot(VistoriaPage);
     // }
-
-
-    //   nome:'mnu_mob_parqueamento'
-    //   nome:'mnu_mob_receberparquear'
-    //   nome:'mnu_mob_conferencia'
-    //   nome:'mnu_mob_parquearbloco'
-    //   nome:'mnu_mob_movimentacao'
-    //   nome:'mnu_mob_rechego'
-    //   nome:'mnu_mob_carregamento'
-    //   nome:'mnu_mob_carregamentoexportacao'
-    //   nome:'mnu_mob_romaneio'
-    //   nome:'mnu_mob_historicochassi'
-    //   nome:'mnu_mob_bloqueio'
-    //   nome:'mnu_mob_observacao'
-    //   nome:'mnu_mob_servico'
-    //   nome:'mnu_mob_vistoria'
-    // },
-
+    // else if (menu.nome == 'mnu_mob_buscaravaria') {
+    //   this.navCtrl.setRoot(BuscarAvariasPage);
+    // }
   }
 }

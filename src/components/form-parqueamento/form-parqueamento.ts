@@ -73,8 +73,6 @@ export class FormParqueamentoComponent {
       this.inputColor = '#06273f';
       this.buttonColor = "#1c6381";
     }
-
-
   }
 
 

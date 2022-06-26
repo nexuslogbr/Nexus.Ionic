@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, Modal, ModalController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, Modal, ModalController, NavParams, ViewController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { ModalVolumeImportacaoComponent } from '../../components/modal-volume-importacao/modal-volume-importacao';
@@ -11,14 +11,17 @@ import * as $ from 'jquery';
 import { Usuario } from '../../model/usuario';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
-
+import { Pagination } from '../../model/pagination';
+import { AvariaDataService } from '../../providers/avaria-data-service';
+import { finalize } from 'rxjs/operators';
+import { BuscarAvariasPage } from '../buscar-avarias/buscar-avarias';
+import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
   })
 };
-
 @Component({
   selector: 'page-qualidade-dashboard-busca-avarias',
   templateUrl: 'qualidade-dashboard-busca-avarias.html',
@@ -26,66 +29,39 @@ const httpOptions = {
 export class QualidadeDashboardBuscaAvariasPage {
 
   url: string;
-  data: any;
-  dataExport: any;
-  posisoesTotal: any;
-  posicoesOcupadas: any;
-  posicoesNaoOcupadas: any;
-  urlTempoPermanencia: string;
-  urlModelos: string;
-  modelo: any;
-  retorno: any;
+  image = './assets/images/qualidade_dashboard_small.PNG';
   retornoData:any;
-  modelos: any;
-  modelo1: string;
-  modelo2: string;
-  modelo3: string;
-  modelo4: string;
-  nome1: string;
-  nome2: string;
-  nome3: string;
-  nome4: string;
-  urlNavios: string;
-  navios: any;
   avarias: any[] = [];
+  lancamentosAvarias: any[] = [];
+  totalAvarias: number = 0;
+  porcentagemVeiculosAvariados: number = 0;
 
-  volumeImport: string;
-  volumeExport: string;
-  hide1: boolean;
-  hide2: boolean;
-  hide3: boolean;
-  hide4: boolean;
-  i: any;
-  modeloPercentagem: any;
-  meses: any[] = [];
-  quantidade: any[] = [];
-  mesExport: any[] = [];
-  quantexport: any[] = [];
-  mesHistMovImport: any[] = [];
-  quantHistMovImport: any[] = [];
-  mesHistMovExport: any[] = [];
-  quantHistMovExport: any[] = [];
-  urlHistMovImport: string;
-  HistMovImport: any;
-  urlHistMovExport: string;
-  HistMovExport: any;
-  statusVagasClass: boolean = false;
-  statusTempoClass: boolean = false;
-  volumeImportExport: boolean = false;
   title: string;
-  percentagem1: string;
-  percentagem2: string;
-  percentagem3: string;
-  percentagem4: string;
 
   primaryColor: string;
   secondaryColor: string;
   inputColor: string;
   buttonColor: string;
 
+  buttonColorDark = '#1E1E1E';
   userData: Usuario;
 
-  constructor(public http: HttpClient, private modal: ModalController, public authService: AuthService, public navCtrl: NavController, public navParams: NavParams) {
+  slideOpts = {
+    initialSlide: 1
+  };
+
+  itemsPage: any = [];
+  private readonly offset: number = 6;
+  private index: number = 0;
+
+  constructor(public http: HttpClient,
+    private modal: ModalController,
+    public authService: AuthService,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private avariaService: AvariaDataService,
+    private view: ViewController,
+    ) {
     this.title = "Módulo  Qualidade";
     this.authService.showLoading();
     this.url = this.authService.getUrl();
@@ -105,46 +81,11 @@ export class QualidadeDashboardBuscaAvariasPage {
   }
 
   ionViewDidLoad() {
-    console.log('DashboardPage');
-
-    // this.chartStatusVeiculo();
-    // this.ProximosCarregamentos();
+    this.authService.showLoading();
     this.CarregarAvarias();
-
-    // this.avarias = [
-    //   {
-    //     modelo: 'AMAROK',
-    //     chassi: '8AC907133ME989987',
-    //     tipoAnomalia: 'AM - Amassados',
-    //     parteAvariada: 'Calota Dianteira Esquerda',
-    //     nivelAvaria: 'G1= 0 2,00 mm',
-    //     data: '20/03/2022'
-    //   },
-    //   {
-    //     modelo: 'COBALT',
-    //     chassi: '8AC907133ME989993',
-    //     tipoAnomalia: 'AM - Amassados',
-    //     parteAvariada: 'Calota Dianteira Esquerda',
-    //     nivelAvaria: 'G1= 0 2,00 mm',
-    //     data: '20/03/2022'
-    //   },
-    //   {
-    //     modelo: 'HILUX',
-    //     chassi: '8AC907133ME989995',
-    //     tipoAnomalia: 'AM - Amassados',
-    //     parteAvariada: 'Calota Dianteira Esquerda',
-    //     nivelAvaria: 'G1= 0 2,00 mm',
-    //     data: '20/03/2022'
-    //   }]
-
-
-    this.authService.hideLoading();
   }
 
-
   CarregarAvarias() {
-
-
     this.authService.showLoading();
     let dashboard = this.url + "/lancamentoAvaria/Dashboard";
 
@@ -156,24 +97,24 @@ export class QualidadeDashboardBuscaAvariasPage {
       "localID": 2
     }
 
-
     this.http.post<string>(dashboard, dadosFiltro, httpOptions)
       .subscribe(res => {
         this.retornoData = res;
 
         if (this.retornoData.sucesso) {
-
-          
           this.avarias = this.retornoData.retorno;
+          this.totalAvarias = this.retornoData.retorno.totalAvarias;
+          this.porcentagemVeiculosAvariados = this.retornoData.retorno.porcentagemVeiculosAvariados;
+          this.lancamentosAvarias = this.retornoData.retorno.lancamentosAvarias;
 
-          console.log(this.avarias)
+          this.itemsPage = this.lancamentosAvarias.slice(this.index, this.offset + this.index);
+          this.index += this.offset;
           this.authService.hideLoading();
-
         }
         else {
           this.authService.hideLoading();
           this.openModalErro("Falha ao carregado dados");
-          // this.navCtrl.push(HomePage);         
+          // this.navCtrl.push(HomePage);
         }
 
       }, (error) => {
@@ -182,13 +123,26 @@ export class QualidadeDashboardBuscaAvariasPage {
         this.authService.hideLoading();
         console.log(error);
       });
-
   }
 
+  loadData(infiniteScroll){
+    setTimeout(() => {
+      let array = this.lancamentosAvarias.slice(this.index, this.offset + this.index);
+      this.index += this.offset;
 
+      for (let i = 0; i < array.length; i++) {
+        this.itemsPage.push(array[i]);
+      }
 
+      infiniteScroll.complete();
 
+      if (this.itemsPage.length === this.avarias.length) {
+        infiniteScroll.disable = true;
+        console.log('Terminou!');
+      }
 
+    }, 100)
+  }
 
   toggleMenu = function (this) {
     $('.menu-body').toggleClass('show-menu');
@@ -197,269 +151,9 @@ export class QualidadeDashboardBuscaAvariasPage {
     $('side-menu').toggleClass('show');
   }
 
-  chartStatusVeiculo() {
-
-    this.authService.showLoading();
-
-    this.urlModelos = this.url + "/Monitoramento/ConsultarModelos?token=" + this.authService.getToken();
-
-    this.http.get(this.urlModelos)
-      .subscribe(data => {
-
-        this.data = data;
-
-        console.log(data)
-
-        if (this.data.sucesso) {
-          this.modelos = [{ modelo: 'AMAROK', quantidade: 9, totalVagas: 206, percentagem: 4 }];
-
-          let parametros = this.modelos;
-
-          // let colors = [
-          //   'rgba(179, 25, 8, 0.8)',
-          //   'rgba(51, 216, 56, 0.8)',
-          //   'rgba(245, 218, 129, 0.8)',
-          //   'rgba(216, 247, 129, 0.8)',
-          //   'rgba(88, 250, 88, 0.8)',
-          //   'rgba(46, 46, 254, 0.8)',
-          //   'rgba(191, 0, 255, 0.8)',
-          //   'rgba(255, 0, 255, 0.8)',
-          //   'rgba(223, 1, 58, 0.8)',
-          //   'rgba(132, 132, 132, 0.8)',
-          //   'rgba(4, 180, 95, 0.8)'
-          // ];
-
-          let colors = [
-            'rgba(179, 25, 8, 0.8)',
-            'rgba(51, 216, 56, 0.8)'
-          ];
-
-
-
-          setTimeout(function () {
-
-            // for(let i = 0; i < parametros.length; i++){
-
-            let id = '#statusVeiculo_severo';
-
-            let indexColor = Math.floor(Math.random() * colors.length);
-
-            let color = colors[indexColor];
-
-            let ctx = document.querySelector(id);
-            let myChart = new Chart(ctx, {
-              type: 'doughnut',
-              data: {
-                datasets: [{
-                  data: [10, 100 - 30],
-                  backgroundColor: [
-                    'rgba(179, 25, 8, 0.8)',
-                    'rgba(45, 53, 61, 0.8)'
-                  ],
-                  borderColor: [
-                    'rgba(45, 53, 61, 1)',
-                    'rgba(45, 53, 61, 1)'
-                  ],
-                  borderWidth: 1
-                }]
-              },
-              options: {
-                tooltips: {
-                  enabled: false
-                },
-                cutoutPercentage: 80,
-                legend: {
-                  labels: {
-                    fontColor: '#fff'
-                  }
-                },
-                rotation: 1 * Math.PI,
-                circumference: 1 * Math.PI
-              }
-            });
-
-
-            //superficial
-
-            let id_ = '#statusVeiculo_superficial';
-
-            // let indexColor = Math.floor(Math.random() * colors.length);
-
-            // let color = colors[indexColor];
-
-            let ctx_ = document.querySelector(id_);
-            let myChart_ = new Chart(ctx_, {
-              type: 'doughnut',
-              data: {
-                datasets: [{
-                  data: [10, 100 - 30],
-                  backgroundColor: [
-                    'rgba(51, 216, 56, 0.8)',
-                    'rgba(45, 53, 61, 0.8)'
-                  ],
-                  borderColor: [
-                    'rgba(45, 53, 61, 1)',
-                    'rgba(45, 53, 61, 1)'
-                  ],
-                  borderWidth: 1
-                }]
-              },
-              options: {
-                tooltips: {
-                  enabled: false
-                },
-                cutoutPercentage: 80,
-                legend: {
-                  labels: {
-                    fontColor: '#fff'
-                  }
-                },
-                rotation: 1 * Math.PI,
-                circumference: 1 * Math.PI
-              }
-            });
-
-
-
-
-
-
-
-
-
-
-
-            //   }
-          }, 1000);
-
-          this.authService.hideLoading();
-        } else {
-          this.authService.hideLoading();
-          // this.openModalErroCode(this.responseData.mensagem);
-        }
-
-      }, (error) => {
-        this.authService.hideLoading();
-        // this.openModalErroCode(error);
-      });
-  }
-
-  chartExportVolume() {
-
-    this.volumeExport = this.url + "/Monitoramento/ConsultarVolumeExportacao?token=" + this.authService.getToken();
-
-    this.http.get(this.volumeExport)
-      .subscribe(res => {
-
-        this.dataExport = res;
-
-        for (let i = 0; i < this.dataExport.retorno.length; i++) {
-          this.mesExport.push(this.dataExport.retorno[i].mesNome);
-          this.quantexport.push(this.dataExport.retorno[i].quantidade);
-        }
-
-        if (this.dataExport.sucesso) {
-
-          let ctx = document.getElementById("exportVolume");
-          let myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: this.mesExport,
-              datasets: [{
-                data: this.quantexport,
-                backgroundColor: [
-                  'rgba(255, 87, 34, 0.8)',
-                  'rgba(255, 87, 34, 0.8)',
-                  'rgba(255, 87, 34, 0.8)',
-                  'rgba(255, 87, 34, 0.8)',
-                  'rgba(255, 87, 34, 0.8)',
-                  'rgba(255, 87, 34, 0.8)'
-                ],
-                borderColor: [
-                  'rgba(255, 87, 34, 1)',
-                  'rgba(255, 87, 34, 1)',
-                  'rgba(255, 87, 34, 1)',
-                  'rgba(255, 87, 34, 1)',
-                  'rgba(255, 87, 34, 1)',
-                  'rgba(255, 87, 34, 1)'
-                ],
-                borderWidth: 1
-              }]
-            },
-            options: {
-              legend: {
-                display: false,
-              },
-              title: {
-                display: true,
-                fontColor: '#fff',
-                text: 'Volume de Exportação'
-              },
-              scales: {
-                yAxes: [{
-                  ticks: {
-                    beginAtZero: true,
-                    fontColor: '#fff'
-                  },
-                  gridLines: {
-                    color: '#0e324b',
-                    lineWidth: 2
-                  }
-                }],
-                xAxes: [{
-                  ticks: {
-                    fontColor: '#fff',
-                    fontSize: 10
-                  },
-                  gridLines: {
-                    color: '#0e324b',
-                    lineWidth: 2
-                  }
-                }]
-              }
-            }
-          });
-
-        } else {
-          this.authService.hideLoading();
-          // this.openModalErroCode(this.responseData.mensagem);
-        }
-
-      }, (error) => {
-        this.authService.hideLoading();
-        // this.openModalErroCode(error);
-      });
-  }
-
-  ProximosCarregamentos() {
-
-    this.urlNavios = this.url + "/Monitoramento/ConsultarNavios?token=" + this.authService.getToken();
-
-    this.http.get(this.urlNavios)
-      .subscribe(res => {
-
-        this.data = res;
-
-        console.log(res)
-
-        if (this.data.sucesso) {
-
-          this.navios = this.data.retorno;
-
-        } else {
-          this.authService.hideLoading();
-          // this.openModalErroCode(this.responseData.mensagem);
-        }
-
-      }, (error) => {
-        this.authService.hideLoading();
-        // this.openModalErroCode(error);
-      });
-  }
-
-
   Voltar() {
-    this.navCtrl.push(QualidadeMenuPage);
+    this.view.dismiss();
+    // this.navCtrl.push(QualidadeMenuPage);
   }
 
   openModalErro(data) {
@@ -475,57 +169,11 @@ export class QualidadeDashboardBuscaAvariasPage {
     })
   }
 
-
-  modalOpen(event) {
-
-    if (this.statusVagasClass) {
-      this.statusVagasClass = false;
-    } else {
-      this.statusVagasClass = true;
-    }
-    // this.statusVagasClass = !this.statusVagasClass;
-
-  }
-  modalOpenImportExport($event) {
-    if (this.statusTempoClass) {
-      this.statusTempoClass = false;
-    } else {
-      this.statusTempoClass = true;
-    }
-  }
-  modalvolumeImport($event) {
-    this.openModalVolumeImport($event.target.id);
+  navigateToBuscar() {
+    this.navCtrl.push(BuscarAvariasPage);
   }
 
-  openModalVolumeImport(dados) {
-
-    const recModal: Modal = this.modal.create(ModalVolumeImportacaoComponent, { data: dados });
-    recModal.present();
-
-    recModal.onDidDismiss((data) => {
-    })
-    recModal.onWillDismiss((data) => {
-    })
+  navigateToLancar() {
+    this.navCtrl.push(LancamentoAvariaPage);
   }
-
-  modalMovImport(dados) {
-    const recModal: Modal = this.modal.create(ModalImportMovimentacaoComponent, { data: dados });
-    recModal.present();
-
-    recModal.onDidDismiss((data) => {
-    })
-    recModal.onWillDismiss((data) => {
-    })
-  }
-
-  modalMovExport(dados) {
-    const recModal: Modal = this.modal.create(ModalExportMovimentacaoComponent, { data: dados });
-    recModal.present();
-
-    recModal.onDidDismiss((data) => {
-    })
-    recModal.onWillDismiss((data) => {
-    })
-  }
-
 }
