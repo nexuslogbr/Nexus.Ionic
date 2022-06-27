@@ -109,6 +109,9 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     let data = this.navParams.get('data');
     this.formData = data;
 
+    console.clear();
+    console.log(this.formData);
+
     let posicaoAvaria = this.formData.posicaoSuperficieChassi == undefined ? '' : this.formData.posicaoSuperficieChassi.id;
     let superficieChassiParte = this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID;
     let tipoAvaria = this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id;

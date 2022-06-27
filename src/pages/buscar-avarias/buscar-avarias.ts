@@ -316,7 +316,6 @@ export class BuscarAvariasPage {
 
   buscarChassi(partChassi, byScanner: boolean) {
     let uriBuscaChassi = '/veiculos/ConsultarChassi?token=' + this.authService.getToken() + '&chassi=' + partChassi;
-    this.authService.showLoading();
     this.formData.token = this.authService.getToken();
 
     this.http.get(this.url + uriBuscaChassi).subscribe(
