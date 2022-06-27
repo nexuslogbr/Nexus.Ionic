@@ -63,7 +63,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   @ViewChild(Content) content: Content;
   @ViewChild('fixedContainer') fixedContainer: any;
 
-  urlImagem = 'http://nexus.luby.com.br/Arquivos/Empresas/';
+  urlImagem = '';
 
   primaryColor: string;
   secondaryColor: string;
@@ -156,7 +156,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         token: ''
       })
       .subscribe((res: any) => {
-        this.urlImagem += res.retorno.imagem;
+        this.urlImagem = res.retorno.imagem;
 
         let imagem = document.getElementById('image')
         this.width = imagem.clientWidth;
