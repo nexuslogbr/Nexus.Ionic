@@ -156,7 +156,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         token: ''
       })
       .subscribe((res: any) => {
-        this.urlImagem = res.retorno.imagem;
+        // this.urlImagem = res.retorno.imagem;
+        this.urlImagem = 'https://nexus.luby.com.br/Arquivos/Empresas/' + res.retorno.imagem;
 
         let imagem = document.getElementById('image')
         this.width = imagem.clientWidth;

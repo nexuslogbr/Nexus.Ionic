@@ -267,9 +267,7 @@ export class LancamentoAvariaPage {
     });
     chassiModal.present();
 
-    // chassiModal.onDidDismiss((data) => {
-    //   this.cleanInput(true);
-    // });
+    this.view.dismiss();
   }
 
   navigateToHomePage() {
@@ -345,8 +343,7 @@ export class LancamentoAvariaPage {
   }
 
   voltar(){
-    this.view.dismiss();
-    // this.navCtrl.push(QualidadeMenuPage);
+    this.navCtrl.push(QualidadeMenuPage);
   }
 
   openModalSelecionarSuperficie(){
@@ -355,7 +352,6 @@ export class LancamentoAvariaPage {
     });
     modal.present();
 
-    modal.onDidDismiss(data => {});
-    modal.onWillDismiss(data => {});
+    this.view.dismiss();
   }
 }
