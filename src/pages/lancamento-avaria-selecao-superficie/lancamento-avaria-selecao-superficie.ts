@@ -157,7 +157,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       })
       .subscribe((res: any) => {
         // this.urlImagem = res.retorno.imagem;
-        this.urlImagem = 'https://nexus.luby.com.br/Arquivos/Empresas/' + res.retorno.imagem;
+        this.urlImagem = res.retorno.imagem;
 
         let imagem = document.getElementById('image')
         this.width = imagem.clientWidth;
@@ -172,6 +172,10 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         this.loadPartes();
       });
     }
+
+    this.platform.ready().then(() => {
+      this.loadStoredImages();
+    });
 
   }
 
@@ -563,48 +567,79 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
 
   /// Selecionar uma imagem da biblioteca do dispositivo
+  loadStoredImages() {
+    this.storage.get(STORAGE_KEY).then(images => {
+      if (images) {
+        let arr = JSON.parse(images);
+        this.images = [];
+        for (let img of arr) {
+          let filePath = this.file.dataDirectory + img;
+          let resPath = this.pathForImage(filePath);
+          this.images.push({ name: img, path: resPath, filePath: filePath });
+        }
+      }
+    });
+  }
+
+  pathForImage(img) {
+    if (img === null) {
+      return '';
+    } else {
+      let converted = this.webview.convertFileSrc(img);
+      return converted;
+    }
+  }
+
+  async presentToast(text) {
+    const toast = await this.toastController.create({
+        message: text,
+        position: 'bottom',
+        duration: 3000
+    });
+    toast.present();
+  }
+
   async selectImage() {
-      const actionSheet = await this.actionSheetController.create({
-          title: 'Selecionar imagem',
-          buttons: [{
-                  text: 'Galeria',
-                  handler: () => {
-                      this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
-                  }
-              },
-              {
-                  text: 'Camera',
-                  handler: () => { this.takePicture(this.camera.PictureSourceType.CAMERA); }
-              },
-              { text: 'Cancelar', role: 'cancel' }
-          ]
-      });
-      await actionSheet.present();
+    const actionSheet = await this.actionSheetController.create({
+        title: 'Selecionar imagem',
+        buttons: [{
+                text: 'Galeria',
+                handler: () => {
+                    this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+                }
+            },
+            {
+                text: 'Camera',
+                handler: () => { this.takePicture(this.camera.PictureSourceType.CAMERA); }
+            },
+            { text: 'Cancelar', role: 'cancel' }
+        ]
+    });
+    await actionSheet.present();
   }
 
   takePicture(sourceType: PictureSourceType) {
-      var options: CameraOptions = {
-          quality: 100,
-          sourceType: sourceType,
-          saveToPhotoAlbum: false,
-          correctOrientation: true
-      };
+    var options: CameraOptions = {
+        quality: 100,
+        sourceType: sourceType,
+        saveToPhotoAlbum: false,
+        correctOrientation: true
+    };
 
-      this.camera.getPicture(options).then(imagePath => {
-          if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
-              this.filePath.resolveNativePath(imagePath)
-                  .then(filePath => {
-                      let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-                      let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-                      this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-                  });
-          } else {
-              var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
-              var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-              this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-          }
-      });
-
+    this.camera.getPicture(options).then(imagePath => {
+        if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
+            this.filePath.resolveNativePath(imagePath)
+                .then(filePath => {
+                    let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+                    let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+                    this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+                });
+        } else {
+            var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+            var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+            this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+        }
+    });
   }
 
   createFileName() {
@@ -615,21 +650,21 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   copyFileToLocalDir(namePath, currentName, newFileName) {
-      this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success => {
-          this.updateStoredImages(newFileName);
-      }, error => {
-          this.presentToast('Erro ao salvar o arquivo.');
-      });
+    this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success => {
+        this.updateStoredImages(newFileName);
+    }, error => {
+        this.presentToast('Erro ao salvar o arquivo.');
+    });
   }
 
   startUpload(imgEntry) {
     this.file.resolveLocalFilesystemUrl(imgEntry.filePath)
-        .then(entry => {
-            ( < FileEntry > entry).file(file => this.readFile(file))
-        })
-        .catch(err => {
-            this.presentToast('Erro ao ler o arquivo.');
-        });
+    .then(entry => {
+          ( < FileEntry > entry).file(file => this.readFile(file))
+    })
+    .catch(err => {
+      this.presentToast('Erro ao ler o arquivo.');
+    });
   }
 
   readFile(file: any) {
@@ -643,20 +678,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         this.uploadImageData(formData);
     };
     reader.readAsArrayBuffer(file);
-  }
-
-  loadStoredImages() {
-    this.storage.get(STORAGE_KEY).then(images => {
-      if (images) {
-        let arr = JSON.parse(images);
-        this.images = [];
-        for (let img of arr) {
-          let filePath = this.file.dataDirectory + img;
-          let resPath = this.pathForImage(filePath);
-          this.images.push({ name: img, path: resPath, filePath: filePath });
-        }
-      }
-    });
   }
 
   updateStoredImages(name) {
@@ -712,26 +733,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         var correctPath = imgEntry.filePath.substr(0, imgEntry.filePath.lastIndexOf('/') + 1);
 
         this.file.removeFile(correctPath, imgEntry.name).then(res => {
-            this.presentToast('File removed.');
+            this.presentToast('Imagem removida.');
         });
     });
-  }
-
-  async presentToast(text) {
-    const toast = await this.toastController.create({
-        message: text,
-        position: 'bottom',
-        duration: 3000
-    });
-    toast.present();
-  }
-
-  pathForImage(img) {
-    if (img === null) {
-      return '';
-    } else {
-      let converted = this.webview.convertFileSrc(img);
-      return converted;
-    }
   }
 }

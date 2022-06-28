@@ -119,20 +119,24 @@
           </ion-row>
         </ion-toolbar>
 
-        <ion-item *ngFor="let img of images; index as pos" text-wrap>
-          <ion-thumbnail slot="start">
-            <ion-img [src]="img.path"></ion-img>
-          </ion-thumbnail>
-          <ion-label>{{ img.name }}</ion-label>
+        <ion-list>
 
-          <button slot="end" fill="clear" (click)="startUpload(img)">
-            <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
-          </button>
+          <ion-item *ngFor="let img of images; index as pos" text-wrap>
+            <ion-thumbnail slot="start">
+              <ion-img [src]="img.path"></ion-img>
+            </ion-thumbnail>
+            <ion-label>{{ img.name }}</ion-label>
 
-          <button slot="end" fill="clear" (click)="deleteImage(img, pos)">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-          </button>
-        </ion-item>
+            <button slot="end" fill="clear" (click)="startUpload(img)">
+              <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
+            </button>
+
+            <button slot="end" fill="clear" (click)="deleteImage(img, pos)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </button>
+          </ion-item>
+
+        </ion-list>
       </ion-list>
 
     </form>

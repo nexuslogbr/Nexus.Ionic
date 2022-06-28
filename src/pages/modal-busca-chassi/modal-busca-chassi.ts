@@ -166,15 +166,16 @@ export class ModalBuscaChassiComponent {
       this.modalChassi = this.modal.create(ModalSelecionarChassiBuscaComponent, {
         data: data,
       });
+      this.modalChassi.present();
+      this.view.dismiss();
     }
     else{
       this.modalChassi = this.modal.create(ModalSelecionarChassiComponent, {
         data: data,
       });
+      this.modalChassi.present();
+      this.view.dismiss();
     }
-    this.modalChassi.present();
-
-    this.view.dismiss();
   }
 
   navigateToHomePage() {
