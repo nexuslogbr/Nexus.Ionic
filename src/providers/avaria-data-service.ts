@@ -65,9 +65,9 @@ export class AvariaDataService{
     return this.http.post<string>(url, model, httpOptions);
   }
 
-  public uploadImagens(model: any){
+  public uploadImagens(formData: FormData){
     let url = this.urlApi + '/lancamentoAvaria/ConsultarChassi';
-    model.token = this.authService.getToken();
-    return this.http.post<string>(url, model, httpOptions);
+    // model.token = this.authService.getToken();
+    return this.http.post<string>(url, formData, httpOptions);
   }
 }
