@@ -512,32 +512,23 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   save(){
     this.authService.showLoading();
 
-    let id = this.formData.id > 0 ? this.formData.id : 0;
-    let veiculoID = this.formData.veiculo.id > 0 ? this.formData.veiculo.id : 0;
-    let momentoID = this.formData.momento.id > 0 ? this.formData.momento.id : 0;
-    let posicaoSuperficieChassiID = this.posicaoAvaria.id != undefined ? this.posicaoAvaria.id : this.formSelecaoSuperficie.controls.posicaoAvaria.value;
-    let avariaID = this.avaria.id != undefined ? this.avaria.id : this.formData.avaria.id;
-    let tipoAvariaID = this.avaria.id != undefined ? this.avaria.tipoAvaria.id : this.formData.avaria.tipoAvaria.id;
-    let parteID = this.parteAvaria.id != undefined ? this.parteAvaria.id : this.formData.superficieChassiParte.parteID;
-    let superficieChassiParteID = this.parteAvaria.id != undefined ? this.parteAvaria.superficieChassiParte.id : this.formData.superficieChassiParte.superficieChassiID;
-    let gravidadeAvariaID = this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.id : this.formData.gravidadeAvaria.id;
-    let nivelGravidadeAvariaID = this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.nivelGravidadeAvaria.id : this.formData.gravidadeAvaria.nivelGravidadeAvaria.id;
-    let observacao = this.formSelecaoSuperficie.controls.observacao.value;
-    let quadrante = this.formSelecaoSuperficie.controls.subArea.value;
-
     let model  = {
-      id: id,
-      veiculoID: veiculoID,
-      momentoID: momentoID,
-      posicaoSuperficieChassiID: posicaoSuperficieChassiID,
-      tipoAvariaID: tipoAvariaID,
-      avariaID: avariaID,
-      parteID: parteID,
-      superficieChassiParteID: superficieChassiParteID,
-      nivelGravidadeAvariaID: nivelGravidadeAvariaID,
-      observacao: observacao,
-      quadrante: parseInt(this.formSelecaoSuperficie.controls.subArea.value),
+      id: this.formData.id > 0 ? this.formData.id : 0,
+      veiculoID: this.formData.veiculo.id > 0 ? this.formData.veiculo.id : 0,
+      momentoID: this.formData.momento.id > 0 ? this.formData.momento.id : 0,
+      posicaoSuperficieChassiID: this.posicaoAvaria.id != undefined ? this.posicaoAvaria.id : this.formSelecaoSuperficie.controls.posicaoAvaria.value,
+      avariaID: this.avaria.id != undefined ? this.avaria.id : this.formData.avaria.id,
+      tipoAvariaID: this.avaria.id != undefined ? this.avaria.tipoAvaria.id : this.formData.avaria.tipoAvaria.id,
+      parteID: this.parteAvaria.id != undefined ? this.parteAvaria.id : this.formData.superficieChassiParte.parteID,
+      superficieChassiParteID: this.parteAvaria.id != undefined ? this.parteAvaria.superficieChassiParte.id : this.formData.superficieChassiParte.superficieChassiID,
+      gravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.id : this.formData.gravidadeAvaria.id,
+      nivelGravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.nivelGravidadeAvaria.id : this.formData.gravidadeAvaria.nivelGravidadeAvaria.id,
+      observacao: this.formSelecaoSuperficie.controls.observacao.value,
+      quadrante: this.formSelecaoSuperficie.controls.subArea.value,
+      FormFile: null
     };
+
+    const imagesArray = new Array<File>();
 
     this.avariaService.salvar(model)
     .pipe(
@@ -605,14 +596,18 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         buttons: [{
                 text: 'Galeria',
                 handler: () => {
-                    this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+                  this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
                 }
             },
             {
                 text: 'Camera',
-                handler: () => { this.takePicture(this.camera.PictureSourceType.CAMERA); }
+                handler: () => {
+                  this.takePicture(this.camera.PictureSourceType.CAMERA);
+                }
             },
-            { text: 'Cancelar', role: 'cancel' }
+            {
+              text: 'Cancelar', role: 'cancel'
+            }
         ]
     });
     await actionSheet.present();
@@ -623,7 +618,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         quality: 100,
         sourceType: sourceType,
         saveToPhotoAlbum: false,
-        correctOrientation: true
+        correctOrientation: true,
+        destinationType: this.camera.DestinationType.FILE_URI
     };
 
     this.camera.getPicture(options).then(imagePath => {

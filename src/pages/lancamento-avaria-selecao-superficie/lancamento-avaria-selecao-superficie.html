@@ -123,7 +123,8 @@
 
           <ion-item *ngFor="let img of images; index as pos" text-wrap>
             <ion-thumbnail slot="start">
-              <ion-img [src]="img.path"></ion-img>
+              <img [src]="img.path">
+              <!-- <ion-img [src]="img.path"></ion-img> -->
             </ion-thumbnail>
             <ion-label>{{ img.name }}</ion-label>
 

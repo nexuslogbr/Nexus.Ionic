@@ -29,7 +29,7 @@ const httpOptions = {
 export class QualidadeDashboardBuscaAvariasPage {
 
   url: string;
-  image = './assets/images/qualidade_dashboard_small.PNG';
+  image = 'assets/images/qualidade_dashboard_small.PNG';
   retornoData:any;
   avarias: any[] = [];
   lancamentosAvarias: any[] = [];
