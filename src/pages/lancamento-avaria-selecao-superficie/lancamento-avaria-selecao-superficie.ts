@@ -26,6 +26,7 @@ import { OnInit } from '@angular/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 
+// const IMAGE_DIR = '';
 const IMAGE_DIR = 'stored-images';
 
 interface LocalFile {
@@ -46,7 +47,9 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
   gravidadesAvaria: Array<GravidadeAvaria> = [];
   partesAvaria: Array<Parte> = [];
   formSelecaoSuperficie: FormGroup;
-  images: LocalFile[] = [];
+
+  images: any[] = [];
+  convertedImages: FormData[] = [];
 
   avaria = new Avaria();
   posicaoAvaria = new PosicaoSuperficieChassi();
@@ -506,8 +509,8 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
   }
 
   voltar(){
-    // this.navCtrl.push(QualidadeMenuPage);
-    this.view.dismiss();
+    this.navCtrl.push(QualidadeMenuPage);
+    // this.view.dismiss();
     // const chassiModal: Modal = this.modal.create(QualidadeMenuPage, {
     //   data: this.formData
     // });
@@ -516,6 +519,10 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
 
   save(){
     this.authService.showLoading();
+
+    this.images.forEach(image => {
+      this.convertBase64ToFormData(image.path);
+    });
 
     let model  = {
       id: this.formData.id > 0 ? this.formData.id : 0,
@@ -530,10 +537,8 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
       nivelGravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.nivelGravidadeAvaria.id : this.formData.gravidadeAvaria.nivelGravidadeAvaria.id,
       observacao: this.formSelecaoSuperficie.controls.observacao.value,
       quadrante: this.formSelecaoSuperficie.controls.subArea.value,
-      FormFile: null
+      formFile: this.convertedImages
     };
-
-    const imagesArray = new Array<File>();
 
     this.avariaService.salvar(model)
     .pipe(
@@ -546,8 +551,7 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
           this.alertService.showInfo('Avaria cadastrada com sucesso');
         }
         setTimeout(() => {
-          this.navCtrl.push(QualidadeMenuPage);
-          // this.voltar();
+          this.voltar();
         }, 500);
       })
     )
@@ -562,49 +566,7 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
 
 
 
-//   /// Selecionar uma imagem da biblioteca do dispositivo
-  async loadFiles() {
-    this.images = [];
-    this.authService.showLoading();
-
-    Filesystem.readdir({
-      path: IMAGE_DIR,
-      directory: Directory.Data,
-    }).then(result => {
-      this.loadFileData(result.files);
-    },
-      async (err) => {
-        // Pasta ainda não existe!
-        await Filesystem.mkdir({
-          path: IMAGE_DIR,
-          directory: Directory.Data,
-        });
-      }
-    ).then(_ => {
-      this.authService.hideLoading();
-    });
-  }
-
-  // Obter os dados da imagem em base64
-  async loadFileData(fileNames: string[]) {
-    for (let f of fileNames) {
-      const filePath = `${IMAGE_DIR}/${f}`;
-
-      const readFile = await Filesystem.readFile({
-        path: filePath,
-        directory: Directory.Data,
-      });
-
-      console.log('data:image/jpeg;base64,' + readFile.data);
-
-      this.images.push({
-        name: f,
-        path: filePath,
-        data: `data:image/jpeg;base64,${readFile.data}`,
-      });
-    }
-  }
-
+  /// Selecionar uma imagem da biblioteca do dispositivo
   // selectImage() {
   //   const actionSheet = this.actionSheetController.create({
   //       title: 'Selecionar imagem',
@@ -630,35 +592,99 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
 
   // async setImage(sourceType: CameraSource) {
   async selectImage() {
+
     const image = await Camera.getPhoto({
       quality: 100,
       allowEditing: true,
       resultType: CameraResultType.Uri,
-      source: CameraSource.Camera // Camera, Photos or Prompt!
+      source: CameraSource.Camera
     });
 
     if (image) {
-        this.saveImage(image)
+      this.saveImage(image)
     }
   }
 
-// Criar novo arquivo para a captura de imagem
+  // Criar novo arquivo para a captura de imagem
   async saveImage(photo: Photo) {
     const base64Data = await this.readAsBase64(photo);
-
     const fileName = new Date().getTime() + '.jpeg';
-    const savedFile = await Filesystem.writeFile({
-        path: `${IMAGE_DIR}/${fileName}`,
-        data: base64Data,
-        directory: Directory.Data
+
+    this.images.push({
+      path: base64Data,
+      name: fileName
     });
 
-    console.log(savedFile);
+    // const savedFile = await Filesystem.writeFile({
+    //     path: `${IMAGE_DIR}/${fileName}`,
+    //     data: base64Data,
+    //     directory: Directory.Documents
+    // });
     // Recarregar a lista de arquivos
-    this.loadFiles();
+    // this.loadFileData(array);
   }
 
-  // https://ionicframework.com/docs/angular/your-first-app/3-saving-photos
+  // async loadFiles() {
+  //   this.images = [];
+
+  //   Filesystem.readdir({
+  //     path: IMAGE_DIR,
+  //     directory: Directory.Data,
+  //   }).then(result => {
+  //     this.loadFileData(result.files);
+  //   },
+  //     async (err) => {
+  //       // Pasta ainda não existe!
+  //       await Filesystem.mkdir({
+  //         path: IMAGE_DIR,
+  //         directory: Directory.Data,
+  //       });
+  //     }
+  //   ).then(_ => {
+  //     this.authService.hideLoading();
+  //   });
+  // }
+
+  // async loadFiles() {
+  //   try {
+  //     let files = await Filesystem.readdir({
+  //       path: IMAGE_DIR,
+  //       directory: Directory.Documents
+  //     }).then(result => {
+  //       console.log("Diretorio existente e Arquivos carregados");
+  //       alert("Diretorio existente e Arquivos carregados");
+  //     });
+  //   } catch (e) {
+  //     let ret = await Filesystem.mkdir({
+  //       path: IMAGE_DIR,
+  //       directory: Directory.Documents,
+  //       recursive: false,
+  //     });
+  //     console.log("Diretorio não existente, foi criado com os arquivo do Directory");
+  //     alert("Diretorio não existente, foi criado com os arquivo do Directory");
+  //   }
+  // }
+
+
+  // Obter os dados da imagem em base64
+
+  // async loadFileData(files: string[]) {
+  //   for (let file of files) {
+  //     const filePath = `${IMAGE_DIR}/${file}`;
+
+  //     const readFile = await Filesystem.readFile({
+  //       path: filePath,
+  //       directory: Directory.Data,
+  //     });
+
+  //     this.images.push({
+  //       name: file,
+  //       path: filePath,
+  //       data: `data:image/jpeg;base64,${readFile.data}`,
+  //     });
+  //   }
+  // }
+
   private async readAsBase64(photo: Photo) {
     if (this.platform.is('hybrid')) {
       const file = await Filesystem.readFile({
@@ -686,8 +712,14 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
     reader.readAsDataURL(blob);
   });
 
-  // Converte de base64 para blob data
-  // and create  formData with it
+  convertBase64ToFormData(fileToUpload: string){
+    let input = new FormData();
+    input.append("", fileToUpload);
+
+    this.convertedImages.push(input);
+  }
+
+  // Converte de base64 para blob data e crie formData com ele
   async startUpload(file: LocalFile) {
     const response = await fetch(file.data);
     const blob = await response.blob();
@@ -719,6 +751,6 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
         directory: Directory.Data,
         path: file.path
     });
-    this.loadFiles();
+    // this.loadFiles();
   }
 }
