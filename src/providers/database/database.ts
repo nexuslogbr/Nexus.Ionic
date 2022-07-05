@@ -30,7 +30,7 @@ export class DatabaseProvider {
         this.db = window['openDatabase'](this.dbname, '1.0', 'Test DB', -1);
         this.createTables(this.db);
         console.log('db criado no WebSQL!');
-        resolve();
+        // resolve();
       }
     });
   }

@@ -162,7 +162,7 @@ import { NovaConferenciaVeiculosPage } from '../pages/nova-conferencia-veiculos/
 import { NovaConferenciaVeiculosConferidosPage } from '../pages/nova-conferencia-veiculos-conferidos/nova-conferencia-veiculos-conferidos';
 import { NovaConferenciaVeiculosPendentesPage } from '../pages/nova-conferencia-veiculos-pendentes/nova-conferencia-veiculos-pendentes';
 import { NovaConferenciaVeiculosTodosPage } from '../pages/nova-conferencia-veiculos-todos/nova-conferencia-veiculos-todos';
-import { SuperTabsModule } from 'ionic2-super-tabs';
+// import { SuperTabsModule } from 'ionic2-super-tabs';
 import { ConferenciaVeiculosComponent } from '../components/conferencia-veiculos/conferencia-veiculos';
 import { NovaConferenciaListarFinalizadasPage } from '../pages/nova-conferencia-listar-finalizadas/nova-conferencia-listar-finalizadas';
 import { NovaConferenciaJustificativaPage } from '../pages/nova-conferencia-justificativa/nova-conferencia-justificativa';
@@ -398,7 +398,7 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     HttpClientModule,
     FormsModule,
     BrMaskerModule,
-    SuperTabsModule.forRoot(),
+    // SuperTabsModule.forRoot(),
     IonicModule.forRoot(PatioAutomotivo, {
       preloadModules: true,
       monthNames: [
