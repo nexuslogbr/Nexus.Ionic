@@ -62,12 +62,22 @@ export class AvariaDataService{
   public consultarChassi(model: any){
     let url = this.urlApi + '/lancamentoAvaria/ConsultarChassi';
     model.token = this.authService.getToken();
-    return this.http.post<string>(url, model, httpOptions);
+    return this.http.post<any>(url, JSON.stringify(model), { headers: headers });
+    // return this.http.post<string>(url, model, httpOptions);
   }
 
   public uploadImagens(formData: FormData){
-    let url = this.urlApi + '/lancamentoAvaria/ConsultarChassi';
-    // model.token = this.authService.getToken();
-    return this.http.post<string>(url, formData, httpOptions);
+    let url = this.urlApi + '/lancamentoAvaria/xxxx';
+    let model = {
+      token: this.token,
+      formData
+    }
+    return this.http.post<string>(url, model, httpOptions);
+  }
+
+  public getImagens(model:any){
+    let url = this.urlApi + '/lancamentoAvaria/Imagens';
+    model.token = this.token;
+    return this.http.post<string>(url, model, httpOptions);
   }
 }

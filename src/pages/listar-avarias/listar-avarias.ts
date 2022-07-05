@@ -1,12 +1,5 @@
 import { Component, ViewChild } from "@angular/core";
-import {
-  IonicPage,
-  NavController,
-  Modal,
-  ModalController,
-  NavParams,
-  ViewController
-} from "ionic-angular";
+import { NavController, Modal, ModalController, NavParams, ViewController } from "ionic-angular";
 import { AuthService } from "../../providers/auth-service/auth-service";
 import { HomePage } from "../home/home";
 import { ModalErrorComponent } from "../../components/modal-error/modal-error";
@@ -15,11 +8,8 @@ import { Select } from "ionic-angular";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import "rxjs/add/operator/map";
 import * as $ from "jquery";
-import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-scanner";
-import { BuscarAvariasPage } from "../buscar-avarias/buscar-avarias";
 import { AvariaDataService } from "../../providers/avaria-data-service";
 import { DataRetorno } from "../../model/dataretorno";
-import { finalize } from "rxjs/operators";
 import { AlertService } from "../../providers/alert-service";
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { Veiculo } from "../../model/veiculo";
@@ -40,10 +30,6 @@ const httpOptions = {
   templateUrl: "listar-avarias.html",
 })
 export class ListarAvariasPage {
-  @ViewChild("select1") select1: Select;
-  @ViewChild("select2") select2: Select;
-  @ViewChild("select3") select3: Select;
-  @ViewChild("select4") select4: Select;
   @ViewChild('chassiInput') chassiInput;
 
   title: string;
@@ -56,24 +42,19 @@ export class ListarAvariasPage {
   modoOperacao: number;
 
   formData = {
-    "token": "",
-    "skip": 0,
-    "take": 0,
-    "localID": 0,
-    "veiculoID": 0,
-    "chassi":"",
-    "veiculoDesc": "",
-    "data": "",
-    "parteAvariadaID": 0,
-    "parteAvariaDesc": "",
-    "modelo": "",
-    "tipoAvariaID": 0,
-    "tipoAvariaDesc": "",
-    "gravidadeID": 0,
-    "gravidadeDesc": "",
-
-    "filtro": "",
-    "filtroValor": ""
+    token: "",
+    skip: 0,
+    take: 0,
+    localID: 0,
+    veiculoID: 0,
+    chassi:"",
+    data: "",
+    parteAvariadaID: 0,
+    modelo: "",
+    tipoAvariaID: 0,
+    gravidadeID: 0,
+    filtro: "",
+    filtroValor: ""
   };
 
   editData = {

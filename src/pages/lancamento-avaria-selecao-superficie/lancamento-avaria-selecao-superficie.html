@@ -47,12 +47,6 @@
           </ion-select>
         </ion-item>
 
-        <!-- <ion-item *ngIf="tipoAvaria.id">
-          <div>
-            <ion-chip [ngStyle]="{'background-color': tipoAvaria.cor}"><b>{{tipoAvaria.sigla}}</b></ion-chip> <i>{{tipoAvaria.nome}}</i>
-          </div>
-        </ion-item> -->
-
         <div >
           <!-- <div *ngIf="formSelecaoSuperficie.controls.partePeca.value">
             <ion-chip size="small" [ngStyle]="styleObject()">
@@ -63,7 +57,6 @@
           <img [src]="urlImagem" id="image" class="img-relative">
 
           <div id="canvasWrapper">
-            <!-- <canvas #imageCanvas id="canvas"></canvas> -->
             <canvas #imageCanvas (touchstart)="touched($event)" (touchmove)="moved($event)" id="canvas"></canvas>
           </div>
         </div>
@@ -119,15 +112,12 @@
           </ion-row>
         </ion-toolbar>
 
-        <!-- <ion-list> -->
           <ion-item *ngFor="let file of images; index as pos" text-wrap>
-
             <ion-thumbnail slot="start">
               <ion-img [src]="file.path"></ion-img>
-              <!-- <img [src]="testeImagem" width="10" height="10"> -->
             </ion-thumbnail>
 
-            <ion-label class="ion-text-wrap">{{ file.name }}</ion-label>
+            <ion-label class="ion-text-wrap">{{ file.fileName }}</ion-label>
 
             <button slot="end" fill="clear" (click)="startUpload(file)">
               <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
@@ -136,7 +126,6 @@
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </button>
           </ion-item>
-        <!-- </ion-list> -->
 
       </ion-list>
 

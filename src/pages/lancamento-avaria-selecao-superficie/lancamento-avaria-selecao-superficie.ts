@@ -1,17 +1,15 @@
 import { ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, Content, ModalController, NavController, NavParams, Platform, ToastController, ViewController, LoadingController } from 'ionic-angular';
+import { ActionSheetController, Content, ModalController, NavController, NavParams, Platform, ToastController, ViewController } from 'ionic-angular';
 import * as $ from 'jquery';
 import { TipoAvaria } from '../../model/TipoAvaria';
 import { AvariaDataService } from '../../providers/avaria-data-service';
 import { GravidadeDataService } from '../../providers/gravidade-data-service';
 import { AuthService } from '../../providers/auth-service/auth-service';
-
-import { File, FileEntry } from '@ionic-native/File';
+import { File } from '@ionic-native/File';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { Storage } from '@ionic/storage';
 import { FilePath } from '@ionic-native/file-path';
-import { CameraOptions, PictureSourceType } from '@ionic-native/camera/index';
 import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
 import { PosicaoSuperficieChassi } from '../../model/PosicaoSuperficieChassi';
 import { Parte } from '../../model/parte';
@@ -22,11 +20,9 @@ import { Avaria } from '../../model/avaria';
 import { Veiculo } from '../../model/veiculo';
 import { Momento } from '../../model/Momento';
 import { GravidadeAvaria } from '../../model/gravidadeAvaria';
-import { OnInit } from '@angular/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 
-// const IMAGE_DIR = '';
 const IMAGE_DIR = 'stored-images';
 
 interface LocalFile {
@@ -40,7 +36,7 @@ interface LocalFile {
 templateUrl: 'lancamento-avaria-selecao-superficie.html',
   // providers: [Camera]
 })
-export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
+export class LancamentoAvariaSelecaoSuperficiePage {
   title: string;
   avarias: Array<Avaria> = [];
   posicoesAvaria: Array<PosicaoSuperficieChassi> = [];
@@ -102,7 +98,6 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
   private view: ViewController,
   private formBuilder: FormBuilder,
   private platform: Platform,
-  // private camera: Camera,
   private file: File,
   private webview: WebView,
   private actionSheetController: ActionSheetController,
@@ -134,12 +129,12 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
       partePeca: [false, Validators.required],
 
 
-      posicaoAvaria: [posicaoAvaria, Validators.required],
-      superficieChassiParte: [superficieChassiParte, Validators.required],
-      tipoAvaria: [tipoAvaria, Validators.required],
-      subArea: [subArea],
-      gravidadeAvaria: [gravidadeAvaria, Validators.required],
-      observacao: [observacao],
+      posicaoAvaria: [this.formData.posicaoSuperficieChassi == undefined ? '' : this.formData.posicaoSuperficieChassi.id, Validators.required],
+      superficieChassiParte: [this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID, Validators.required],
+      tipoAvaria: [this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id, Validators.required],
+      subArea: [this.formData.quadrante == undefined ? '' : this.formData.quadrante],
+      gravidadeAvaria: [this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id, Validators.required],
+      observacao: [this.formData.observacao == undefined ? '' : this.formData.observacao],
     });
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
@@ -156,10 +151,6 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
 
   }
 
-  // async ngOnInit() {
-  //   this.loadFiles();
-  // }
-
   ionViewWillEnter() {
     this.authService.showLoading();
 
@@ -169,7 +160,6 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
         token: ''
       })
       .subscribe((res: any) => {
-        // this.urlImagem = res.retorno.imagem;
         this.urlImagem = res.retorno.imagem;
 
         let imagem = document.getElementById('image')
@@ -179,10 +169,16 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
         this.getImageDimenstion(this.width,this.height);
 
         if (this.formData.id > 0) {
-          this.assembleGrid(this.formData.superficieChassiParte);
+          this.avariaService.getImagens({ID: this.formData.id})
+          .subscribe((res: any) => {
+            this.images = res.retorno;
+            this.assembleGrid(this.formData.superficieChassiParte);
+            this.loadPartes();
+          });
+        }else{
+          this.loadPartes();
         }
 
-        this.loadPartes();
       });
     }
   }
@@ -204,7 +200,6 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
   getImageDimenstion(width: number, height: number){
     this.canvasElement = this.canvas.nativeElement;
     this.platform.width() + '';
-    // this.canvasElement.height = height;
     this.canvasElement.width = width;
     this.canvasElement.height = height;
   }
@@ -250,7 +245,6 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
   selectTipoAvariaChange(id:number){
     this.avaria = this.avarias.filter(x => x.id == id).map(x => x)[0]
     this.formSelecaoSuperficie.patchValue({
-      // tipoAvaria: this.avaria.tipoAvaria.nome,
       partePeca: true
     });
 
@@ -260,11 +254,6 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
         this.abcissaX = pos.coordenadaX;
         this.ordenadaY = pos.coordenadaY;
       }
-      // else if(this.formSelecaoSuperficie.controls.subArea.value == 0){
-      //   let pos = this.posicoesSubArea.filter(x => x.posicao == 1).map(x => x)[0];
-      //   this.abcissaX = pos.coordenadaX;
-      //   this.ordenadaY = pos.coordenadaY;
-      // }
     }
     else if (this.divideEmPartes == 0){
       this.abcissaX = this.radiusX;
@@ -274,15 +263,11 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
 
   selectPosicaoAvariaChange(event){
     this.posicaoAvaria = this.posicoesAvaria.filter(x => x.id == event).map(x => x)[0]
-    // this.formSelecaoSuperficie.patchValue({
-    //   posicaoAvaria: this.posicaoAvaria.nome
-    // });
   }
 
   selectPartesAvariaChange(event){
     this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0]
     this.formSelecaoSuperficie.patchValue({
-      // posicaoAvaria: event,
       partePeca: false,
     });
 
@@ -297,11 +282,6 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
 
   selectGravidadeChange(id){
     this.gravidadeAvaria = this.gravidadesAvaria.filter(x => x.id == id).map(x => x)[0]
-    // this.formSelecaoSuperficie.patchValue({
-    //   gravidadeAvaria: this.gravidadeAvaria.nome
-    // });
-
-    // this.assembleGrid(this.parteAvaria.superficieChassiParte);
   }
 
   touched(event){
@@ -337,7 +317,7 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
     // this.saveY = currentY;
   }
 
-  assembleGrid(data) {
+  async assembleGrid(data) {
     this.posicoesSubArea = [];
     let superficieChassi = data;
 
@@ -505,7 +485,7 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
     // this.radiusY =
     this.radiusX = startX + ((endX - startX)/2);
     this.radiusY = startY + ((endY - startY)/2);
-    ctx.strokeRect(startX, startY, endX - startX, endY - startY);
+    await ctx.strokeRect(startX, startY, endX - startX, endY - startY);
   }
 
   voltar(){
@@ -612,78 +592,9 @@ export class LancamentoAvariaSelecaoSuperficiePage { //implements OnInit {
 
     this.images.push({
       path: base64Data,
-      name: fileName
+      fileName
     });
-
-    // const savedFile = await Filesystem.writeFile({
-    //     path: `${IMAGE_DIR}/${fileName}`,
-    //     data: base64Data,
-    //     directory: Directory.Documents
-    // });
-    // Recarregar a lista de arquivos
-    // this.loadFileData(array);
   }
-
-  // async loadFiles() {
-  //   this.images = [];
-
-  //   Filesystem.readdir({
-  //     path: IMAGE_DIR,
-  //     directory: Directory.Data,
-  //   }).then(result => {
-  //     this.loadFileData(result.files);
-  //   },
-  //     async (err) => {
-  //       // Pasta ainda não existe!
-  //       await Filesystem.mkdir({
-  //         path: IMAGE_DIR,
-  //         directory: Directory.Data,
-  //       });
-  //     }
-  //   ).then(_ => {
-  //     this.authService.hideLoading();
-  //   });
-  // }
-
-  // async loadFiles() {
-  //   try {
-  //     let files = await Filesystem.readdir({
-  //       path: IMAGE_DIR,
-  //       directory: Directory.Documents
-  //     }).then(result => {
-  //       console.log("Diretorio existente e Arquivos carregados");
-  //       alert("Diretorio existente e Arquivos carregados");
-  //     });
-  //   } catch (e) {
-  //     let ret = await Filesystem.mkdir({
-  //       path: IMAGE_DIR,
-  //       directory: Directory.Documents,
-  //       recursive: false,
-  //     });
-  //     console.log("Diretorio não existente, foi criado com os arquivo do Directory");
-  //     alert("Diretorio não existente, foi criado com os arquivo do Directory");
-  //   }
-  // }
-
-
-  // Obter os dados da imagem em base64
-
-  // async loadFileData(files: string[]) {
-  //   for (let file of files) {
-  //     const filePath = `${IMAGE_DIR}/${file}`;
-
-  //     const readFile = await Filesystem.readFile({
-  //       path: filePath,
-  //       directory: Directory.Data,
-  //     });
-
-  //     this.images.push({
-  //       name: file,
-  //       path: filePath,
-  //       data: `data:image/jpeg;base64,${readFile.data}`,
-  //     });
-  //   }
-  // }
 
   private async readAsBase64(photo: Photo) {
     if (this.platform.is('hybrid')) {
