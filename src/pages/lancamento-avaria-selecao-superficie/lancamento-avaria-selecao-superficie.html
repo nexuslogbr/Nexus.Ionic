@@ -104,6 +104,18 @@
           <ion-label label-ios style="font-style: unset;"><b>Imagens:</b></ion-label>
         </ion-item>
 
+        <ion-item *ngFor="let file of images; index as pos" text-wrap>
+          <ion-thumbnail slot="start">
+            <img [src]="file.path">
+          </ion-thumbnail>
+
+          <ion-label class="ion-text-wrap">{{ file.fileName }}</ion-label>
+
+          <button ion-button slot="end" size="small" (click)="deleteImage(file)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </button>
+        </ion-item>
+
         <ion-toolbar color="primary">
           <ion-row style="align-items: center;" (click)="selectImage()">
             <ion-thumbnail>
@@ -111,21 +123,6 @@
             </ion-thumbnail>
           </ion-row>
         </ion-toolbar>
-
-          <ion-item *ngFor="let file of images; index as pos" text-wrap>
-            <ion-thumbnail slot="start">
-              <ion-img [src]="file.path"></ion-img>
-            </ion-thumbnail>
-
-            <ion-label class="ion-text-wrap">{{ file.fileName }}</ion-label>
-
-            <button slot="end" fill="clear" (click)="startUpload(file)">
-              <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
-            </button>
-            <button ion-button round class="btn-default" (click)="deleteImage(file, pos)">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </button>
-          </ion-item>
 
       </ion-list>
 

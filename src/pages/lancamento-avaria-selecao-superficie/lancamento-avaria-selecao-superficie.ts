@@ -517,7 +517,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       nivelGravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.nivelGravidadeAvaria.id : this.formData.gravidadeAvaria.nivelGravidadeAvaria.id,
       observacao: this.formSelecaoSuperficie.controls.observacao.value,
       quadrante: this.formSelecaoSuperficie.controls.subArea.value,
-      formFile: this.convertedImages
     };
 
     this.avariaService.salvar(model)
@@ -527,16 +526,16 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         if (model.id > 0) {
           this.alertService.showInfo('Avaria alterada com sucesso');
         }
-        else{
-          this.alertService.showInfo('Avaria cadastrada com sucesso');
-        }
+        // else{
+        //   this.alertService.showInfo('Avaria cadastrada com sucesso');
+        // }
         setTimeout(() => {
           this.voltar();
-        }, 500);
+        }, 1000);
       })
     )
     .subscribe((response:any) => {
-      console.log(response);
+      this.uploadData(response.Retorno.id)
     }, (error: any) => {
       this.alertService.showError('Erro ao salvar avaria');
     });
@@ -547,32 +546,31 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
 
   /// Selecionar uma imagem da biblioteca do dispositivo
-  // selectImage() {
-  //   const actionSheet = this.actionSheetController.create({
-  //       title: 'Selecionar imagem',
-  //       buttons: [{
-  //               text: 'Galeria',
-  //               handler: () => {
-  //                 this.setImage(CameraSource.Photos);
-  //               }
-  //           },
-  //           {
-  //               text: 'Camera',
-  //               handler: () => {
-  //                 this.setImage(CameraSource.Camera);
-  //               }
-  //           },
-  //           {
-  //             text: 'Cancelar', role: 'cancel'
-  //           }
-  //       ]
-  //   });
-  //   actionSheet.present();
-  // }
+  selectImage() {
+    const actionSheet = this.actionSheetController.create({
+        title: 'Selecionar imagem',
+        buttons: [
+          {
+            text: 'Camera',
+            handler: () => {
+              this.selectImageCamera();
+            }
+          },
+          {
+            text: 'Galeria',
+            handler: () => {
+              this.selectImageLibrary();
+            }
+          },
+          {
+            text: 'Cancelar', role: 'cancel'
+          }
+        ]
+    });
+    actionSheet.present();
+  }
 
-  // async setImage(sourceType: CameraSource) {
-  async selectImage() {
-
+  async selectImageCamera() {
     const image = await Camera.getPhoto({
       quality: 100,
       allowEditing: true,
@@ -585,15 +583,29 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     }
   }
 
-  // Criar novo arquivo para a captura de imagem
+  async selectImageLibrary() {
+    const image = await Camera.getPhoto({
+      quality: 100,
+      allowEditing: true,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Photos
+    });
+
+    if (image) {
+      this.saveImage(image)
+    }
+  }
+
   async saveImage(photo: Photo) {
     const base64Data = await this.readAsBase64(photo);
     const fileName = new Date().getTime() + '.jpeg';
 
-    this.images.push({
+    let image = {
       path: base64Data,
-      fileName
-    });
+      fileName: fileName
+    }
+
+    this.images.push(image);
   }
 
   private async readAsBase64(photo: Photo) {
@@ -613,7 +625,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     }
   }
 
-  // Helper function
   convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
     const reader = new FileReader;
     reader.onerror = reject;
@@ -623,27 +634,35 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     reader.readAsDataURL(blob);
   });
 
-  convertBase64ToFormData(fileToUpload: string){
-    let input = new FormData();
-    input.append("", fileToUpload);
+  convertBase64ToFormData(file: string){
+    const formData = new FormData();
+    formData.append("formFile", file);
 
-    this.convertedImages.push(input);
+    return formData;
+    // this.convertedImages.push(formData);
   }
 
-  // Converte de base64 para blob data e crie formData com ele
   async startUpload(file: LocalFile) {
     const response = await fetch(file.data);
     const blob = await response.blob();
     const formData = new FormData();
     formData.append('file', blob, file.name);
-    this.uploadData(formData);
+    // this.uploadData(formData);
   }
 
-  // Upload o formData para a API
-  async uploadData(formData: FormData) {
-    this.authService.showLoading();
+  async uploadData(LancamentoAvariaID: number) {
 
-    this.avariaService.uploadImagens(formData)
+    let base64Array = []
+    this.images.forEach(image => {
+      base64Array.push(image.path)
+    });
+
+      const upload_arquivo = {
+        Arquivos: base64Array,
+        LancamentoAvariaID: LancamentoAvariaID,
+      };
+
+    this.avariaService.uploadImages(upload_arquivo)
     .pipe(
       finalize(() => {
         this.authService.hideLoading();
@@ -653,7 +672,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       var data = response;
       console.log(data);
     }, (error:any) => {
-      console.log(error);
+      this.alertService.showError('Erro ao salvar avaria');
     });
   }
 
@@ -662,6 +681,70 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         directory: Directory.Data,
         path: file.path
     });
-    // this.loadFiles();
+  }
+
+  testeSalvarImagens(){
+    this.authService.showLoading();
+
+    let base64Array = []
+    this.images.forEach(image => {
+      base64Array.push(image.path)
+    });
+
+      const upload_arquivo = {
+        Arquivos: base64Array,
+        LancamentoAvariaID: 1020,
+      };
+
+    this.avariaService.uploadImages(upload_arquivo)
+    .pipe(
+      finalize(() => {
+        this.authService.hideLoading();
+      })
+    )
+    .subscribe((response: any) => {
+      var data = response;
+      console.log(data);
+    }, (error:any) => {
+      this.alertService.showError('Erro ao salvar avaria');
+    });
+
+    // this.images.forEach(image => {
+
+    //   const upload_arquivo = {
+    //     Arquivo: image.path,
+    //     ArquivoNome: image.fileName,
+    //     LancamentoAvariaID: 1020,
+    //   };
+
+    //   this.avariaService.uploadImages(upload_arquivo)
+    //   .pipe(
+    //     finalize(() => {
+    //       this.authService.hideLoading();
+    //     })
+    //   )
+    //   .subscribe((response: any) => {
+    //     var data = response;
+    //     console.log(data);
+    //   }, (error:any) => {
+    //     console.log(error);
+    //   });
+    // });
+
+
+    // var imageArrayBase64 = ""
+
+    // for(var j=0; j < this.images.length; j++){
+    //   if(imageArrayBase64 == ""){
+    //     imageArrayBase64 = this.images[j].path;
+    //   }
+    //   else{
+    //     imageArrayBase64 = imageArrayBase64  +"," + this.images[j].path;
+    //   }
+    // }
+
+
+    // var file = this.convertBase64ToFormData(this.images[0].path);
+
   }
 }
