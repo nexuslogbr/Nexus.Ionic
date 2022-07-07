@@ -2,7 +2,6 @@ import { Component, ViewChild } from "@angular/core";
 import { NavController, Modal, ModalController, ViewController, NavParams } from "ionic-angular";
 import { AuthService } from "../../providers/auth-service/auth-service";
 import { ModalErrorComponent } from "../../components/modal-error/modal-error";
-import { ModalSucessoComponent } from "../../components/modal-sucesso/modal-sucesso";
 import { Select } from "ionic-angular";
 import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
@@ -10,11 +9,11 @@ import * as $ from "jquery";
 import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-scanner";
 import { ListarAvariasPage } from "../listar-avarias/listar-avarias";
 import { Usuario } from "../../model/usuario";
-import { QualidadeMenuPage } from "../qualidade-menu/qualidade-menu";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ModalSelecionarChassiBuscaComponent } from "../../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca";
 import { AlertService } from "../../providers/alert-service";
 import { ModalBuscaChassiComponent } from "../modal-busca-chassi/modal-busca-chassi";
+import { ParteDataService } from "../../providers/parte-data-service";
 
 @Component({
   selector: "page-buscar-avarias",
@@ -76,6 +75,7 @@ export class BuscarAvariasPage {
     private view: ViewController,
     public alertService: AlertService,
     private navParam: NavParams,
+    private parteService: ParteDataService
   ) {
     this.title = "BUSCAR AVARIAS";
     this.url = this.authService.getUrl();
@@ -113,8 +113,8 @@ export class BuscarAvariasPage {
 
   ionViewWillEnter() {
     this.authService.showLoading();
+    this.formData.localID = this.userData.localModoOperacao;
     this.ListarParte();
-    this.setLocalID();
   }
 
   loadForm(){
@@ -130,8 +130,8 @@ export class BuscarAvariasPage {
   }
 
   ListarParte() {
-    this.http.get(this.url + "/Parte/Partes?token=" + this.authService.getToken())
-      .subscribe( (resultado) => {
+    this.parteService.listarPartes()
+    .subscribe( (resultado) => {
           this.car = resultado;
           if (this.car.sucesso){
             this.partes = this.car.retorno;
@@ -141,11 +141,7 @@ export class BuscarAvariasPage {
             this.openModalErro(this.car.mensagem);
         },
         (error) => {
-
-          this.openModalErro(
-            "Erro ao carregar as partes, volte ao menu e tente novamente!"
-          );
-          console.log(error);
+          this.openModalErro("Erro ao carregar as partes, volte ao menu e tente novamente!");
         }
       );
   }
@@ -209,10 +205,6 @@ export class BuscarAvariasPage {
           );
         }
       );
-  }
-
-  setLocalID() {
-    this.formData.localID = this.userData.localModoOperacao;
   }
 
   avancar(onDismiss?: Function) {
@@ -288,7 +280,6 @@ export class BuscarAvariasPage {
     });
     chassiModal.present();
   }
-
 
   scan() {
     this.options = {
