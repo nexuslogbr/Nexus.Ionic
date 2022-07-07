@@ -1,21 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, Modal, ModalController, NavParams, ViewController } from 'ionic-angular';
-import { HomePage } from '../home/home';
+import { NavController, Modal, ModalController, NavParams, ViewController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
-import { ModalVolumeImportacaoComponent } from '../../components/modal-volume-importacao/modal-volume-importacao';
-import { ModalImportMovimentacaoComponent } from '../../components/modal-import-movimentacao/modal-import-movimentacao';
-import { ModalExportMovimentacaoComponent } from '../../components/modal-export-movimentacao/modal-export-movimentacao';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Chart } from 'chart.js';
 import * as $ from 'jquery';
 import { Usuario } from '../../model/usuario';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
-import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
-import { Pagination } from '../../model/pagination';
 import { AvariaDataService } from '../../providers/avaria-data-service';
-import { finalize } from 'rxjs/operators';
 import { BuscarAvariasPage } from '../buscar-avarias/buscar-avarias';
 import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
+import { finalize } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -87,42 +80,39 @@ export class QualidadeDashboardBuscaAvariasPage {
 
   CarregarAvarias() {
     this.authService.showLoading();
-    let dashboard = this.url + "/lancamentoAvaria/Dashboard";
 
-    var dadosFiltro =
-    {
+    var dadosFiltro = {
       "token": this.authService.getToken(),
       "skip": 0,
       "take": 1000,
       "localID": 2
+      // "localID": this.userData.localModoOperacao
     }
 
-    this.http.post<string>(dashboard, dadosFiltro, httpOptions)
-      .subscribe(res => {
-        this.retornoData = res;
-
-        if (this.retornoData.sucesso) {
-          this.avarias = this.retornoData.retorno;
-          this.totalAvarias = this.retornoData.retorno.totalAvarias;
-          this.porcentagemVeiculosAvariados = this.retornoData.retorno.porcentagemVeiculosAvariados;
-          this.lancamentosAvarias = this.retornoData.retorno.lancamentosAvarias;
-
-          this.itemsPage = this.lancamentosAvarias.slice(this.index, this.offset + this.index);
-          this.index += this.offset;
-          this.authService.hideLoading();
-        }
-        else {
-          this.authService.hideLoading();
-          this.openModalErro("Falha ao carregado dados");
-          // this.navCtrl.push(HomePage);
-        }
-
-      }, (error) => {
-
-        this.openModalErro(error.status + ' - ' + error.statusText);
+    this.avariaService.carregarAvarias(dadosFiltro)
+    .pipe(
+      finalize(() => {
         this.authService.hideLoading();
-        console.log(error);
-      });
+      })
+    )
+    .subscribe(res => {
+      this.retornoData = res;
+
+      if (this.retornoData.sucesso) {
+        this.avarias = this.retornoData.retorno;
+        this.totalAvarias = this.retornoData.retorno.totalAvarias;
+        this.porcentagemVeiculosAvariados = this.retornoData.retorno.porcentagemVeiculosAvariados;
+        this.lancamentosAvarias = this.retornoData.retorno.lancamentosAvarias;
+
+        this.itemsPage = this.lancamentosAvarias.slice(this.index, this.offset + this.index);
+        this.index += this.offset;
+      }
+      else {
+        this.openModalErro("Falha ao carregado dados");
+      }
+    }, (error) => {
+      this.openModalErro(error.status + ' - ' + error.statusText);
+    });
   }
 
   loadData(infiniteScroll){
@@ -140,7 +130,6 @@ export class QualidadeDashboardBuscaAvariasPage {
         infiniteScroll.disable = true;
         console.log('Terminou!');
       }
-
     }, 100)
   }
 
@@ -153,7 +142,6 @@ export class QualidadeDashboardBuscaAvariasPage {
 
   Voltar() {
     this.view.dismiss();
-    // this.navCtrl.push(QualidadeMenuPage);
   }
 
   openModalErro(data) {
