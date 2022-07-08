@@ -104,20 +104,26 @@
           <ion-label label-ios style="font-style: unset;"><b>Imagens:</b></ion-label>
         </ion-item>
 
-        <ion-item *ngFor="let file of images; index as pos" text-wrap>
-          <ion-thumbnail slot="start">
-            <img [src]="file.path">
-          </ion-thumbnail>
-
-          <ion-label class="ion-text-wrap">{{ file.fileName }}</ion-label>
-
-          <button ion-button slot="end" size="small" (click)="deleteImage(file)">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-          </button>
-        </ion-item>
+        <ion-toolbar color="primary" *ngFor="let file of images; index as pos" text-wrap>
+          <ion-row style="align-items: center;">
+            <ion-thumbnail>
+              <ion-col>
+                <img [src]="file.path" style="width:25% ; height: 25%;" class="align-items-dangerous-image">
+              </ion-col>
+              <ion-col>
+                <ion-label class="align-items-dangerous-image abel-align-dangerous">{{ file.fileName }}</ion-label>
+              </ion-col>
+              <ion-col size="1">
+                <button ion-button slot="end" (click)="deleteImage(file)" class="button-style">
+                  <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </button>
+              </ion-col>
+            </ion-thumbnail>
+          </ion-row>
+        </ion-toolbar>
 
         <ion-toolbar color="primary">
-          <ion-row style="align-items: center;" (click)="selectImage()">
+          <ion-row style="align-items: center;" (click)="selectImage($event)">
             <ion-thumbnail>
               <img src="assets/images/camera-white-model.png" class="align-camera">
             </ion-thumbnail>
@@ -136,7 +142,7 @@
     <ion-row>
       <ion-col>
           <button ion-button round end class="btn-receiving btn-cancel"  (click)="voltar()" type="button">Voltar</button>
-          <button ion-button round end class="btn-receiving btn-ok" type="button" (click)="save()" [disabled]="!formSelecaoSuperficie.valid">Salvar</button>
+          <button ion-button round end class="btn-receiving btn-ok" type="button" (click)="uploadData()" [disabled]="!formSelecaoSuperficie.valid">Salvar</button>
       </ion-col>
     </ion-row>
   </ion-grid>
