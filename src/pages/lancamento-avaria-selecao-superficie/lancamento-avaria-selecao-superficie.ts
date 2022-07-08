@@ -1,15 +1,11 @@
-import { ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, Content, ModalController, NavController, NavParams, Platform, ToastController, ViewController } from 'ionic-angular';
+import { ActionSheetController, Content, ModalController, NavController, NavParams, Platform } from 'ionic-angular';
 import * as $ from 'jquery';
 import { TipoAvaria } from '../../model/TipoAvaria';
 import { AvariaDataService } from '../../providers/avaria-data-service';
 import { GravidadeDataService } from '../../providers/gravidade-data-service';
 import { AuthService } from '../../providers/auth-service/auth-service';
-import { File } from '@ionic-native/File';
-import { WebView } from '@ionic-native/ionic-webview/ngx';
-import { Storage } from '@ionic/storage';
-import { FilePath } from '@ionic-native/file-path';
 import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
 import { PosicaoSuperficieChassi } from '../../model/PosicaoSuperficieChassi';
 import { Parte } from '../../model/parte';
@@ -22,8 +18,6 @@ import { Momento } from '../../model/Momento';
 import { GravidadeAvaria } from '../../model/gravidadeAvaria';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
-
-const IMAGE_DIR = 'stored-images';
 
 interface LocalFile {
   name: string;
@@ -95,16 +89,9 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   constructor(
   public navCtrl: NavController,
   public navParams: NavParams,
-  private view: ViewController,
   private formBuilder: FormBuilder,
   private platform: Platform,
-  private file: File,
-  private webview: WebView,
   private actionSheetController: ActionSheetController,
-  private toastController: ToastController,
-  private storage: Storage,
-  private ref: ChangeDetectorRef,
-  private filePath: FilePath,
   public alertService: AlertService,
 
   private modal: ModalController,
@@ -116,23 +103,14 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     let data = this.navParams.get('data');
     this.formData = data;
 
-    let posicaoAvaria = this.formData.posicaoSuperficieChassi == undefined ? '' : this.formData.posicaoSuperficieChassi.id;
-    let superficieChassiParte = this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID;
-    let tipoAvaria = this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id;
-    let subArea = this.formData.quadrante == undefined ? '' : this.formData.quadrante;
-    let gravidadeAvaria = this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id;
-    let observacao = this.formData.observacao == undefined ? '' : this.formData.observacao;
-
     this.formSelecaoSuperficie = formBuilder.group({
       chassi: [this.formData.veiculo.chassi, Validators.required],
       modelo: [this.formData.veiculo.modelo, Validators.required],
       partePeca: [false, Validators.required],
-
-
       posicaoAvaria: [this.formData.posicaoSuperficieChassi == undefined ? '' : this.formData.posicaoSuperficieChassi.id, Validators.required],
       superficieChassiParte: [this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID, Validators.required],
       tipoAvaria: [this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id, Validators.required],
-      subArea: [this.formData.quadrante == undefined ? '' : this.formData.quadrante],
+      subArea: [this.formData.quadrante == undefined ? 0 : this.formData.quadrante],
       gravidadeAvaria: [this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id, Validators.required],
       observacao: [this.formData.observacao == undefined ? '' : this.formData.observacao],
     });
@@ -500,8 +478,9 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   save(){
     this.authService.showLoading();
 
+    let base64Array = []
     this.images.forEach(image => {
-      this.convertBase64ToFormData(image.path);
+      base64Array.push(image.path)
     });
 
     let model  = {
@@ -517,27 +496,22 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       nivelGravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.nivelGravidadeAvaria.id : this.formData.gravidadeAvaria.nivelGravidadeAvaria.id,
       observacao: this.formSelecaoSuperficie.controls.observacao.value,
       quadrante: this.formSelecaoSuperficie.controls.subArea.value,
+      Arquivos: base64Array,
     };
 
     this.avariaService.salvar(model)
     .pipe(
       finalize(() => {
         this.authService.hideLoading();
-        if (model.id > 0) {
-          this.alertService.showInfo('Avaria alterada com sucesso');
-        }
-        // else{
-        //   this.alertService.showInfo('Avaria cadastrada com sucesso');
-        // }
         setTimeout(() => {
           this.voltar();
-        }, 1000);
+        }, 1500);
       })
-    )
-    .subscribe((response:any) => {
-      this.uploadData(response.Retorno.id)
-    }, (error: any) => {
-      this.alertService.showError('Erro ao salvar avaria');
+      )
+      .subscribe((response:any) => {
+        this.alertService.showInfo('Avaria alterada com sucesso');
+      }, (error: any) => {
+        this.alertService.showError('Erro ao salvar avaria');
     });
   }
 
@@ -650,7 +624,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     // this.uploadData(formData);
   }
 
-  async uploadData(LancamentoAvariaID: number) {
+  async uploadData() {
 
     let base64Array = []
     this.images.forEach(image => {
@@ -659,20 +633,12 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
       const upload_arquivo = {
         Arquivos: base64Array,
-        LancamentoAvariaID: LancamentoAvariaID,
+        LancamentoAvariaID: 2,
       };
 
     this.avariaService.uploadImages(upload_arquivo)
-    .pipe(
-      finalize(() => {
-        this.authService.hideLoading();
-      })
-    )
     .subscribe((response: any) => {
       var data = response;
-      console.log(data);
-    }, (error:any) => {
-      this.alertService.showError('Erro ao salvar avaria');
     });
   }
 

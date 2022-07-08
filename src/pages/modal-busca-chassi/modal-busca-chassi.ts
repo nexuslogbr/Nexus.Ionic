@@ -11,6 +11,7 @@ import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
 import { ModalSelecionarChassiComponent } from '../../components/modal-selecionar-chassi/modal-selecionar-chassi';
 import { ModalSelecionarChassiBuscaComponent } from '../../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
+import { Momento } from '../../model/Momento';
 
 @Component({
   selector: 'modal-busca-chassi',
@@ -29,7 +30,8 @@ export class ModalBuscaChassiComponent {
   formData = {
     chassi: '',
     observacao: '',
-    buscaAvaria: false
+    buscaAvaria: false,
+    momento: new Momento()
   };
 
   formBloqueioData = {
@@ -170,6 +172,7 @@ export class ModalBuscaChassiComponent {
       this.view.dismiss();
     }
     else{
+      data.momentoID = this.formData.momento.id;
       this.modalChassi = this.modal.create(ModalSelecionarChassiComponent, {
         data: data,
       });
