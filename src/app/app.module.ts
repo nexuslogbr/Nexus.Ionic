@@ -221,6 +221,7 @@ import { FilePath } from '@ionic-native/file-path';
 import {RoundProgressModule} from 'angular-svg-round-progressbar';
 import { ModalSelecionarChassiBuscaComponent } from '../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
 import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
+import { ParteDataService } from '../providers/parte-data-service';
 
 @NgModule({
   declarations: [
@@ -657,7 +658,8 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     GravidadeDataService,
     File,
     WebView,
-    FilePath
+    FilePath,
+    ParteDataService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
