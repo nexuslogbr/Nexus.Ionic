@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, Content, ModalController, NavController, NavParams, Platform } from 'ionic-angular';
+import { ActionSheetController, AlertController, Content, ModalController, NavController, NavParams, Platform } from 'ionic-angular';
 import * as $ from 'jquery';
 import { TipoAvaria } from '../../model/TipoAvaria';
 import { AvariaDataService } from '../../providers/avaria-data-service';
@@ -39,7 +39,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   formSelecaoSuperficie: FormGroup;
 
   images: any[] = [];
-  convertedImages: FormData[] = [];
+  imagesToSend: any[] = [];
 
   avaria = new Avaria();
   posicaoAvaria = new PosicaoSuperficieChassi();
@@ -98,6 +98,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   private avariaService: AvariaDataService,
   private gravidadeService: GravidadeDataService,
   public authService: AuthService,
+  private alertController: AlertController
 ) {
     this.title = 'Lançamento de Avaria';
     let data = this.navParams.get('data');
@@ -149,7 +150,14 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         if (this.formData.id > 0) {
           this.avariaService.getImagens({ID: this.formData.id})
           .subscribe((res: any) => {
-            this.images = res.retorno;
+            res.retorno.forEach(file => {
+              this.images.push({
+                id: file.attachmentID,
+                path: file.path,
+                fileName: file.fileName
+              });
+            });
+
             this.assembleGrid(this.formData.superficieChassiParte);
             this.loadPartes();
           });
@@ -520,7 +528,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
 
   /// Selecionar uma imagem da biblioteca do dispositivo
-  selectImage() {
+  selectImage(event:any) {
     const actionSheet = this.actionSheetController.create({
         title: 'Selecionar imagem',
         buttons: [
@@ -575,11 +583,12 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     const fileName = new Date().getTime() + '.jpeg';
 
     let image = {
+      id: 0,
       path: base64Data,
       fileName: fileName
     }
-
     this.images.push(image);
+    this.imagesToSend.push(photo);
   }
 
   private async readAsBase64(photo: Photo) {
@@ -610,42 +619,62 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   convertBase64ToFormData(file: string){
     const formData = new FormData();
-    formData.append("formFile", file);
+    formData.append("file", file);
 
     return formData;
-    // this.convertedImages.push(formData);
   }
 
-  async startUpload(file: LocalFile) {
+  async startUpload(file: any) {
     const response = await fetch(file.data);
     const blob = await response.blob();
     const formData = new FormData();
     formData.append('file', blob, file.name);
-    // this.uploadData(formData);
+    return formData;
+  }
+
+  async presentAlert(image) {
+    const alert = await this.alertController.create({
+      title: 'Remover a imagem?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            // this.handlerMessage = 'Alert canceled';
+          }
+        },
+        {
+          text: 'OK',
+          role: 'confirm',
+          handler: () => {
+            this.deleteImage(image);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async deleteImage(image) {
+    this.images = this.images.filter(x => x !== image).map(x => x);
   }
 
   async uploadData() {
 
-    let base64Array = []
+    let formData;
     this.images.forEach(image => {
-      base64Array.push(image.path)
+      formData = image.path;
     });
 
-      const upload_arquivo = {
-        Arquivos: base64Array,
-        LancamentoAvariaID: 2,
-      };
+    // this.avariaService.uploadImages(upload_arquivo)
+    // .subscribe((response: any) => {
+    //   var data = response;
+    // });
 
-    this.avariaService.uploadImages(upload_arquivo)
+    this.avariaService.teste(formData)
     .subscribe((response: any) => {
       var data = response;
-    });
-  }
-
-  async deleteImage(file: LocalFile) {
-    await Filesystem.deleteFile({
-        directory: Directory.Data,
-        path: file.path
     });
   }
 

@@ -114,7 +114,7 @@
                 <ion-label class="align-items-dangerous-image abel-align-dangerous">{{ file.fileName }}</ion-label>
               </ion-col>
               <ion-col size="1">
-                <button ion-button slot="end" (click)="deleteImage(file)" class="button-style">
+                <button ion-button slot="end" (click)="presentAlert(file)" class="button-style">
                   <ion-icon slot="icon-only" name="trash"></ion-icon>
                 </button>
               </ion-col>
@@ -142,7 +142,7 @@
     <ion-row>
       <ion-col>
           <button ion-button round end class="btn-receiving btn-cancel"  (click)="voltar()" type="button">Voltar</button>
-          <button ion-button round end class="btn-receiving btn-ok" type="button" (click)="uploadData()" [disabled]="!formSelecaoSuperficie.valid">Salvar</button>
+          <button ion-button round end class="btn-receiving btn-ok" type="button" (click)="save()" [disabled]="!formSelecaoSuperficie.valid">Salvar</button>
       </ion-col>
     </ion-row>
   </ion-grid>
