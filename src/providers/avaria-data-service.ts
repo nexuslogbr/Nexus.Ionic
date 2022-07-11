@@ -76,4 +76,5 @@ export class AvariaDataService{
     model.token = this.token;
     return this.http.post<string>(url, model, httpOptions);
   }
+
 }

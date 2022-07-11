@@ -150,13 +150,16 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         if (this.formData.id > 0) {
           this.avariaService.getImagens({ID: this.formData.id})
           .subscribe((res: any) => {
-            res.retorno.forEach(file => {
-              this.images.push({
-                id: file.attachmentID,
-                path: file.path,
-                fileName: file.fileName
+
+            if (res.retorno) {
+              res.retorno.forEach(file => {
+                this.images.push({
+                  id: file.attachmentID,
+                  path: file.path,
+                  fileName: file.fileName
+                });
               });
-            });
+            }
 
             this.assembleGrid(this.formData.superficieChassiParte);
             this.loadPartes();
@@ -486,10 +489,15 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   save(){
     this.authService.showLoading();
 
-    let base64Array = []
+    let imagesToSend = [];
     this.images.forEach(image => {
-      base64Array.push(image.path)
+      imagesToSend.push({
+        id: image.id,
+        data: image.path,
+        fileName: image.fileName
+      });
     });
+
 
     let model  = {
       id: this.formData.id > 0 ? this.formData.id : 0,
@@ -504,7 +512,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       nivelGravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.nivelGravidadeAvaria.id : this.formData.gravidadeAvaria.nivelGravidadeAvaria.id,
       observacao: this.formSelecaoSuperficie.controls.observacao.value,
       quadrante: this.formSelecaoSuperficie.controls.subArea.value,
-      Arquivos: base64Array,
+      arquivos: imagesToSend,
     };
 
     this.avariaService.salvar(model)
@@ -662,20 +670,26 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   async uploadData() {
 
-    let formData;
+    let imagesToSend = [];
     this.images.forEach(image => {
-      formData = image.path;
+      imagesToSend.push({data: image.path, fileName: image.fileName});
     });
 
-    // this.avariaService.uploadImages(upload_arquivo)
-    // .subscribe((response: any) => {
-    //   var data = response;
-    // });
+    let model = {
+      arquivoNome: "",
+      lancamentoAvariaID: 1049,
+      arquivos: imagesToSend
+    }
 
-    this.avariaService.teste(formData)
+    this.avariaService.uploadImages(model)
     .subscribe((response: any) => {
       var data = response;
     });
+
+    // this.avariaService.teste(formData)
+    // .subscribe((response: any) => {
+    //   var data = response;
+    // });
   }
 
   testeSalvarImagens(){
