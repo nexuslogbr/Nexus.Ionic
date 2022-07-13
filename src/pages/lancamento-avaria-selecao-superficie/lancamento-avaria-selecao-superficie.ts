@@ -557,8 +557,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   async selectImageCamera() {
     const image = await Camera.getPhoto({
-      quality: 100,
-      allowEditing: true,
+      quality: 90,
+      allowEditing: false,
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera
     });
@@ -570,8 +570,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   async selectImageLibrary() {
     const image = await Camera.getPhoto({
-      quality: 100,
-      allowEditing: true,
+      quality: 90,
+      allowEditing: false,
       resultType: CameraResultType.Uri,
       source: CameraSource.Photos
     });
@@ -661,5 +661,24 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   async deleteImage(image) {
     this.images = this.images.filter(x => x !== image).map(x => x);
+  }
+
+  testeUploadImagens(){
+
+    let imagesToSend = [];
+    this.images.forEach(image => {
+      imagesToSend.push({
+        id: image.id,
+        data: image.path,
+        fileName: image.fileName
+      });
+    });
+
+    this.avariaService.uploadImages({
+      arquivos: imagesToSend,
+      lancamentoAvariaID: 1060
+    }).subscribe((res:any) => {
+      console.log(res);
+    });
   }
 }
