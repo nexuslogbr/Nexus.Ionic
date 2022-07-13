@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, AlertController, Content, ModalController, NavController, NavParams, Platform } from 'ionic-angular';
+import { ActionSheetController, AlertController, Content, NavController, NavParams, Platform } from 'ionic-angular';
 import * as $ from 'jquery';
 import { TipoAvaria } from '../../model/TipoAvaria';
 import { AvariaDataService } from '../../providers/avaria-data-service';
@@ -18,12 +18,6 @@ import { Momento } from '../../model/Momento';
 import { GravidadeAvaria } from '../../model/gravidadeAvaria';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
-
-interface LocalFile {
-  name: string;
-  path: string;
-  data: string;
-}
 
 @Component({
   selector: 'page-lancamento-avaria-selecao-superficie',
@@ -93,8 +87,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   private platform: Platform,
   private actionSheetController: ActionSheetController,
   public alertService: AlertService,
-
-  private modal: ModalController,
   private avariaService: AvariaDataService,
   private gravidadeService: GravidadeDataService,
   public authService: AuthService,
@@ -556,10 +548,11 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   async selectImageCamera() {
+    this.authService.showLoading();
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
-      resultType: CameraResultType.Uri,
+      resultType: CameraResultType.Base64,
       source: CameraSource.Camera
     });
 
@@ -569,10 +562,11 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   async selectImageLibrary() {
+    this.authService.showLoading();
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
-      resultType: CameraResultType.Uri,
+      resultType: CameraResultType.Base64,
       source: CameraSource.Photos
     });
 
@@ -581,58 +575,18 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     }
   }
 
-  async saveImage(photo: Photo) {
-    const base64Data = await this.readAsBase64(photo);
+  saveImage(photo: Photo) {
+    // const base64Data = await this.readAsBase64(photo);
     const fileName = new Date().getTime() + '.jpeg';
 
     let image = {
       id: 0,
-      path: base64Data,
+      path: 'data:image/jpeg;base64,' + photo.base64String,
       fileName: fileName
     }
+
     this.images.push(image);
-    this.imagesToSend.push(photo);
-  }
-
-  private async readAsBase64(photo: Photo) {
-    if (this.platform.is('hybrid')) {
-      const file = await Filesystem.readFile({
-          path: photo.path
-      });
-
-      return file.data;
-    }
-    else {
-        // Fetch the photo, read as a blob, then convert to base64 format
-        const response = await fetch(photo.webPath);
-        const blob = await response.blob();
-
-        return await this.convertBlobToBase64(blob) as string;
-    }
-  }
-
-  convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
-    const reader = new FileReader;
-    reader.onerror = reject;
-    reader.onload = () => {
-      resolve(reader.result);
-    };
-    reader.readAsDataURL(blob);
-  });
-
-  convertBase64ToFormData(file: string){
-    const formData = new FormData();
-    formData.append("file", file);
-
-    return formData;
-  }
-
-  async startUpload(file: any) {
-    const response = await fetch(file.data);
-    const blob = await response.blob();
-    const formData = new FormData();
-    formData.append('file', blob, file.name);
-    return formData;
+    this.authService.hideLoading();
   }
 
   async presentAlert(image) {
@@ -661,24 +615,5 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   async deleteImage(image) {
     this.images = this.images.filter(x => x !== image).map(x => x);
-  }
-
-  testeUploadImagens(){
-
-    let imagesToSend = [];
-    this.images.forEach(image => {
-      imagesToSend.push({
-        id: image.id,
-        data: image.path,
-        fileName: image.fileName
-      });
-    });
-
-    this.avariaService.uploadImages({
-      arquivos: imagesToSend,
-      lancamentoAvariaID: 1060
-    }).subscribe((res:any) => {
-      console.log(res);
-    });
   }
 }
