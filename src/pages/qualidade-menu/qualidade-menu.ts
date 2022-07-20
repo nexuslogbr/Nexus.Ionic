@@ -6,6 +6,7 @@ import { AlertService } from '../../providers/alert-service';
 import { QualidadeDashboardBuscaAvariasPage } from '../qualidade-dashboard-busca-avarias/qualidade-dashboard-busca-avarias';
 import { BuscarAvariasPage } from '../buscar-avarias/buscar-avarias';
 import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
+import { LancamentoAvariaVistoriaPage } from '../lancamento-avaria-vistoria/lancamento-avaria-vistoria';
 
 @Component({
   selector: 'page-qualidade-menu',
@@ -63,6 +64,10 @@ export class QualidadeMenuPage {
 
   navigateToBuscar() {
     this.navCtrl.push(BuscarAvariasPage);
+  }
+
+  navigateToVistoriar() {
+    this.navCtrl.push(LancamentoAvariaVistoriaPage);
   }
 
   navigateToLancar() {
