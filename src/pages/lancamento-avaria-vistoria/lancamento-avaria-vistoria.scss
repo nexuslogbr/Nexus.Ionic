@@ -98,7 +98,7 @@ page-lancamento-avaria-vistoria {
         align-items: flex-start;
 
         .div-navio-nome {
-          margin-left: 10px;
+          // margin-left: 10px;
           font-size: 16px;
           word-break: break-word;
           text-align: left;
@@ -130,13 +130,17 @@ page-lancamento-avaria-vistoria {
 
   .footer-legenda {
     color: white;
-    height: 170px;
+    height: 180px;
     // background-color: #404040;
 
     .grid-botao-voltar {
       .btn-menu-internal-azul-forte {
         color: white;
         // background-color: #404040;
+      }
+      .btn-menu-internal {
+        color: white;
+        background-color: #5d5d5d;
       }
     }
 

@@ -9,6 +9,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ArquivoDataService } from '../../providers/arquivo-data-service';
 import { Arquivo } from '../../model/arquivo';
 import { NovaConferenciaConfiguracaoAreaPage } from '../nova-conferencia-configuracao-area/nova-conferencia-configuracao-area';
+import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
 
 @Component({
   selector: 'page-lancamento-avaria-vistoria',
@@ -52,12 +53,7 @@ export class LancamentoAvariaVistoriaPage {
 
     forkJoin([
       this.navioDataService.carregarNavios(false, null, null, true, null),
-      this.arquivoDataService.carregarArquivosDePlanilhasConferencia(
-        null,
-        null,
-        true,
-        null
-      )
+      this.arquivoDataService.carregarArquivosDePlanilhasVistoria()
     ])
       .pipe(
         finalize(() => {
@@ -76,6 +72,7 @@ export class LancamentoAvariaVistoriaPage {
             this.showNavioErrorMessage = true;
           }
 
+          console.log('arquivos$', arquivos$);
           if (arquivos$.sucesso) {
             this.arquivos = arquivos$.retorno;
           } else {
@@ -128,6 +125,9 @@ export class LancamentoAvariaVistoriaPage {
     $('side-menu').toggleClass('show');
   };
 
+  navigateToLancar() {
+    this.navCtrl.push(LancamentoAvariaPage);
+  }
   voltar() {
     this.navCtrl.pop();
   }

@@ -28,11 +28,10 @@
       <ion-grid class="grid-base grid-navio" *ngFor="let navio of navios" (click)="configurarNavio(navio)" [ngClass]="{'navio-andamento': navio.statusData == 'andamento', 'navio-esperado': navio.statusData == 'esperado'}">
         <ion-row class="row-navio" [ngStyle]="{'background-color': primaryColor}">
           <ion-col col-8 class="col-navio">
-            <div class="div-navio-nome">{{ navio.nome }}</div>
-            <div class="div-navio-viagem">{{ navio.viagem }}</div>
+            <div class="div-navio-nome">{{ navio.nome }} {{navio.viagem }}</div>
           </ion-col>
           <ion-col col-4 class="col-status">
-            <div>{{ navio.statusConfiguracao }}</div>
+            <div>{{ navio.quantidade }} chassis</div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -53,7 +52,7 @@
             <div class="div-navio-nome">{{ arquivo.nomeOriginal }}</div>
           </ion-col>
           <ion-col col-4 class="col-status">
-            <div>{{ arquivo.statusConfiguracao }}</div>
+            <!-- <div>{{ arquivo.statusConfiguracao }}</div> -->
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -72,10 +71,10 @@
 
 <ion-footer class="footer-legenda" no-border>
   <ion-grid class="grid-botao-voltar">
-    <ion-row class="row-botao-voltar">
+    <ion-row>
       <ion-col>
+        <button ion-button class="btn-menu-internal" (click)="navigateToLancar()" type="button">Lançar outra avaria</button>
         <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()" type="button">Voltar</button>
-        <!-- <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" [ngStyle]="{'background-color': buttonColor}" (click)="voltar()" type="button">Voltar</button> -->
       </ion-col>
     </ion-row>
   </ion-grid>

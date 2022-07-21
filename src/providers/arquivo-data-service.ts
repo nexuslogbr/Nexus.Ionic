@@ -68,4 +68,10 @@ export class ArquivoDataService {
 
     return this.http.put<DataRetorno>(url, {}, { headers: headers });
   }
+
+  public carregarArquivosDePlanilhasVistoria() {
+    let url = this.urlApi + '/arquivos?token=' + this.authService.getToken() + '&arquivoTipo=8';
+    return this.http.get<any>(url, { headers: headers });
+  }
+
 }
