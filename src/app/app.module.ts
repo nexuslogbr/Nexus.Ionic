@@ -135,6 +135,7 @@ import { QualidadeMenuPage } from '../pages/qualidade-menu/qualidade-menu';
 import { LancamentoAvariaPage } from '../pages/lancamento-avaria/lancamento-avaria';
 import { LancamentoAvariaSelecaoSuperficiePage } from '../pages/lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { LancamentoAvariaVistoriaPage } from '../pages/lancamento-avaria-vistoria/lancamento-avaria-vistoria';
+import { LancamentoAvariaVistoriaLancarPage } from '../pages/lancamento-avaria-vistoria-lancar/lancamento-avaria-vistoria-lancar';
 
 // Components
 import { SincronizacaoInfoComponent } from './../components/sincronizacao-info/sincronizacao-info';
@@ -393,7 +394,8 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     LancamentoAvariaPage,
     LancamentoAvariaSelecaoSuperficiePage,
     AlterarCorPage,
-    LancamentoAvariaVistoriaPage
+    LancamentoAvariaVistoriaPage,
+    LancamentoAvariaVistoriaLancarPage
   ],
   imports: [
     // SuperTabsModule.forRoot(),
@@ -623,7 +625,8 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     LancamentoAvariaPage,
     LancamentoAvariaSelecaoSuperficiePage,
     AlterarCorPage,
-    LancamentoAvariaVistoriaPage
+    LancamentoAvariaVistoriaPage,
+    LancamentoAvariaVistoriaLancarPage
   ],
   providers: [
     Camera,
