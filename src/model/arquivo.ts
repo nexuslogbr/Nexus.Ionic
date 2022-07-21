@@ -1,4 +1,5 @@
 import { ConferenciaChassiResumo } from './conferencia-chassi-resumo';
+import { Local } from './local';
 
 export class Arquivo {
   public id: number;
@@ -12,4 +13,5 @@ export class Arquivo {
   public statusConfiguracao: string;
   public statusData: string;
   public conferenciaStatus: number;
+  public local: Local
 }

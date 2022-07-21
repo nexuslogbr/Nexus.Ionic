@@ -13,11 +13,11 @@
       <ion-list>
 
         <ion-item style="background-color: black;">
-          <ion-label label-ios style="font-style: unset;">Lançamento de Avaria</ion-label>
+          <ion-label label-ios style="font-style: unset;">Vistoriar Chassi</ion-label>
         </ion-item>
 
         <ion-item style="background-color: darkred;">
-          <ion-label label-ios  style="font-style: unset;">Local: {{userData['localNome']}}</ion-label>
+          <ion-label label-ios  style="font-style: unset;">Local: {{local}}</ion-label>
         </ion-item>
 
         <ion-item>
@@ -27,6 +27,22 @@
           </ion-select>
         </ion-item>
       </ion-list>
+
+      <ion-grid>
+        <ion-row class="row-navio">
+          <ion-col col-8 class="col-navio"></ion-col>
+          <ion-col col-4 class="col-status">
+            <div class="legenda">
+              Restante / Vistoriado (Total)
+            </div>
+            <div class="divtotais">
+              <sincronizacao-info [conferenciaConfiguracaoId]="0"></sincronizacao-info>
+              {{100 - 63}}/{{ 63 }} <strong>({{ 100 }})</strong>
+              <!-- {{totalVeiculos - totalConferidos}}/{{ totalConferidos }} <strong>({{ totalVeiculos }})</strong> -->
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
       <ion-grid>
         <ion-row>
@@ -56,9 +72,6 @@
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Posição: </b>{{formData.posicaoAtual}}</ion-label>
         </ion-item>
-        <!-- <ion-item>
-          <b>Cor: </b><ion-chip style="background: #1cdbc5;border:1px solid #1cdbc5"></ion-chip>
-        </ion-item> -->
       </ion-list>
     </form>
   </div>
@@ -69,7 +82,8 @@
   <ion-grid class="grid-botao-wrapper">
     <ion-row>
       <ion-col>
-        <button ion-button round class="btn-receiving-long btn-ok" (click)="openModalSelecionarSuperficie()" [disabled]="!formLancamentoAvaria.valid" type="button">Selecione Superficie Avariada</button>
+        <button ion-button class="btn-receiving-small" (click)="voltar()" type="button">Sem Avaria</button>
+        <button ion-button class="btn-receiving-small" (click)="openModalSelecionarSuperficie()" [disabled]="!formLancamentoAvaria.valid" type="button" size="small" [ngStyle]="{'background-color': buttonColor}">Com Avaria</button>
       </ion-col>
     </ion-row>
     <ion-row>

@@ -25,7 +25,7 @@
 
   <ion-slides (ionSlideDidChange)="slideChanged()" [ngStyle]="{'background-color': primaryColor}">
     <ion-slide>
-      <ion-grid class="grid-base grid-navio" *ngFor="let navio of navios" (click)="configurarNavio(navio)" [ngClass]="{'navio-andamento': navio.statusData == 'andamento', 'navio-esperado': navio.statusData == 'esperado'}">
+      <ion-grid class="grid-base grid-navio" *ngFor="let navio of navios" (click)="vistoriarNavio(navio)" [ngClass]="{'navio-andamento': navio.statusData == 'andamento', 'navio-esperado': navio.statusData == 'esperado'}">
         <ion-row class="row-navio" [ngStyle]="{'background-color': primaryColor}">
           <ion-col col-8 class="col-navio">
             <div class="div-navio-nome">{{ navio.nome }} {{navio.viagem }}</div>
@@ -46,7 +46,7 @@
 
     </ion-slide>
     <ion-slide [ngStyle]="{'background-color': primaryColor}">
-      <ion-grid class="grid-base grid-navio" *ngFor="let arquivo of arquivos" (click)="configurarArquivo(arquivo)" [ngStyle]="{'background-color': primaryColor}">
+      <ion-grid class="grid-base grid-navio" *ngFor="let arquivo of arquivos" (click)="vistoriarArquivo(arquivo)" [ngStyle]="{'background-color': primaryColor}">
         <ion-row class="row-navio" [ngStyle]="{'background-color': primaryColor}">
           <ion-col col-8 class="col-navio">
             <div class="div-navio-nome">{{ arquivo.nomeOriginal }}</div>
