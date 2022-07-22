@@ -1,7 +1,4 @@
 page-lancamento-avaria-vistoria-lancar {
-
-}
-page-lancamento-avaria {
   background-color: #404040;
   ion-content {
       background-color: color($colors, bgQrCode) !important;
@@ -144,41 +141,98 @@ page-lancamento-avaria {
       }
   }
 
-ion-footer {
-  height: 200px;
-  background-color: #404040;
-  text-align: center;
-  display: flex;
+  ion-footer {
+    height: 200px;
+    background-color: #404040;
+    text-align: center;
+    display: flex;
 
-  .grid-botao-wrapper {
-    padding: 12px 2px !important;
+    .grid-botao-wrapper {
+      padding: 12px 2px !important;
 
-    .btn-receiving-long {
-      width: 90%;
-      height: auto;
-      .button-inner {
-          padding: 25px 15px 25px 15px;
-          font: 19px 'avenir_bold';
+      .btn-receiving-long {
+        width: 97%;
+        height: auto;
+        .button-inner {
+            padding: 25px 15px 25px 15px;
+            font: 19px 'avenir_bold';
+        }
       }
-    }
-    .btn-receiving {
-      width: 45%;
-      height: auto;
-      .button-inner {
-          padding: 25px 15px;
-          font: 19px 'avenir_bold';
+      .btn-receiving-small {
+        background-color: #747474 !important;
+        width: 48%;
+        height: 73px;
+        border-radius: 64px !important;
+        font: 19px "avenir_bold";
+        font-weight: 500;
+        text-transform: uppercase;
+        color: white;
       }
-    }
-    .btn-ok {
-      // background-color: #747474;
-      background-color: #A7FF8D !important;
-      color: black !important;
-    }
-    .btn-cancel {
-      background-color: #404040;
+      .btn-receiving {
+        width: 45%;
+        height: auto;
+        .button-inner {
+            padding: 25px 15px;
+            font: 19px 'avenir_bold';
+        }
+      }
+      .btn-ok {
+        background-color: #747474 !important;
+        // background-color: #A7FF8D !important;
+        color: white !important;
+      }
+      .btn-cancel {
+        background-color: #404040;
+      }
     }
   }
-}
+
+  .divtotais {
+    display: flex;
+  }
+
+  .row-navio {
+    color: white;
+
+    .col-navio {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      text-transform: uppercase;
+      align-items: flex-start;
+
+      .div-navio-nome {
+        font-size: 9px;
+        word-break: break-word;
+        text-align: left;
+        font-weight: bold;
+      }
+
+      .div-navio-viagem {
+        margin-top: 4px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+
+    .col-status {
+      display: flex;
+      flex-flow: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      text-transform: uppercase;
+      font-size: 16px;
+
+      .legenda {
+        font-size: 10px;
+        margin-bottom: 4px;
+        text-transform: none;
+        word-break: break-word;
+        text-align: right;
+        font-weight: bold;
+      }
+    }
+  }
 }
 
 .btn {

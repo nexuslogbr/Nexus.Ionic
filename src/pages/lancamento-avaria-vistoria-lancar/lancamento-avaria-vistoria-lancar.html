@@ -30,13 +30,14 @@
 
       <ion-grid>
         <ion-row class="row-navio">
-          <ion-col col-8 class="col-navio"></ion-col>
+          <ion-col col-8 class="col-navio">
+            <div class="div-navio-nome">Arquivo</div>
+            <div class="div-navio-viagem">{{nomeArquivo}}</div>
+          </ion-col>
           <ion-col col-4 class="col-status">
-            <div class="legenda">
-              Restante / Vistoriado (Total)
-            </div>
+            <div class="legenda">Restante / Lidos (Total)</div>
             <div class="divtotais">
-              <sincronizacao-info [conferenciaConfiguracaoId]="0"></sincronizacao-info>
+              <!-- <sincronizacao-info [conferenciaConfiguracaoId]="0"></sincronizacao-info> -->
               {{100 - 63}}/{{ 63 }} <strong>({{ 100 }})</strong>
               <!-- {{totalVeiculos - totalConferidos}}/{{ totalConferidos }} <strong>({{ totalVeiculos }})</strong> -->
             </div>
@@ -47,7 +48,7 @@
       <ion-grid>
         <ion-row>
           <ion-col col-10>
-            <ion-input type="text" placeholder="Chassi" value="" formControlName="chassi" name="chassi" (click)="modalBuscarChassi()" formControlName="chassi"></ion-input>
+            <ion-input type="text" placeholder="Chassi" value="" name="chassi" (click)="modalBuscarChassi()" formControlName="chassi"></ion-input>
           </ion-col>
           <ion-col col-1 style="align-self: center;">
             <i class="icon qrcode-gray" (click)="modalBuscarChassi()"></i>
@@ -82,8 +83,12 @@
   <ion-grid class="grid-botao-wrapper">
     <ion-row>
       <ion-col>
-        <button ion-button class="btn-receiving-small" (click)="voltar()" type="button">Sem Avaria</button>
-        <button ion-button class="btn-receiving-small" (click)="openModalSelecionarSuperficie()" [disabled]="!formLancamentoAvaria.valid" type="button" size="small" [ngStyle]="{'background-color': buttonColor}">Com Avaria</button>
+        <button ion-button class="btn-receiving-small" (click)="voltar()" type="button">
+          Sem Avaria
+        </button>
+        <button ion-button class="btn-receiving-small" (click)="openModalSelecionarSuperficie()" [disabled]="!formLancamentoAvaria.valid" type="button" size="small" [ngStyle]="{'background-color': buttonColor}">
+          Com Avaria
+        </button>
       </ion-col>
     </ion-row>
     <ion-row>

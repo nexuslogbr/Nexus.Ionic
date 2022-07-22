@@ -10,6 +10,7 @@ import { ArquivoDataService } from '../../providers/arquivo-data-service';
 import { Arquivo } from '../../model/arquivo';
 import { NovaConferenciaConfiguracaoAreaPage } from '../nova-conferencia-configuracao-area/nova-conferencia-configuracao-area';
 import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
+import { LancamentoAvariaVistoriaLancarPage } from '../lancamento-avaria-vistoria-lancar/lancamento-avaria-vistoria-lancar';
 
 @Component({
   selector: 'page-lancamento-avaria-vistoria',
@@ -99,14 +100,14 @@ export class LancamentoAvariaVistoriaPage {
     this.slides.slideTo(1, 500);
   }
 
-  configurarNavio(navio: Navio) {
+  vistoriarNavio(navio: Navio) {
     this.navCtrl.push(NovaConferenciaConfiguracaoAreaPage, {
       navio: navio
     });
   }
 
-  configurarArquivo(arquivo: Arquivo) {
-    this.navCtrl.push(NovaConferenciaConfiguracaoAreaPage, {
+  vistoriarArquivo(arquivo: Arquivo) {
+    this.navCtrl.push(LancamentoAvariaVistoriaLancarPage, {
       arquivo: arquivo
     });
   }
@@ -131,4 +132,19 @@ export class LancamentoAvariaVistoriaPage {
   voltar() {
     this.navCtrl.pop();
   }
+
+
+
+  configurarNavio(navio: Navio) {
+    this.navCtrl.push(NovaConferenciaConfiguracaoAreaPage, {
+      navio: navio
+    });
+  }
+
+  configurarArquivo(arquivo: Arquivo) {
+    this.navCtrl.push(NovaConferenciaConfiguracaoAreaPage, {
+      arquivo: arquivo
+    });
+  }
+
 }

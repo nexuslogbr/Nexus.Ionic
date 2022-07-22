@@ -43,6 +43,7 @@ import { MomentoDataService } from '../providers/momento-data-service';
 import { AvariaDataService } from '../providers/avaria-data-service';
 import { GravidadeDataService } from '../providers/gravidade-data-service';
 import { ParteDataService } from '../providers/parte-data-service';
+import { VistoriaDataService } from '../providers/vistoria-service';
 
 // Pages
 import { CarregamentoCanceladoPage } from '../pages/carregamento-cancelado/carregamento-cancelado';
@@ -136,6 +137,7 @@ import { LancamentoAvariaPage } from '../pages/lancamento-avaria/lancamento-avar
 import { LancamentoAvariaSelecaoSuperficiePage } from '../pages/lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { LancamentoAvariaVistoriaPage } from '../pages/lancamento-avaria-vistoria/lancamento-avaria-vistoria';
 import { LancamentoAvariaVistoriaLancarPage } from '../pages/lancamento-avaria-vistoria-lancar/lancamento-avaria-vistoria-lancar';
+import { ModalBuscaChassiVistoriaPage } from  '../pages/modal-busca-chassi-vistoria/modal-busca-chassi-vistoria';
 
 // Components
 import { SincronizacaoInfoComponent } from './../components/sincronizacao-info/sincronizacao-info';
@@ -395,7 +397,8 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     LancamentoAvariaSelecaoSuperficiePage,
     AlterarCorPage,
     LancamentoAvariaVistoriaPage,
-    LancamentoAvariaVistoriaLancarPage
+    LancamentoAvariaVistoriaLancarPage,
+    ModalBuscaChassiVistoriaPage
   ],
   imports: [
     // SuperTabsModule.forRoot(),
@@ -626,7 +629,8 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     LancamentoAvariaSelecaoSuperficiePage,
     AlterarCorPage,
     LancamentoAvariaVistoriaPage,
-    LancamentoAvariaVistoriaLancarPage
+    LancamentoAvariaVistoriaLancarPage,
+    ModalBuscaChassiVistoriaPage
   ],
   providers: [
     Camera,
@@ -664,7 +668,8 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     File,
     WebView,
     FilePath,
-    ParteDataService
+    ParteDataService,
+    VistoriaDataService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
