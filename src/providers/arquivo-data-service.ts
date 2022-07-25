@@ -74,4 +74,9 @@ export class ArquivoDataService {
     return this.http.get<any>(url, { headers: headers });
   }
 
+  public listarChassisVistoria(arquivoID: number) {
+    let url = this.urlApi + '/arquivos/vistoria/chassis?token=' + this.authService.getToken() + '&arquivoID=' + arquivoID;
+    return this.http.get<any>(url, { headers: headers });
+  }
+
 }
