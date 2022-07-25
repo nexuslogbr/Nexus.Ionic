@@ -1,0 +1,90 @@
+page-model-lancar-avaria {
+
+  ion-content {
+    background-color: #F3C836 !important;
+
+    div.scroll-content {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .grid-modal {
+
+    .row-icon {
+      .col-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .img-icon {
+          height: 170px;
+        }
+      }
+    }
+
+    .row-padding-text {
+      height: 40px;
+    }
+
+    .row-primary-text {
+      .col-primary-text {
+        text-align: center;
+
+        .p-primary-text {
+          margin: 0px;
+          font-weight: bold;
+          font-size: 30px;
+          color: #000000;
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    .row-secundary-text {
+      .col-secundary-text {
+        text-align: center;
+
+        .p-secundary-text {
+          margin: 0px;
+          font-weight: bold;
+          font-size: 30px;
+          color: #000000;
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    .row-button-confirmar {
+      margin-top: 40px;
+      .col-button-confirmar {
+        .btn-confirmar {
+          background-color: #A7FF8D;
+          color: black;
+          font-size: 21px;
+          font-weight: bold;
+          border-radius: 10px;
+          height: 56px;
+        }
+      }
+
+    }
+
+    .row-button-cancelar {
+      .col-button-cancelar {
+        .btn-cancelar {
+          background-color: #DEDEDE;
+          color: black;
+          font-size: 21px;
+          font-weight: bold;
+          border-radius: 10px;
+          height: 56px;
+        }
+      }
+
+    }
+
+  }
+
+}
