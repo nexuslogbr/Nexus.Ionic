@@ -138,6 +138,7 @@ import { LancamentoAvariaSelecaoSuperficiePage } from '../pages/lancamento-avari
 import { LancamentoAvariaVistoriaPage } from '../pages/lancamento-avaria-vistoria/lancamento-avaria-vistoria';
 import { LancamentoAvariaVistoriaLancarPage } from '../pages/lancamento-avaria-vistoria-lancar/lancamento-avaria-vistoria-lancar';
 import { ModalBuscaChassiVistoriaPage } from  '../pages/modal-busca-chassi-vistoria/modal-busca-chassi-vistoria';
+import { ModelLancarAvariaPage } from '../pages/model-lancar-avaria/model-lancar-avaria'
 
 // Components
 import { SincronizacaoInfoComponent } from './../components/sincronizacao-info/sincronizacao-info';
@@ -398,7 +399,8 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     AlterarCorPage,
     LancamentoAvariaVistoriaPage,
     LancamentoAvariaVistoriaLancarPage,
-    ModalBuscaChassiVistoriaPage
+    ModalBuscaChassiVistoriaPage,
+    ModelLancarAvariaPage
   ],
   imports: [
     // SuperTabsModule.forRoot(),
@@ -630,7 +632,8 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     AlterarCorPage,
     LancamentoAvariaVistoriaPage,
     LancamentoAvariaVistoriaLancarPage,
-    ModalBuscaChassiVistoriaPage
+    ModalBuscaChassiVistoriaPage,
+    ModelLancarAvariaPage
   ],
   providers: [
     Camera,

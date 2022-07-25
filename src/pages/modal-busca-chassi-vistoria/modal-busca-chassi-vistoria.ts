@@ -13,6 +13,8 @@ import { finalize } from 'rxjs/operators';
 import { VistoriaDataService } from '../../providers/vistoria-service';
 import { DataRetorno } from '../../model/dataretorno';
 import { AlertService } from '../../providers/alert-service';
+import { LancamentoAvariaVistoriaLancarPage } from '../lancamento-avaria-vistoria-lancar/lancamento-avaria-vistoria-lancar';
+import { ModelLancarAvariaPage } from '../model-lancar-avaria/model-lancar-avaria';
 
 @Component({
   selector: 'page-modal-busca-chassi-vistoria',
@@ -29,22 +31,9 @@ export class ModalBuscaChassiVistoriaPage {
   qrCodeText: string;
   modoOperacao: number;
   formData = {
-    chassi: '',
-    observacao: '',
-    buscaAvaria: false,
+    posicaoAtual: '',
+    veiculo: new Veiculo(),
     momento: new Momento()
-  };
-
-  formBloqueioData = {
-    token: '',
-    empresaID: '1',
-    id: '',
-    chassi: '',
-    local: '',
-    layout: '',
-    bolsao: '',
-    fila: '',
-    posicao: '',
   };
 
   @ViewChild('chassiInput') chassiInput;
@@ -76,7 +65,8 @@ export class ModalBuscaChassiVistoriaPage {
             let chassi = value.replace(/[\W_]+/g, '');
             setTimeout(() => {
               this.buscarChassi(chassi);
-              this.formData.chassi = '';
+              this.formData.veiculo.chassi = '';
+              this.chassi = chassi;
             }, 500);
           }
         }
@@ -96,7 +86,7 @@ export class ModalBuscaChassiVistoriaPage {
       setTimeout(() => {
         this.chassiInput.setFocus();
       }, 1000);
-    this.formData.chassi = '';
+    this.formData.veiculo.chassi = '';
   }
 
   scan() {
@@ -111,7 +101,7 @@ export class ModalBuscaChassiVistoriaPage {
         this.qrCodeText = barcodeData.text;
         if (this.qrCodeText && this.qrCodeText.length) {
           let partChassi = this.qrCodeText.substr(this.qrCodeText.length - 17, 17);
-          this.formData.chassi = partChassi;
+          this.formData.veiculo.chassi = partChassi;
           this.buscarChassi(partChassi);
         }
       },
@@ -124,10 +114,8 @@ export class ModalBuscaChassiVistoriaPage {
   }
 
   buscarChassi(partChassi) {
-    this.formBloqueioData.chassi = partChassi;
     let uriBuscaChassi = '/veiculos/ConsultarChassi?token=' + this.authService.getToken() + '&chassi=' + partChassi;
     this.authService.showLoading();
-    this.formBloqueioData.token = this.authService.getToken();
 
     this.http.get(this.url + uriBuscaChassi)
     .subscribe(
@@ -163,10 +151,17 @@ export class ModalBuscaChassiVistoriaPage {
     )
     .subscribe((res:DataRetorno) => {
       if (res.sucesso) {
-        this.showSucessAlert('Chassi vistoriado !');
+
+        this.formData.veiculo.chassi = this.chassi;
         this.view.dismiss();
+
+        const modal: Modal = this.modal.create(ModelLancarAvariaPage, {
+          data: this.formData,
+        });
+        modal.present();
       }
       else if (!res.sucesso) {
+        this.view.dismiss();
         this.alertService.showError(res.mensagem);
       }
     });

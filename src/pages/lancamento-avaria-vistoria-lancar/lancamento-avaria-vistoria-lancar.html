@@ -38,7 +38,7 @@
             <div class="legenda">Restante / Lidos (Total)</div>
             <div class="divtotais">
               <!-- <sincronizacao-info [conferenciaConfiguracaoId]="0"></sincronizacao-info> -->
-              {{100 - 63}}/{{ 63 }} <strong>({{ 100 }})</strong>
+              {{100 - 63}}/{{ 63 }} <strong>({{ veiculos.length }})</strong>
               <!-- {{totalVeiculos - totalConferidos}}/{{ totalConferidos }} <strong>({{ totalVeiculos }})</strong> -->
             </div>
           </ion-col>
@@ -58,39 +58,10 @@
     </form>
   </div>
 
-  <div class="qr-code-container" *ngIf="showInfoCar">
-    <form form class="form-lancar-avaria">
-      <ion-list>
-        <ion-item class="item-list-black">
-          <ion-label label-ios style="font-style: unset;">Resultado Busca</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label label-ios style="font-style: unset;"><b>Chassi: </b>{{formData.veiculo.chassi}}</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label label-ios style="font-style: unset;"><b>Modelo: </b>{{formData.veiculo.modelo}}</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label label-ios style="font-style: unset;"><b>Posição: </b>{{formData.posicaoAtual}}</ion-label>
-        </ion-item>
-      </ion-list>
-    </form>
-  </div>
-
 </ion-content>
 
 <ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
   <ion-grid class="grid-botao-wrapper">
-    <ion-row>
-      <ion-col>
-        <button ion-button class="btn-receiving-small" (click)="voltar()" type="button">
-          Sem Avaria
-        </button>
-        <button ion-button class="btn-receiving-small" (click)="openModalSelecionarSuperficie()" [disabled]="!formLancamentoAvaria.valid" type="button" size="small" [ngStyle]="{'background-color': buttonColor}">
-          Com Avaria
-        </button>
-      </ion-col>
-    </ion-row>
     <ion-row>
       <ion-col>
         <button ion-button round class="btn-receiving-long btn-cancel"(click)="voltar()" type="button">Voltar</button>

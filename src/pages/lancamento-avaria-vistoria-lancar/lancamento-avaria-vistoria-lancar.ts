@@ -1,24 +1,20 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
+import { BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 import { Modal, ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
-import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { AuthService } from '../../providers/auth-service/auth-service';
-import { HomePage } from '../home/home';
 import * as $ from 'jquery';
 import { Storage } from '@ionic/storage';
 import { MomentoDataService } from '../../providers/momento-data-service';
 import { Momento } from '../../model/Momento';
-import { ModalSelecionarChassiComponent } from '../../components/modal-selecionar-chassi/modal-selecionar-chassi';
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
-import { ModalSucessoComponent } from '../../components/modal-sucesso/modal-sucesso';
-import { LancarAvariaComponent } from '../../components/lancar-avaria/lancar-avaria';
 import { Veiculo } from '../../model/veiculo';
 import { Navio } from '../../model/navio';
 import { Arquivo } from '../../model/arquivo';
 import { AlertService } from '../../providers/alert-service';
 import { ModalBuscaChassiVistoriaPage } from '../modal-busca-chassi-vistoria/modal-busca-chassi-vistoria';
+import { ArquivoDataService } from '../../providers/arquivo-data-service';
+import { DataRetorno } from '../../model/dataretorno';
 
 @Component({
   selector: 'page-lancamento-avaria-vistoria-lancar',
@@ -38,7 +34,6 @@ export class LancamentoAvariaVistoriaLancarPage {
   modoOperacao: number;
   momentos: Array<Momento> = [];
   userData = {};
-  showInfoCar = false;
 
   primaryColor: string;
   secondaryColor: string;
@@ -53,6 +48,7 @@ export class LancamentoAvariaVistoriaLancarPage {
 
   public navio: Navio;
   public arquivo: Arquivo;
+  public veiculos: Array<Veiculo> = [];
   public local = '';
   public nomeArquivo = '';
 
@@ -70,7 +66,8 @@ export class LancamentoAvariaVistoriaLancarPage {
     private view: ViewController,
     private navParam: NavParams,
     public alertService: AlertService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private arquivoService: ArquivoDataService
   )
   {
     this.title = 'Vistoriar Chassi';
@@ -80,20 +77,12 @@ export class LancamentoAvariaVistoriaLancarPage {
     this.modoOperacao = this.authService.getLocalModoOperacao();
     this.userData = this.authService.getUserData()
 
-    var model = (this.navParam.get('data'));
-    if (model) {
-      this.formData.veiculo = model;
-      this.formData.posicaoAtual = model.posicaoAtual;
-      this.formData.momento.id = model.momentoID;
-      this.showInfoCar = true;
-    }
-
     if (navParam.data.navio != null) {
       this.navio = navParam.data.navio;
     }
 
-    if (navParam.data.arquivo != null) {
-      this.arquivo = navParam.data.arquivo;
+    if (navParam.data.data != null) {
+      this.arquivo = navParam.data.data;
       this.local = this.arquivo.local.nome;
       this.nomeArquivo = this.arquivo.nomeOriginal;
     }
@@ -114,7 +103,7 @@ export class LancamentoAvariaVistoriaLancarPage {
 
   ionViewWillEnter() {
     this.authService.showLoading();
-    this.loadMomentos();
+    this.loadChassisVistoria();
   }
 
   initializeFormControl(){
@@ -135,10 +124,19 @@ export class LancamentoAvariaVistoriaLancarPage {
     });
   }
 
+  loadChassisVistoria(){
+    this.arquivoService.listarChassisVistoria(this.arquivo.id).subscribe((result:DataRetorno) => {
+      console.log(result.retorno);
+      this.veiculos = result.retorno;
+      this.loadMomentos();
+    });
+  }
+
   modalBuscarChassi(){
     this.navCtrl.push(ModalBuscaChassiVistoriaPage, {
       data: this.formData
     });
+    this.view.dismiss();
   }
 
   toggleMenu = function (this) {
