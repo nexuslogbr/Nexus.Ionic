@@ -108,7 +108,7 @@ export class LancamentoAvariaVistoriaPage {
 
   vistoriarArquivo(arquivo: Arquivo) {
     this.navCtrl.push(LancamentoAvariaVistoriaLancarPage, {
-      data: arquivo
+      arquivo: arquivo
     });
   }
 
