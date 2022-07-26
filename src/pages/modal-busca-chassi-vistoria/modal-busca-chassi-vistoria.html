@@ -1,3 +1,11 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>{{title}}</ion-title>
+</ion-header>
+
 <ion-content padding id="busca-chassi" class="busca-chassi show">
   <div class="qr-code-container">
     <i class="icon icon-qr-code-black" (click)="scan()"></i>
@@ -5,7 +13,7 @@
 
     <form>
       <ion-label>Chassi:</ion-label>
-      <ion-input type="text" [(ngModel)]="formData.veiculo.chassi" [formControl]="formControlChassi" placeholder="Chassi" value="" required #chassiInput></ion-input>
+      <ion-input type="text" [(ngModel)]="chassi" [formControl]="formControlChassi" placeholder="Chassi" value="" required #chassiInput></ion-input>
     </form>
   </div>
 
