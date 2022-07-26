@@ -15,6 +15,8 @@ import { AlertService } from '../../providers/alert-service';
 import { ModalBuscaChassiVistoriaPage } from '../modal-busca-chassi-vistoria/modal-busca-chassi-vistoria';
 import { ArquivoDataService } from '../../providers/arquivo-data-service';
 import { DataRetorno } from '../../model/dataretorno';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'page-lancamento-avaria-vistoria-lancar',
@@ -43,14 +45,18 @@ export class LancamentoAvariaVistoriaLancarPage {
   formData = {
     posicaoAtual: '',
     veiculo: new Veiculo(),
-    momento: new Momento()
+    momento: new Momento(),
+    arquivo: new Arquivo(),
+    navio: new Navio(),
+    veiculos: new Array<Veiculo>()
   };
 
   public navio: Navio;
-  public arquivo: Arquivo;
-  public veiculos: Array<Veiculo> = [];
+  // public arquivo: Arquivo;
   public local = '';
   public nomeArquivo = '';
+  public totalRegistros = 0;
+  public totalVistoriados = 0;
 
   @ViewChild('chassiInput') chassiInput;
   formControlAvaria = new FormControl('');
@@ -75,16 +81,18 @@ export class LancamentoAvariaVistoriaLancarPage {
     this.initializeFormControl();
 
     this.modoOperacao = this.authService.getLocalModoOperacao();
-    this.userData = this.authService.getUserData()
+    this.userData = this.authService.getUserData();
+
+    // const dados = this.navParam.get("data");
 
     if (navParam.data.navio != null) {
       this.navio = navParam.data.navio;
     }
 
-    if (navParam.data.data != null) {
-      this.arquivo = navParam.data.data;
-      this.local = this.arquivo.local.nome;
-      this.nomeArquivo = this.arquivo.nomeOriginal;
+    if (navParam.data.arquivo != null) {
+      this.formData.arquivo = navParam.data.arquivo;
+      this.local = this.formData.arquivo.local.nome;
+      this.nomeArquivo = this.formData.arquivo.nomeOriginal;
     }
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
@@ -103,40 +111,45 @@ export class LancamentoAvariaVistoriaLancarPage {
 
   ionViewWillEnter() {
     this.authService.showLoading();
-    this.loadChassisVistoria();
+
+    forkJoin([
+      this.arquivoService.listarChassisVistoria(this.formData.arquivo.id),
+      this.momentoService.carregarMomentos()
+    ])
+    .pipe(
+      finalize(() => {
+        this.authService.hideLoading();
+      })
+    )
+    .subscribe(
+      arrayResult => {
+        let veiculos$ = arrayResult[0];
+        let momentos$ = arrayResult[1];
+
+        if (veiculos$.sucesso) {
+          this.formData.veiculos = veiculos$.retorno.veiculos;
+          this.totalRegistros = veiculos$.retorno.totalRegistros;
+          this.totalVistoriados = veiculos$.retorno.totalVistoriados;
+        }
+
+        if (momentos$.sucesso) {
+          this.momentos = momentos$.retorno;
+        }
+      },
+      error => {
+        console.log('error', error);
+      },
+      () => {
+        this.authService.hideLoading();
+      }
+    );
   }
 
   initializeFormControl(){
     this.formLancamentoAvaria = this.formBuilder.group({
-      chassi: [this.formData.veiculo.chassi, Validators.required],
+      chassi: [this.formData.veiculo.chassi],
       momento: ['', Validators.required]
     });
-  }
-
-  loadMomentos(){
-    this.formLancamentoAvaria.patchValue({
-      chassi: this.formData.veiculo.chassi,
-      momento: this.formData.momento.id
-    });
-    this.momentoService.carregarMomentos().subscribe(result => {
-      this.momentos = result.retorno;
-      this.authService.hideLoading();
-    });
-  }
-
-  loadChassisVistoria(){
-    this.arquivoService.listarChassisVistoria(this.arquivo.id).subscribe((result:DataRetorno) => {
-      console.log(result.retorno);
-      this.veiculos = result.retorno;
-      this.loadMomentos();
-    });
-  }
-
-  modalBuscarChassi(){
-    this.navCtrl.push(ModalBuscaChassiVistoriaPage, {
-      data: this.formData
-    });
-    this.view.dismiss();
   }
 
   toggleMenu = function (this) {
@@ -152,7 +165,13 @@ export class LancamentoAvariaVistoriaLancarPage {
 
   voltar(){
     this.view.dismiss();
-    // this.navCtrl.push(QualidadeMenuPage);
+  }
+
+  modalBuscarChassi(){
+    this.navCtrl.push(ModalBuscaChassiVistoriaPage, {
+      data: this.formData
+    });
+    this.view.dismiss();
   }
 
   openModalSelecionarSuperficie(){

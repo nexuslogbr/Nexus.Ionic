@@ -3,10 +3,9 @@
   <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
   </button>
-  <ion-title>
-    {{title}}
-  </ion-title>
+  <ion-title>{{title}}</ion-title>
 </ion-header>
+
 <ion-content padding id="recebimento" class="recebimento show">
   <div class="qr-code-container">
     <form form class="form-lancar-avaria" [formGroup]="formLancamentoAvaria">
@@ -38,14 +37,13 @@
             <div class="legenda">Restante / Lidos (Total)</div>
             <div class="divtotais">
               <!-- <sincronizacao-info [conferenciaConfiguracaoId]="0"></sincronizacao-info> -->
-              {{100 - 63}}/{{ 63 }} <strong>({{ veiculos.length }})</strong>
-              <!-- {{totalVeiculos - totalConferidos}}/{{ totalConferidos }} <strong>({{ totalVeiculos }})</strong> -->
+              {{totalRegistros - totalVistoriados}}/{{ totalVistoriados }} <strong>({{ totalRegistros }})</strong>
             </div>
           </ion-col>
         </ion-row>
       </ion-grid>
 
-      <ion-grid>
+      <ion-grid *ngIf="formLancamentoAvaria.valid">
         <ion-row>
           <ion-col col-10>
             <ion-input type="text" placeholder="Chassi" value="" name="chassi" (click)="modalBuscarChassi()" formControlName="chassi"></ion-input>
