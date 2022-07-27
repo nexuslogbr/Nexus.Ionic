@@ -36,6 +36,7 @@ export class LancamentoAvariaVistoriaLancarPage {
   modoOperacao: number;
   momentos: Array<Momento> = [];
   userData = {};
+  public tipoVistoria = '';
 
   primaryColor: string;
   secondaryColor: string;
@@ -52,7 +53,6 @@ export class LancamentoAvariaVistoriaLancarPage {
   };
 
   public navio: Navio;
-  // public arquivo: Arquivo;
   public local = '';
   public nomeArquivo = '';
   public totalRegistros = 0;
@@ -86,13 +86,17 @@ export class LancamentoAvariaVistoriaLancarPage {
     // const dados = this.navParam.get("data");
 
     if (navParam.data.navio != null) {
-      this.navio = navParam.data.navio;
+      this.formData.navio = navParam.data.navio;
+      this.local = this.formData.navio.porto.nome;
+      this.nomeArquivo = this.formData.navio.nome;
+      this.tipoVistoria = 'Navio';
     }
 
     if (navParam.data.arquivo != null) {
       this.formData.arquivo = navParam.data.arquivo;
       this.local = this.formData.arquivo.local.nome;
       this.nomeArquivo = this.formData.arquivo.nomeOriginal;
+      this.tipoVistoria = 'Arquivo';
     }
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
@@ -112,8 +116,14 @@ export class LancamentoAvariaVistoriaLancarPage {
   ionViewWillEnter() {
     this.authService.showLoading();
 
+    let id = 0;
+    if (this.tipoVistoria == 'Arquivo')
+      id = this.formData.arquivo.id;
+    else if (this.tipoVistoria = 'Navio')
+      id = this.formData.arquivo.id;
+
     forkJoin([
-      this.arquivoService.listarChassisVistoria(this.formData.arquivo.id),
+      this.arquivoService.listarChassisVistoria(id),
       this.momentoService.carregarMomentos()
     ])
     .pipe(

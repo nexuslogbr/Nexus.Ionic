@@ -53,7 +53,7 @@
             <div class="div-navio-nome">{{ arquivo.nomeOriginal }}</div>
           </ion-col>
           <ion-col col-4 class="col-status">
-            <!-- <div>{{ arquivo.statusConfiguracao }}</div> -->
+            <div>{{arquivo.statusArquivo}}</div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -74,7 +74,6 @@
   <ion-grid class="grid-botao-voltar">
     <ion-row>
       <ion-col>
-        <button ion-button class="btn-menu-internal" (click)="navigateToLancar()" type="button">Lançar outra avaria</button>
         <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()" type="button">Voltar</button>
       </ion-col>
     </ion-row>

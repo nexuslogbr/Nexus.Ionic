@@ -73,7 +73,6 @@ export class LancamentoAvariaVistoriaPage {
             this.showNavioErrorMessage = true;
           }
 
-          console.log('arquivos$', arquivos$);
           if (arquivos$.sucesso) {
             this.arquivos = arquivos$.retorno;
           } else {
@@ -101,7 +100,7 @@ export class LancamentoAvariaVistoriaPage {
   }
 
   vistoriarNavio(navio: Navio) {
-    this.navCtrl.push(NovaConferenciaConfiguracaoAreaPage, {
+    this.navCtrl.push(LancamentoAvariaVistoriaLancarPage, {
       navio: navio
     });
   }

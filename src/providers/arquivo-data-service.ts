@@ -70,7 +70,7 @@ export class ArquivoDataService {
   }
 
   public carregarArquivosDePlanilhasVistoria() {
-    let url = this.urlApi + '/arquivos?token=' + this.authService.getToken() + '&arquivoTipo=8';
+    let url = this.urlApi + '/arquivos/vistoria/lista?token=' + this.authService.getToken() + '&arquivoTipo=8';
     return this.http.get<any>(url, { headers: headers });
   }
 

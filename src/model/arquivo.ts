@@ -13,5 +13,6 @@ export class Arquivo {
   public statusConfiguracao: string;
   public statusData: string;
   public conferenciaStatus: number;
-  public local: Local
+  public local: Local;
+  public statusArquivo: string;
 }
