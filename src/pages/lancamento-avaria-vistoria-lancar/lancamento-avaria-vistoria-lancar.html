@@ -53,6 +53,72 @@
           </ion-col>
         </ion-row>
       </ion-grid>
+
+      <ion-grid  *ngIf="formLancamentoAvaria.valid" class="grid-select-wrapper">
+        <ion-row>
+          <ion-col>
+            <ion-grid class="grid-select">
+              <ion-row>
+                <ion-col class="col-left" [ngClass]="{ selected: slideLeftSelected }" (click)="changeSlideToLeft()">
+                  <span>VISTORIDOS</span>
+                </ion-col>
+                <ion-col class="col-center" [ngClass]="{ selected: slideCenterSelected }" (click)="changeSlideToCenter()">
+                  <span>À VISTORIAR</span>
+                </ion-col>
+                <ion-col class="col-right" [ngClass]="{ selected: slideRightSelected }" (click)="changeSlideToRight()">
+                  <span>TODOS</span>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid class="grid-slide-wrapper">
+        <ion-row [hidden]="!slideLeftSelected">
+          <ion-col class="col-slide-wrapper">
+            <!-- <conferencia-veiculos
+              [fechamento]="fechamento"
+              [configuracao]="configuracao"
+              [carregarSomenteConferidos]="true"
+              [destino]="destino"
+            >
+            </conferencia-veiculos> -->
+          </ion-col>
+        </ion-row>
+
+        <ion-row [hidden]="!slideCenterSelected">
+          <ion-col class="col-slide-wrapper">
+            <ion-col class="col-slide-wrapper">
+              <!-- <conferencia-veiculos
+                [fechamento]="fechamento"
+                [configuracao]="configuracao"
+                [carregarSomenteNaoConferidos]="true"
+                [filtroChassi]="filtroChassi"
+                [refresh]="forceRefresh"
+                [destino]="destino"
+              >
+              </conferencia-veiculos> -->
+            </ion-col>
+          </ion-col>
+        </ion-row>
+
+        <ion-row [hidden]="!slideRightSelected">
+          <ion-col class="col-slide-wrapper">
+            <!-- <conferencia-veiculos
+              [fechamento]="fechamento"
+              [disableCheckboxes]="true"
+              [configuracao]="configuracao"
+              [carregarTodos]="true"
+              [filtroChassi]="filtroChassi"
+              [refresh]="forceRefresh"
+              [destino]="destino"
+            >
+            </conferencia-veiculos> -->
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
     </form>
   </div>
 
