@@ -20,6 +20,7 @@ export class Veiculo {
   conferenciaVeiculo: Conferencia;
   destinoId: number;
   selecionado: boolean;
+  vistoriado: boolean;
 }
 
 

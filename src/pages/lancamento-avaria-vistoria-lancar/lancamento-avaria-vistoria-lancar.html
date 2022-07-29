@@ -54,7 +54,7 @@
         </ion-row>
       </ion-grid>
 
-      <ion-grid  *ngIf="formLancamentoAvaria.valid" class="grid-select-wrapper">
+      <ion-grid *ngIf="formLancamentoAvaria.valid" class="grid-select-wrapper">
         <ion-row>
           <ion-col>
             <ion-grid class="grid-select">
@@ -74,47 +74,24 @@
         </ion-row>
       </ion-grid>
 
-      <ion-grid class="grid-slide-wrapper">
+      <ion-grid *ngIf="formLancamentoAvaria.valid" class="grid-slide-wrapper">
         <ion-row [hidden]="!slideLeftSelected">
           <ion-col class="col-slide-wrapper">
-            <!-- <conferencia-veiculos
-              [fechamento]="fechamento"
-              [configuracao]="configuracao"
-              [carregarSomenteConferidos]="true"
-              [destino]="destino"
-            >
-            </conferencia-veiculos> -->
+            <vistoria-veiculos [veiculos]="veiculos"></vistoria-veiculos>
           </ion-col>
         </ion-row>
 
         <ion-row [hidden]="!slideCenterSelected">
           <ion-col class="col-slide-wrapper">
             <ion-col class="col-slide-wrapper">
-              <!-- <conferencia-veiculos
-                [fechamento]="fechamento"
-                [configuracao]="configuracao"
-                [carregarSomenteNaoConferidos]="true"
-                [filtroChassi]="filtroChassi"
-                [refresh]="forceRefresh"
-                [destino]="destino"
-              >
-              </conferencia-veiculos> -->
+              <vistoria-veiculos [veiculos]="veiculos"></vistoria-veiculos>
             </ion-col>
           </ion-col>
         </ion-row>
 
         <ion-row [hidden]="!slideRightSelected">
           <ion-col class="col-slide-wrapper">
-            <!-- <conferencia-veiculos
-              [fechamento]="fechamento"
-              [disableCheckboxes]="true"
-              [configuracao]="configuracao"
-              [carregarTodos]="true"
-              [filtroChassi]="filtroChassi"
-              [refresh]="forceRefresh"
-              [destino]="destino"
-            >
-            </conferencia-veiculos> -->
+            <vistoria-veiculos [veiculos]="veiculos"></vistoria-veiculos>
           </ion-col>
         </ion-row>
       </ion-grid>

@@ -35,6 +35,9 @@ export class LancamentoAvariaVistoriaLancarPage {
   qrCodeText: string;
   modoOperacao: number;
   momentos: Array<Momento> = [];
+  public veiculos: Array<Veiculo> = [];
+  public veiculosLidos: Array<Veiculo> = [];
+  public veiculosNaoLidos: Array<Veiculo> = [];
   userData = {};
   public tipoVistoria = '';
 
@@ -61,6 +64,10 @@ export class LancamentoAvariaVistoriaLancarPage {
   @ViewChild('chassiInput') chassiInput;
   formControlAvaria = new FormControl('');
   formLancamentoAvaria: FormGroup;
+
+  slideLeftSelected: boolean = true;
+  slideCenterSelected: boolean = false;
+  slideRightSelected: boolean = false;
 
   constructor(
     public modalCtrl: ModalController,
@@ -120,7 +127,7 @@ export class LancamentoAvariaVistoriaLancarPage {
     if (this.tipoVistoria == 'Arquivo')
       id = this.formData.arquivo.id;
     else if (this.tipoVistoria = 'Navio')
-      id = this.formData.arquivo.id;
+      id = this.formData.navio.id;
 
     forkJoin([
       this.arquivoService.listarChassisVistoria(id),
@@ -137,7 +144,10 @@ export class LancamentoAvariaVistoriaLancarPage {
         let momentos$ = arrayResult[1];
 
         if (veiculos$.sucesso) {
-          this.formData.veiculos = veiculos$.retorno.veiculos;
+          this.veiculos = veiculos$.retorno.veiculosLidos;
+          this.veiculosLidos = veiculos$.retorno.veiculosLidos;
+          this.veiculosNaoLidos = veiculos$.retorno.veiculosNaoLidos;
+          this.formData.veiculos = veiculos$.retorno.veiculosLidos.concat(veiculos$.retorno.veiculosNaoLidos);
           this.totalRegistros = veiculos$.retorno.totalRegistros;
           this.totalVistoriados = veiculos$.retorno.totalVistoriados;
         }
@@ -171,6 +181,27 @@ export class LancamentoAvariaVistoriaLancarPage {
 
   onMomentoChange(event){
     this.formData.momento.id = event;
+  }
+
+  changeSlideToLeft() {
+    this.slideLeftSelected = true;
+    this.slideCenterSelected = false;
+    this.slideRightSelected = false;
+    this.veiculos = this.veiculosLidos;
+  }
+
+  changeSlideToCenter() {
+    this.slideLeftSelected = false;
+    this.slideCenterSelected = true;
+    this.slideRightSelected = false;
+    this.veiculos = this.veiculosNaoLidos;
+  }
+
+  changeSlideToRight() {
+    this.slideLeftSelected = false;
+    this.slideCenterSelected = false;
+    this.slideRightSelected = true;
+    this.veiculos = this.veiculosLidos.concat(this.veiculosNaoLidos);
   }
 
   voltar(){
