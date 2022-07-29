@@ -144,6 +144,7 @@ import { ModelLancarAvariaPage } from '../pages/model-lancar-avaria/model-lancar
 import { SincronizacaoInfoComponent } from './../components/sincronizacao-info/sincronizacao-info';
 import { ModalChassisVistoriaComponent } from '../components/modal-chassis-vistoria/modal-chassis-vistoria';
 import { ConferenciaVeiculosComponent } from '../components/conferencia-veiculos/conferencia-veiculos';
+import { VistoriaVeiculosComponent } from '../components/vistoria-veiculos/vistoria-veiculos';
 import { ModalErrorComponent } from '../components/modal-error/modal-error';
 import { ModalSucessoComponent } from '../components/modal-sucesso/modal-sucesso';
 import { ModalDeviceComponent } from '../components/modal-device/modal-device';
@@ -309,6 +310,7 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     ModalSelecionarChassiComponent,
     ModalSelecionarChassiBuscaComponent,
     CanvasDrawComponent,
+    VistoriaVeiculosComponent,
     LoginPage,
     HomePage,
     ParqueamentoPage,
@@ -544,6 +546,7 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     ModalSelecionarChassiComponent,
     ModalSelecionarChassiBuscaComponent,
     CanvasDrawComponent,
+    VistoriaVeiculosComponent,
     LoginPage,
     HomePage,
     ParqueamentoPage,
