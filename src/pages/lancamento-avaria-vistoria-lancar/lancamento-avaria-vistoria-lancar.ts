@@ -23,28 +23,28 @@ import { finalize } from 'rxjs/operators';
   templateUrl: 'lancamento-avaria-vistoria-lancar.html',
 })
 export class LancamentoAvariaVistoriaLancarPage {
-  scanData: {};
-  inputChassi: string = '';
   title: string;
-  data: any;
   options: BarcodeScannerOptions;
-  token: string;
-  chassi: string;
   url: string;
   responseData: any;
-  qrCodeText: string;
   modoOperacao: number;
-  momentos: Array<Momento> = [];
-  public veiculos: Array<Veiculo> = [];
-  public veiculosLidos: Array<Veiculo> = [];
-  public veiculosNaoLidos: Array<Veiculo> = [];
   userData = {};
   public tipoVistoria = '';
+  public navio: Navio;
+  public local = '';
+  public nomeArquivo = '';
+  public totalRegistros = 0;
+  public totalVistoriados = 0;
 
   primaryColor: string;
   secondaryColor: string;
   inputColor: string;
   buttonColor: string;
+
+  public momentos: Array<Momento> = [];
+  public veiculos: Array<Veiculo> = [];
+  public veiculosLidos: Array<Veiculo> = [];
+  public veiculosNaoLidos: Array<Veiculo> = [];
 
   formData = {
     posicaoAtual: '',
@@ -54,12 +54,6 @@ export class LancamentoAvariaVistoriaLancarPage {
     navio: new Navio(),
     veiculos: new Array<Veiculo>()
   };
-
-  public navio: Navio;
-  public local = '';
-  public nomeArquivo = '';
-  public totalRegistros = 0;
-  public totalVistoriados = 0;
 
   @ViewChild('chassiInput') chassiInput;
   formControlAvaria = new FormControl('');
@@ -104,6 +98,10 @@ export class LancamentoAvariaVistoriaLancarPage {
       this.local = this.formData.arquivo.local.nome;
       this.nomeArquivo = this.formData.arquivo.nomeOriginal;
       this.tipoVistoria = 'Arquivo';
+
+      this.formLancamentoAvaria.patchValue({
+        momento: this.formData.arquivo.momentoId
+      });
     }
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
@@ -214,12 +212,4 @@ export class LancamentoAvariaVistoriaLancarPage {
     });
     this.view.dismiss();
   }
-
-  openModalSelecionarSuperficie(){
-    const modal: Modal = this.modal.create(LancamentoAvariaSelecaoSuperficiePage, {
-      data: this.formData,
-    });
-    modal.present();
-  }
-
 }

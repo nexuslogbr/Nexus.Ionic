@@ -55,6 +55,8 @@ export class ModelLancarAvariaPage {
   }
 
   closeModal() {
+    this.formData.arquivo.momentoId = this.formData.momento.id;
+    this.formData.momento.id = this.formData.momento.id;
     const modal: Modal = this.modal.create(LancamentoAvariaVistoriaLancarPage, {
       arquivo: this.formData.arquivo,
     });

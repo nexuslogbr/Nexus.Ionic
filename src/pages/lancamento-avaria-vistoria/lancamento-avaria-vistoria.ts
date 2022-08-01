@@ -66,7 +66,6 @@ export class LancamentoAvariaVistoriaPage {
           let navios$ = arrayResult[0];
           let arquivos$ = arrayResult[1];
 
-          console.log('navios$', navios$);
           if (navios$.sucesso) {
             this.navios = navios$.retorno;
           } else {

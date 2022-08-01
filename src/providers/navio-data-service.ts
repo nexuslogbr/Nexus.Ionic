@@ -163,4 +163,10 @@ export class NavioDataService {
 
     return this.http.put<DataRetorno>(url, {}, { headers: headers });
   }
+
+  public carregarNaviosDePlanilhasVistoria() {
+    let url = this.urlApi + '/navios/vistoria/lista?token=' + this.authService.getToken();
+    return this.http.get<DataRetorno>(url, { headers: headers });
+  }
+
 }
