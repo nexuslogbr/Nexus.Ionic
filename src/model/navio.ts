@@ -17,4 +17,5 @@ export class Navio {
   public statusData: string;
   public conferenciaStatus: number;
   public statusArquivo: string;
+  public momentoId?: number;
 }

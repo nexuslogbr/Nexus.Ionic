@@ -53,7 +53,7 @@ export class LancamentoAvariaVistoriaPage {
     this.authService.showLoading();
 
     forkJoin([
-      this.navioDataService.carregarNavios(false, null, null, true, null),
+      this.navioDataService.carregarNaviosVistoria(),
       this.arquivoDataService.carregarArquivosDePlanilhasVistoria()
     ])
       .pipe(

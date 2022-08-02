@@ -91,6 +91,10 @@ export class LancamentoAvariaVistoriaLancarPage {
       this.local = this.formData.navio.porto.nome;
       this.nomeArquivo = this.formData.navio.nome;
       this.tipoVistoria = 'Navio';
+
+      this.formLancamentoAvaria.patchValue({
+        momento: this.formData.arquivo.momentoId
+      });
     }
 
     if (navParam.data.arquivo != null) {
@@ -128,7 +132,7 @@ export class LancamentoAvariaVistoriaLancarPage {
       id = this.formData.navio.id;
 
     forkJoin([
-      this.arquivoService.listarChassisVistoria(id),
+      this.arquivoService.listarChassisVistoria(id, this.tipoVistoria),
       this.momentoService.carregarMomentos()
     ])
     .pipe(

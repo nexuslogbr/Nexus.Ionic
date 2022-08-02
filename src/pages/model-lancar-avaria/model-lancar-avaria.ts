@@ -55,11 +55,23 @@ export class ModelLancarAvariaPage {
   }
 
   closeModal() {
-    this.formData.arquivo.momentoId = this.formData.momento.id;
-    this.formData.momento.id = this.formData.momento.id;
-    const modal: Modal = this.modal.create(LancamentoAvariaVistoriaLancarPage, {
-      arquivo: this.formData.arquivo,
-    });
+    var modal: Modal;
+
+    if (this.formData.arquivo.id) {
+      this.formData.arquivo.momentoId = this.formData.momento.id;
+      this.formData.momento.id = this.formData.momento.id;
+      modal = this.modal.create(LancamentoAvariaVistoriaLancarPage, {
+        arquivo: this.formData.arquivo,
+      });
+    }
+    else if (this.formData.navio.id) {
+      this.formData.navio.momentoId = this.formData.momento.id;
+      this.formData.momento.id = this.formData.momento.id;
+      modal = this.modal.create(LancamentoAvariaVistoriaLancarPage, {
+        navio: this.formData.navio,
+      });
+    }
+
 
     modal.present();
     const data = {

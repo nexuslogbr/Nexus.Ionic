@@ -74,8 +74,14 @@ export class ArquivoDataService {
     return this.http.get<any>(url, { headers: headers });
   }
 
-  public listarChassisVistoria(arquivoID: number) {
-    let url = this.urlApi + '/arquivos/vistoria/chassis?token=' + this.authService.getToken() + '&arquivoID=' + arquivoID;
+  public listarChassisVistoria(id: number, tipoVistoria: string) {
+
+    let url = '';;
+    if (tipoVistoria == 'Arquivo')
+      url = this.urlApi + '/arquivos/vistoria/chassis?token=' + this.authService.getToken() + '&arquivoID=' + id;
+    else if (tipoVistoria = 'Navio')
+      url = this.urlApi + '/navios/vistoria/chassis?token=' + this.authService.getToken() + '&navioId=' + id;
+
     return this.http.get<any>(url, { headers: headers });
   }
 
