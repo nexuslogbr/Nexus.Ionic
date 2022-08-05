@@ -14,6 +14,6 @@ export class Arquivo {
   public statusData: string;
   public conferenciaStatus: number;
   public local: Local;
-  public statusArquivo: string;
+  public statusVistoria: string;
   public momentoId?: number;
 }
