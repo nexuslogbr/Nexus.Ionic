@@ -135,7 +135,7 @@ const menus = [
 
   {
     texto: 'Módulo de Qualidade',
-    cssClass: 'historico-chassi',
+    cssClass: 'vistoriar',
     id: 3118,
     nome: 'mnu_mob_qualidade'
   },
