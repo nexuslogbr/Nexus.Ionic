@@ -7,6 +7,7 @@ import { QualidadeDashboardBuscaAvariasPage } from '../qualidade-dashboard-busca
 import { BuscarAvariasPage } from '../buscar-avarias/buscar-avarias';
 import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
 import { LancamentoAvariaVistoriaPage } from '../lancamento-avaria-vistoria/lancamento-avaria-vistoria';
+import { VistoriaPage } from '../vistoria/vistoria';
 
 @Component({
   selector: 'page-qualidade-menu',
@@ -42,10 +43,6 @@ export class QualidadeMenuPage {
     }
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad QualidadeMenuPage');
-  }
-
   toggleMenu = function (this) {
     $('.menu-body').toggleClass('show-menu');
     $('menu-inner').toggleClass('show');
@@ -57,7 +54,6 @@ export class QualidadeMenuPage {
     this.navCtrl.pop();
   }
 
-
   navigateToDashboard() {
     this.navCtrl.push(QualidadeDashboardBuscaAvariasPage);
   }
@@ -66,8 +62,12 @@ export class QualidadeMenuPage {
     this.navCtrl.push(BuscarAvariasPage);
   }
 
+  // navigateToVistoriar() {
+  //   this.navCtrl.push(LancamentoAvariaVistoriaPage);
+  // }
+
   navigateToVistoriar() {
-    this.navCtrl.push(LancamentoAvariaVistoriaPage);
+    this.navCtrl.push(VistoriaPage);
   }
 
   navigateToLancar() {

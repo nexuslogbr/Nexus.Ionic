@@ -8,22 +8,77 @@
   </ion-title>
 </ion-header>
 
-<ion-content padding id="vistoria" class="vistoria show" [ngStyle]="{'background-color': secondaryColor}">
-  <!-- <div *ngIf="scanData">
-        <button class="btn btn-cancel">CANCELAR</button>
-    </div> -->
-  <div class="qr-code-container" [ngStyle]="{'background-color': secondaryColor}">
-    <i class="icon icon-qr-code-black" (click)="scan()"></i>
-    <div class="line"></div>
-    <form>
-      <ion-label>Chassi:</ion-label>
-      <ion-input type="text" [(ngModel)]="formData.chassi" [formControl]="formControlChassi" [ngStyle]="{'background-color': primaryColor}" placeholder="" value="" required #chassiInput></ion-input>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
+
+  <form class="form-recebe-chassis">
+    <ion-list>
+        <ion-item [ngStyle]="{'background-color': primaryColor}">
+            <ion-label label-ios>Local:</ion-label>
+            <ion-select okText="Confirmar" cancelText="Cancelar">
+                <!-- <ion-option *ngFor="let parte of partes" [value]="parte.nome" id="{{parte.id}}">{{parte.nome}}</ion-option> -->
+            </ion-select>
+        </ion-item>
+        <ion-item [ngStyle]="{'background-color': primaryColor}">
+            <ion-label label-ios>CheckPoint:</ion-label>
+            <ion-select okText="Confirmar" cancelText="Cancelar">
+                <!-- <ion-option *ngFor="let modelo of modelos" [value]="modelo.nome" id="{{modelo.id}}">{{modelo.nome}}</ion-option> -->
+            </ion-select>
+        </ion-item>
+        <ion-item [ngStyle]="{'background-color': primaryColor}">
+            <ion-label label-ios>Emrpresa de Origem:</ion-label>
+            <ion-select okText="Confirmar" cancelText="Cancelar">
+                <!-- <ion-option *ngFor="let tipoAvaria of tipoAvarias" [value]="tipoAvaria.nome" id="{{tipoAvaria.id}}">{{tipoAvaria.nome}}</ion-option> -->
+            </ion-select>
+        </ion-item>
+        <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">
+            <ion-label label-ios>Emrpresa de Destino:</ion-label>
+            <ion-select okText="Confirmar" cancelText="Cancelar">
+                <!-- <ion-option *ngFor="let nivelAvaria of nivelAvarias" [value]="nivelAvaria.nome" id="{{nivelAvaria.id}}">{{nivelAvaria.nome}}</ion-option> -->
+            </ion-select>
+        </ion-item>
+    </ion-list>
+  </form>
+
+  <div class="qr-code-container" *ngIf="true == false">
+    <form form class="form-lancar-avaria">
+      <ion-list>
+        <ion-item class="item-list-black">
+          <ion-label label-ios style="font-style: unset;">Resultado Busca</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Porto: </b></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Empresa de Origem: </b></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Empresa de Destino: </b></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>CheckPoint: </b></ion-label>
+        </ion-item>
+      </ion-list>
     </form>
   </div>
 
+  <ion-grid *ngIf="true == false">
+    <ion-label style="padding-left: 1%;">Chassi</ion-label>
+    <ion-row>
+      <ion-col col-10>
+        <ion-input type="text" [value]="formData.chassi" placeholder="Chassi" formControlName="chassi" (click)="modalBuscarChassi()"></ion-input>
+      </ion-col>
+      <ion-col col-1 style="align-self: center;">
+        <i class="icon qrcode-gray" (click)="modalBuscarChassi()"></i>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <div class="login-content">
+    <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" type="button">AVANÇAR</button>
+    <button ion-button round first class="btn-receiving btn-cancel" type="button">VOLTAR</button>
+  </div>
+
 </ion-content>
-<!-- <ion-footer>
-    <carregamento-tab [exibirRecebimento]="false"></carregamento-tab>
-</ion-footer> -->
 <modal-error></modal-error>
 <modal-loading></modal-loading>

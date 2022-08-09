@@ -1,57 +1,101 @@
 page-vistoria {
-    // background-color: #404040;
-    // ion-content {
-    //     // background-color: color($colors, bgQrCode) !important;
-    // }
-    #vistoria {
-        transition: all 0.4s ease-in-out;
-        // background-color: color($colors, bgQrCode) !important;
-        input {
-            // border: 1px solid #fff;
-            // background-color: #747474;
+  ion-content {
+
+    .form-recebe-chassis {
+        ion-input {
+          border:  1px solid #fff;
+          background-color: #747474;
+          color: #747474;
+          font: 14px 'avenir_demi';
+          width: 100%;
+          height: 100%;
+          border-radius: 2%;
+          text-align: left;
+          padding-right: 10px;
+          text-transform: uppercase;
+        }
+        label {
+            font: 10px 'avenir_demi';
+            bottom: 0px;
             color: #fff;
-            font: 14px 'avenir_demi';
+            position: absolute;
+            left: 35px;
+            display: inline-block;
+            max-width: 100%;
+            // margin-bottom: 5px;
+        }
+        h4 {
+            font: 16px 'avenir_demi';
+            color: #fff;
             padding: 15px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }  
-        .login-content {
-            margin-top: 15px;
-            padding: 0 20px;
+            margin: 0 !important;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
             width: 100%;
-            text-align: center;
-            .btn {
-                // background-color: #595959;
-                width: 100% !important;
-                padding: 25px;
-                border-radius: 45px;
-                color: #fff;
-                font: 17px 'avenir_demi';
-                text-transform: uppercase;
-                margin: 0 auto;
-            }            
-            .btn-default {
-                // background-color: #595959;
-                width: 100%;
-                height: auto;
-                span {
-                    padding: 25px 15px 25px 15px;
-                    font: 19px 'avenir_bold';
+        }
+        .select-input {
+            position: relative;
+            width: 100%;
+        }
+        ion-list{
+            // margin: 0;
+            ion-list-header{
+                // border-top: none;
+                ion-label{
+                    color: #fff;
+                    font: 10px 'avenir_demi';
                 }
             }
-        }              
-    }     
+            ion-item{
+                padding: 0px 12px;
+                .item-inner{
+                    ion-label{
+                        color: #fff;
+                    }
+                    ion-select{
+                        max-width: 85%;
+                        .select-text{
+                            padding-right: 10px;
+                            color: #fff;
+                            font: 14px 'avenir_demi';
+                        }
+                    }
+                }
 
-}
+            }
+        }
+        .label-header {
+          background-color: #595959;
+        }
+    }
 
-.btn {
-    // background-color: #595959;
-    width: 100% !important;
-    padding: 25px;
-    border-radius: 45px;
-    color: #fff;
-    font: 17px 'avenir_demi';
-    text-transform: uppercase;
-    margin: 0 auto;
+    .login-content {
+        margin-top: 15px;
+        padding: 0;
+        width: 100%;
+        text-align: center;
+        display: block;
+        p {
+            color: #fff;
+            text-align: center;
+            font: 10px 'avenir_demi';
+            margin: 30px 0;
+        }
+        .btn-receiving {
+            width: 100%;
+            height: auto;
+            .button-inner {
+                padding: 25px 15px 25px 15px;
+                font: 19px 'avenir_bold';
+            }
+        }
+        .btn-ok {
+            // border: transparent;
+            // box-shadow: none;
+        }
+        .btn-cancel {
+            background-color: transparent;
+        }
+    }
+  }
 }
