@@ -152,7 +152,7 @@ export class LancamentoAvariaPage {
       chassi: this.formData.veiculo.chassi,
       momento: this.formData.momento.id
     });
-    this.momentoService.carregarMomentos().subscribe(result => {
+    this.momentoService.listar().subscribe(result => {
       this.momentos = result.retorno;
       this.authService.hideLoading();
     });

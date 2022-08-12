@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth-service/auth-service';
 import { DataRetorno } from '../model/dataretorno';
@@ -14,19 +14,20 @@ const httpOptions = {
 };
 
 @Injectable()
-export class MomentoDataService {
+export class StakeholderService{
   urlApi: string;
 
   constructor(
       private http: HttpClient,
       private authService: AuthService
-    )
-    {
+  )
+  {
     this.urlApi = this.authService.getUrl();
   }
 
   public listar() {
-    let url = this.urlApi + '/momento/ListarMomentos?token=' + this.authService.getToken();
-    return this.http.get<DataRetorno>(url, { headers: headers });
+    var token = this.authService.getToken();
+    let url = this.urlApi + '/Stakeholder/lista';
+    return this.http.post<DataRetorno>(url, {token}, httpOptions);
   }
 }

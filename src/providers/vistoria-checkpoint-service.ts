@@ -14,19 +14,20 @@ const httpOptions = {
 };
 
 @Injectable()
-export class MomentoDataService {
+export class VistoriaCheckpointDataService {
   urlApi: string;
 
   constructor(
       private http: HttpClient,
       private authService: AuthService
-    )
-    {
+  )
+  {
     this.urlApi = this.authService.getUrl();
   }
 
   public listar() {
-    let url = this.urlApi + '/momento/ListarMomentos?token=' + this.authService.getToken();
-    return this.http.get<DataRetorno>(url, { headers: headers });
+    var model = this.authService.getToken();
+    let url = this.urlApi + '/vistoriachecklist/listar';
+    return this.http.post<DataRetorno>(url, model, httpOptions);
   }
 }

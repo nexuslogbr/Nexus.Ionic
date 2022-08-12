@@ -133,7 +133,7 @@ export class LancamentoAvariaVistoriaLancarPage {
 
     forkJoin([
       this.arquivoService.listarChassisVistoria(id, this.tipoVistoria),
-      this.momentoService.carregarMomentos()
+      this.momentoService.listar()
     ])
     .pipe(
       finalize(() => {

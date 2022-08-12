@@ -227,6 +227,8 @@ import { ModalBuscaChassiComponent } from '../pages/modal-busca-chassi/modal-bus
 import { ModalSelecionarChassiComponent } from '../components/modal-selecionar-chassi/modal-selecionar-chassi';
 import { ModalSelecionarChassiBuscaComponent } from '../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
 import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
+import { VistoriaCheckpointDataService } from '../providers/vistoria-checkpoint-service';
+import { StakeholderService } from '../providers/stakeholder-data-service';
 
 @NgModule({
   declarations: [
@@ -675,7 +677,9 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     WebView,
     FilePath,
     ParteDataService,
-    VistoriaDataService
+    VistoriaDataService,
+    VistoriaCheckpointDataService,
+    StakeholderService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
