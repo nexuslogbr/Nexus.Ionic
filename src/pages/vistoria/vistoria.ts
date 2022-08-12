@@ -17,6 +17,7 @@ import { StakeholderService } from '../../providers/stakeholder-data-service';
 import { finalize } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { StakeHolder } from '../../model/stakeholder';
+import { ModalChassisVistoriaComponent } from '../../components/modal-chassis-vistoria/modal-chassis-vistoria';
 
 @Component({
   selector: 'page-vistoria',
@@ -37,12 +38,7 @@ export class VistoriaPage {
   url: string;
   showErrorMessage: boolean = false;
 
-  formControl = new FormControl("");
   public form: FormGroup
-
-  formData = {
-    chassi: "",
-  };
 
   momentos: Momento[] = [];
   stakeholders: StakeHolder[] = [];
@@ -79,19 +75,6 @@ export class VistoriaPage {
       this.buttonColor = "#1c6381";
     }
 
-    this.formControl.valueChanges.debounceTime(500).subscribe((value) => {
-      if (value && value.length) {
-        {
-          if (value.length >= 6) {
-            let chassi = value.replace(/[\W_]+/g, '');
-            setTimeout(() => {
-              this.buscarChassi(chassi, false);
-              this.formData.chassi = '';
-            }, 500);
-          }
-        }
-      }
-    });
     this.initializeFormControl();
   }
 
@@ -129,8 +112,8 @@ export class VistoriaPage {
 
   initializeFormControl(){
     this.form = this.formBuilder.group({
-      empresa: ['NEXUS', Validators.required],
-      local: [1, Validators.required],
+      empresa: ['Nexus', Validators.required],
+      local: [this.local, Validators.required],
       momento: [null, Validators.required],
       stakeholderOrigem: [null, Validators.required],
       stakeholderDestino: [null, Validators.required]
@@ -143,42 +126,6 @@ export class VistoriaPage {
     $(".icon-menu").toggleClass("close-menu");
     $("side-menu").toggleClass("show");
   };
-
-  buscarChassi(partChassi, byScanner: boolean) {
-
-    let uriBuscaChassi = '/veiculos/ConsultarChassi?token=' + this.authService.getToken() + '&chassi=' + partChassi;
-    this.authService.showLoading();
-
-    this.http.get(this.url + uriBuscaChassi).subscribe(
-      (res) => {
-
-        this.responseData = res;
-        if (this.responseData.sucesso) {
-          this.authService.hideLoading();
-          // this.openModalLancamentoAvaria(this.responseData.retorno, byScanner);
-        }
-        else {
-          this.authService.hideLoading();
-          if (partChassi.length < 17) {
-            this.openModalErro(this.responseData.mensagem, byScanner);
-          }
-          else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
-            this.openModalErro(this.responseData.mensagem, byScanner);
-          }
-          else if (this.responseData.dataErro == 'CHASSI_NOT_FOUND') {
-            // this.openModalLancamentoAvaria([partChassi], byScanner);
-          }
-          else {
-           this.openModalErro(this.responseData.mensagem, byScanner);
-          }
-        }
-      },
-      (error) => {
-        this.authService.hideLoading();
-        this.openModalErro(error.status + ' - ' + error.statusText, byScanner);
-      }
-    );
-  }
 
   openModalSucesso(data) {
     const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {
@@ -213,5 +160,11 @@ export class VistoriaPage {
 
   voltar(){
     this.view.dismiss();
+  }
+
+  toNavigate(){
+    this.navCtrl.push(ModalChassisVistoriaComponent, {
+      data: this.form.controls
+    });
   }
 }
