@@ -20,8 +20,8 @@
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">
           <ion-label label-ios>Local:</ion-label>
-          <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="local">
-            <ion-option [value]="local">{{local}}</ion-option>
+          <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="local" [value]="local">
+            <ion-option>{{local}}</ion-option>
           </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">

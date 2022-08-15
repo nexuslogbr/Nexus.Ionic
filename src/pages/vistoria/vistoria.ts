@@ -10,7 +10,7 @@ import { ModalBuscaChassiComponent } from '../modal-busca-chassi/modal-busca-cha
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { ModalSucessoComponent } from '../../components/modal-sucesso/modal-sucesso';
 import { HomePage } from '../home/home';
-import { VistoriaCheckpointDataService } from '../../providers/vistoria-checkpoint-service';
+import { CheckpointDataService } from '../../providers/checkpoint-service';
 import { Momento } from '../../model/Momento';
 import { MomentoDataService } from '../../providers/momento-data-service';
 import { StakeholderService } from '../../providers/stakeholder-data-service';
@@ -53,7 +53,7 @@ export class VistoriaPage {
     private view: ViewController,
     public alertService: AlertService,
     private navParam: NavParams,
-    private checkpointService: VistoriaCheckpointDataService,
+    private checkpointService: CheckpointDataService,
     private momentoService: MomentoDataService,
     private stakeholderService: StakeholderService,
     private formBuilder: FormBuilder

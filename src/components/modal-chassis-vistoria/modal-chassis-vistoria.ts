@@ -10,6 +10,12 @@ import { ModalSucessoComponent } from '../modal-sucesso/modal-sucesso';
 import { VistoriaPage } from '../../pages/vistoria/vistoria';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Veiculo } from '../../model/veiculo';
+import { CheckpointDataService } from '../../providers/checkpoint-service';
+import { AlertService } from '../../providers/alert-service';
+import { finalize } from 'rxjs/operators/finalize';
+import { DataRetorno } from '../../model/dataretorno';
+import { VistoriaDataService } from '../../providers/vistoria-service';
+import { VeiculoDataService } from '../../providers/veiculo-data-service';
 
 @Component({
   selector: 'modal-chassis-vistoria',
@@ -42,13 +48,16 @@ export class ModalChassisVistoriaComponent {
   veiculo: Veiculo;
 
   constructor(
-    public http: HttpClient,
     private modal: ModalController,
     private navParam: NavParams,
     private view: ViewController,
     public navCtrl: NavController,
     public authService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private checkpointService: CheckpointDataService,
+    public alertService: AlertService,
+    private vistoriaService: VistoriaDataService,
+    private veiculoService: VeiculoDataService
   ) {
     this.title = 'Vistoria';
     this.url = this.authService.getUrl();
@@ -74,7 +83,7 @@ export class ModalChassisVistoriaComponent {
           if (value.length >= 6) {
             let chassi = value.replace(/[\W_]+/g, '');
             setTimeout(() => {
-              this.buscarChassi(chassi, false);
+              this.buscarChassi(chassi);
             }, 500);
           }
         }
@@ -141,34 +150,32 @@ export class ModalChassisVistoriaComponent {
     this.navCtrl.push(RecebimentoPage);
   }
 
-  buscarChassi(partChassi, byScanner: boolean) {
-    let uriBuscaChassi = '/veiculos/ConsultarChassi?token=' + this.authService.getToken() + '&chassi=' + partChassi;
+  buscarChassi(chassi: string) {
     this.authService.showLoading();
 
-    this.http.get(this.url + uriBuscaChassi).subscribe(
-      (res) => {
+    this.veiculoService.busarVeiculoStakeholder(chassi)
+    .subscribe((res) => {
         this.responseData = res;
         if (this.responseData.sucesso) {
-          this.success = true;
           this.veiculo = this.responseData.retorno;
-          this.authService.hideLoading();
+          // this.vistoriarChassi(this.veiculo);
         }
         else {
           this.authService.hideLoading();
-          if (partChassi.length < 17) {
+          if (chassi.length < 17) {
             this.success = false;
-            this.openModalErro(this.responseData.mensagem);
+            this.alertService.showError(this.responseData.mensagem);
           }
           else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
             this.success = false;
-            this.openModalErro(this.responseData.mensagem);
+            this.alertService.showAlert(this.responseData.mensagem);
           }
           else if (this.responseData.dataErro == 'CHASSI_NOT_FOUND') {
-            // this.openModalLancamentoAvaria([partChassi], byScanner);
+            this.alertService.showError(this.responseData.mensagem);
           }
           else {
             this.success = false;
-           this.openModalErro(this.responseData.mensagem);
+            this.openModalErro(this.responseData.mensagem);
           }
         }
       },
@@ -177,6 +184,25 @@ export class ModalChassisVistoriaComponent {
         this.openModalErro(error.status + ' - ' + error.statusText);
       }
     );
+  }
+
+  vistoriarChassi(veiculo: Veiculo){
+    this.vistoriaService.vistoriarChassi(veiculo.id)
+    .pipe(
+      finalize(() => {
+        this.authService.hideLoading();
+      })
+    )
+    .subscribe((res:DataRetorno) => {
+
+      if (this.responseData.sucesso) {
+        this.alertService.showInfo("Vistoria feita com sucesso!");
+        this.success = true;
+      }
+      else {
+        this.alertService.showAlert(this.responseData.mensagem);
+      }
+    });
   }
 
 }

@@ -57,19 +57,15 @@
     <ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
       <ion-grid class="grid-botao-wrapper">
         <ion-row>
-          <ion-col *ngIf="true == false">
+          <ion-col *ngIf="success">
             <button ion-button round first class="btn-receiving btn-cancel" (click)="closeModal()" type="button" [ngStyle]="{'background-color': buttonColor}">SEM AVARIA</button>
             <button ion-button round end class="btn-receiving btn-ok" type="button" [ngStyle]="{'background-color': buttonColor}">AVARIADO</button>
           </ion-col>
         </ion-row>
       </ion-grid>
-      <ion-grid class="grid-botao-wrapper-cancel">
-        <ion-row>
-          <ion-col>
-            <button ion-button round first class="btn-receiving btn-cancel" (click)="closeModal()" type="button" [ngStyle]="{'background-color': buttonColor}">VOLTAR</button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+      <div class="login-content" *ngIf="!success">
+        <button ion-button round first class="btn-receiving btn-cancel" type="button" (click)="closeModal()">VOLTAR</button>
+      </div>
     </ion-footer>
 
   </form>
