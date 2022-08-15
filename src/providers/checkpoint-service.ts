@@ -14,7 +14,7 @@ const httpOptions = {
 };
 
 @Injectable()
-export class VistoriaCheckpointDataService {
+export class CheckpointDataService {
   urlApi: string;
 
   constructor(
@@ -25,9 +25,15 @@ export class VistoriaCheckpointDataService {
     this.urlApi = this.authService.getUrl();
   }
 
+  public carregar(model:any) {
+    model.Token = this.authService.getToken();
+    let url = this.urlApi + '/checklist/Carregar';
+    return this.http.post<DataRetorno>(url, model, httpOptions);
+  }
+
   public listar() {
     var model = this.authService.getToken();
-    let url = this.urlApi + '/vistoriachecklist/listar';
+    let url = this.urlApi + '/checklist/listar';
     return this.http.post<DataRetorno>(url, model, httpOptions);
   }
 }
