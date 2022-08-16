@@ -44,6 +44,9 @@ import { AvariaDataService } from '../providers/avaria-data-service';
 import { GravidadeDataService } from '../providers/gravidade-data-service';
 import { ParteDataService } from '../providers/parte-data-service';
 import { VistoriaDataService } from '../providers/vistoria-service';
+import { CheckpointDataService } from '../providers/checkpoint-service';
+import { StakeholderService } from '../providers/stakeholder-data-service';
+import { VeiculoDataService } from '../providers/veiculo-data-service';
 
 // Pages
 import { CarregamentoCanceladoPage } from '../pages/carregamento-cancelado/carregamento-cancelado';
@@ -227,8 +230,6 @@ import { ModalBuscaChassiComponent } from '../pages/modal-busca-chassi/modal-bus
 import { ModalSelecionarChassiComponent } from '../components/modal-selecionar-chassi/modal-selecionar-chassi';
 import { ModalSelecionarChassiBuscaComponent } from '../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
 import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
-import { VistoriaCheckpointDataService } from '../providers/vistoria-checkpoint-service';
-import { StakeholderService } from '../providers/stakeholder-data-service';
 
 @NgModule({
   declarations: [
@@ -678,8 +679,9 @@ import { StakeholderService } from '../providers/stakeholder-data-service';
     FilePath,
     ParteDataService,
     VistoriaDataService,
-    VistoriaCheckpointDataService,
-    StakeholderService
+    CheckpointDataService,
+    StakeholderService,
+    VeiculoDataService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

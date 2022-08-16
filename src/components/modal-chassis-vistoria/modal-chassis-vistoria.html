@@ -14,7 +14,12 @@
     <div class="form-checkpoint">
       <ion-list>
         <ion-item no-lines>
-          <ion-label label-ios style="font-style: unset;">{{form.controls.local.value}}</ion-label>
+          <ion-icon>
+            <img src="assets/images/qualidade_dashboard_small.png">
+          </ion-icon>
+          <ion-label label-ios style="font-style: unset;">
+            {{form.controls.local.value}}
+          </ion-label>
         </ion-item>
         <ion-item no-lines>
           <ion-label label-ios style="font-style: unset;">{{form.controls.stakeholderOrigem.value}}</ion-label>
@@ -40,7 +45,7 @@
       </ion-row>
     </ion-grid>
 
-    <div class="form-checkpoint" *ngIf="success">
+    <div class="form-checkpoint" *ngIf="success" style="background-color: #404040;">
       <ion-list>
         <ion-item no-lines>
           <ion-label label-ios style="font-style: unset;"><b>Fabricante: </b>{{veiculo.posicaoAtual}}</ion-label>
@@ -51,23 +56,27 @@
         <ion-item no-lines>
           <ion-label label-ios style="font-style: unset;"><b>Ano Modelo: </b>2023</ion-label>
         </ion-item>
+        <ion-item *ngFor="let entry of list">
+          <ion-label>{{entry.val}}</ion-label>
+          <ion-checkbox slot="end" [value]="entry.isChecked"></ion-checkbox>
+        </ion-item>
       </ion-list>
     </div>
 
-    <ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
-      <ion-grid class="grid-botao-wrapper">
-        <ion-row>
-          <ion-col *ngIf="success">
-            <button ion-button round first class="btn-receiving btn-cancel" (click)="closeModal()" type="button" [ngStyle]="{'background-color': buttonColor}">SEM AVARIA</button>
-            <button ion-button round end class="btn-receiving btn-ok" type="button" [ngStyle]="{'background-color': buttonColor}">AVARIADO</button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <div class="login-content" *ngIf="!success">
-        <button ion-button round first class="btn-receiving btn-cancel" type="button" (click)="closeModal()">VOLTAR</button>
-      </div>
-    </ion-footer>
-
   </form>
 </ion-content>
+
+<ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col *ngIf="success">
+        <button ion-button round first class="btn-receiving btn-cancel" (click)="closeModal()" type="button" [ngStyle]="{'background-color': buttonColor}">SEM AVARIA</button>
+        <button ion-button round end class="btn-receiving btn-ok" type="button" [ngStyle]="{'background-color': buttonColor}">AVARIADO</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="login-content" *ngIf="!success">
+    <button ion-button round first class="btn-receiving btn-cancel" type="button" (click)="closeModal()">VOLTAR</button>
+  </div>
+</ion-footer>
 <modal-loading></modal-loading>

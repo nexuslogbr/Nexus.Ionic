@@ -47,6 +47,8 @@ export class ModalChassisVistoriaComponent {
   model: any;
   veiculo: Veiculo;
 
+  list = [{val: 'Item 1',isChecked:true},{val: 'Item 2',isChecked:true},{val: 'Item 3',isChecked:false}];
+
   constructor(
     private modal: ModalController,
     private navParam: NavParams,
@@ -116,9 +118,7 @@ export class ModalChassisVistoriaComponent {
     chassiModal.present();
 
     chassiModal.onDidDismiss((data) => {
-      console.log(data);
       this.navCtrl.push(VistoriaPage);
-
     })
   }
 
@@ -158,6 +158,11 @@ export class ModalChassisVistoriaComponent {
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.veiculo = this.responseData.retorno;
+
+          this.alertService.showInfo("Vistoria feita com sucesso!");
+          this.success = true;
+          this.authService.hideLoading();
+
           // this.vistoriarChassi(this.veiculo);
         }
         else {
