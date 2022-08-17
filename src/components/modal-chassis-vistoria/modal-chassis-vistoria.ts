@@ -8,7 +8,7 @@ import * as $ from 'jquery';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ModalSucessoComponent } from '../modal-sucesso/modal-sucesso';
 import { VistoriaPage } from '../../pages/vistoria/vistoria';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Veiculo } from '../../model/veiculo';
 import { CheckpointDataService } from '../../providers/checkpoint-service';
 import { AlertService } from '../../providers/alert-service';
@@ -47,7 +47,23 @@ export class ModalChassisVistoriaComponent {
   model: any;
   veiculo: Veiculo;
 
-  list = [{val: 'Item 1',isChecked:true},{val: 'Item 2',isChecked:true},{val: 'Item 3',isChecked:false}];
+  list = [
+    {
+      val: 'Item 1',
+      isChecked:false,
+      cssClass: 'checklist-style4',
+    },
+    {
+      val: 'Item 2',
+      isChecked:false,
+      cssClass: 'checklist-style4',
+    },
+    {
+      val: 'Item 3',
+      isChecked:false,
+      cssClass: 'checklist-style4',
+    }
+  ];
 
   constructor(
     private modal: ModalController,
@@ -95,6 +111,14 @@ export class ModalChassisVistoriaComponent {
     this.initializeFormControl(this.navParam.get('data'));
   }
 
+  get getChecklistItens(): FormArray{
+    return <FormArray>this.form.get('checklistItens')
+  }
+
+  // set setChecklistItens(value): FormArray {
+  //   this.form.setValue(value)
+  // }
+
   ionViewDidEnter() {
     setTimeout(() => {
       this.chassiInput.setFocus();
@@ -109,7 +133,10 @@ export class ModalChassisVistoriaComponent {
       local: [data.local.value, Validators.required],
       momento: [data.momento.value, Validators.required],
       stakeholderOrigem: [data.stakeholderOrigem.value, Validators.required],
-      stakeholderDestino: [data.stakeholderDestino.value, Validators.required]
+      stakeholderDestino: [data.stakeholderDestino.value, Validators.required],
+      checklistItens: this.formBuilder.array([
+        // this.formBuilder
+      ])
     });
   }
 
@@ -210,4 +237,14 @@ export class ModalChassisVistoriaComponent {
     });
   }
 
+  checked(i: number){
+    var item = this.list[i];
+    item.isChecked = !item.isChecked;
+
+  }
+
+
+  checkedAll(){
+    var items = this.form.controls.checklistItens.value;
+  }
 }

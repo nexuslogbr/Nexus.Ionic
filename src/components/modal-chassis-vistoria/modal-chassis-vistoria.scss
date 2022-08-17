@@ -1,6 +1,7 @@
 modal-chassis-vistoria {
   ion-content {
-    .form-chassi-avaria {
+    .form-vistoria {
+
       ion-input {
         border:  1px solid #fff;
         background-color: #747474;
@@ -25,20 +26,23 @@ modal-chassis-vistoria {
       }
 
       .form-checkpoint {
-        background-color: transparent !important;
+        // background-color: transparent !important;
+        // background-color: #747474;
         border-radius: 5px;
         border: 1px solid transparent;
         height: auto;
+
         label {
           font: 16px 'avenir_demi';
           bottom: 10px;
-          color: #fff;
+          // color: #fff;
           position: absolute;
           left: 15px;
           display: inline-block;
           max-width: 100%;
           margin-bottom: 5px;
         }
+
         input {
           font: 14px 'avenir_demi';
           width: 100%;
@@ -50,19 +54,24 @@ modal-chassis-vistoria {
           text-align: left;
           padding-right: 15px;
         }
+
         ion-list{
           margin: 0;
 
           ion-item{
-          // background-color: #404040;
-          padding: 0;
-          border-bottom: 1px solid #747474;
-          .item-inner{
+            // background-color: #404040;
+            // background-color: transparent !important;
+            padding: 0;
+            // border-bottom: 1px solid #747474;
+
+            .item-inner{
             padding-left: 15px;
             border-bottom: 1px solid transparent !important;
+
             ion-label{
               color: #fff;
             }
+
             ion-select{
               max-width: 85%;
               .select-text{
@@ -73,13 +82,31 @@ modal-chassis-vistoria {
             }
           }
         }
+        }
+
+        .grid-dados {
+          // padding-bottom: 6px;
+          // padding-top: 6px;
+          // display: flex;
+          // justify-content: center;
+
+          .texto-sincronizacao {
+            font-size: 16px;
+            font-weight: bold;
+            padding-left: 10px;
+          }
+
+          .col-icone {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 30px;
+            margin-right: 30px;
+          }
+        }
       }
-      .item-list-grey{
-        background-color: #747474;
-      }
-    }
     }
   }
+
   ion-footer {
     height: 110px;
     background-color: #404040;
@@ -129,7 +156,6 @@ modal-chassis-vistoria {
       }
     }
   }
-
 }
 
 .login-content {
@@ -155,4 +181,105 @@ modal-chassis-vistoria {
   .btn-cancel {
       background-color: #404040;
   }
+}
+
+.checklist-style1 {
+  background-color: #595959;
+}
+
+.checklist-style2 {
+  background-color: #747474;
+}
+
+.checklist-style3 {
+  background-color: #484848;
+}
+
+.checklist-style4 {
+  background-color: #404040;
+}
+
+.checklist-style5 {
+  background-color: #06273f;
+}
+
+.checklist-style6 {
+  background-color: #00141b;
+}
+
+.checklist-style7 {
+  background-color: #A7FF8D;
+  color: white;
+}
+
+.checklist-color1 {
+  color: white;
+}
+
+.checklist-color2 {
+  color: black;
+  font-weight: bold;
+}
+
+.grid-areas {
+  margin-bottom: 10px;
+  // background-color: #5D5D5D;
+  color: white;
+
+  ion-item {
+    background-color: white !important;
+
+    .select-icon-inner {
+      background-image: url('../assets/images/arrow-down-black.png') !important;
+    }
+  }
+
+  ion-select {
+    .select-text {
+      color: black;
+    }
+  }
+
+  .row-area {
+
+    .checkbox-md .checkbox-checked {
+      border-color: white;
+      background-color: #0FB708;
+    }
+
+    .col-area {
+      text-transform: uppercase;
+      justify-content: flex-end;
+
+      .div-area-status {
+        font-size: 12px;
+        margin-top: 2px;
+        padding-left: 2%;
+      }
+    }
+
+    ion-toggle {
+      zoom: 0.6;
+    }
+
+    .toogle-area {
+      // background-color: #404040;
+
+      .item-inner {
+        height: 22px;
+      }
+    }
+
+    .col-check {
+      display: flex;
+      justify-content: flex-start;
+      padding-left: 4%;
+    }
+  }
+}
+
+// background-color: #404040;
+.label-tipo-conferencia {
+  font-size: 0.9em;
+  text-transform: none;
 }

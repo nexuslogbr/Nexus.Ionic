@@ -9,25 +9,21 @@
 </ion-header>
 
 <ion-content padding [ngStyle]="{'background-color': secondaryColor}">
-  <form class="form-chassi-avaria" [formGroup]="form">
+  <form class="form-vistoria" [formGroup]="form">
 
-    <div class="form-checkpoint">
+    <div class="form-checkpoint checklist-style2">
       <ion-list>
-        <ion-item no-lines>
-          <ion-icon>
-            <img src="assets/images/qualidade_dashboard_small.png">
-          </ion-icon>
-          <ion-label label-ios style="font-style: unset;">
-            {{form.controls.local.value}}
-          </ion-label>
+        <ion-item no-lines class="checklist-style2">
+          <ion-icon name="location" class="location"></ion-icon>
+          <ion-label>{{form.controls.local.value}}</ion-label>
         </ion-item>
-        <ion-item no-lines>
-          <ion-label label-ios style="font-style: unset;">{{form.controls.stakeholderOrigem.value}}</ion-label>
+        <ion-item no-lines class="checklist-style2">
+          <ion-label>{{form.controls.stakeholderOrigem.value}}</ion-label>
         </ion-item>
-        <ion-item no-lines>
+        <ion-item no-lines class="checklist-style2">
           <ion-label label-ios style="font-style: unset;">{{form.controls.stakeholderDestino.value}}</ion-label>
         </ion-item>
-        <ion-item no-lines>
+        <ion-item no-lines class="checklist-style2">
           <ion-label label-ios style="font-style: unset;">{{form.controls.momento.value}}</ion-label>
         </ion-item>
       </ion-list>
@@ -45,23 +41,43 @@
       </ion-row>
     </ion-grid>
 
-    <div class="form-checkpoint" *ngIf="success" style="background-color: #404040;">
-      <ion-list>
-        <ion-item no-lines>
+    <div class="form-checkpoint" *ngIf="success">
+      <ion-list class="checklist-style2">
+        <ion-item no-lines class="checklist-style2">
           <ion-label label-ios style="font-style: unset;"><b>Fabricante: </b>{{veiculo.posicaoAtual}}</ion-label>
         </ion-item>
-        <ion-item no-lines>
+        <ion-item no-lines class="checklist-style2">
           <ion-label label-ios style="font-style: unset;"><b>Modelo: </b>{{veiculo.modelo}}</ion-label>
         </ion-item>
-        <ion-item no-lines>
+        <ion-item no-lines class="checklist-style2">
           <ion-label label-ios style="font-style: unset;"><b>Ano Modelo: </b>2023</ion-label>
         </ion-item>
-        <ion-item *ngFor="let entry of list">
-          <ion-label>{{entry.val}}</ion-label>
-          <ion-checkbox slot="end" [value]="entry.isChecked"></ion-checkbox>
-        </ion-item>
       </ion-list>
+
+      <ion-grid *ngFor="let item of list;let i = index"
+      class="grid-dados" [ngClass]="item.isChecked ? 'checklist-style7' : secondaryColor"formArrayName="checklistItens">
+        <ion-item [ngStyle]="{'background-color': secondaryColor}">
+          <ion-label label-ios style="font-style: unset;">{{item.val}}</ion-label>
+          <ion-checkbox slot="end" color="primary" (click)="checked(i)" [formGroupName]="i"></ion-checkbox>
+        </ion-item>
+      </ion-grid>
     </div>
+
+
+    <ion-grid class="grid-areas">
+      <ion-row class="row-area" >
+        <ion-col col-2 class="col-check">
+          <!-- <ion-checkbox [(ngModel)]="configuracao.area.selecionado" (ionChange)="changeAreaSelection(configuracao)" mode="md"></ion-checkbox> -->
+          <ion-toggle (ionChange)="checkedAll()" mode="ios" color="secondary" id="bg"></ion-toggle>
+        </ion-col>
+        <ion-col col-8 class="col-area">
+          <div class="div-area-status">
+            <strong>Marcar todos</strong>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
 
   </form>
 </ion-content>
