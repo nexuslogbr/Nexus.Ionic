@@ -66,41 +66,21 @@ modal-chassis-vistoria {
 
             .item-inner{
             padding-left: 15px;
-            border-bottom: 1px solid transparent !important;
+              border-bottom: 1px solid transparent !important;
 
-            ion-label{
-              color: #fff;
-            }
-
-            ion-select{
-              max-width: 85%;
-              .select-text{
-                padding-right: 10px;
+              ion-label{
                 color: #fff;
-                font: 14px 'avenir_demi';
+              }
+
+              ion-select{
+                max-width: 85%;
+                .select-text{
+                  padding-right: 10px;
+                  color: #fff;
+                  font: 14px 'avenir_demi';
+                }
               }
             }
-          }
-        }
-        }
-
-        .grid-dados {
-          // padding-bottom: 6px;
-          // padding-top: 6px;
-          // display: flex;
-          // justify-content: center;
-
-          .texto-sincronizacao {
-            font-size: 16px;
-            font-weight: bold;
-            padding-left: 10px;
-          }
-
-          .col-icone {
-            display: flex;
-            justify-content: flex-end;
-            font-size: 30px;
-            margin-right: 30px;
           }
         }
       }
@@ -112,49 +92,6 @@ modal-chassis-vistoria {
     background-color: #404040;
     text-align: center;
     display: flex;
-
-    .grid-botao-wrapper {
-      padding: 12px 2px !important;
-
-      .btn-receiving-long {
-        width: 90%;
-        height: auto;
-        .button-inner {
-            padding: 25px 15px 25px 15px;
-            font: 19px 'avenir_bold';
-        }
-      }
-
-      .btn-receiving {
-        width: 45%;
-        height: auto;
-        .button-inner {
-            padding: 25px 15px;
-            font: 19px 'avenir_bold';
-        }
-      }
-      .btn-ok {
-        background-color: #A7FF8D !important;
-        color: black !important;
-      }
-      .btn-cancel {
-        background-color: #484848 !important;
-      }
-    }
-
-    .grid-botao-wrapper-cancel {
-      .btn-receiving {
-        width: auto;
-        height: auto;
-        .button-inner {
-            padding: 5px 5px;
-            font: 19px 'avenir_bold';
-        }
-      }
-      .btn-cancel {
-        background-color: #484848 !important;
-      }
-    }
   }
 }
 
@@ -183,103 +120,12 @@ modal-chassis-vistoria {
   }
 }
 
-.checklist-style1 {
-  background-color: #595959;
-}
-
 .checklist-style2 {
   background-color: #747474;
-}
-
-.checklist-style3 {
-  background-color: #484848;
-}
-
-.checklist-style4 {
-  background-color: #404040;
-}
-
-.checklist-style5 {
-  background-color: #06273f;
-}
-
-.checklist-style6 {
-  background-color: #00141b;
-}
-
-.checklist-style7 {
-  background-color: #A7FF8D;
-  color: white;
-}
-
-.checklist-color1 {
-  color: white;
-}
-
-.checklist-color2 {
-  color: black;
-  font-weight: bold;
-}
-
-.grid-areas {
-  margin-bottom: 10px;
-  // background-color: #5D5D5D;
-  color: white;
-
-  ion-item {
-    background-color: white !important;
-
-    .select-icon-inner {
-      background-image: url('../assets/images/arrow-down-black.png') !important;
-    }
-  }
-
-  ion-select {
-    .select-text {
-      color: black;
-    }
-  }
-
-  .row-area {
-
-    .checkbox-md .checkbox-checked {
-      border-color: white;
-      background-color: #0FB708;
-    }
-
-    .col-area {
-      text-transform: uppercase;
-      justify-content: flex-end;
-
-      .div-area-status {
-        font-size: 12px;
-        margin-top: 2px;
-        padding-left: 2%;
-      }
-    }
-
-    ion-toggle {
-      zoom: 0.6;
-    }
-
-    .toogle-area {
-      // background-color: #404040;
-
-      .item-inner {
-        height: 22px;
-      }
-    }
-
-    .col-check {
-      display: flex;
-      justify-content: flex-start;
-      padding-left: 4%;
-    }
-  }
-}
-
-// background-color: #404040;
-.label-tipo-conferencia {
-  font-size: 0.9em;
-  text-transform: none;
+  // background-color: #595959;
+  // background-color: #484848;
+  // background-color: #404040;
+  // background-color: #06273f;
+  // background-color: #00141b;
+  // background-color: #A7FF8D;
 }

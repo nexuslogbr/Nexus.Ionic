@@ -41,58 +41,12 @@
       </ion-row>
     </ion-grid>
 
-    <div class="form-checkpoint" *ngIf="success">
-      <ion-list class="checklist-style2">
-        <ion-item no-lines class="checklist-style2">
-          <ion-label label-ios style="font-style: unset;"><b>Fabricante: </b>{{veiculo.posicaoAtual}}</ion-label>
-        </ion-item>
-        <ion-item no-lines class="checklist-style2">
-          <ion-label label-ios style="font-style: unset;"><b>Modelo: </b>{{veiculo.modelo}}</ion-label>
-        </ion-item>
-        <ion-item no-lines class="checklist-style2">
-          <ion-label label-ios style="font-style: unset;"><b>Ano Modelo: </b>2023</ion-label>
-        </ion-item>
-      </ion-list>
-
-      <ion-grid *ngFor="let item of list;let i = index"
-      class="grid-dados" [ngClass]="item.isChecked ? 'checklist-style7' : secondaryColor"formArrayName="checklistItens">
-        <ion-item [ngStyle]="{'background-color': secondaryColor}">
-          <ion-label label-ios style="font-style: unset;">{{item.val}}</ion-label>
-          <ion-checkbox slot="end" color="primary" (click)="checked(i)" [formGroupName]="i"></ion-checkbox>
-        </ion-item>
-      </ion-grid>
-    </div>
-
-
-    <ion-grid class="grid-areas">
-      <ion-row class="row-area" >
-        <ion-col col-2 class="col-check">
-          <!-- <ion-checkbox [(ngModel)]="configuracao.area.selecionado" (ionChange)="changeAreaSelection(configuracao)" mode="md"></ion-checkbox> -->
-          <ion-toggle (ionChange)="checkedAll()" mode="ios" color="secondary" id="bg"></ion-toggle>
-        </ion-col>
-        <ion-col col-8 class="col-area">
-          <div class="div-area-status">
-            <strong>Marcar todos</strong>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-
   </form>
 </ion-content>
 
 <ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
-  <ion-grid class="grid-botao-wrapper">
-    <ion-row>
-      <ion-col *ngIf="success">
-        <button ion-button round first class="btn-receiving btn-cancel" (click)="closeModal()" type="button" [ngStyle]="{'background-color': buttonColor}">SEM AVARIA</button>
-        <button ion-button round end class="btn-receiving btn-ok" type="button" [ngStyle]="{'background-color': buttonColor}">AVARIADO</button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <div class="login-content" *ngIf="!success">
-    <button ion-button round first class="btn-receiving btn-cancel" type="button" (click)="closeModal()">VOLTAR</button>
+  <div class="login-content">
+    <button ion-button round first class="btn-receiving btn-cancel" type="button" (click)="close()">VOLTAR</button>
   </div>
 </ion-footer>
 <modal-loading></modal-loading>

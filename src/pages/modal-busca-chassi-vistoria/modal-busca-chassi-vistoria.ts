@@ -13,7 +13,7 @@ import { finalize } from 'rxjs/operators';
 import { VistoriaDataService } from '../../providers/vistoria-service';
 import { DataRetorno } from '../../model/dataretorno';
 import { AlertService } from '../../providers/alert-service';
-import { ModelLancarAvariaPage } from '../model-lancar-avaria/model-lancar-avaria';
+import { ModelChecklistPage } from '../model-checklist/model-checklist';
 import { Arquivo } from '../../model/arquivo';
 import { Navio } from '../../model/navio';
 
@@ -153,7 +153,7 @@ export class ModalBuscaChassiVistoriaPage {
     )
     .subscribe((res:DataRetorno) => {
       if (res.sucesso) {
-        const modal: Modal = this.modal.create(ModelLancarAvariaPage, {
+        const modal: Modal = this.modal.create(ModelChecklistPage, {
           data: this.formData,
         });
         modal.present();

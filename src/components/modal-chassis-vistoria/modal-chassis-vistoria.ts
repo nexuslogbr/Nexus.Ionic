@@ -5,7 +5,6 @@ import { RecebimentoPage } from '../../pages/recebimento/recebimento';
 import { ModalErrorComponent } from '../modal-error/modal-error';
 import { Select } from 'ionic-angular';
 import * as $ from 'jquery';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ModalSucessoComponent } from '../modal-sucesso/modal-sucesso';
 import { VistoriaPage } from '../../pages/vistoria/vistoria';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -16,6 +15,7 @@ import { finalize } from 'rxjs/operators/finalize';
 import { DataRetorno } from '../../model/dataretorno';
 import { VistoriaDataService } from '../../providers/vistoria-service';
 import { VeiculoDataService } from '../../providers/veiculo-data-service';
+import { ModelChecklistPage } from '../../pages/model-checklist/model-checklist';
 
 @Component({
   selector: 'modal-chassis-vistoria',
@@ -37,7 +37,6 @@ export class ModalChassisVistoriaComponent {
 
   modoOperacao: number;
   responseData:any;
-  success = false;
 
   primaryColor: string;
   secondaryColor: string;
@@ -111,14 +110,6 @@ export class ModalChassisVistoriaComponent {
     this.initializeFormControl(this.navParam.get('data'));
   }
 
-  get getChecklistItens(): FormArray{
-    return <FormArray>this.form.get('checklistItens')
-  }
-
-  // set setChecklistItens(value): FormArray {
-  //   this.form.setValue(value)
-  // }
-
   ionViewDidEnter() {
     setTimeout(() => {
       this.chassiInput.setFocus();
@@ -133,30 +124,11 @@ export class ModalChassisVistoriaComponent {
       local: [data.local.value, Validators.required],
       momento: [data.momento.value, Validators.required],
       stakeholderOrigem: [data.stakeholderOrigem.value, Validators.required],
-      stakeholderDestino: [data.stakeholderDestino.value, Validators.required],
-      checklistItens: this.formBuilder.array([
-        // this.formBuilder
-      ])
+      stakeholderDestino: [data.stakeholderDestino.value, Validators.required]
     });
   }
 
-  openModalSucesso(data){
-    const chassiModal: Modal = this.modal.create(ModalSucessoComponent, {data: data });
-    chassiModal.present();
-
-    chassiModal.onDidDismiss((data) => {
-      this.navCtrl.push(VistoriaPage);
-    })
-  }
-
-  openModalErro(data) {
-    const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
-      data: data,
-    });
-    chassiModal.present();
-  }
-
-  closeModal() {
+  close() {
     const data = {
       name: 'Hingo',
       cargo: 'Front',
@@ -171,80 +143,43 @@ export class ModalChassisVistoriaComponent {
     $('side-menu').toggleClass('show');
   };
 
-  cancelar() {
-    this.view.dismiss();
-    this.select.close();
-    this.navCtrl.push(RecebimentoPage);
-  }
-
   buscarChassi(chassi: string) {
     this.authService.showLoading();
 
     this.veiculoService.busarVeiculoStakeholder(chassi)
+    .pipe(
+      finalize(() => {
+        this.authService.hideLoading();
+      })
+    )
     .subscribe((res) => {
         this.responseData = res;
         if (this.responseData.sucesso) {
           this.veiculo = this.responseData.retorno;
 
-          this.alertService.showInfo("Vistoria feita com sucesso!");
-          this.success = true;
-          this.authService.hideLoading();
-
-          // this.vistoriarChassi(this.veiculo);
+          const chassiModal: Modal = this.modal.create(ModelChecklistPage, {data: this.veiculo });
+          chassiModal.present();
+          // this.view.dismiss();
         }
         else {
           this.authService.hideLoading();
           if (chassi.length < 17) {
-            this.success = false;
             this.alertService.showError(this.responseData.mensagem);
           }
           else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
-            this.success = false;
             this.alertService.showAlert(this.responseData.mensagem);
           }
           else if (this.responseData.dataErro == 'CHASSI_NOT_FOUND') {
             this.alertService.showError(this.responseData.mensagem);
           }
           else {
-            this.success = false;
-            this.openModalErro(this.responseData.mensagem);
+            this.alertService.showError(this.responseData.mensagem);
           }
         }
       },
       (error) => {
-        this.authService.hideLoading();
-        this.openModalErro(error.status + ' - ' + error.statusText);
+        this.alertService.showError(error.status + ' - ' + error.statusText);
       }
     );
-  }
-
-  vistoriarChassi(veiculo: Veiculo){
-    this.vistoriaService.vistoriarChassi(veiculo.id)
-    .pipe(
-      finalize(() => {
-        this.authService.hideLoading();
-      })
-    )
-    .subscribe((res:DataRetorno) => {
-
-      if (this.responseData.sucesso) {
-        this.alertService.showInfo("Vistoria feita com sucesso!");
-        this.success = true;
-      }
-      else {
-        this.alertService.showAlert(this.responseData.mensagem);
-      }
-    });
-  }
-
-  checked(i: number){
-    var item = this.list[i];
-    item.isChecked = !item.isChecked;
-
-  }
-
-
-  checkedAll(){
-    var items = this.form.controls.checklistItens.value;
   }
 }

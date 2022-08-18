@@ -36,4 +36,10 @@ export class CheckpointDataService {
     let url = this.urlApi + '/checklist/listar';
     return this.http.post<DataRetorno>(url, model, httpOptions);
   }
+
+  public listarItensChecklist(model:any) {
+    model.Token = this.authService.getToken();
+    let url = this.urlApi + '/checklist/CarregarChecklist';
+    return this.http.post<DataRetorno>(url, model, httpOptions);
+  }
 }
