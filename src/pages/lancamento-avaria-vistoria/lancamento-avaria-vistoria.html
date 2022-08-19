@@ -1,83 +1,16 @@
-<side-menu></side-menu>
-<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
-  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
-    <i class="icon icon-menu" ></i>
-  </button>
-  <ion-title>Vistoriar Chassi</ion-title>
-</ion-header>
-
-<ion-content padding class="conferencia-content" #pageTop [ngStyle]="{'background-color': secondaryColor}">
-  <ion-grid class="grid-select-wrapper" [ngStyle]="{'background-color': primaryColor}">
-    <ion-row>
-      <ion-col>
-        <ion-grid class="grid-select">
-          <ion-row>
-            <ion-col class="col-left" [ngClass]="{ selected: slideLeftSelected }" (click)="changeSlideToLeft()" [ngStyle]="{'background-color': buttonColor}">
-              <span>Navios</span>
-            </ion-col>
-            <ion-col class="col-right" [ngClass]="{ selected: !slideLeftSelected }" (click)="changeSlideToRight()" [ngStyle]="{'background-color': buttonColor}">
-              <span>Avulsos</span>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <ion-slides (ionSlideDidChange)="slideChanged()" [ngStyle]="{'background-color': primaryColor}">
-    <ion-slide>
-      <ion-grid class="grid-base grid-navio" *ngFor="let navio of navios" (click)="vistoriarNavio(navio)" [ngClass]="{'navio-andamento': navio.statusData == 'andamento', 'navio-esperado': navio.statusData == 'esperado'}">
-        <ion-row class="row-navio" [ngStyle]="{'background-color': primaryColor}">
-          <ion-col col-8 class="col-navio">
-            <div class="div-navio-nome">{{ navio.nome }} {{navio.viagem }}</div>
-          </ion-col>
-          <ion-col col-4 class="col-status">
-            <div>{{ navio.statusVistoria}}</div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-
-      <ion-grid class="grid-base grid-error" *ngIf="showNavioErrorMessage" [ngStyle]="{'background-color': primaryColor}">
-        <ion-row [ngStyle]="{'background-color': primaryColor}">
-          <ion-col text-center>
-            Ocorreu um erro!
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-
-    </ion-slide>
-    <ion-slide [ngStyle]="{'background-color': primaryColor}">
-      <ion-grid class="grid-base grid-navio" *ngFor="let arquivo of arquivos" (click)="vistoriarArquivo(arquivo)" [ngStyle]="{'background-color': primaryColor}">
-        <ion-row class="row-navio" [ngStyle]="{'background-color': primaryColor}">
-          <ion-col col-8 class="col-navio">
-            <div class="div-navio-nome">{{ arquivo.nomeOriginal }}</div>
-          </ion-col>
-          <ion-col col-4 class="col-status">
-            <div>{{arquivo.statusVistoria}}</div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-
-      <ion-grid class="grid-base grid-error" *ngIf="showArquivoErrorMessage" [ngStyle]="{'background-color': primaryColor}">
-        <ion-row>
-          <ion-col text-center>
-            Ocorreu um erro!
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-
-    </ion-slide>
-  </ion-slides>
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
+  <div class="qr-code-container" [ngStyle]="{'background-color': secondaryColor}">
+    <i class="icon icon-reception"></i>
+    <p>VISTORIA REALIZADA COM</p>
+    <h3>SUCESSO!</h3>
+    <div class="line"></div>
+    <p>O VEÍCULO POSSUI AVARIA?</p>
+    <button ion-button round first class="btn-receiving btn-cancel" (click)="closeModal()" type="button" [ngStyle]="{'background-color': buttonColor}">
+      NÃO
+    </button>
+    <button ion-button round end class="btn-receiving btn-ok" (click)="openPage()" type="button" [ngStyle]="{'background-color': buttonColor}">
+      SIM
+    </button>
+  </div>
 </ion-content>
-
-<ion-footer class="footer-legenda" no-border>
-  <ion-grid class="grid-botao-voltar">
-    <ion-row>
-      <ion-col>
-        <button ion-button class="btn-menu-internal btn-menu-internal-azul-forte" (click)="voltar()" type="button">Voltar</button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-footer>
-
 <modal-loading></modal-loading>

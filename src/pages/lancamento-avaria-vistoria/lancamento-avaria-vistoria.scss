@@ -1,193 +1,67 @@
 page-lancamento-avaria-vistoria {
-  // background-color: #404040;
+   // background-color: #404040;
+   opacity: 0.2;
+   position: fixed;
+   top: 0;
+   height: 100%;
+   width: 100%;
+   z-index: 10;
 
-  .scroll-content {
-    padding-top: 0px !important;
-      background-color: transparent
-  }
+   ion-content.content {
+     // background-color: rgba(0, 0, 0, 0.8);
+     position: relative;
 
-  .grid-base {
-    // color: #404040;
-    height: 40px;
-  }
+     .qr-code-container {
+       .icon-reception {
+         background-image: url("../assets/images/recebimento.svg");
+         background-size: 100%;
+         background-position: center center;
+         width: 176px;
+         height: 172px;
+         margin: 0 auto;
+         margin-top: 30px;
+       }
 
-  .grid-header {
-    background-color: #1d6482;
-    margin-bottom: 10px;
+       h3 {
+         color: #fff;
+         font: 32px "avenir_demi";
+         text-align: center;
+         margin-bottom: 0;
+         text-transform: uppercase;
+       }
 
-    .text-selecao {
-      font-size: 18px;
-      font-weight: bold;
-    }
-  }
+       p {
+         color: #fff;
+         text-align: center;
+         font: 16px "avenir_demi";
+         margin: 30px 0;
+       }
 
-  .grid-header-planilha {
-    margin-top: 30px;
-  }
+       .line {
+         margin: 30px 0 20px;
+       }
 
-  .grid-noreg {
-    background-color: #1d6482;
-  }
+       .btn-receiving {
+         width: 45%;
+         height: auto;
+         .button-inner {
+           padding: 25px 15px 25px 15px;
+           font: 19px "avenir_bold";
+         }
+       }
 
-  .grid-error {
-    background-color: red;
-  }
+       .btn-ok {
+         // background-color: #595959;
+       }
 
-  .grid-select-wrapper {
-    padding: 0px;
-    // background-color: #595959 !important;
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-  }
+       .btn-continuar {
+         // background-color: #595959;
+         width: 100% !important;
+       }
 
-  .grid-select {
-    margin-top: 10px;
-    padding: 0px;
-    // background-color: #404040;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    color: black;
-    text-transform: uppercase;
-
-    ion-row {
-      // border: 1px solid #5d5d5d;
-      border-radius: 12px;
-    }
-
-    ion-col {
-      display: flex;
-      align-items: center;
-      min-height: 40px;
-    }
-
-    ion-col.col-left {
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
-    }
-
-    ion-col.col-right {
-      border-top-right-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-
-    ion-col.selected {
-      // background-color: #5d5d5d;
-      color: white;
-    }
-
-    ion-col {
-      display: flex;
-      justify-content: center;
-    }
-  }
-
-  .grid-navio {
-    // background-color: #404040;
-    min-height: 60px;
-    margin-bottom: 2px;
-
-    .row-navio {
-      .col-navio {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        text-transform: uppercase;
-        align-items: flex-start;
-
-        .div-navio-nome {
-          // margin-left: 10px;
-          font-size: 16px;
-          word-break: break-word;
-          text-align: left;
-        }
-
-        .div-navio-viagem {
-          margin-left: 10px;
-          margin-top: 4px;
-          font-size: 14px;
-        }
-      }
-
-      .col-status {
-        justify-content: center;
-        text-transform: uppercase;
-        font-size: 16px;
-      }
-    }
-
-    ion-row {
-      height: 100%;
-      color: #fff;
-      ion-col {
-        display: flex;
-        align-items: center;
-      }
-    }
-  }
-
-  .footer-legenda {
-    color: white;
-    height: 100px;
-    // background-color: #404040;
-
-    .grid-botao-voltar {
-      .btn-menu-internal-azul-forte {
-        color: white;
-        // background-color: #404040;
-      }
-      .btn-menu-internal {
-        color: white;
-        background-color: #5d5d5d;
-      }
-    }
-
-    .grid-legenda {
-      .row-legenda-texto {
-        font-size: 12px;
-      }
-
-      .row-legendas {
-        font-size: 14px;
-
-        .col-legendas {
-          display: flex;
-          align-items: center;
-
-          .legenda-andamento {
-            background-color: #0fb708;
-            height: 20px;
-            width: 4px;
-          }
-
-          .legenda-andamento-texto {
-            margin-left: 6px;
-          }
-
-          .legenda-esperado {
-            margin-left: 12px;
-            background-color: #dbaa33;
-            height: 20px;
-            width: 4px;
-          }
-
-          .legenda-esperado-texto {
-            margin-left: 6px;
-          }
-        }
-      }
-    }
-  }
-
-  //https://stackoverflow.com/questions/45342639/ionic-3-angular-ion-slide-vertical-align-top
-  ion-slides.slides {
-    height: auto;
-  }
-
-  .swiper-pagination {
-    bottom: 0px;
-  }
-
+       .btn-cancel {
+         background-color: transparent;
+       }
+     }
+   }
 }

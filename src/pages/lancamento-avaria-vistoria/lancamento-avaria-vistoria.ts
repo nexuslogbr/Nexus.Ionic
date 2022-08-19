@@ -1,40 +1,40 @@
-import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Slides, Content } from 'ionic-angular';
-import * as $ from 'jquery';
-import { Navio } from '../../model/navio';
+import { Component } from '@angular/core';
+import { NavController, NavParams, ViewController, Modal, ModalController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
-import { NavioDataService } from '../../providers/navio-data-service';
-import { finalize } from 'rxjs/operators';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { ArquivoDataService } from '../../providers/arquivo-data-service';
-import { Arquivo } from '../../model/arquivo';
-import { NovaConferenciaConfiguracaoAreaPage } from '../nova-conferencia-configuracao-area/nova-conferencia-configuracao-area';
-import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
+import { ModalErrorComponent } from '../../components/modal-error/modal-error';
+import * as $ from 'jquery';
+import { Veiculo } from '../../model/veiculo';
+import { Momento } from '../../model/Momento';
+import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { LancamentoAvariaVistoriaLancarPage } from '../lancamento-avaria-vistoria-lancar/lancamento-avaria-vistoria-lancar';
+import { Arquivo } from '../../model/arquivo';
+import { Navio } from '../../model/navio';
 
 @Component({
   selector: 'page-lancamento-avaria-vistoria',
   templateUrl: 'lancamento-avaria-vistoria.html',
 })
 export class LancamentoAvariaVistoriaPage {
-  @ViewChild(Slides) slides: Slides;
-  @ViewChild('pageTop') pageTop: Content;
-  slideLeftSelected: boolean = true;
-  navios: Navio[] = [];
-  arquivos: Arquivo[] = [];
-  showNavioErrorMessage: boolean = false;
-  showArquivoErrorMessage: boolean = false;
+
+  formData = {
+    veiculo: new Veiculo(),
+    momento: new Momento(),
+    arquivo: new Arquivo(),
+    navio: new Navio(),
+    veiculos: new Array<Veiculo>()
+  };
 
   primaryColor: string;
   secondaryColor: string;
   inputColor: string;
   buttonColor: string;
+
   constructor(
+    private modal: ModalController,
+    private navParam: NavParams,
+    private view: ViewController,
     public navCtrl: NavController,
-    public navParams: NavParams,
-    public authService: AuthService,
-    public navioDataService: NavioDataService,
-    public arquivoDataService: ArquivoDataService
+    public authService: AuthService
   ) {
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -49,100 +49,69 @@ export class LancamentoAvariaVistoriaPage {
     }
   }
 
-  ionViewWillEnter() {
-    this.authService.showLoading();
-
-    forkJoin([
-      this.navioDataService.carregarNaviosVistoria(),
-      this.arquivoDataService.carregarArquivosDePlanilhasVistoria()
-    ])
-      .pipe(
-        finalize(() => {
-          this.authService.hideLoading();
-        })
-      )
-      .subscribe(
-        arrayResult => {
-          let navios$ = arrayResult[0];
-          let arquivos$ = arrayResult[1];
-
-          if (navios$.sucesso) {
-            this.navios = navios$.retorno;
-          } else {
-            this.showNavioErrorMessage = true;
-          }
-
-          if (arquivos$.sucesso) {
-            this.arquivos = arquivos$.retorno;
-          } else {
-            this.showArquivoErrorMessage = true;
-          }
-        },
-        error => {
-          console.log('error', error);
-          this.showNavioErrorMessage = true;
-        },
-        () => {
-          this.authService.hideLoading();
-        }
-      );
+  ionViewWillLoad() {
+    const data = this.navParam.get('data');
+    this.formData = data;
   }
 
-  changeSlideToLeft() {
-    //this.slideLeftSelected = true;
-    this.slides.slideTo(0, 500);
+  closeModal() {
+    var modal: Modal;
+
+    // if (this.formData.arquivo.id) {
+    //   this.formData.arquivo.momentoId = this.formData.momento.id;
+    //   this.formData.momento.id = this.formData.momento.id;
+    //   modal = this.modal.create(LancamentoAvariaVistoriaLancarPage, {
+    //     arquivo: this.formData.arquivo,
+    //   });
+    // }
+    // else if (this.formData.navio.id) {
+    //   this.formData.navio.momentoId = this.formData.momento.id;
+    //   this.formData.momento.id = this.formData.momento.id;
+    //   modal = this.modal.create(LancamentoAvariaVistoriaLancarPage, {
+    //     navio: this.formData.navio,
+    //   });
+    // }
+
+
+    // modal.present();
+    const data = {
+      name: 'Hingo',
+      cargo: 'Front',
+    };
+    this.view.dismiss(data);
   }
 
-  changeSlideToRight() {
-    //this.slideLeftSelected = false;
-    this.slides.slideTo(1, 500);
-  }
-
-  vistoriarNavio(navio: Navio) {
-    this.navCtrl.push(LancamentoAvariaVistoriaLancarPage, {
-      navio: navio
-    });
-  }
-
-  vistoriarArquivo(arquivo: Arquivo) {
-    this.navCtrl.push(LancamentoAvariaVistoriaLancarPage, {
-      arquivo: arquivo
-    });
-  }
-
-  slideChanged() {
-    this.slideLeftSelected = !this.slideLeftSelected;
-    setTimeout(() => {
-      this.pageTop.scrollToTop();
-    }, 200);
-  }
-
-  toggleMenu = function(this) {
+  toggleMenu = function (this) {
     $('.menu-body').toggleClass('show-menu');
     $('menu-inner').toggleClass('show');
     $('.icon-menu').toggleClass('close-menu');
     $('side-menu').toggleClass('show');
   };
 
-  navigateToLancar() {
-    this.navCtrl.push(LancamentoAvariaPage);
-  }
-  voltar() {
-    this.navCtrl.pop();
-  }
+  openPage() {
+    const modal: Modal = this.modal.create(LancamentoAvariaSelecaoSuperficiePage, {
+      data: this.formData,
+    });
+    modal.present();
 
 
-
-  configurarNavio(navio: Navio) {
-    this.navCtrl.push(NovaConferenciaConfiguracaoAreaPage, {
-      navio: navio
+    modal.onDidDismiss((data) => {
+      console.log(data);
+    });
+    modal.onWillDismiss((data) => {
+      console.log(data);
     });
   }
 
-  configurarArquivo(arquivo: Arquivo) {
-    this.navCtrl.push(NovaConferenciaConfiguracaoAreaPage, {
-      arquivo: arquivo
+  openModalErro(data) {
+    const chassiModal: Modal = this.modal.create(ModalErrorComponent, {
+      data: data,
     });
-  }
+    chassiModal.present();
 
+    chassiModal.onDidDismiss((data) => {
+      console.log(data);
+    });
+    chassiModal.onWillDismiss((data) => {});
+  }
 }

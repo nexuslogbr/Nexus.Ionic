@@ -15,6 +15,7 @@ import { VistoriaDataService } from '../../providers/vistoria-service';
 import { VeiculoDataService } from '../../providers/veiculo-data-service';
 import { Checklist } from '../../model/checklist';
 import { ChecklistItem } from '../../model/checklistItem';
+import { LancamentoAvariaVistoriaPage } from '../lancamento-avaria-vistoria/lancamento-avaria-vistoria';
 
 @Component({
   selector: 'page-model-checklist',
@@ -135,5 +136,17 @@ export class ModelChecklistPage {
     this.checkListItens.forEach(item => {
       item.isChecked = e.value;
     });;
+  }
+
+  mudar(){
+    const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage, {data: this.checklist });
+    chassiModal.present();
+
+    // chassiModal.onDidDismiss((data) => {
+      this.view.dismiss();
+    // })
+    // chassiModal.onWillDismiss((data) =>{
+
+    // })
   }
 }
