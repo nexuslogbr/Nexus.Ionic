@@ -33,8 +33,7 @@ export class ModelChecklistPage {
   inputColor: string;
   buttonColor: string;
 
-  veiculo: Veiculo;
-  checkList: Checklist
+  checklist: Checklist
   checkListItens: ChecklistItem[] = [];
 
   constructor(
@@ -52,7 +51,13 @@ export class ModelChecklistPage {
     this.url = this.authService.getUrl();
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
-    this.veiculo = this.navParam.get('data');
+    this.checklist = this.navParam.get('data');
+
+    if (this.checklist) {
+      this.checkListItens = this.checklist.checkListItens;
+      this.title = this.checklist.nome;
+      this.authService.hideLoading();
+    }
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -67,22 +72,6 @@ export class ModelChecklistPage {
     }
 
     this.initializeFormControl();
-  }
-
-  ionViewWillEnter(){
-    this.checkpointService.listarItensChecklist({chassi: this.veiculo.chassi})
-    .pipe(
-      finalize(() => {
-        this.authService.hideLoading()
-      })
-    )
-    .subscribe((response: DataRetorno) => {
-      if (response.retorno) {
-        this.checkList = response.retorno;
-        this.checkListItens = this.checkList.checkListItens;
-        this.title = this.checkList.nome;
-      }
-    })
   }
 
   initializeFormControl(){

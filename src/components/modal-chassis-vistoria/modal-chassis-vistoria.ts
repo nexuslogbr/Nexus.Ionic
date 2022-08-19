@@ -1,9 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, ViewController, Modal, ModalController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
-import { RecebimentoPage } from '../../pages/recebimento/recebimento';
-import { ModalErrorComponent } from '../modal-error/modal-error';
-import { Select } from 'ionic-angular';
 import * as $ from 'jquery';
 import { ModalSucessoComponent } from '../modal-sucesso/modal-sucesso';
 import { VistoriaPage } from '../../pages/vistoria/vistoria';
@@ -16,6 +13,8 @@ import { DataRetorno } from '../../model/dataretorno';
 import { VistoriaDataService } from '../../providers/vistoria-service';
 import { VeiculoDataService } from '../../providers/veiculo-data-service';
 import { ModelChecklistPage } from '../../pages/model-checklist/model-checklist';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { Checklist } from '../../model/checklist';
 
 @Component({
   selector: 'modal-chassis-vistoria',
@@ -23,9 +22,7 @@ import { ModelChecklistPage } from '../../pages/model-checklist/model-checklist'
 })
 
 export class ModalChassisVistoriaComponent {
-  @ViewChild('select') select: Select;
   title: string;
-  chassis: any;
   url: string;
   formControl = new FormControl("");
   public form: FormGroup
@@ -44,25 +41,7 @@ export class ModalChassisVistoriaComponent {
   buttonColor: string;
 
   model: any;
-  veiculo: Veiculo;
-
-  list = [
-    {
-      val: 'Item 1',
-      isChecked:false,
-      cssClass: 'checklist-style4',
-    },
-    {
-      val: 'Item 2',
-      isChecked:false,
-      cssClass: 'checklist-style4',
-    },
-    {
-      val: 'Item 3',
-      isChecked:false,
-      cssClass: 'checklist-style4',
-    }
-  ];
+  checklist: Checklist;
 
   constructor(
     private modal: ModalController,
@@ -71,10 +50,8 @@ export class ModalChassisVistoriaComponent {
     public navCtrl: NavController,
     public authService: AuthService,
     private formBuilder: FormBuilder,
-    private checkpointService: CheckpointDataService,
     public alertService: AlertService,
-    private vistoriaService: VistoriaDataService,
-    private veiculoService: VeiculoDataService
+    private checkpointService: CheckpointDataService,
   ) {
     this.title = 'Vistoria';
     this.url = this.authService.getUrl();
@@ -116,7 +93,7 @@ export class ModalChassisVistoriaComponent {
     }, 1000);
 
     this.authService.hideLoading();
-   }
+  }
 
   initializeFormControl(data:any){
     this.form = this.formBuilder.group({
@@ -146,40 +123,42 @@ export class ModalChassisVistoriaComponent {
   buscarChassi(chassi: string) {
     this.authService.showLoading();
 
-    this.veiculoService.busarVeiculoStakeholder(chassi)
+    forkJoin([
+      this.checkpointService.listarItensChecklist({chassi: chassi})
+    ])
     .pipe(
       finalize(() => {
         this.authService.hideLoading();
+        this.formData.chassi = '';
       })
     )
-    .subscribe((res) => {
-        this.responseData = res;
-        if (this.responseData.sucesso) {
-          this.veiculo = this.responseData.retorno;
+    .subscribe(arrayResult => {
+      let checkpoint$ = arrayResult[0];
 
-          const chassiModal: Modal = this.modal.create(ModelChecklistPage, {data: this.veiculo });
-          chassiModal.present();
-          // this.view.dismiss();
+      if (checkpoint$.sucesso) {
+        this.checklist = checkpoint$.retorno;
+
+        const chassiModal: Modal = this.modal.create(ModelChecklistPage, {data: this.checklist });
+        chassiModal.present();
+      }
+      else {
+        this.authService.hideLoading();
+        if (chassi.length < 17) {
+          this.alertService.showError(checkpoint$.mensagem);
+        }
+        else if (checkpoint$.dataErro == 'CHASSI_ALREADY_RECEIVED') {
+          this.alertService.showAlert(checkpoint$.mensagem);
+        }
+        else if (checkpoint$.dataErro == 'CHASSI_NOT_FOUND') {
+          this.alertService.showError('Fabricante sem checklist');
         }
         else {
-          this.authService.hideLoading();
-          if (chassi.length < 17) {
-            this.alertService.showError(this.responseData.mensagem);
-          }
-          else if (this.responseData.dataErro == 'CHASSI_ALREADY_RECEIVED') {
-            this.alertService.showAlert(this.responseData.mensagem);
-          }
-          else if (this.responseData.dataErro == 'CHASSI_NOT_FOUND') {
-            this.alertService.showError(this.responseData.mensagem);
-          }
-          else {
-            this.alertService.showError(this.responseData.mensagem);
-          }
+          this.alertService.showError(checkpoint$.mensagem);
         }
-      },
-      (error) => {
-        this.alertService.showError(error.status + ' - ' + error.statusText);
       }
-    );
+    },
+    (error) => {
+      this.alertService.showError(error.status + ' - ' + error.statusText);
+    });
   }
 }

@@ -1,10 +1,12 @@
 import { ChecklistItem } from "./checklistItem";
 import { Local } from "./local";
 import { StakeHolder } from "./stakeholder";
+import { Veiculo } from "./veiculo";
 
 export class Checklist {
   public id: number;
   public nome: string;
+  public veiculo: Veiculo;
   public stakeholder: StakeHolder;
   public local: Local;
   public checkListItens: ChecklistItem[];
