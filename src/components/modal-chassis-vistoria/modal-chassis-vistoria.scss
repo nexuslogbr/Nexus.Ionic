@@ -57,21 +57,21 @@ modal-chassis-vistoria {
 
         ion-list{
           margin: 0;
-
+          ion-list-header{
+            // border-top: none;
+            ion-label{
+                color: #fff;
+                font: 10px 'avenir_demi';
+            }
+          }
           ion-item{
-            // background-color: #404040;
-            // background-color: transparent !important;
+            // padding: 0px 12px;
             padding: 0;
-            // border-bottom: 1px solid #747474;
 
             .item-inner{
-            padding-left: 15px;
-              border-bottom: 1px solid transparent !important;
-
               ion-label{
                 color: #fff;
               }
-
               ion-select{
                 max-width: 85%;
                 .select-text{
@@ -80,6 +80,8 @@ modal-chassis-vistoria {
                   font: 14px 'avenir_demi';
                 }
               }
+              padding-left: 15px;
+              border-bottom: 1px solid transparent !important;
             }
           }
         }

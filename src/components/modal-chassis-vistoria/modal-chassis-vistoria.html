@@ -26,14 +26,31 @@
         <ion-item no-lines class="checklist-style2">
           <ion-label label-ios style="font-style: unset;">{{form.controls.momento.value}}</ion-label>
         </ion-item>
+        <ion-item class="checklist-style2">
+          <ion-label label-ios>Checklist</ion-label>
+          <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="empresa" value="Nexus">
+            <ion-option>Nexus</ion-option>
+          </ion-select>
+        </ion-item>
       </ion-list>
     </div>
+<!--
+    <div class="form-checkpoint">
+      <ion-list>
+        <ion-item [ngStyle]="{'background-color': secondaryColor}">
+          <ion-label label-ios>Checklist</ion-label>
+          <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="empresa" value="Nexus">
+            <ion-option>Nexus</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </div> -->
 
     <ion-grid>
-      <ion-label style="padding-left: 1%;">Chassi</ion-label>
+      <ion-label style="padding: 0% 1%;">Chassi</ion-label>
       <ion-row>
         <ion-col col-10>
-          <ion-input type="text" [(ngModel)]="formData.chassi" [formControl]="formControl" placeholder="Chassi" #chassiInput></ion-input>
+          <ion-input type="text" [(ngModel)]="formData.chassi" [formControl]="formControl" placeholder="Chassi" #chassiInput [readyonly]="true"></ion-input>
         </ion-col>
         <ion-col col-1 style="align-self: center;">
           <i class="icon qrcode-gray" (click)="buscarChassi()"></i>

@@ -37,7 +37,7 @@ export class CheckpointDataService {
     return this.http.post<DataRetorno>(url, model, httpOptions);
   }
 
-  public listarItensChecklist(model:any) {
+  public CarregarChecklist(model:any) {
     model.Token = this.authService.getToken();
     let url = this.urlApi + '/checklist/CarregarChecklist';
     return this.http.post<DataRetorno>(url, model, httpOptions);

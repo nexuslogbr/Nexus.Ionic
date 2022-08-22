@@ -51,7 +51,7 @@ export class ModalChassisVistoriaComponent {
     public authService: AuthService,
     private formBuilder: FormBuilder,
     public alertService: AlertService,
-    private checkpointService: CheckpointDataService,
+    private checklistService: CheckpointDataService,
   ) {
     this.title = 'Vistoria';
     this.url = this.authService.getUrl();
@@ -91,8 +91,7 @@ export class ModalChassisVistoriaComponent {
     setTimeout(() => {
       this.chassiInput.setFocus();
     }, 1000);
-
-    this.authService.hideLoading();
+    this. loadChecklists();
   }
 
   initializeFormControl(data:any){
@@ -103,6 +102,26 @@ export class ModalChassisVistoriaComponent {
       stakeholderOrigem: [data.stakeholderOrigem.value, Validators.required],
       stakeholderDestino: [data.stakeholderDestino.value, Validators.required]
     });
+  }
+
+  loadChecklists(){
+    this.authService.showLoading();
+    this.checklistService.listar()
+    .pipe(
+      finalize(() => {
+        this.authService.hideLoading();
+      })
+    )
+    .subscribe((r: DataRetorno) => {
+      if (r.retorno != null) {
+        this.checklist = r.retorno;
+      }
+      else {
+        this.alertService.showAlert(r.mensagem);
+      }
+    }, error => {
+      this.alertService.showAlert(error);
+    })
   }
 
   close() {
@@ -124,7 +143,7 @@ export class ModalChassisVistoriaComponent {
     this.authService.showLoading();
 
     forkJoin([
-      this.checkpointService.listarItensChecklist({chassi: chassi})
+      this.checklistService.CarregarChecklist({chassi: chassi})
     ])
     .pipe(
       finalize(() => {
