@@ -41,6 +41,7 @@ export class ModalChassisVistoriaComponent {
   buttonColor: string;
 
   model: any;
+  checklists: Array<Checklist> = [];
   checklist: Checklist;
 
   constructor(
@@ -87,7 +88,7 @@ export class ModalChassisVistoriaComponent {
     this.initializeFormControl(this.navParam.get('data'));
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     setTimeout(() => {
       this.chassiInput.setFocus();
     }, 1000);
@@ -96,11 +97,12 @@ export class ModalChassisVistoriaComponent {
 
   initializeFormControl(data:any){
     this.form = this.formBuilder.group({
-      empresa: [data.empresa.value, Validators.required],
-      local: [data.local.value, Validators.required],
-      momento: [data.momento.value, Validators.required],
-      stakeholderOrigem: [data.stakeholderOrigem.value, Validators.required],
-      stakeholderDestino: [data.stakeholderDestino.value, Validators.required]
+      empresa: [data.empresa.value],
+      local: [data.local.value],
+      momento: [data.momento.value],
+      stakeholderOrigem: [data.stakeholderOrigem.value],
+      stakeholderDestino: [data.stakeholderDestino.value],
+      checklist: [null, Validators.required]
     });
   }
 
@@ -114,13 +116,13 @@ export class ModalChassisVistoriaComponent {
     )
     .subscribe((r: DataRetorno) => {
       if (r.retorno != null) {
-        this.checklist = r.retorno;
+        this.checklists = r.retorno;
       }
       else {
         this.alertService.showAlert(r.mensagem);
       }
     }, error => {
-      this.alertService.showAlert(error);
+      this.alertService.showAlert(error.message);
     })
   }
 
@@ -140,44 +142,50 @@ export class ModalChassisVistoriaComponent {
   };
 
   buscarChassi(chassi: string) {
-    this.authService.showLoading();
 
-    forkJoin([
-      this.checklistService.CarregarChecklist({chassi: chassi})
-    ])
-    .pipe(
-      finalize(() => {
-        this.authService.hideLoading();
-        this.formData.chassi = '';
-      })
-    )
-    .subscribe(arrayResult => {
-      let checkpoint$ = arrayResult[0];
+    if (this.form.valid) {
+      this.authService.showLoading();
 
-      if (checkpoint$.sucesso) {
-        this.checklist = checkpoint$.retorno;
+      forkJoin([
+        this.checklistService.CarregarChecklist({chassi: chassi})
+      ])
+      .pipe(
+        finalize(() => {
+          this.authService.hideLoading();
+          this.formData.chassi = '';
+        })
+      )
+      .subscribe(arrayResult => {
+        let checkpoint$ = arrayResult[0];
 
-        const chassiModal: Modal = this.modal.create(ModelChecklistPage, {data: this.checklist });
-        chassiModal.present();
-      }
-      else {
-        this.authService.hideLoading();
-        if (chassi.length < 17) {
-          this.alertService.showError(checkpoint$.mensagem);
-        }
-        else if (checkpoint$.dataErro == 'CHASSI_ALREADY_RECEIVED') {
-          this.alertService.showAlert(checkpoint$.mensagem);
-        }
-        else if (checkpoint$.dataErro == 'CHASSI_NOT_FOUND') {
-          this.alertService.showError('Fabricante sem checklist');
+        if (checkpoint$.sucesso) {
+          this.checklist = checkpoint$.retorno;
+
+          const chassiModal: Modal = this.modal.create(ModelChecklistPage, {data: this.checklist });
+          chassiModal.present();
         }
         else {
-          this.alertService.showError(checkpoint$.mensagem);
+          this.authService.hideLoading();
+          if (chassi.length < 17) {
+            this.alertService.showError(checkpoint$.mensagem);
+          }
+          else if (checkpoint$.dataErro == 'CHASSI_ALREADY_RECEIVED') {
+            this.alertService.showAlert(checkpoint$.mensagem);
+          }
+          else if (checkpoint$.dataErro == 'CHASSI_NOT_FOUND') {
+            this.alertService.showError('Fabricante sem checklist');
+          }
+          else {
+            this.alertService.showError(checkpoint$.mensagem);
+          }
         }
-      }
-    },
-    (error) => {
-      this.alertService.showError(error.status + ' - ' + error.statusText);
-    });
+      },
+      (error) => {
+        this.alertService.showError(error.status + ' - ' + error.statusText);
+      });
+    }
+    else {
+      this.alertService.showAlert('Selecione um checklist!');
+    }
   }
 }

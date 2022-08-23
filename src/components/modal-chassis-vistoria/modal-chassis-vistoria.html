@@ -28,13 +28,13 @@
         </ion-item>
         <ion-item class="checklist-style2">
           <ion-label label-ios>Checklist</ion-label>
-          <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="empresa" value="Nexus">
-            <ion-option>Nexus</ion-option>
+          <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="checklist">
+            <ion-option *ngFor="let item of checklists" value="{{item.nome}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
       </ion-list>
     </div>
-<!--
+    <!--
     <div class="form-checkpoint">
       <ion-list>
         <ion-item [ngStyle]="{'background-color': secondaryColor}">
@@ -50,7 +50,7 @@
       <ion-label style="padding: 0% 1%;">Chassi</ion-label>
       <ion-row>
         <ion-col col-10>
-          <ion-input type="text" [(ngModel)]="formData.chassi" [formControl]="formControl" placeholder="Chassi" #chassiInput [readyonly]="true"></ion-input>
+          <ion-input type="text" [(ngModel)]="formData.chassi" [formControl]="formControl" placeholder="Chassi" #chassiInput disabled="{{!form.valid}}"></ion-input>
         </ion-col>
         <ion-col col-1 style="align-self: center;">
           <i class="icon qrcode-gray" (click)="buscarChassi()"></i>
