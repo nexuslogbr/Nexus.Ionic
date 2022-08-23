@@ -57,13 +57,7 @@ modal-chassis-vistoria {
 
         ion-list{
           margin: 0;
-          ion-list-header{
-            // border-top: none;
-            ion-label{
-                color: #fff;
-                font: 10px 'avenir_demi';
-            }
-          }
+
           ion-item{
             // padding: 0px 12px;
             padding: 0;
@@ -71,6 +65,10 @@ modal-chassis-vistoria {
             .item-inner{
               ion-label{
                 color: #fff;
+                a {
+                  font: 16px 'avenir_demi';
+                  color: #fff;
+                }
               }
               ion-select{
                 max-width: 85%;

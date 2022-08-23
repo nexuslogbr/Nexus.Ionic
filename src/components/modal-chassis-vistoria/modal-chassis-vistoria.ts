@@ -147,7 +147,7 @@ export class ModalChassisVistoriaComponent {
       this.authService.showLoading();
 
       forkJoin([
-        this.checklistService.CarregarChecklist({chassi: chassi})
+        this.checklistService.carregar({id: this.form.controls.checklist.value})
       ])
       .pipe(
         finalize(() => {
@@ -156,10 +156,10 @@ export class ModalChassisVistoriaComponent {
         })
       )
       .subscribe(arrayResult => {
-        let checkpoint$ = arrayResult[0];
+        let checklist$ = arrayResult[0];
 
-        if (checkpoint$.sucesso) {
-          this.checklist = checkpoint$.retorno;
+        if (checklist$.sucesso) {
+          this.checklist = checklist$.retorno;
 
           const chassiModal: Modal = this.modal.create(ModelChecklistPage, {data: this.checklist });
           chassiModal.present();
@@ -167,16 +167,16 @@ export class ModalChassisVistoriaComponent {
         else {
           this.authService.hideLoading();
           if (chassi.length < 17) {
-            this.alertService.showError(checkpoint$.mensagem);
+            this.alertService.showError(checklist$.mensagem);
           }
-          else if (checkpoint$.dataErro == 'CHASSI_ALREADY_RECEIVED') {
-            this.alertService.showAlert(checkpoint$.mensagem);
+          else if (checklist$.dataErro == 'CHASSI_ALREADY_RECEIVED') {
+            this.alertService.showAlert(checklist$.mensagem);
           }
-          else if (checkpoint$.dataErro == 'CHASSI_NOT_FOUND') {
+          else if (checklist$.dataErro == 'CHASSI_NOT_FOUND') {
             this.alertService.showError('Fabricante sem checklist');
           }
           else {
-            this.alertService.showError(checkpoint$.mensagem);
+            this.alertService.showError(checklist$.mensagem);
           }
         }
       },

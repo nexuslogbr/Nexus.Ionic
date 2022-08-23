@@ -31,13 +31,13 @@
           </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">
-          <ion-label label-ios>Emrpresa de Origem:</ion-label>
+          <ion-label label-ios>Empresa Origem:</ion-label>
           <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="stakeholderOrigem">
             <ion-option *ngFor="let item of stakeholders" [value]="item.nome" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">
-          <ion-label label-ios>Emrpresa de Destino:</ion-label>
+          <ion-label label-ios>Empresa Destino:</ion-label>
           <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="stakeholderDestino">
             <ion-option *ngFor="let item of stakeholders" [value]="item.nome" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
