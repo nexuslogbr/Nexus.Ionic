@@ -18,6 +18,7 @@ import { Momento } from '../../model/Momento';
 import { GravidadeAvaria } from '../../model/gravidadeAvaria';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 @Component({
   selector: 'page-lancamento-avaria-selecao-superficie',
@@ -162,6 +163,43 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
       });
     }
+  }
+
+  loadScreen(){
+    this.authService.showLoading();
+    forkJoin([
+      this.avariaService.carregarPosicaoAvarias(),
+      this.avariaService.listarPartes({ chassi: this.formData.veiculo.chassi }),
+      this.avariaService.carregarTipoAvarias(),
+      this.gravidadeService.carregarGravidades()
+    ])
+    .pipe(
+      finalize(() => {
+        if (this.formData.superficieChassiParte && this.formData.superficieChassiParte.tipoSelecao == 1) {
+          $('#subAreaCombo').removeClass("hidden");
+        }
+        this.authService.showLoading();
+      })
+    )
+    .subscribe(arrayResult => {
+      let posicoes$ = arrayResult[0];
+      let partes$ = arrayResult[1];
+      let tiposAvaria$ = arrayResult[2];
+      let gravidades$ = arrayResult[3];
+
+      if (posicoes$.sucesso) {
+        this.posicoesAvaria = posicoes$.retorno;
+      }
+      if (partes$.sucesso) {
+        this.partesAvaria = partes$.retorno;
+      }
+      if (tiposAvaria$.sucesso) {
+        this.avarias = tiposAvaria$.retorno;
+      }
+      if (gravidades$.sucesso) {
+        this.gravidadesAvaria = gravidades$.retorno;
+      }
+    });
   }
 
   toggleMenu = function (this) {
@@ -469,7 +507,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     ctx.strokeRect(startX, startY, endX - startX, endY - startY);
   }
 
-  voltar(){
+  return(){
     this.navCtrl.push(QualidadeMenuPage);
     // this.view.dismiss();
   }
@@ -506,9 +544,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     .pipe(
       finalize(() => {
         this.authService.hideLoading();
-        setTimeout(() => {
-          this.voltar();
-        }, 1500);
       })
       )
       .subscribe((response:any) => {
