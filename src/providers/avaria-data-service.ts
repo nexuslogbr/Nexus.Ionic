@@ -34,7 +34,7 @@ export class AvariaDataService{
   }
 
   public carregarPosicaoAvarias() {
-    let url = this.urlApi + '/posicaosuperficiechassi/ListarPosicaoSuperficieChassi?token=' + this.authService.getToken();
+    let url = this.urlApi + '/posicaosuperficiechassi/Listar?token=' + this.authService.getToken();
     return this.http.get<DataRetorno>(url, { headers: headers });
   }
 
