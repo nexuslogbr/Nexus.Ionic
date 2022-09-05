@@ -135,7 +135,6 @@ export class ListarAvariasPage {
       (res:DataRetorno) => {
         if (res.retorno.length != 0) {
           this.list = res.retorno;
-          console.log(this.list);
           this.authService.hideLoading();
         }
         else {

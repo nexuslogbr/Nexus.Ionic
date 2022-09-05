@@ -47,6 +47,13 @@
         </ion-item>
 
         <div >
+
+          <!-- <div *ngIf="formSelecaoSuperficie.controls.partePeca.value">
+            <ion-chip size="small" [ngStyle]="styleObject()">
+              <b class="ion-chip-label">{{avaria.tipoAvaria.sigla}}</b>
+            </ion-chip>
+          </div> -->
+
           <img [src]="urlImagem" id="image" class="img-relative">
           <div id="canvasWrapper">
             <canvas #imageCanvas (touchstart)="touched($event)" (touchmove)="moved($event)" id="canvas"></canvas>
