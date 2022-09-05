@@ -25,15 +25,16 @@
         </ion-item>
 
         <ion-item>
-          <ion-label label-ios style="font-style: unset;"><b>Posição Avaria: </b></ion-label><p></p>
-          <ion-select (ionChange)="selectPosicaoAvariaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="posicaoAvaria">
-             <ion-option *ngFor="let item of posicoesAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
+          <ion-label label-ios style="font-style: unset;"><b>Grupo Superfície: </b></ion-label><p></p>
+          <ion-select (ionChange)="selectGrupoAvariaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="grupoAvaria">
+             <ion-option *ngFor="let item of gruposAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
 
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Selecionar Parte / Peças:</b></ion-label>
-          <ion-select (ionChange)="selectPartesAvariaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="superficieChassiParte">
+          <ion-select (ionChange)="selectPartesAvariaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="superficieChassiParte"
+          [disabled]="!formSelecaoSuperficie.controls.grupoAvaria.valid">
              <ion-option *ngFor="let item of partesAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
