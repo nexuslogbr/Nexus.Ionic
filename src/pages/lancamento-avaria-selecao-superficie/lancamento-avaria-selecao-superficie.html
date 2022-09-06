@@ -25,7 +25,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-label label-ios style="font-style: unset;"><b>Grupo Superfície: </b></ion-label><p></p>
+          <ion-label label-ios style="font-style: unset;"><b>Grupo Superfície:</b></ion-label><p></p>
           <ion-select (ionChange)="selectGrupoAvariaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="grupoAvaria">
              <ion-option *ngFor="let item of gruposAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
@@ -48,11 +48,13 @@
 
         <div >
 
-          <!-- <div *ngIf="formSelecaoSuperficie.controls.partePeca.value">
+          <!-- #################################################### -->
+          <div *ngIf="formSelecaoSuperficie.controls.partePeca.value">
             <ion-chip size="small" [ngStyle]="styleObject()">
               <b class="ion-chip-label">{{avaria.tipoAvaria.sigla}}</b>
             </ion-chip>
-          </div> -->
+          </div>
+          <!-- #################################################### -->
 
           <img [src]="urlImagem" id="image" class="img-relative">
           <div id="canvasWrapper">
@@ -62,7 +64,7 @@
 
         <ion-item class="hidden" id="subAreaCombo">
           <ion-label label-ios style="font-style: unset;"><b>Subárea: </b></ion-label>
-          <ion-select (ionChange)="selectSubareaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="subArea">
+          <ion-select (ionChange)="selectSubareaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="subArea" [disabled]="true">
             <ion-option value="{{1}}">1</ion-option>
             <ion-option value="{{2}}">2</ion-option>
             <ion-option value="{{3}}">3</ion-option>
