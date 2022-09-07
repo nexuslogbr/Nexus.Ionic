@@ -219,18 +219,19 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   touched(event){
     this.ordenadaY = 4;
 
+    // Obter as coordenadas X e Y do do click na imagem
     var canvasPosition = this.canvasElement.getBoundingClientRect();
-    this.abcissaX = event.touches[0].pageX - canvasPosition.x;
     this.ordenadaY -= (event.touches[0].pageY - canvasPosition.y) * -1;
+    this.abcissaX = event.touches[0].pageX - canvasPosition.x;
 
-    // Salvar as coordenadas X e Y do início do retângulo
+    // Obter a dimensoões da imagem
     let imagem = document.getElementById('image')
     let imagemLargura = imagem.clientWidth;
     let imagemAltura = imagem.clientHeight;
 
+    // As coordenadas X e Y salvas relacionadas ao grid
     var startX = this.parteAvaria.superficieChassiParte.inicioX;
     var endX = this.parteAvaria.superficieChassiParte.fimX;
-
     var startY = this.parteAvaria.superficieChassiParte.inicioY;
     var endY = this.parteAvaria.superficieChassiParte.fimY;
 
@@ -238,28 +239,28 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     let clickX = this.abcissaX;
     let clickY = this.ordenadaY;
 
+    // Conversão das coordenadas de porcentagem para PX
     let pxStartX = (imagemLargura * startX) / 100;
     let pxEndX = (imagemLargura * endX) / 100;
-
     let pxStarty = (imagemAltura * startY) / 100;
     let pxEndY = (imagemAltura * endY) / 100;
 
-
+    // Calculo do tamanho dos eixos X e Y do grid
     let tamEixoX = pxEndX - pxStartX;
     let tamEixoY = pxEndY - pxStarty;
 
+    // Altura e largura dos quadrados do grid
     let larguraQuadro = tamEixoX / 3;
     let alturaQuadro = tamEixoY / 3;
 
-    var larguraTerco1 = startX + larguraQuadro;
-    var larguraTerco2 = startX + (larguraQuadro * 2);
-    var larguraTerco3 = startX + (larguraQuadro * 3);
+    // Altura e largura de cada quadrado do grid
+    var larguraTerco1 = pxStartX + larguraQuadro;
+    var larguraTerco2 = pxStartX + (larguraQuadro * 2);
+    var larguraTerco3 = pxStartX + (larguraQuadro * 3);
 
-    var alturaTerco1 = startY + alturaQuadro;
-    var alturaTerco2 = startY + (alturaQuadro * 2);
-    var alturaTerco3 = startY + (alturaQuadro * 3);
-
-
+    var alturaTerco1 = pxStarty + alturaQuadro;
+    var alturaTerco2 = pxStarty + (alturaQuadro * 2);
+    var alturaTerco3 = pxStarty + (alturaQuadro * 3);
 
     // Pegar o click de coluna 1
     if (clickX > pxStartX && clickX <= larguraTerco1) {
@@ -271,7 +272,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
         clickPosition = 8;
       }
-      else if (clickY > alturaTerco2 && clickY <= alturaTerco3) {
+      else if (clickY > alturaTerco2 && clickY <= pxEndY) {
         clickPosition = 9;
       }
     }
@@ -284,20 +285,20 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
         clickPosition = 5;
       }
-      else if (clickY > alturaTerco2 && clickY <= alturaTerco3) {
+      else if (clickY > alturaTerco2 && clickY <= pxEndY) {
         clickPosition = 6;
       }
     }
     // Pegar o click de coluna 3
     else if (clickX > larguraTerco2 && clickX <= larguraTerco3) {
       // Pegar o click de linha
-      if (clickY > pxStarty && clickY <= (alturaTerco1)) {
+      if (clickY > pxStarty && clickY <= alturaTerco1) {
         clickPosition = 1;
       }
       else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
         clickPosition = 2;
       }
-      else if (clickY > alturaTerco2 && clickY <= alturaTerco3) {
+      else if (clickY > alturaTerco2 && clickY <= pxEndY) {
         clickPosition = 3;
       }
     }
@@ -555,14 +556,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     });
   }
 
-
-
-
-
-
-
-
-  /// Selecionar uma imagem da biblioteca do dispositivo
+  /// Funções relativas a captura, exibição e upload de imagens
   selectImage(event:any) {
     const actionSheet = this.actionSheetController.create({
         title: 'Selecionar imagem',
