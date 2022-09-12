@@ -4,7 +4,6 @@ import { AuthService } from "../../providers/auth-service/auth-service";
 import { HomePage } from "../home/home";
 import { ModalErrorComponent } from "../../components/modal-error/modal-error";
 import { ModalSucessoComponent } from "../../components/modal-sucesso/modal-sucesso";
-import { Select } from "ionic-angular";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import "rxjs/add/operator/map";
 import * as $ from "jquery";
@@ -19,12 +18,6 @@ import { TipoAvaria } from "../../model/TipoAvaria";
 import { SuperficieChassiParte } from "../../model/superficieChassiParte";
 import { PosicaoSuperficieChassi } from "../../model/posicaoSuperficieChassi";
 
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
-};
 @Component({
   selector: "page-listar-avarias",
   templateUrl: "listar-avarias.html",
@@ -214,14 +207,5 @@ export class ListarAvariasPage {
     this.navCtrl.push(HomePage);
   }
 
-  toLancamentoAvaria() {
-    const modal: Modal = this.modal.create(LancamentoAvariaSelecaoSuperficiePage, {
-      data: this.editData,
-    });
-    modal.present();
-
-    modal.onDidDismiss(data => {});
-    modal.onWillDismiss(data => {});
-  }
 }
 
