@@ -85,6 +85,13 @@
         </ion-item>
 
         <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Responsabilidade Avaria: </b></ion-label>
+          <ion-select (ionChange)="selectResponsabilidadeAvariaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="responsabilidadeAvaria">
+            <ion-option *ngFor="let item of responsabilidadeAvarias" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Observação: </b></ion-label>
           <ion-textarea label-ios style="font-style: unset; color: white;"  formControlName="observacao"></ion-textarea>
         </ion-item>

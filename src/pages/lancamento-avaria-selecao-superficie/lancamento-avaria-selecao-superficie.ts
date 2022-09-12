@@ -13,7 +13,7 @@ import { AlertService } from '../../providers/alert-service';
 import { finalize } from 'rxjs/operators';
 import { Avaria } from '../../model/avaria';
 import { Veiculo } from '../../model/veiculo';
-import { Momento } from '../../model/Momento';
+import { Momento } from '../../model/momento';
 import { GravidadeAvaria } from '../../model/gravidadeAvaria';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
@@ -21,6 +21,8 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ModalNovoLancamentoAvariaPage } from '../modal-novo-lancamento-avaria/modal-novo-lancamento-avaria';
 import { GrupoSuperficieChassi } from '../../model/grupoSuperficieChassi';
 import { DataRetorno } from '../../model/dataretorno';
+import { ResponsabilidadeAvaria } from '../../model/responsabilidadeAvaria';
+import { ResponsabilidadeAvariaDataService } from '../../providers/responsabilidade-avaria-service';
 
 @Component({
   selector: 'page-lancamento-avaria-selecao-superficie',
@@ -32,6 +34,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   avarias: Array<Avaria> = [];
   gruposAvaria: Array<GrupoSuperficieChassi> = [];
   gravidadesAvaria: Array<GravidadeAvaria> = [];
+  responsabilidadeAvarias: Array<ResponsabilidadeAvaria> = [];
   partesAvaria: Array<Parte> = [];
   formSelecaoSuperficie: FormGroup;
 
@@ -42,6 +45,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   grupoAvaria = new GrupoSuperficieChassi();
   parteAvaria = new Parte();
   gravidadeAvaria = new GravidadeAvaria();
+  responsabilidadeAvaria = new ResponsabilidadeAvaria();
 
   @Output() onSuperficieParteChassiInputed: EventEmitter<SuperficieChassiParte> = new EventEmitter<SuperficieChassiParte>();
 
@@ -80,7 +84,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     superficieChassiParte: new SuperficieChassiParte(),
     avaria: new Avaria(),
     tipoAvaria: new TipoAvaria(),
-    gravidadeAvaria: new GravidadeAvaria()
+    gravidadeAvaria: new GravidadeAvaria(),
+    responsabilidadeAvaria: new ResponsabilidadeAvaria()
   };
 
   constructor(
@@ -96,6 +101,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     private alertController: AlertController,
     private modal: ModalController,
     private view: ViewController,
+    private responsabilidadeAvariaService: ResponsabilidadeAvariaDataService
   )
   {
     this.title = 'Lançamento de Avaria';
@@ -111,6 +117,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       tipoAvaria: [this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id, Validators.required],
       subArea: [this.formData.quadrante == undefined ? 1 : this.formData.quadrante],
       gravidadeAvaria: [this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id, Validators.required],
+      responsabilidadeAvaria: [this.formData.responsabilidadeAvaria == undefined ? null : this.formData.responsabilidadeAvaria.id, Validators.required],
       observacao: [this.formData.observacao == undefined ? '' : this.formData.observacao],
     });
 
@@ -175,7 +182,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     forkJoin([
       this.avariaService.carregarGrupoAvarias({ chassi: this.formData.veiculo.chassi }),
       this.avariaService.carregarTipoAvarias(),
-      this.gravidadeService.carregarGravidades()
+      this.gravidadeService.carregarGravidades(),
+      this.responsabilidadeAvariaService.listar()
     ])
     .pipe(
       finalize(() => {
@@ -189,6 +197,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       let gruposAvaria$ = arrayResult[0];
       let tiposAvaria$ = arrayResult[1];
       let gravidades$ = arrayResult[2];
+      let responsabilidadeAvaria$ = arrayResult[3];
 
       if (gruposAvaria$.sucesso) {
         this.gruposAvaria = gruposAvaria$.retorno;
@@ -198,6 +207,9 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       }
       if (gravidades$.sucesso) {
         this.gravidadesAvaria = gravidades$.retorno;
+      }
+      if (responsabilidadeAvaria$.sucesso) {
+        this.responsabilidadeAvarias = responsabilidadeAvaria$.retorno;
       }
     });
   }
@@ -394,6 +406,10 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     this.gravidadeAvaria = this.gravidadesAvaria.filter(x => x.id == id).map(x => x)[0]
   }
 
+  selectResponsabilidadeAvariaChange(id){
+    this.responsabilidadeAvaria = this.responsabilidadeAvarias.filter(x => x.id == id).map(x => x)[0]
+  }
+
   assembleGrid(data) {
     this.posicoesSubArea = [];
     let superficieChassi = data;
@@ -519,6 +535,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       superficieChassiParteID: this.parteAvaria.id != undefined ? this.parteAvaria.superficieChassiParte.id : this.formData.superficieChassiParte.superficieChassiID,
       gravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.id : this.formData.gravidadeAvaria.id,
       nivelGravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.nivelGravidadeAvaria.id : this.formData.gravidadeAvaria.nivelGravidadeAvaria.id,
+      responsabilidadeAvariaID: this.responsabilidadeAvaria.id != undefined ? this.responsabilidadeAvaria.id : this.formData.responsabilidadeAvaria.id,
       observacao: this.formSelecaoSuperficie.controls.observacao.value,
       quadrante: this.formSelecaoSuperficie.controls.subArea.value,
       arquivos: imagesToSend,

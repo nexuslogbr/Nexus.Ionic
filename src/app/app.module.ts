@@ -231,6 +231,7 @@ import { ModalBuscaChassiComponent } from '../pages/modal-busca-chassi/modal-bus
 import { ModalSelecionarChassiComponent } from '../components/modal-selecionar-chassi/modal-selecionar-chassi';
 import { ModalSelecionarChassiBuscaComponent } from '../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
 import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
+import { ResponsabilidadeAvariaDataService } from '../providers/responsabilidade-avaria-service';
 
 @NgModule({
   declarations: [
@@ -684,7 +685,8 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     VistoriaDataService,
     CheckpointDataService,
     StakeholderService,
-    VeiculoDataService
+    VeiculoDataService,
+    ResponsabilidadeAvariaDataService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
