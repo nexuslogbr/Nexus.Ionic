@@ -13,11 +13,11 @@ import { DataRetorno } from "../../model/dataretorno";
 import { AlertService } from "../../providers/alert-service";
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { Veiculo } from "../../model/veiculo";
-import { Momento } from "../../model/Momento";
+import { Momento } from "../../model/momento";
 import { GravidadeAvaria } from "../../model/gravidadeAvaria";
 import { TipoAvaria } from "../../model/TipoAvaria";
 import { SuperficieChassiParte } from "../../model/superficieChassiParte";
-import { PosicaoSuperficieChassi } from "../../model/PosicaoSuperficieChassi";
+import { PosicaoSuperficieChassi } from "../../model/posicaoSuperficieChassi";
 
 
 const httpOptions = {
