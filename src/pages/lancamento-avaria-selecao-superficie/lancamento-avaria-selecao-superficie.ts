@@ -23,6 +23,7 @@ import { GrupoSuperficieChassi } from '../../model/grupoSuperficieChassi';
 import { DataRetorno } from '../../model/dataretorno';
 import { ResponsabilidadeAvaria } from '../../model/responsabilidadeAvaria';
 import { ResponsabilidadeAvariaDataService } from '../../providers/responsabilidade-avaria-service';
+import { NivelGravidadeAvaria } from '../../model/nivelGravidadeAvaria';
 
 @Component({
   selector: 'page-lancamento-avaria-selecao-superficie',
@@ -34,6 +35,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   avarias: Array<Avaria> = [];
   gruposAvaria: Array<GrupoSuperficieChassi> = [];
   gravidadesAvaria: Array<GravidadeAvaria> = [];
+  nivelGravidadesAvaria: Array<NivelGravidadeAvaria> = [];
   responsabilidadeAvarias: Array<ResponsabilidadeAvaria> = [];
   partesAvaria: Array<Parte> = [];
   formSelecaoSuperficie: FormGroup;
@@ -45,6 +47,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   grupoAvaria = new GrupoSuperficieChassi();
   parteAvaria = new Parte();
   gravidadeAvaria = new GravidadeAvaria();
+  nivelGravidadeAvaria = new NivelGravidadeAvaria();
   responsabilidadeAvaria = new ResponsabilidadeAvaria();
 
   @Output() onSuperficieParteChassiInputed: EventEmitter<SuperficieChassiParte> = new EventEmitter<SuperficieChassiParte>();
@@ -85,6 +88,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     avaria: new Avaria(),
     tipoAvaria: new TipoAvaria(),
     gravidadeAvaria: new GravidadeAvaria(),
+    nivelGravidadeAvaria: new NivelGravidadeAvaria(),
     responsabilidadeAvaria: new ResponsabilidadeAvaria()
   };
 
@@ -117,6 +121,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       tipoAvaria: [this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id, Validators.required],
       subArea: [this.formData.quadrante == undefined ? 1 : this.formData.quadrante],
       gravidadeAvaria: [this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id, Validators.required],
+      nivelGravidadeAvaria: [this.formData.nivelGravidadeAvaria == undefined ? '' : this.formData.nivelGravidadeAvaria.id, Validators.required],
       responsabilidadeAvaria: [this.formData.responsabilidadeAvaria == undefined ? null : this.formData.responsabilidadeAvaria.id, Validators.required],
       observacao: [this.formData.observacao == undefined ? '' : this.formData.observacao],
     });
@@ -406,6 +411,10 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     this.gravidadeAvaria = this.gravidadesAvaria.filter(x => x.id == id).map(x => x)[0]
   }
 
+  selectNivelGravidadeChange(id){
+    this.nivelGravidadeAvaria = this.nivelGravidadesAvaria.filter(x => x.id == id).map(x => x)[0]
+  }
+
   selectResponsabilidadeAvariaChange(id){
     this.responsabilidadeAvaria = this.responsabilidadeAvarias.filter(x => x.id == id).map(x => x)[0]
   }
@@ -534,7 +543,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       parteID: this.parteAvaria.id != undefined ? this.parteAvaria.id : this.formData.superficieChassiParte.parteID,
       superficieChassiParteID: this.parteAvaria.id != undefined ? this.parteAvaria.superficieChassiParte.id : this.formData.superficieChassiParte.superficieChassiID,
       gravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.id : this.formData.gravidadeAvaria.id,
-      nivelGravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.nivelGravidadeAvaria.id : this.formData.gravidadeAvaria.nivelGravidadeAvaria.id,
+      nivelGravidadeAvariaID: this.nivelGravidadeAvaria.id != undefined ? this.nivelGravidadeAvaria.id : this.formData.nivelGravidadeAvaria.id,
       responsabilidadeAvariaID: this.responsabilidadeAvaria.id != undefined ? this.responsabilidadeAvaria.id : this.formData.responsabilidadeAvaria.id,
       observacao: this.formSelecaoSuperficie.controls.observacao.value,
       quadrante: this.formSelecaoSuperficie.controls.subArea.value,

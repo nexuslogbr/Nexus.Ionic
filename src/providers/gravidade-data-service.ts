@@ -23,4 +23,9 @@ export class GravidadeDataService{
     let url = this.urlApi + '/gravidadeAvaria/ListarGravidadesAvaria?token=' + this.authService.getToken();
     return this.http.get<DataRetorno>(url, { headers: headers });
   }
+
+  public carregarNiveisGravidades() {
+    let url = this.urlApi + '/gravidadeAvaria/ListarGravidadesAvaria?token=' + this.authService.getToken();
+    return this.http.get<DataRetorno>(url, { headers: headers });
+  }
 }
