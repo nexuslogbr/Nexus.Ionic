@@ -227,9 +227,11 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   };
 
   styleObject(): Object {
-    return {
-      'background-color': this.avaria.tipoAvaria.cor,
-      'transform': "translate(" + this.abcissaX + "px," + this.ordenadaY + "px)",
+    if (this.avaria) {
+      return {
+        'background-color': this.avaria.tipoAvaria.cor,
+        'transform': "translate(" + this.abcissaX + "px," + this.ordenadaY + "px)",
+      }
     }
   }
 
@@ -409,6 +411,13 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   selectGravidadeChange(id){
     this.gravidadeAvaria = this.gravidadesAvaria.filter(x => x.id == id).map(x => x)[0]
+
+    if (this.gravidadeAvaria && this.gravidadeAvaria.nivelGravidadeAvaria.length > 0) {
+      this.nivelGravidadesAvaria = this.gravidadeAvaria.nivelGravidadeAvaria;
+    }
+    else{
+      this.nivelGravidadesAvaria = [];
+    }
   }
 
   selectNivelGravidadeChange(id){
@@ -572,7 +581,10 @@ export class LancamentoAvariaSelecaoSuperficiePage {
               tipoAvaria: null,
               subArea: 1,
               gravidadeAvaria: null,
+              nivelGravidadeAvaria: null,
               observacao: null,
+              partePeca: null,
+              responsabilidadeAvaria: null
             });
           }
         });

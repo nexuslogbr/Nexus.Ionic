@@ -5,4 +5,5 @@ export class GravidadeAvaria{
   nome: string;
   dataCadastro: string;
   dataAlteracao: string;
+  nivelGravidadeAvaria: NivelGravidadeAvaria[]
 }

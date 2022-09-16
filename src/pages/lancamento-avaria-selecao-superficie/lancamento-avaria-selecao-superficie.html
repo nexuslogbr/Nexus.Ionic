@@ -86,7 +86,8 @@
 
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Nivel da Gravidade: </b></ion-label>
-          <ion-select (ionChange)="selectGravidadeChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="nivelGravidadeAvaria">
+          <ion-select (ionChange)="selectNivelGravidadeChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="nivelGravidadeAvaria"
+          [disabled]="nivelGravidadesAvaria.length == 0">
             <ion-option *ngFor="let item of nivelGravidadesAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
