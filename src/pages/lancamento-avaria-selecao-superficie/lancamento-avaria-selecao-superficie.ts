@@ -15,7 +15,6 @@ import { Avaria } from '../../model/avaria';
 import { Veiculo } from '../../model/veiculo';
 import { Momento } from '../../model/momento';
 import { GravidadeAvaria } from '../../model/gravidadeAvaria';
-import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ModalNovoLancamentoAvariaPage } from '../modal-novo-lancamento-avaria/modal-novo-lancamento-avaria';
@@ -27,8 +26,7 @@ import { NivelGravidadeAvaria } from '../../model/nivelGravidadeAvaria';
 
 @Component({
   selector: 'page-lancamento-avaria-selecao-superficie',
-templateUrl: 'lancamento-avaria-selecao-superficie.html',
-  // providers: [Camera]
+  templateUrl: 'lancamento-avaria-selecao-superficie.html',
 })
 export class LancamentoAvariaSelecaoSuperficiePage {
   title: string;
@@ -80,7 +78,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     id: 0,
     observacao: '',
     quadrante: null,
-
+    nivelGravidadeAvariaID: 0,
     veiculo: new Veiculo(),
     momento: new Momento(),
     grupoSuperficieChassi: new GrupoSuperficieChassi(),
@@ -121,7 +119,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       tipoAvaria: [this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id, Validators.required],
       subArea: [this.formData.quadrante == undefined ? 1 : this.formData.quadrante],
       gravidadeAvaria: [this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id, Validators.required],
-      nivelGravidadeAvaria: [this.formData.nivelGravidadeAvaria == undefined ? '' : this.formData.nivelGravidadeAvaria.id, Validators.required],
+      nivelGravidadeAvaria: [this.formData.nivelGravidadeAvariaID == undefined ? 0 : this.formData.nivelGravidadeAvariaID, Validators.required],
       responsabilidadeAvaria: [this.formData.responsabilidadeAvaria == undefined ? null : this.formData.responsabilidadeAvaria.id, Validators.required],
       observacao: [this.formData.observacao == undefined ? '' : this.formData.observacao],
     });
@@ -216,6 +214,30 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       if (responsabilidadeAvaria$.sucesso) {
         this.responsabilidadeAvarias = responsabilidadeAvaria$.retorno;
       }
+
+      if (this.formData.grupoSuperficieChassi != undefined) {
+        this.avariaService.listarPartes({
+          chassi: this.formData.veiculo.chassi,
+          grupoSuperficieChassiID: this.formData.grupoSuperficieChassi.id
+        })
+        .subscribe((x:DataRetorno) => {
+          this.partesAvaria = x.retorno;
+          this.parteAvaria = this.partesAvaria.filter(x => x.id == this.formData.superficieChassiParte.parteID).map(x => x)[0];
+          this.assembleGrid(this.parteAvaria.superficieChassiParte);
+        });
+      }
+
+      if (this.formData.gravidadeAvaria != undefined) {
+        this.gravidadeAvaria = this.gravidadesAvaria.filter(x => x.id == this.formData.gravidadeAvaria.id).map(x => x)[0]
+
+        if (this.gravidadeAvaria && this.gravidadeAvaria.nivelGravidadeAvaria.length > 0) {
+          this.nivelGravidadesAvaria = this.gravidadeAvaria.nivelGravidadeAvaria;
+        }
+        else{
+          this.nivelGravidadesAvaria = [];
+        }
+      }
+
     });
   }
 
@@ -327,27 +349,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     });
   }
 
-  moved(event){
-    // var canvasPosition = this.canvasElement.getBoundingClientRect();
-
-    // let ctx = this.canvasElement.getContext('2d');
-    // let currentX = event.touches[0].pageX - canvasPosition.x;
-    // let currentY = event.touches[0].pageY - canvasPosition.y;
-
-    // ctx.lineJoin = 'round';
-    // ctx.strokeStyle = '#FF0000';
-    // ctx.lineWidth = 3;
-
-    // ctx.beginPath();
-    // ctx.moveTo(this.saveX, this.saveY);
-    // ctx.lineTo(currentX, currentY);
-    // ctx.closePath();
-
-    // ctx.stroke();
-
-    // this.saveX = currentX;
-    // this.saveY = currentY;
-  }
+  moved(event){ }
 
   getImageDimenstion(width: number, height: number){
     this.canvasElement = this.canvas.nativeElement;
@@ -394,7 +396,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   selectPartesAvariaChange(event){
     if (event) {
-      this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0]
+      this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0];
       this.formSelecaoSuperficie.patchValue({
         partePeca: false,
       });
@@ -442,12 +444,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     ctx.lineWidth = 2;
 
     // calcular onde a tela está na janela (usado para ajudar a calcular mouseX/mouseY)
-    var $canvas = $("#canvas");
-    var canvasOffset = $canvas.offset();
-    var offsetX = canvasOffset.left;
-    var offsetY = canvasOffset.top;
-    var scrollX = $canvas.scrollLeft();
-    var scrollY = $canvas.scrollTop();
     this.divideEmPartes = superficieChassi.tipoSelecao;
 
     // essas vars irão manter a posição inicial do mouse
@@ -552,7 +548,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       parteID: this.parteAvaria.id != undefined ? this.parteAvaria.id : this.formData.superficieChassiParte.parteID,
       superficieChassiParteID: this.parteAvaria.id != undefined ? this.parteAvaria.superficieChassiParte.id : this.formData.superficieChassiParte.superficieChassiID,
       gravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.id : this.formData.gravidadeAvaria.id,
-      nivelGravidadeAvariaID: this.nivelGravidadeAvaria.id != undefined ? this.nivelGravidadeAvaria.id : this.formData.nivelGravidadeAvaria.id,
+      nivelGravidadeAvariaID: this.formSelecaoSuperficie.controls.nivelGravidadeAvaria.value,
       responsabilidadeAvariaID: this.responsabilidadeAvaria.id != undefined ? this.responsabilidadeAvaria.id : this.formData.responsabilidadeAvaria.id,
       observacao: this.formSelecaoSuperficie.controls.observacao.value,
       quadrante: this.formSelecaoSuperficie.controls.subArea.value,

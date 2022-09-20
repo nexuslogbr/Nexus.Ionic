@@ -43,7 +43,7 @@ export class ModalNovoLancamentoAvariaPage {
   ionViewDidLoad() { }
 
   closeModal() {
-    this.navCtrl.push(LancamentoAvariaPage);
+    // this.navCtrl.push(LancamentoAvariaPage);
     this.data.continue = false;
     this.view.dismiss(this.data);
   }

@@ -37,7 +37,7 @@ export class QualidadeDashboardBuscaAvariasPage {
   buttonColor: string;
 
   buttonColorDark = '#1E1E1E';
-  userData: Usuario;
+  userData: any;
 
   slideOpts = {
     initialSlide: 1
@@ -82,11 +82,10 @@ export class QualidadeDashboardBuscaAvariasPage {
     this.authService.showLoading();
 
     var dadosFiltro = {
-      "token": this.authService.getToken(),
-      "skip": 0,
-      "take": 1000,
-      "localID": 2
-      // "localID": this.userData.localModoOperacao
+      token: this.authService.getToken(),
+      skip: 0,
+      take: 1000,
+      localID: 2
     }
 
     this.avariaService.carregarAvarias(dadosFiltro)
