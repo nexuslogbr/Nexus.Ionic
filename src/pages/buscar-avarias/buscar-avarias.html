@@ -32,7 +32,7 @@
         <ion-item [ngStyle]="{'background-color': primaryColor}">
             <ion-label label-ios>Parte:</ion-label>
             <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="parte">
-                <ion-option *ngFor="let parte of partes" [value]="parte.nome" id="{{parte.id}}">{{parte.nome}}</ion-option>
+                <ion-option *ngFor="let parte of partes" [value]="parte.id" id="{{parte.id}}">{{parte.nome}}</ion-option>
             </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}">
@@ -44,7 +44,7 @@
         <ion-item [ngStyle]="{'background-color': primaryColor}">
             <ion-label label-ios>Tipo de Avaria:</ion-label>
             <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="tipoAvaria">
-                <ion-option *ngFor="let tipoAvaria of tipoAvarias" [value]="tipoAvaria.nome" id="{{tipoAvaria.id}}">{{tipoAvaria.nome}}</ion-option>
+                <ion-option *ngFor="let tipoAvaria of tipoAvarias" [value]="tipoAvaria.id" id="{{tipoAvaria.id}}">{{tipoAvaria.nome}}</ion-option>
             </ion-select>
         </ion-item>
         <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">

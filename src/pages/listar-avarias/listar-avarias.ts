@@ -57,6 +57,7 @@ export class ListarAvariasPage {
     cor: '',
     observacao: '',
     momentoID: '',
+    editar: false,
 
     veiculo: new Veiculo(),
     momento: new Momento(),
@@ -95,7 +96,7 @@ export class ListarAvariasPage {
     this.formData = this.navParams.data;
     this.formData.token = this.authService.getToken(),
     this.formData.skip = 0,
-    this.formData.take = 20,
+    this.formData.take = 100,
     this.formData.localID = this.userData.localID,
 
     this.filtro = this.formData.filtro;
@@ -168,6 +169,7 @@ export class ListarAvariasPage {
     this.editData = item;
     this.editData.chassi = item.veiculo.chassi;
     this.editData.modelo = item.veiculo.modelo;
+    this.editData.editar = true;
     this.disableContinuar = false;
 
     const modal: Modal = this.modal.create(LancamentoAvariaSelecaoSuperficiePage, {

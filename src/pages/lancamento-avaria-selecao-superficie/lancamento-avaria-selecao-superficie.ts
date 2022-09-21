@@ -79,6 +79,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     observacao: '',
     quadrante: null,
     nivelGravidadeAvariaID: 0,
+    editar: false,
     veiculo: new Veiculo(),
     momento: new Momento(),
     grupoSuperficieChassi: new GrupoSuperficieChassi(),
@@ -89,6 +90,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     nivelGravidadeAvaria: new NivelGravidadeAvaria(),
     responsabilidadeAvaria: new ResponsabilidadeAvaria()
   };
+
+  imageLoaded = false;
 
   constructor(
     public navCtrl: NavController,
@@ -109,6 +112,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     this.title = 'Lançamento de Avaria';
     let data = this.navParams.get('data');
     this.formData = data;
+    this.formData.editar = data.editar;
 
     this.formSelecaoSuperficie = formBuilder.group({
       chassi: [this.formData.veiculo.chassi, Validators.required],
@@ -150,8 +154,15 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         this.urlImagem = res.retorno.imagem;
 
         let imagem = document.getElementById('image')
-        this.width = imagem.clientWidth;
-        this.height = (imagem.clientHeight * 10); //+ 3;
+
+        if (this.imageLoaded || this.formData.editar) {
+          this.width = imagem.clientWidth;
+          this.height = imagem.clientHeight;
+        }
+        else if (!this.imageLoaded) {
+          this.width = imagem.clientWidth;
+          this.height = (imagem.clientHeight * 10);
+        }
 
         this.getImageDimenstion(this.width,this.height);
 
@@ -222,8 +233,14 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         })
         .subscribe((x:DataRetorno) => {
           this.partesAvaria = x.retorno;
+
           this.parteAvaria = this.partesAvaria.filter(x => x.id == this.formData.superficieChassiParte.parteID).map(x => x)[0];
-          this.assembleGrid(this.parteAvaria.superficieChassiParte);
+          if (this.parteAvaria) {
+            this.assembleGrid(this.parteAvaria.superficieChassiParte);
+          }
+          else{
+            this.assembleGrid({});
+          }
         });
       }
 
@@ -359,7 +376,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   selectTipoAvariaChange(id:number){
-    this.avaria = this.avarias.filter(x => x.id == id).map(x => x)[0]
+    this.avaria = this.avarias.filter(x => x.tipoAvaria.id == id).map(x => x)[0];
     this.formSelecaoSuperficie.patchValue({
       partePeca: true
     });
@@ -564,6 +581,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       )
       .subscribe((response:any) => {
         this.alertService.showInfo('Avaria salva com sucesso!');
+        this.imageLoaded = true;
 
         const modal: Modal = this.modal.create(ModalNovoLancamentoAvariaPage);
         modal.present();
