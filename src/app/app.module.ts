@@ -47,6 +47,9 @@ import { VistoriaDataService } from '../providers/vistoria-service';
 import { CheckpointDataService } from '../providers/checkpoint-service';
 import { StakeholderService } from '../providers/stakeholder-data-service';
 import { VeiculoDataService } from '../providers/veiculo-data-service';
+import { ResponsabilidadeAvariaDataService } from '../providers/responsabilidade-avaria-service';
+import { ModeloDataService } from '../providers/modelo-data-service'
+import { NivelAvariaDataService } from '../providers/nivel-avaria-data-service'
 
 // Pages
 import { CarregamentoCanceladoPage } from '../pages/carregamento-cancelado/carregamento-cancelado';
@@ -231,7 +234,6 @@ import { ModalBuscaChassiComponent } from '../pages/modal-busca-chassi/modal-bus
 import { ModalSelecionarChassiComponent } from '../components/modal-selecionar-chassi/modal-selecionar-chassi';
 import { ModalSelecionarChassiBuscaComponent } from '../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
 import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
-import { ResponsabilidadeAvariaDataService } from '../providers/responsabilidade-avaria-service';
 
 @NgModule({
   declarations: [
@@ -686,7 +688,9 @@ import { ResponsabilidadeAvariaDataService } from '../providers/responsabilidade
     CheckpointDataService,
     StakeholderService,
     VeiculoDataService,
-    ResponsabilidadeAvariaDataService
+    ResponsabilidadeAvariaDataService,
+    ModeloDataService,
+    NivelAvariaDataService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

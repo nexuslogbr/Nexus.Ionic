@@ -27,7 +27,7 @@ export class ParteDataService{
     this.token = this.authService.getToken();
   }
 
-  public listarPartes() {
+  public listar() {
     return this.http.get<DataRetorno>(this.url + "/Parte/Partes?token=" + this.authService.getToken(), httpOptions);
   }
 
