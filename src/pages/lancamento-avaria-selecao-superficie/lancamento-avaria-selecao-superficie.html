@@ -33,8 +33,7 @@
 
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Selecionar Parte / Peças:</b></ion-label>
-          <ion-select (ionChange)="selectPartesAvariaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="superficieChassiParte"
-          [disabled]="!formSelecaoSuperficie.controls.grupoAvaria.valid">
+          <ion-select (ionChange)="selectPartesAvariaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="superficieChassiParte">
              <ion-option *ngFor="let item of partesAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
@@ -64,7 +63,7 @@
 
         <ion-item class="hidden" id="subAreaCombo">
           <ion-label label-ios style="font-style: unset;"><b>Subárea: </b></ion-label>
-          <ion-select (ionChange)="selectSubareaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="subArea" [disabled]="true">
+          <ion-select (ionChange)="selectSubareaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="subArea">
             <ion-option value="{{1}}">1</ion-option>
             <ion-option value="{{2}}">2</ion-option>
             <ion-option value="{{3}}">3</ion-option>

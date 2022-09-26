@@ -91,8 +91,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     responsabilidadeAvaria: new ResponsabilidadeAvaria()
   };
 
-  imageLoaded = false;
-
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -117,11 +115,29 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     this.formSelecaoSuperficie = formBuilder.group({
       chassi: [this.formData.veiculo.chassi, Validators.required],
       modelo: [this.formData.veiculo.modelo, Validators.required],
-      partePeca: [false, Validators.required],
+      partePeca: [
+        {
+          value: false,
+          disabled: false
+        },
+        Validators.required],
       grupoAvaria: [this.formData.grupoSuperficieChassi == undefined ? '' : this.formData.grupoSuperficieChassi.id, Validators.required],
-      superficieChassiParte: [this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID, Validators.required],
-      tipoAvaria: [this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id, Validators.required],
-      subArea: [this.formData.quadrante == undefined ? 1 : this.formData.quadrante],
+      superficieChassiParte: [
+        {
+          value: this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID,
+          disabled: this.formData.superficieChassiParte == undefined
+        },
+        Validators.required],
+      tipoAvaria: [
+        {
+          value: this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id,
+          disabled: this.formData.avaria == undefined
+        },
+        Validators.required],
+      subArea: [{
+        value: this.formData.quadrante == undefined ? 1 : this.formData.quadrante,
+        disabled: this.formData.quadrante == undefined
+      }],
       gravidadeAvaria: [this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id, Validators.required],
       nivelGravidadeAvaria: [this.formData.nivelGravidadeAvariaID == undefined ? 0 : this.formData.nivelGravidadeAvariaID, Validators.required],
       responsabilidadeAvaria: [this.formData.responsabilidadeAvaria == undefined ? null : this.formData.responsabilidadeAvaria.id, Validators.required],
@@ -154,14 +170,13 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         this.urlImagem = res.retorno.imagem;
 
         let imagem = document.getElementById('image')
+        this.width = imagem.clientWidth;
 
-        if (this.imageLoaded || this.formData.editar) {
-          this.width = imagem.clientWidth;
-          this.height = imagem.clientHeight;
-        }
-        else if (!this.imageLoaded) {
-          this.width = imagem.clientWidth;
+        if (imagem.clientHeight < 100) {
           this.height = (imagem.clientHeight * 10);
+        }
+        else {
+          this.height = imagem.clientHeight;
         }
 
         this.getImageDimenstion(this.width,this.height);
@@ -218,6 +233,14 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       }
       if (tiposAvaria$.sucesso) {
         this.avarias = tiposAvaria$.retorno;
+
+        if (this.formSelecaoSuperficie.controls.tipoAvaria.value > 0) {
+          this.avaria = this.avarias.filter(x => x.tipoAvaria.id == this.formSelecaoSuperficie.controls.tipoAvaria.value).map(x => x)[0];
+          this.formSelecaoSuperficie.patchValue({
+            partePeca: true
+          });
+          this.formSelecaoSuperficie.controls.partePeca.enable();
+        }
       }
       if (gravidades$.sucesso) {
         this.gravidadesAvaria = gravidades$.retorno;
@@ -375,6 +398,46 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     this.canvasElement.height = height;
   }
 
+  selectGrupoAvariaChange(event){
+    if (event > 0) {
+      this.authService.showLoading();
+      this.formSelecaoSuperficie.patchValue({
+        superficieChassiParte: null,
+        tipoAvaria: null,
+        partePeca: false
+      });
+
+      this.formSelecaoSuperficie.controls.superficieChassiParte.enable();
+      this.formSelecaoSuperficie.controls.tipoAvaria.disable();
+
+      this.grupoAvaria = this.gruposAvaria.filter(x => x.id == event).map(x => x)[0];
+
+      this.avariaService.listarPartes({
+        chassi: this.formData.veiculo.chassi,
+        grupoSuperficieChassiID: this.grupoAvaria.id
+       })
+       .subscribe((x:DataRetorno) => {
+        this.partesAvaria = x.retorno;
+        this.assembleGrid({});
+        this.authService.hideLoading();
+       });
+    }
+  }
+
+  selectPartesAvariaChange(event){
+    if (event.length > 0) {
+      this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0];
+      this.formSelecaoSuperficie.patchValue({
+        tipoAvaria: null,
+        partePeca: false,
+      });
+
+      this.assembleGrid(this.parteAvaria.superficieChassiParte);
+      this.formSelecaoSuperficie.controls.tipoAvaria.enable();
+      this.formSelecaoSuperficie.controls.partePeca.enable();
+    }
+  }
+
   selectTipoAvariaChange(id:number){
     this.avaria = this.avarias.filter(x => x.tipoAvaria.id == id).map(x => x)[0];
     this.formSelecaoSuperficie.patchValue({
@@ -391,34 +454,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     else if (this.divideEmPartes == 0){
       this.abcissaX = this.radiusX;
       this.ordenadaY = this.radiusY;
-    }
-  }
-
-  selectGrupoAvariaChange(event){
-    if (event > 0) {
-      this.authService.showLoading();
-      this.grupoAvaria = this.gruposAvaria.filter(x => x.id == event).map(x => x)[0];
-
-      this.avariaService.listarPartes({
-        chassi: this.formData.veiculo.chassi,
-        grupoSuperficieChassiID: this.grupoAvaria.id
-       })
-       .subscribe((x:DataRetorno) => {
-        this.partesAvaria = x.retorno;
-        this.assembleGrid({});
-        this.authService.hideLoading();
-       });
-    }
-  }
-
-  selectPartesAvariaChange(event){
-    if (event) {
-      this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0];
-      this.formSelecaoSuperficie.patchValue({
-        partePeca: false,
-      });
-
-      this.assembleGrid(this.parteAvaria.superficieChassiParte);
     }
   }
 
@@ -581,7 +616,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       )
       .subscribe((response:any) => {
         this.alertService.showInfo('Avaria salva com sucesso!');
-        this.imageLoaded = true;
 
         const modal: Modal = this.modal.create(ModalNovoLancamentoAvariaPage);
         modal.present();
