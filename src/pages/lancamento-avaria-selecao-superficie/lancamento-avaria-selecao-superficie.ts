@@ -134,10 +134,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
           disabled: this.formData.avaria == undefined
         },
         Validators.required],
-      subArea: [{
-        value: this.formData.quadrante == undefined ? 1 : this.formData.quadrante,
-        disabled: this.formData.quadrante == undefined
-      }],
+      subArea: [ this.formData.quadrante == undefined ? 1 : this.formData.quadrante ],
       gravidadeAvaria: [this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id, Validators.required],
       nivelGravidadeAvaria: [this.formData.nivelGravidadeAvariaID == undefined ? 0 : this.formData.nivelGravidadeAvariaID, Validators.required],
       responsabilidadeAvaria: [this.formData.responsabilidadeAvaria == undefined ? null : this.formData.responsabilidadeAvaria.id, Validators.required],
@@ -260,6 +257,11 @@ export class LancamentoAvariaSelecaoSuperficiePage {
           this.parteAvaria = this.partesAvaria.filter(x => x.id == this.formData.superficieChassiParte.parteID).map(x => x)[0];
           if (this.parteAvaria) {
             this.assembleGrid(this.parteAvaria.superficieChassiParte);
+
+            let pos = this.posicoesSubArea.filter(x => x.posicao == this.formSelecaoSuperficie.controls.subArea.value ).map(x => x)[0];
+            this.abcissaX = pos.coordenadaX;
+            this.ordenadaY = pos.coordenadaY;
+
           }
           else{
             this.assembleGrid({});
@@ -298,6 +300,9 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   touched(event){
+    this.ordenadaY = 0;
+    this.abcissaX = 0;
+
     this.ordenadaY = 4;
 
     // Obter as coordenadas X e Y do do click na imagem
@@ -344,42 +349,42 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     var alturaTerco3 = pxStarty + (alturaQuadro * 3);
 
     // Pegar o click de coluna 1
-    if (clickX > pxStartX && clickX <= larguraTerco1) {
+    if (clickX.toFixed(0) > pxStartX.toFixed(0) && clickX.toFixed(0) <= larguraTerco1.toFixed(0)) {
 
       // Pegar o click de linha
-      if (clickY > pxStarty && clickY <= alturaTerco1) {
+      if (clickY.toFixed(0) > pxStarty.toFixed(0) && clickY.toFixed(0) <= alturaTerco1.toFixed(0)) {
         clickPosition = 7;
       }
-      else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
+      else if (clickY.toFixed(0) > alturaTerco1.toFixed(0) && clickY.toFixed(0) <= alturaTerco2.toFixed(0)) {
         clickPosition = 8;
       }
-      else if (clickY > alturaTerco2 && clickY <= pxEndY) {
+      else if (clickY.toFixed(0) > alturaTerco2.toFixed(0) && clickY.toFixed(0) <= pxEndY.toFixed(0)) {
         clickPosition = 9;
       }
     }
     // Pegar o click de coluna 2
-    else if (clickX > larguraTerco1 && clickX <= larguraTerco2) {
+    else if (clickX.toFixed(0) > larguraTerco1.toFixed(0) && clickX.toFixed(0) <= larguraTerco2.toFixed(0)) {
       // Pegar o click de linha
-      if (clickY > pxStarty && clickY <= alturaTerco1) {
+      if (clickY.toFixed(0) > pxStarty.toFixed(0) && clickY.toFixed(0) <= alturaTerco1.toFixed(0)) {
         clickPosition = 4;
       }
-      else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
+      else if (clickY.toFixed(0) > alturaTerco1.toFixed(0) && clickY.toFixed(0) <= alturaTerco2.toFixed(0)) {
         clickPosition = 5;
       }
-      else if (clickY > alturaTerco2 && clickY <= pxEndY) {
+      else if (clickY.toFixed(0) > alturaTerco2.toFixed(0) && clickY.toFixed(0) <= pxEndY.toFixed(0)) {
         clickPosition = 6;
       }
     }
     // Pegar o click de coluna 3
-    else if (clickX > larguraTerco2 && clickX <= larguraTerco3) {
+    else if (clickX.toFixed(0) > larguraTerco2.toFixed(0) && clickX.toFixed(0) <= larguraTerco3.toFixed(0)) {
       // Pegar o click de linha
-      if (clickY > pxStarty && clickY <= alturaTerco1) {
+      if (clickY.toFixed(0) > pxStarty.toFixed(0) && clickY.toFixed(0) <= alturaTerco1.toFixed(0)) {
         clickPosition = 1;
       }
-      else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
+      else if (clickY.toFixed(0) > alturaTerco1.toFixed(0) && clickY.toFixed(0) <= alturaTerco2.toFixed(0)) {
         clickPosition = 2;
       }
-      else if (clickY > alturaTerco2 && clickY <= pxEndY) {
+      else if (clickY.toFixed(0) > alturaTerco2.toFixed(0) && clickY.toFixed(0) <= pxEndY.toFixed(0)) {
         clickPosition = 3;
       }
     }
