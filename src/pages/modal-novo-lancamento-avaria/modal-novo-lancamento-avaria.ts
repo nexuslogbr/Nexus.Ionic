@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { Modal, ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
+import { ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
-import * as $ from 'jquery';
-import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
+import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
 
 @Component({
   selector: 'page-modal-novo-lancamento-avaria',
@@ -43,7 +42,7 @@ export class ModalNovoLancamentoAvariaPage {
   ionViewDidLoad() { }
 
   closeModal() {
-    // this.navCtrl.push(LancamentoAvariaPage);
+    this.navCtrl.push(QualidadeMenuPage);
     this.data.continue = false;
     this.view.dismiss(this.data);
   }
