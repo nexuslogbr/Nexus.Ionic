@@ -115,12 +115,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     this.formSelecaoSuperficie = formBuilder.group({
       chassi: [this.formData.veiculo.chassi, Validators.required],
       modelo: [this.formData.veiculo.modelo, Validators.required],
-      partePeca: [
-        {
-          value: false,
-          disabled: false
-        },
-        Validators.required],
+      partePeca: [false, Validators.required],
       grupoAvaria: [this.formData.grupoSuperficieChassi == undefined ? '' : this.formData.grupoSuperficieChassi.id, Validators.required],
       superficieChassiParte: [
         {
@@ -258,9 +253,17 @@ export class LancamentoAvariaSelecaoSuperficiePage {
           if (this.parteAvaria) {
             this.assembleGrid(this.parteAvaria.superficieChassiParte);
 
-            let pos = this.posicoesSubArea.filter(x => x.posicao == this.formSelecaoSuperficie.controls.subArea.value ).map(x => x)[0];
-            this.abcissaX = pos.coordenadaX;
-            this.ordenadaY = pos.coordenadaY;
+            if (this.divideEmPartes == 1) {
+              let pos = this.posicoesSubArea.filter(x => x.posicao == this.formSelecaoSuperficie.controls.subArea.value ).map(x => x)[0];
+              this.abcissaX = pos.coordenadaX;
+              this.ordenadaY = pos.coordenadaY;
+            }
+            else if (this.divideEmPartes == 0) {
+              this.formSelecaoSuperficie.patchValue({
+                partePeca: false
+              });
+            }
+
 
           }
           else{
