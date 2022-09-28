@@ -23,7 +23,6 @@ import { PosicaoSuperficieChassi } from "../../model/posicaoSuperficieChassi";
   templateUrl: "listar-avarias.html",
 })
 export class ListarAvariasPage {
-  @ViewChild('chassiInput') chassiInput;
 
   title: string;
   url: string;
@@ -184,7 +183,6 @@ export class ListarAvariasPage {
   cleanInput(byScanner: boolean) {
     if (!byScanner) {
       setTimeout(() => {
-         this.chassiInput.setFocus();
         this.inputChassi = '';
       }, 1000);
     }

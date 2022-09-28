@@ -303,98 +303,100 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   touched(event){
-    this.ordenadaY = 0;
-    this.abcissaX = 0;
+    if (this.divideEmPartes == 1){
+      this.ordenadaY = 0;
+      this.abcissaX = 0;
 
-    this.ordenadaY = 4;
+      this.ordenadaY = 4;
 
-    // Obter as coordenadas X e Y do do click na imagem
-    var canvasPosition = this.canvasElement.getBoundingClientRect();
-    this.ordenadaY -= (event.touches[0].pageY - canvasPosition.y) * -1;
-    this.abcissaX = event.touches[0].pageX - canvasPosition.x;
+      // Obter as coordenadas X e Y do do click na imagem
+      var canvasPosition = this.canvasElement.getBoundingClientRect();
+      this.ordenadaY -= (event.touches[0].pageY - canvasPosition.y) * -1;
+      this.abcissaX = event.touches[0].pageX - canvasPosition.x;
 
-    // Obter a dimensoões da imagem
-    let imagem = document.getElementById('image')
-    let imagemLargura = imagem.clientWidth;
-    let imagemAltura = imagem.clientHeight;
+      // Obter a dimensoões da imagem
+      let imagem = document.getElementById('image')
+      let imagemLargura = imagem.clientWidth;
+      let imagemAltura = imagem.clientHeight;
 
-    // As coordenadas X e Y salvas relacionadas ao grid
-    var startX = this.parteAvaria.superficieChassiParte.inicioX;
-    var endX = this.parteAvaria.superficieChassiParte.fimX;
-    var startY = this.parteAvaria.superficieChassiParte.inicioY;
-    var endY = this.parteAvaria.superficieChassiParte.fimY;
+      // As coordenadas X e Y salvas relacionadas ao grid
+      var startX = this.parteAvaria.superficieChassiParte.inicioX;
+      var endX = this.parteAvaria.superficieChassiParte.fimX;
+      var startY = this.parteAvaria.superficieChassiParte.inicioY;
+      var endY = this.parteAvaria.superficieChassiParte.fimY;
 
-    var clickPosition = 1;
-    let clickX = this.abcissaX;
-    let clickY = this.ordenadaY;
+      var clickPosition = 1;
+      let clickX = this.abcissaX;
+      let clickY = this.ordenadaY;
 
-    // Conversão das coordenadas de porcentagem para PX
-    let pxStartX = (imagemLargura * startX) / 100;
-    let pxEndX = (imagemLargura * endX) / 100;
-    let pxStarty = (imagemAltura * startY) / 100;
-    let pxEndY = (imagemAltura * endY) / 100;
+      // Conversão das coordenadas de porcentagem para PX
+      let pxStartX = (imagemLargura * startX) / 100;
+      let pxEndX = (imagemLargura * endX) / 100;
+      let pxStarty = (imagemAltura * startY) / 100;
+      let pxEndY = (imagemAltura * endY) / 100;
 
-    // Calculo do tamanho dos eixos X e Y do grid
-    let tamEixoX = pxEndX - pxStartX;
-    let tamEixoY = pxEndY - pxStarty;
+      // Calculo do tamanho dos eixos X e Y do grid
+      let tamEixoX = pxEndX - pxStartX;
+      let tamEixoY = pxEndY - pxStarty;
 
-    // Altura e largura dos quadrados do grid
-    let larguraQuadro = tamEixoX / 3;
-    let alturaQuadro = tamEixoY / 3;
+      // Altura e largura dos quadrados do grid
+      let larguraQuadro = tamEixoX / 3;
+      let alturaQuadro = tamEixoY / 3;
 
-    // Altura e largura de cada quadrado do grid
-    var larguraTerco1 = pxStartX + larguraQuadro;
-    var larguraTerco2 = pxStartX + (larguraQuadro * 2);
-    var larguraTerco3 = pxStartX + (larguraQuadro * 3);
+      // Altura e largura de cada quadrado do grid
+      var larguraTerco1 = pxStartX + larguraQuadro;
+      var larguraTerco2 = pxStartX + (larguraQuadro * 2);
+      var larguraTerco3 = pxStartX + (larguraQuadro * 3);
 
-    var alturaTerco1 = pxStarty + alturaQuadro;
-    var alturaTerco2 = pxStarty + (alturaQuadro * 2);
-    var alturaTerco3 = pxStarty + (alturaQuadro * 3);
+      var alturaTerco1 = pxStarty + alturaQuadro;
+      var alturaTerco2 = pxStarty + (alturaQuadro * 2);
+      var alturaTerco3 = pxStarty + (alturaQuadro * 3);
 
-    // Pegar o click de coluna 1
-    if (clickX.toFixed(0) > pxStartX.toFixed(0) && clickX.toFixed(0) <= larguraTerco1.toFixed(0)) {
+      // Pegar o click de coluna 1
+      if (clickX.toFixed(0) > pxStartX.toFixed(0) && clickX.toFixed(0) <= larguraTerco1.toFixed(0)) {
 
-      // Pegar o click de linha
-      if (clickY.toFixed(0) > pxStarty.toFixed(0) && clickY.toFixed(0) <= alturaTerco1.toFixed(0)) {
-        clickPosition = 7;
+        // Pegar o click de linha
+        if (clickY.toFixed(0) > pxStarty.toFixed(0) && clickY.toFixed(0) <= alturaTerco1.toFixed(0)) {
+          clickPosition = 7;
+        }
+        else if (clickY.toFixed(0) > alturaTerco1.toFixed(0) && clickY.toFixed(0) <= alturaTerco2.toFixed(0)) {
+          clickPosition = 8;
+        }
+        else if (clickY.toFixed(0) > alturaTerco2.toFixed(0) && clickY.toFixed(0) <= pxEndY.toFixed(0)) {
+          clickPosition = 9;
+        }
       }
-      else if (clickY.toFixed(0) > alturaTerco1.toFixed(0) && clickY.toFixed(0) <= alturaTerco2.toFixed(0)) {
-        clickPosition = 8;
+      // Pegar o click de coluna 2
+      else if (clickX.toFixed(0) > larguraTerco1.toFixed(0) && clickX.toFixed(0) <= larguraTerco2.toFixed(0)) {
+        // Pegar o click de linha
+        if (clickY.toFixed(0) > pxStarty.toFixed(0) && clickY.toFixed(0) <= alturaTerco1.toFixed(0)) {
+          clickPosition = 4;
+        }
+        else if (clickY.toFixed(0) > alturaTerco1.toFixed(0) && clickY.toFixed(0) <= alturaTerco2.toFixed(0)) {
+          clickPosition = 5;
+        }
+        else if (clickY.toFixed(0) > alturaTerco2.toFixed(0) && clickY.toFixed(0) <= pxEndY.toFixed(0)) {
+          clickPosition = 6;
+        }
       }
-      else if (clickY.toFixed(0) > alturaTerco2.toFixed(0) && clickY.toFixed(0) <= pxEndY.toFixed(0)) {
-        clickPosition = 9;
+      // Pegar o click de coluna 3
+      else if (clickX.toFixed(0) > larguraTerco2.toFixed(0) && clickX.toFixed(0) <= larguraTerco3.toFixed(0)) {
+        // Pegar o click de linha
+        if (clickY.toFixed(0) > pxStarty.toFixed(0) && clickY.toFixed(0) <= alturaTerco1.toFixed(0)) {
+          clickPosition = 1;
+        }
+        else if (clickY.toFixed(0) > alturaTerco1.toFixed(0) && clickY.toFixed(0) <= alturaTerco2.toFixed(0)) {
+          clickPosition = 2;
+        }
+        else if (clickY.toFixed(0) > alturaTerco2.toFixed(0) && clickY.toFixed(0) <= pxEndY.toFixed(0)) {
+          clickPosition = 3;
+        }
       }
+
+      this.formSelecaoSuperficie.patchValue({
+        subArea: clickPosition
+      });
     }
-    // Pegar o click de coluna 2
-    else if (clickX.toFixed(0) > larguraTerco1.toFixed(0) && clickX.toFixed(0) <= larguraTerco2.toFixed(0)) {
-      // Pegar o click de linha
-      if (clickY.toFixed(0) > pxStarty.toFixed(0) && clickY.toFixed(0) <= alturaTerco1.toFixed(0)) {
-        clickPosition = 4;
-      }
-      else if (clickY.toFixed(0) > alturaTerco1.toFixed(0) && clickY.toFixed(0) <= alturaTerco2.toFixed(0)) {
-        clickPosition = 5;
-      }
-      else if (clickY.toFixed(0) > alturaTerco2.toFixed(0) && clickY.toFixed(0) <= pxEndY.toFixed(0)) {
-        clickPosition = 6;
-      }
-    }
-    // Pegar o click de coluna 3
-    else if (clickX.toFixed(0) > larguraTerco2.toFixed(0) && clickX.toFixed(0) <= larguraTerco3.toFixed(0)) {
-      // Pegar o click de linha
-      if (clickY.toFixed(0) > pxStarty.toFixed(0) && clickY.toFixed(0) <= alturaTerco1.toFixed(0)) {
-        clickPosition = 1;
-      }
-      else if (clickY.toFixed(0) > alturaTerco1.toFixed(0) && clickY.toFixed(0) <= alturaTerco2.toFixed(0)) {
-        clickPosition = 2;
-      }
-      else if (clickY.toFixed(0) > alturaTerco2.toFixed(0) && clickY.toFixed(0) <= pxEndY.toFixed(0)) {
-        clickPosition = 3;
-      }
-    }
-
-    this.formSelecaoSuperficie.patchValue({
-      subArea: clickPosition
-    });
   }
 
   moved(event){ }
