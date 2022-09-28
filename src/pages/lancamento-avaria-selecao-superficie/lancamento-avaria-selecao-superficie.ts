@@ -584,8 +584,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   return(){
-    this.navCtrl.push(QualidadeMenuPage);
-    // this.view.dismiss();
+    // this.navCtrl.push(QualidadeMenuPage);
+    this.view.dismiss();
   }
 
   save(){
@@ -644,6 +644,9 @@ export class LancamentoAvariaSelecaoSuperficiePage {
               partePeca: null,
               responsabilidadeAvaria: null
             });
+          }
+          else{
+            this.view.dismiss();
           }
         });
 

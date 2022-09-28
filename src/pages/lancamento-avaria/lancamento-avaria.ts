@@ -324,6 +324,6 @@ export class LancamentoAvariaPage {
     });
     modal.present();
 
-    this.view.dismiss();
+    // this.view.dismiss();
   }
 }
