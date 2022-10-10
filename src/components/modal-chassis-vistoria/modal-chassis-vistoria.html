@@ -39,6 +39,7 @@
         <ion-item [ngStyle]="{'background-color': secondaryColor}">
           <ion-label label-ios>Checklist</ion-label>
           <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="checklist">
+            <ion-option id="{{0}}">--Selecione--</ion-option>
             <ion-option *ngFor="let item of checklists" value="{{item.nome}}" id="{{item.id}}">{{item.nome.toLowerCase()}}</ion-option>
           </ion-select>
         </ion-item>

@@ -26,7 +26,7 @@ export class MomentoDataService {
   }
 
   public listar() {
-    let url = this.urlApi + '/momento/ListarMomentos?token=' + this.authService.getToken();
+    let url = this.urlApi + '/momento/Listar?token=' + this.authService.getToken();
     return this.http.get<DataRetorno>(url, { headers: headers });
   }
 }
