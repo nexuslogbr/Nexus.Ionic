@@ -14,8 +14,8 @@ const httpOptions = {
 };
 
 @Injectable()
-export class ParteDataService{
-  url: string;
+export class ResponsabilidadeAvariaDataService{
+  urlApi: string;
   token: string;
 
   constructor(
@@ -23,12 +23,12 @@ export class ParteDataService{
     public authService: AuthService
   )
   {
-    this.url = this.authService.getUrl();
+    this.urlApi = this.authService.getUrl();
     this.token = this.authService.getToken();
   }
 
   public listar() {
-    return this.http.get<DataRetorno>(this.url + "/Parte/Partes?token=" + this.authService.getToken(), httpOptions);
+    return this.http.get<DataRetorno>(this.urlApi + "/responsabilidadeAvaria/Listar?token=" + this.token, httpOptions);
   }
 
 }

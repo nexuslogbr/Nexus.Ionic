@@ -25,7 +25,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-label label-ios style="font-style: unset;"><b>Grupo Superfície: </b></ion-label><p></p>
+          <ion-label label-ios style="font-style: unset;"><b>Grupo Superfície:</b></ion-label><p></p>
           <ion-select (ionChange)="selectGrupoAvariaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="grupoAvaria">
              <ion-option *ngFor="let item of gruposAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
@@ -33,8 +33,7 @@
 
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Selecionar Parte / Peças:</b></ion-label>
-          <ion-select (ionChange)="selectPartesAvariaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="superficieChassiParte"
-          [disabled]="!formSelecaoSuperficie.controls.grupoAvaria.valid">
+          <ion-select (ionChange)="selectPartesAvariaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="superficieChassiParte">
              <ion-option *ngFor="let item of partesAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
@@ -47,6 +46,15 @@
         </ion-item>
 
         <div >
+
+          <!-- #################################################### --
+          <div *ngIf="formSelecaoSuperficie.controls.partePeca.value">
+            <ion-chip size="small" [ngStyle]="styleObject()">
+              <b class="ion-chip-label">{{avaria.tipoAvaria.sigla}}</b>
+            </ion-chip>
+          </div>
+          -- #################################################### -->
+
           <img [src]="urlImagem" id="image" class="img-relative">
           <div id="canvasWrapper">
             <canvas #imageCanvas (touchstart)="touched($event)" (touchmove)="moved($event)" id="canvas"></canvas>
@@ -72,6 +80,21 @@
           <ion-label label-ios style="font-style: unset;"><b>Gravidade: </b></ion-label>
           <ion-select (ionChange)="selectGravidadeChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="gravidadeAvaria">
             <ion-option *ngFor="let item of gravidadesAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Nivel da Gravidade: </b></ion-label>
+          <ion-select (ionChange)="selectNivelGravidadeChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="nivelGravidadeAvaria"
+          [disabled]="nivelGravidadesAvaria.length == 0">
+            <ion-option *ngFor="let item of nivelGravidadesAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Responsabilidade Avaria: </b></ion-label>
+          <ion-select (ionChange)="selectResponsabilidadeAvariaChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="responsabilidadeAvaria">
+            <ion-option *ngFor="let item of responsabilidadeAvarias" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
           </ion-select>
         </ion-item>
 

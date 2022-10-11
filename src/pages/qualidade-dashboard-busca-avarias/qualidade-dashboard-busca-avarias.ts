@@ -9,6 +9,7 @@ import { AvariaDataService } from '../../providers/avaria-data-service';
 import { BuscarAvariasPage } from '../buscar-avarias/buscar-avarias';
 import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
 import { finalize } from 'rxjs/operators';
+import { AlertService } from '../../providers/alert-service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -37,7 +38,7 @@ export class QualidadeDashboardBuscaAvariasPage {
   buttonColor: string;
 
   buttonColorDark = '#1E1E1E';
-  userData: Usuario;
+  userData: any;
 
   slideOpts = {
     initialSlide: 1
@@ -54,6 +55,7 @@ export class QualidadeDashboardBuscaAvariasPage {
     public navParams: NavParams,
     private avariaService: AvariaDataService,
     private view: ViewController,
+    private alertService: AlertService
     ) {
     this.title = "Módulo  Qualidade";
     this.authService.showLoading();
@@ -82,11 +84,10 @@ export class QualidadeDashboardBuscaAvariasPage {
     this.authService.showLoading();
 
     var dadosFiltro = {
-      "token": this.authService.getToken(),
-      "skip": 0,
-      "take": 1000,
-      "localID": 2
-      // "localID": this.userData.localModoOperacao
+      token: this.authService.getToken(),
+      skip: 0,
+      take: 1000,
+      localID: 2
     }
 
     this.avariaService.carregarAvarias(dadosFiltro)
@@ -107,8 +108,8 @@ export class QualidadeDashboardBuscaAvariasPage {
         this.itemsPage = this.lancamentosAvarias.slice(this.index, this.offset + this.index);
         this.index += this.offset;
       }
-      else {
-        this.openModalErro("Falha ao carregado dados");
+      else if (!this.retornoData.sucesso) {
+        this.alertService.showAlert(this.retornoData.mensagem);
       }
     }, (error) => {
       this.openModalErro(error.status + ' - ' + error.statusText);

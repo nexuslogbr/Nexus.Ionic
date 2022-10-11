@@ -1,9 +1,9 @@
-import { NivelGravidadeAvaria } from "./NivelGravidadeAvaria";
+import { NivelGravidadeAvaria } from "./nivelGravidadeAvaria";
 
 export class GravidadeAvaria{
   id: number;
   nome: string;
-  nivelGravidadeAvaria: NivelGravidadeAvaria;
   dataCadastro: string;
   dataAlteracao: string;
+  nivelGravidadeAvaria: NivelGravidadeAvaria[]
 }

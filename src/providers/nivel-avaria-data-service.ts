@@ -14,8 +14,9 @@ const httpOptions = {
 };
 
 @Injectable()
-export class MomentoDataService {
+export class NivelAvariaDataService {
   urlApi: string;
+  token: string;
 
   constructor(
       private http: HttpClient,
@@ -23,10 +24,11 @@ export class MomentoDataService {
     )
     {
     this.urlApi = this.authService.getUrl();
+    this.token = this.authService.getToken();
   }
 
   public listar() {
-    let url = this.urlApi + '/momento/Listar?token=' + this.authService.getToken();
+    let url = this.urlApi + '/nivelgravidadeavaria/ListarNivelGravidadeAvaria?token=' + this.token;
     return this.http.get<DataRetorno>(url, { headers: headers });
   }
 }

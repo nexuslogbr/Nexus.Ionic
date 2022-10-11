@@ -47,6 +47,9 @@ import { VistoriaDataService } from '../providers/vistoria-service';
 import { CheckpointDataService } from '../providers/checkpoint-service';
 import { StakeholderService } from '../providers/stakeholder-data-service';
 import { VeiculoDataService } from '../providers/veiculo-data-service';
+import { ResponsabilidadeAvariaDataService } from '../providers/responsabilidade-avaria-service';
+import { ModeloDataService } from '../providers/modelo-data-service'
+import { NivelAvariaDataService } from '../providers/nivel-avaria-data-service'
 
 // Pages
 import { CarregamentoCanceladoPage } from '../pages/carregamento-cancelado/carregamento-cancelado';
@@ -684,7 +687,10 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     VistoriaDataService,
     CheckpointDataService,
     StakeholderService,
-    VeiculoDataService
+    VeiculoDataService,
+    ResponsabilidadeAvariaDataService,
+    ModeloDataService,
+    NivelAvariaDataService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

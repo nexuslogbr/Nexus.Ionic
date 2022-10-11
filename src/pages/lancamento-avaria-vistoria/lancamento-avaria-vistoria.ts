@@ -4,7 +4,7 @@ import { AuthService } from '../../providers/auth-service/auth-service';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import * as $ from 'jquery';
 import { Veiculo } from '../../model/veiculo';
-import { Momento } from '../../model/Momento';
+import { Momento } from '../../model/momento';
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { LancamentoAvariaVistoriaLancarPage } from '../lancamento-avaria-vistoria-lancar/lancamento-avaria-vistoria-lancar';
 import { Arquivo } from '../../model/arquivo';

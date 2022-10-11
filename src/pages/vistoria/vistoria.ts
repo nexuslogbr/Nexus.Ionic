@@ -11,7 +11,7 @@ import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { ModalSucessoComponent } from '../../components/modal-sucesso/modal-sucesso';
 import { HomePage } from '../home/home';
 import { CheckpointDataService } from '../../providers/checkpoint-service';
-import { Momento } from '../../model/Momento';
+import { Momento } from '../../model/momento';
 import { MomentoDataService } from '../../providers/momento-data-service';
 import { StakeholderService } from '../../providers/stakeholder-data-service';
 import { finalize } from 'rxjs/operators';

@@ -13,25 +13,28 @@ import { AlertService } from '../../providers/alert-service';
 import { finalize } from 'rxjs/operators';
 import { Avaria } from '../../model/avaria';
 import { Veiculo } from '../../model/veiculo';
-import { Momento } from '../../model/Momento';
+import { Momento } from '../../model/momento';
 import { GravidadeAvaria } from '../../model/gravidadeAvaria';
-import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ModalNovoLancamentoAvariaPage } from '../modal-novo-lancamento-avaria/modal-novo-lancamento-avaria';
 import { GrupoSuperficieChassi } from '../../model/grupoSuperficieChassi';
 import { DataRetorno } from '../../model/dataretorno';
+import { ResponsabilidadeAvaria } from '../../model/responsabilidadeAvaria';
+import { ResponsabilidadeAvariaDataService } from '../../providers/responsabilidade-avaria-service';
+import { NivelGravidadeAvaria } from '../../model/nivelGravidadeAvaria';
 
 @Component({
   selector: 'page-lancamento-avaria-selecao-superficie',
-templateUrl: 'lancamento-avaria-selecao-superficie.html',
-  // providers: [Camera]
+  templateUrl: 'lancamento-avaria-selecao-superficie.html',
 })
 export class LancamentoAvariaSelecaoSuperficiePage {
   title: string;
   avarias: Array<Avaria> = [];
   gruposAvaria: Array<GrupoSuperficieChassi> = [];
   gravidadesAvaria: Array<GravidadeAvaria> = [];
+  nivelGravidadesAvaria: Array<NivelGravidadeAvaria> = [];
+  responsabilidadeAvarias: Array<ResponsabilidadeAvaria> = [];
   partesAvaria: Array<Parte> = [];
   formSelecaoSuperficie: FormGroup;
 
@@ -42,6 +45,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   grupoAvaria = new GrupoSuperficieChassi();
   parteAvaria = new Parte();
   gravidadeAvaria = new GravidadeAvaria();
+  nivelGravidadeAvaria = new NivelGravidadeAvaria();
+  responsabilidadeAvaria = new ResponsabilidadeAvaria();
 
   @Output() onSuperficieParteChassiInputed: EventEmitter<SuperficieChassiParte> = new EventEmitter<SuperficieChassiParte>();
 
@@ -73,14 +78,17 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     id: 0,
     observacao: '',
     quadrante: null,
-
+    nivelGravidadeAvariaID: 0,
+    editar: false,
     veiculo: new Veiculo(),
     momento: new Momento(),
     grupoSuperficieChassi: new GrupoSuperficieChassi(),
     superficieChassiParte: new SuperficieChassiParte(),
     avaria: new Avaria(),
     tipoAvaria: new TipoAvaria(),
-    gravidadeAvaria: new GravidadeAvaria()
+    gravidadeAvaria: new GravidadeAvaria(),
+    nivelGravidadeAvaria: new NivelGravidadeAvaria(),
+    responsabilidadeAvaria: new ResponsabilidadeAvaria()
   };
 
   constructor(
@@ -96,21 +104,35 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     private alertController: AlertController,
     private modal: ModalController,
     private view: ViewController,
+    private responsabilidadeAvariaService: ResponsabilidadeAvariaDataService
   )
   {
     this.title = 'Lançamento de Avaria';
     let data = this.navParams.get('data');
     this.formData = data;
+    this.formData.editar = data.editar;
 
     this.formSelecaoSuperficie = formBuilder.group({
       chassi: [this.formData.veiculo.chassi, Validators.required],
       modelo: [this.formData.veiculo.modelo, Validators.required],
       partePeca: [false, Validators.required],
       grupoAvaria: [this.formData.grupoSuperficieChassi == undefined ? '' : this.formData.grupoSuperficieChassi.id, Validators.required],
-      superficieChassiParte: [this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID, Validators.required],
-      tipoAvaria: [this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id, Validators.required],
-      subArea: [this.formData.quadrante == undefined ? 0 : this.formData.quadrante],
+      superficieChassiParte: [
+        {
+          value: this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID,
+          disabled: this.formData.superficieChassiParte == undefined
+        },
+        Validators.required],
+      tipoAvaria: [
+        {
+          value: this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id,
+          disabled: this.formData.avaria == undefined
+        },
+        Validators.required],
+      subArea: [ this.formData.quadrante == undefined ? 1 : this.formData.quadrante ],
       gravidadeAvaria: [this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id, Validators.required],
+      nivelGravidadeAvaria: [this.formData.nivelGravidadeAvariaID == undefined ? 0 : this.formData.nivelGravidadeAvariaID, Validators.required],
+      responsabilidadeAvaria: [this.formData.responsabilidadeAvaria == undefined ? null : this.formData.responsabilidadeAvaria.id, Validators.required],
       observacao: [this.formData.observacao == undefined ? '' : this.formData.observacao],
     });
 
@@ -141,7 +163,13 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
         let imagem = document.getElementById('image')
         this.width = imagem.clientWidth;
-        this.height = (imagem.clientHeight * 10); //+ 3;
+
+        if (imagem.clientHeight < 100) {
+          this.height = (imagem.clientHeight * 10);
+        }
+        else {
+          this.height = imagem.clientHeight;
+        }
 
         this.getImageDimenstion(this.width,this.height);
 
@@ -175,7 +203,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     forkJoin([
       this.avariaService.carregarGrupoAvarias({ chassi: this.formData.veiculo.chassi }),
       this.avariaService.carregarTipoAvarias(),
-      this.gravidadeService.carregarGravidades()
+      this.gravidadeService.carregarGravidades(),
+      this.responsabilidadeAvariaService.listar()
     ])
     .pipe(
       finalize(() => {
@@ -189,16 +218,71 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       let gruposAvaria$ = arrayResult[0];
       let tiposAvaria$ = arrayResult[1];
       let gravidades$ = arrayResult[2];
+      let responsabilidadeAvaria$ = arrayResult[3];
 
       if (gruposAvaria$.sucesso) {
         this.gruposAvaria = gruposAvaria$.retorno;
       }
       if (tiposAvaria$.sucesso) {
         this.avarias = tiposAvaria$.retorno;
+
+        if (this.formSelecaoSuperficie.controls.tipoAvaria.value > 0) {
+          this.avaria = this.avarias.filter(x => x.tipoAvaria.id == this.formSelecaoSuperficie.controls.tipoAvaria.value).map(x => x)[0];
+          this.formSelecaoSuperficie.patchValue({
+            partePeca: true
+          });
+          this.formSelecaoSuperficie.controls.partePeca.enable();
+        }
       }
       if (gravidades$.sucesso) {
         this.gravidadesAvaria = gravidades$.retorno;
       }
+      if (responsabilidadeAvaria$.sucesso) {
+        this.responsabilidadeAvarias = responsabilidadeAvaria$.retorno;
+      }
+
+      if (this.formData.grupoSuperficieChassi != undefined) {
+        this.avariaService.listarPartes({
+          chassi: this.formData.veiculo.chassi,
+          grupoSuperficieChassiID: this.formData.grupoSuperficieChassi.id
+        })
+        .subscribe((x:DataRetorno) => {
+          this.partesAvaria = x.retorno;
+
+          this.parteAvaria = this.partesAvaria.filter(x => x.id == this.formData.superficieChassiParte.parteID).map(x => x)[0];
+          if (this.parteAvaria) {
+            this.assembleGrid(this.parteAvaria.superficieChassiParte);
+
+            if (this.divideEmPartes == 1) {
+              let pos = this.posicoesSubArea.filter(x => x.posicao == this.formSelecaoSuperficie.controls.subArea.value ).map(x => x)[0];
+              this.abcissaX = pos.coordenadaX;
+              this.ordenadaY = pos.coordenadaY;
+            }
+            else if (this.divideEmPartes == 0) {
+              this.formSelecaoSuperficie.patchValue({
+                partePeca: false
+              });
+            }
+
+
+          }
+          else{
+            this.assembleGrid({});
+          }
+        });
+      }
+
+      if (this.formData.gravidadeAvaria != undefined) {
+        this.gravidadeAvaria = this.gravidadesAvaria.filter(x => x.id == this.formData.gravidadeAvaria.id).map(x => x)[0]
+
+        if (this.gravidadeAvaria && this.gravidadeAvaria.nivelGravidadeAvaria.length > 0) {
+          this.nivelGravidadesAvaria = this.gravidadeAvaria.nivelGravidadeAvaria;
+        }
+        else{
+          this.nivelGravidadesAvaria = [];
+        }
+      }
+
     });
   }
 
@@ -210,15 +294,112 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   };
 
   styleObject(): Object {
-    return {
-      'background-color': this.avaria.tipoAvaria.cor,
-      'transform': "translate(" + this.abcissaX + "px," + this.ordenadaY + "px)",
+    if (this.avaria) {
+      return {
+        'background-color': this.avaria.tipoAvaria.cor,
+        'transform': "translate(" + this.abcissaX + "px," + this.ordenadaY + "px)",
+      }
     }
   }
 
-  touched(event){}
+  touched(event){
+    if (this.divideEmPartes == 1){
+      this.ordenadaY = 0;
+      this.abcissaX = 0;
 
-  moved(event){}
+      this.ordenadaY = 4;
+
+      // Obter as coordenadas X e Y do do click na imagem
+      var canvasPosition = this.canvasElement.getBoundingClientRect();
+      this.ordenadaY -= (event.touches[0].pageY - canvasPosition.y) * -1;
+      this.abcissaX = event.touches[0].pageX - canvasPosition.x;
+
+      // Obter a dimensoões da imagem
+      let imagem = document.getElementById('image')
+      let imagemLargura = imagem.clientWidth;
+      let imagemAltura = imagem.clientHeight;
+
+      // As coordenadas X e Y salvas relacionadas ao grid
+      var startX = this.parteAvaria.superficieChassiParte.inicioX;
+      var endX = this.parteAvaria.superficieChassiParte.fimX;
+      var startY = this.parteAvaria.superficieChassiParte.inicioY;
+      var endY = this.parteAvaria.superficieChassiParte.fimY;
+
+      var clickPosition = 1;
+      let clickX = this.abcissaX;
+      let clickY = this.ordenadaY;
+
+      // Conversão das coordenadas de porcentagem para PX
+      let pxStartX = (imagemLargura * startX) / 100;
+      let pxEndX = (imagemLargura * endX) / 100;
+      let pxStarty = (imagemAltura * startY) / 100;
+      let pxEndY = (imagemAltura * endY) / 100;
+
+      // Calculo do tamanho dos eixos X e Y do grid
+      let tamEixoX = pxEndX - pxStartX;
+      let tamEixoY = pxEndY - pxStarty;
+
+      // Altura e largura dos quadrados do grid
+      let larguraQuadro = tamEixoX / 3;
+      let alturaQuadro = tamEixoY / 3;
+
+      // Altura e largura de cada quadrado do grid
+      var larguraTerco1 = pxStartX + larguraQuadro;
+      var larguraTerco2 = pxStartX + (larguraQuadro * 2);
+      var larguraTerco3 = pxStartX + (larguraQuadro * 3);
+
+      var alturaTerco1 = pxStarty + alturaQuadro;
+      var alturaTerco2 = pxStarty + (alturaQuadro * 2);
+      var alturaTerco3 = pxStarty + (alturaQuadro * 3);
+
+      // Pegar o click de coluna 1
+      if (clickX.toFixed(0) > pxStartX.toFixed(0) && clickX.toFixed(0) <= larguraTerco1.toFixed(0)) {
+
+        // Pegar o click de linha
+        if (clickY.toFixed(0) > pxStarty.toFixed(0) && clickY.toFixed(0) <= alturaTerco1.toFixed(0)) {
+          clickPosition = 7;
+        }
+        else if (clickY.toFixed(0) > alturaTerco1.toFixed(0) && clickY.toFixed(0) <= alturaTerco2.toFixed(0)) {
+          clickPosition = 8;
+        }
+        else if (clickY.toFixed(0) > alturaTerco2.toFixed(0) && clickY.toFixed(0) <= pxEndY.toFixed(0)) {
+          clickPosition = 9;
+        }
+      }
+      // Pegar o click de coluna 2
+      else if (clickX.toFixed(0) > larguraTerco1.toFixed(0) && clickX.toFixed(0) <= larguraTerco2.toFixed(0)) {
+        // Pegar o click de linha
+        if (clickY.toFixed(0) > pxStarty.toFixed(0) && clickY.toFixed(0) <= alturaTerco1.toFixed(0)) {
+          clickPosition = 4;
+        }
+        else if (clickY.toFixed(0) > alturaTerco1.toFixed(0) && clickY.toFixed(0) <= alturaTerco2.toFixed(0)) {
+          clickPosition = 5;
+        }
+        else if (clickY.toFixed(0) > alturaTerco2.toFixed(0) && clickY.toFixed(0) <= pxEndY.toFixed(0)) {
+          clickPosition = 6;
+        }
+      }
+      // Pegar o click de coluna 3
+      else if (clickX.toFixed(0) > larguraTerco2.toFixed(0) && clickX.toFixed(0) <= larguraTerco3.toFixed(0)) {
+        // Pegar o click de linha
+        if (clickY.toFixed(0) > pxStarty.toFixed(0) && clickY.toFixed(0) <= alturaTerco1.toFixed(0)) {
+          clickPosition = 1;
+        }
+        else if (clickY.toFixed(0) > alturaTerco1.toFixed(0) && clickY.toFixed(0) <= alturaTerco2.toFixed(0)) {
+          clickPosition = 2;
+        }
+        else if (clickY.toFixed(0) > alturaTerco2.toFixed(0) && clickY.toFixed(0) <= pxEndY.toFixed(0)) {
+          clickPosition = 3;
+        }
+      }
+
+      this.formSelecaoSuperficie.patchValue({
+        subArea: clickPosition
+      });
+    }
+  }
+
+  moved(event){ }
 
   getImageDimenstion(width: number, height: number){
     this.canvasElement = this.canvas.nativeElement;
@@ -227,8 +408,48 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     this.canvasElement.height = height;
   }
 
+  selectGrupoAvariaChange(event){
+    if (event > 0) {
+      this.authService.showLoading();
+      this.formSelecaoSuperficie.patchValue({
+        superficieChassiParte: null,
+        tipoAvaria: null,
+        partePeca: false
+      });
+
+      this.formSelecaoSuperficie.controls.superficieChassiParte.enable();
+      this.formSelecaoSuperficie.controls.tipoAvaria.disable();
+
+      this.grupoAvaria = this.gruposAvaria.filter(x => x.id == event).map(x => x)[0];
+
+      this.avariaService.listarPartes({
+        chassi: this.formData.veiculo.chassi,
+        grupoSuperficieChassiID: this.grupoAvaria.id
+       })
+       .subscribe((x:DataRetorno) => {
+        this.partesAvaria = x.retorno;
+        this.assembleGrid({});
+        this.authService.hideLoading();
+       });
+    }
+  }
+
+  selectPartesAvariaChange(event){
+    if (event.length > 0) {
+      this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0];
+      this.formSelecaoSuperficie.patchValue({
+        tipoAvaria: null,
+        partePeca: false,
+      });
+
+      this.assembleGrid(this.parteAvaria.superficieChassiParte);
+      this.formSelecaoSuperficie.controls.tipoAvaria.enable();
+      this.formSelecaoSuperficie.controls.partePeca.enable();
+    }
+  }
+
   selectTipoAvariaChange(id:number){
-    this.avaria = this.avarias.filter(x => x.id == id).map(x => x)[0]
+    this.avaria = this.avarias.filter(x => x.tipoAvaria.id == id).map(x => x)[0];
     this.formSelecaoSuperficie.patchValue({
       partePeca: true
     });
@@ -246,34 +467,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     }
   }
 
-  selectGrupoAvariaChange(event){
-    if (event > 0) {
-      this.authService.showLoading();
-      this.grupoAvaria = this.gruposAvaria.filter(x => x.id == event).map(x => x)[0];
-
-      this.avariaService.listarPartes({
-        chassi: this.formData.veiculo.chassi,
-        grupoSuperficieChassiID: this.grupoAvaria.id
-       })
-       .subscribe((x:DataRetorno) => {
-        this.partesAvaria = x.retorno;
-        this.assembleGrid({});
-        this.authService.hideLoading();
-       });
-    }
-  }
-
-  selectPartesAvariaChange(event){
-    if (event) {
-      this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0]
-      this.formSelecaoSuperficie.patchValue({
-        partePeca: false,
-      });
-
-      this.assembleGrid(this.parteAvaria.superficieChassiParte);
-    }
-  }
-
   selectSubareaChange(subArea: number){
     let pos = this.posicoesSubArea.filter(x => x.posicao == subArea).map(x => x)[0];
     this.abcissaX = pos.coordenadaX;
@@ -282,6 +475,21 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   selectGravidadeChange(id){
     this.gravidadeAvaria = this.gravidadesAvaria.filter(x => x.id == id).map(x => x)[0]
+
+    if (this.gravidadeAvaria && this.gravidadeAvaria.nivelGravidadeAvaria.length > 0) {
+      this.nivelGravidadesAvaria = this.gravidadeAvaria.nivelGravidadeAvaria;
+    }
+    else{
+      this.nivelGravidadesAvaria = [];
+    }
+  }
+
+  selectNivelGravidadeChange(id){
+    this.nivelGravidadeAvaria = this.nivelGravidadesAvaria.filter(x => x.id == id).map(x => x)[0]
+  }
+
+  selectResponsabilidadeAvariaChange(id){
+    this.responsabilidadeAvaria = this.responsabilidadeAvarias.filter(x => x.id == id).map(x => x)[0]
   }
 
   assembleGrid(data) {
@@ -298,12 +506,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     ctx.lineWidth = 2;
 
     // calcular onde a tela está na janela (usado para ajudar a calcular mouseX/mouseY)
-    var $canvas = $("#canvas");
-    var canvasOffset = $canvas.offset();
-    var offsetX = canvasOffset.left;
-    var offsetY = canvasOffset.top;
-    var scrollX = $canvas.scrollLeft();
-    var scrollY = $canvas.scrollTop();
     this.divideEmPartes = superficieChassi.tipoSelecao;
 
     // essas vars irão manter a posição inicial do mouse
@@ -362,6 +564,12 @@ export class LancamentoAvariaSelecaoSuperficiePage {
                 var quadrante = [larguraTerco * (coluna - 0.5), alturaTerco * (linha - 0.30)];
                 ctx.fillText(numeroQuadrante, startX + quadrante[0], startY + quadrante[1]);
                 this.posicoesSubArea.push({ posicao: numeroQuadrante, coordenadaX: startX + quadrante[0], coordenadaY: startY + quadrante[1] });
+
+                if (numeroQuadrante == 1) {
+                  this.ordenadaY = startY + quadrante[1];
+                  this.abcissaX = startX + quadrante[0];
+                }
+
                 numeroQuadrante++;
             }
         }
@@ -376,8 +584,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   return(){
-    this.navCtrl.push(QualidadeMenuPage);
-    // this.view.dismiss();
+    // this.navCtrl.push(QualidadeMenuPage);
+    this.view.dismiss();
   }
 
   save(){
@@ -402,7 +610,8 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       parteID: this.parteAvaria.id != undefined ? this.parteAvaria.id : this.formData.superficieChassiParte.parteID,
       superficieChassiParteID: this.parteAvaria.id != undefined ? this.parteAvaria.superficieChassiParte.id : this.formData.superficieChassiParte.superficieChassiID,
       gravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.id : this.formData.gravidadeAvaria.id,
-      nivelGravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.nivelGravidadeAvaria.id : this.formData.gravidadeAvaria.nivelGravidadeAvaria.id,
+      nivelGravidadeAvariaID: this.formSelecaoSuperficie.controls.nivelGravidadeAvaria.value,
+      responsabilidadeAvariaID: this.responsabilidadeAvaria.id != undefined ? this.responsabilidadeAvaria.id : this.formData.responsabilidadeAvaria.id,
       observacao: this.formSelecaoSuperficie.controls.observacao.value,
       quadrante: this.formSelecaoSuperficie.controls.subArea.value,
       arquivos: imagesToSend,
@@ -430,8 +639,14 @@ export class LancamentoAvariaSelecaoSuperficiePage {
               tipoAvaria: null,
               subArea: 1,
               gravidadeAvaria: null,
+              nivelGravidadeAvaria: null,
               observacao: null,
+              partePeca: null,
+              responsabilidadeAvaria: null
             });
+          }
+          else{
+            this.view.dismiss();
           }
         });
 
@@ -440,11 +655,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     });
   }
 
-
-
-
-
-  /// Selecionar uma imagem da biblioteca do dispositivo
+  /// Funções relativas a captura, exibição e upload de imagens
   selectImage(event:any) {
     const actionSheet = this.actionSheetController.create({
         title: 'Selecionar imagem',
