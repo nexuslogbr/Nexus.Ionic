@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, AlertController, Content, NavController, NavParams, Platform } from 'ionic-angular';
+import { ActionSheetController, AlertController, Content, Modal, ModalController, NavController, NavParams, Platform, ViewController } from 'ionic-angular';
 import * as $ from 'jquery';
 import { TipoAvaria } from '../../model/TipoAvaria';
 import { AvariaDataService } from '../../providers/avaria-data-service';
@@ -18,6 +18,8 @@ import { Momento } from '../../model/Momento';
 import { GravidadeAvaria } from '../../model/gravidadeAvaria';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { ModalNovoLancamentoAvariaPage } from '../modal-novo-lancamento-avaria/modal-novo-lancamento-avaria';
 
 @Component({
   selector: 'page-lancamento-avaria-selecao-superficie',
@@ -81,17 +83,20 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   };
 
   constructor(
-  public navCtrl: NavController,
-  public navParams: NavParams,
-  private formBuilder: FormBuilder,
-  private platform: Platform,
-  private actionSheetController: ActionSheetController,
-  public alertService: AlertService,
-  private avariaService: AvariaDataService,
-  private gravidadeService: GravidadeDataService,
-  public authService: AuthService,
-  private alertController: AlertController
-) {
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private formBuilder: FormBuilder,
+    private platform: Platform,
+    private actionSheetController: ActionSheetController,
+    public alertService: AlertService,
+    private avariaService: AvariaDataService,
+    private gravidadeService: GravidadeDataService,
+    public authService: AuthService,
+    private alertController: AlertController,
+    private modal: ModalController,
+    private view: ViewController,
+  )
+  {
     this.title = 'Lançamento de Avaria';
     let data = this.navParams.get('data');
     this.formData = data;
@@ -154,14 +159,51 @@ export class LancamentoAvariaSelecaoSuperficiePage {
             }
 
             this.assembleGrid(this.formData.superficieChassiParte);
-            this.loadPartes();
+            this.loadScreen();
           });
         }else{
-          this.loadPartes();
+          this.loadScreen();
         }
 
       });
     }
+  }
+
+  loadScreen(){
+    this.authService.showLoading();
+    forkJoin([
+      this.avariaService.carregarPosicaoAvarias(),
+      this.avariaService.listarPartes({ chassi: this.formData.veiculo.chassi }),
+      this.avariaService.carregarTipoAvarias(),
+      this.gravidadeService.carregarGravidades()
+    ])
+    .pipe(
+      finalize(() => {
+        if (this.formData.superficieChassiParte && this.formData.superficieChassiParte.tipoSelecao == 1) {
+          $('#subAreaCombo').removeClass("hidden");
+        }
+        this.authService.hideLoading();
+      })
+    )
+    .subscribe(arrayResult => {
+      let posicoes$ = arrayResult[0];
+      let partes$ = arrayResult[1];
+      let tiposAvaria$ = arrayResult[2];
+      let gravidades$ = arrayResult[3];
+
+      if (posicoes$.sucesso) {
+        this.posicoesAvaria = posicoes$.retorno;
+      }
+      if (partes$.sucesso) {
+        this.partesAvaria = partes$.retorno;
+      }
+      if (tiposAvaria$.sucesso) {
+        this.avarias = tiposAvaria$.retorno;
+      }
+      if (gravidades$.sucesso) {
+        this.gravidadesAvaria = gravidades$.retorno;
+      }
+    });
   }
 
   toggleMenu = function (this) {
@@ -178,49 +220,15 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     }
   }
 
+  touched(event){}
+
+  moved(event){}
+
   getImageDimenstion(width: number, height: number){
     this.canvasElement = this.canvas.nativeElement;
     this.platform.width() + '';
     this.canvasElement.width = width;
     this.canvasElement.height = height;
-  }
-
-  loadPartes(){
-    this.avariaService.listarPartes({
-      chassi: this.formData.veiculo.chassi,
-    })
-    .subscribe(res => {
-      this.partesAvaria = res.retorno;
-      this.loadPosicaoAvaria();
-    });
-  }
-
-  loadPosicaoAvaria(){
-    this.avariaService.carregarPosicaoAvarias()
-    .subscribe(res => {
-      this.posicoesAvaria = res.retorno;
-      this.loadTipoAvaria();
-    });
-  }
-
-  loadTipoAvaria(){
-    this.avariaService.carregarTipoAvarias()
-    .subscribe(res => {
-      this.avarias = res.retorno;
-      this.loadGravidade();
-    })
-  }
-
-  loadGravidade(){
-    this.gravidadeService.carregarGravidades()
-    .subscribe(res => {
-      if (this.formData.superficieChassiParte && this.formData.superficieChassiParte.tipoSelecao == 1) {
-        $('#subAreaCombo').removeClass("hidden");
-      }
-
-      this.gravidadesAvaria = res.retorno;
-      this.authService.hideLoading();
-    })
   }
 
   selectTipoAvariaChange(id:number){
@@ -247,12 +255,14 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   selectPartesAvariaChange(event){
-    this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0]
-    this.formSelecaoSuperficie.patchValue({
-      partePeca: false,
-    });
+    if (event) {
+      this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0]
+      this.formSelecaoSuperficie.patchValue({
+        partePeca: false,
+      });
 
-    this.assembleGrid(this.parteAvaria.superficieChassiParte);
+      this.assembleGrid(this.parteAvaria.superficieChassiParte);
+    }
   }
 
   selectSubareaChange(subArea: number){
@@ -263,39 +273,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   selectGravidadeChange(id){
     this.gravidadeAvaria = this.gravidadesAvaria.filter(x => x.id == id).map(x => x)[0]
-  }
-
-  touched(event){
-    // this.ordenadaY = -245;
-
-    // var canvasPosition = this.canvasElement.getBoundingClientRect();
-    // this.saveX = event.touches[0].pageX - canvasPosition.x;
-    // this.saveY = event.touches[0].pageY - canvasPosition.y;
-
-    // this.abcissaX = event.touches[0].pageX - canvasPosition.x;
-    // this.ordenadaY -= ((event.touches[0].pageY - canvasPosition.y)* -1);
-  }
-
-  moved(event) {
-    // var canvasPosition = this.canvasElement.getBoundingClientRect();
-
-    // let ctx = this.canvasElement.getContext('2d');
-    // let currentX = event.touches[0].pageX - canvasPosition.x;
-    // let currentY = event.touches[0].pageY - canvasPosition.y;
-
-    // ctx.lineJoin = 'round';
-    // ctx.strokeStyle = '#FF0000';
-    // ctx.lineWidth = 3;
-
-    // ctx.beginPath();
-    // ctx.moveTo(this.saveX, this.saveY);
-    // ctx.lineTo(currentX, currentY);
-    // ctx.closePath();
-
-    // ctx.stroke();
-
-    // this.saveX = currentX;
-    // this.saveY = currentY;
   }
 
   assembleGrid(data) {
@@ -336,84 +313,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
     var width = endX - startX;
     var height = endY - startY;
-
-    // var clickPosition = 0;
-
-    //Capturar o evento de click do mouse
-    // $("#canvas").mousedown(function (e) {
-
-    //     let mouseX = document.documentElement.scrollLeft;
-    //     let mouseY = document.documentElement.scrollTop;
-
-    //     // Salvar as coordenadas X e Y do início do retângulo
-    //     let clickX = (e.clientX - offsetX) + mouseX;
-    //     let clickY = (e.clientY - offsetY) + mouseY;
-    //     this.abcissaX = (e.clientX - offsetX) + mouseX;
-    //     this.ordenadaY = (e.clientY - offsetY) + mouseY;
-
-    //     let larguraQuadro = (endX - startX) / 3;
-    //     let alturaQuadro = (endY - startY) / 3;
-
-    //     var larguraTerco1 = startX + larguraQuadro;
-    //     var alturaTerco1 = startY + alturaQuadro;
-
-    //     var larguraTerco2 = startX + (larguraQuadro * 2);
-    //     var alturaTerco2 = startY + (alturaQuadro * 2);
-
-    //     var larguraTerco3 = startX + (larguraQuadro * 3);
-    //     var alturaTerco3 = startY + (alturaQuadro * 3);
-
-    //     // Pegar o click de coluna 1
-    //     if (clickX > startX && clickX <= (larguraTerco1)) {
-
-    //       // Pegar o click de linha
-    //       if (clickY > startY && clickY <= (alturaTerco1)) {
-    //         clickPosition = 7;
-    //       }
-    //       else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
-    //         clickPosition = 8;
-    //       }
-    //       else if (clickY > alturaTerco2 && clickY <= alturaTerco3) {
-    //         clickPosition = 9;
-    //       }
-    //     }
-    //     // Pegar o click de coluna 2
-    //     else if (clickX > larguraTerco1 && clickX <= larguraTerco2) {
-    //       // Pegar o click de linha
-    //       if (clickY > startY && clickY <= (alturaTerco1)) {
-    //         clickPosition = 4;
-    //       }
-    //       else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
-    //         clickPosition = 5;
-    //       }
-    //       else if (clickY > alturaTerco2 && clickY <= alturaTerco3) {
-    //         clickPosition = 6;
-    //       }
-    //     }
-    //     // Pegar o click de coluna 3
-    //     else if (clickX > larguraTerco2 && clickX <= larguraTerco3) {
-    //       // Pegar o click de linha
-    //       if (clickY > startY && clickY <= (alturaTerco1)) {
-    //         clickPosition = 1;
-    //       }
-    //       else if (clickY > alturaTerco1 && clickY <= alturaTerco2) {
-    //         clickPosition = 2;
-    //       }
-    //       else if (clickY > alturaTerco2 && clickY <= alturaTerco3) {
-    //         clickPosition = 3;
-    //       }
-    //     }
-
-    //     for (let coluna = 3; coluna >= 1; coluna--) {
-    //       for (let linha = 1; linha <= 3; linha++) {
-    //         if (coluna == clickPosition && linha == clickPosition) {
-    //           var combo = document.getElementById("subareaID");
-    //           // console.log(combo.value);
-    //           // combo.value = parseInt(clickPosition);
-    //         }
-    //       }
-    //     }
-    // });
 
     if (this.divideEmPartes == 1) {
         $('#subAreaCombo').removeClass("hidden");
@@ -462,14 +361,12 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         $('#subAreaCombo').addClass("hidden");
     }
 
-    // this.radiusX =
-    // this.radiusY =
     this.radiusX = startX + ((endX - startX)/2);
     this.radiusY = startY + ((endY - startY)/2);
     ctx.strokeRect(startX, startY, endX - startX, endY - startY);
   }
 
-  voltar(){
+  return(){
     this.navCtrl.push(QualidadeMenuPage);
     // this.view.dismiss();
   }
@@ -505,14 +402,30 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     this.avariaService.salvar(model)
     .pipe(
       finalize(() => {
+        $('#subAreaCombo').addClass("hidden");
         this.authService.hideLoading();
-        setTimeout(() => {
-          this.voltar();
-        }, 1500);
       })
       )
       .subscribe((response:any) => {
-        this.alertService.showInfo('Avaria alterada com sucesso');
+        this.alertService.showInfo('Avaria salva com sucesso!');
+
+        const modal: Modal = this.modal.create(ModalNovoLancamentoAvariaPage);
+        modal.present();
+
+        modal.onWillDismiss((data) => {
+          if (data.continue) {
+            this.images = [];
+            this.formSelecaoSuperficie.patchValue({
+              posicaoAvaria: null,
+              superficieChassiParte: '',
+              tipoAvaria: null,
+              subArea: 1,
+              gravidadeAvaria: null,
+              observacao: null,
+            });
+          }
+        });
+
       }, (error: any) => {
         this.alertService.showError('Erro ao salvar avaria');
     });
@@ -576,7 +489,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   saveImage(photo: Photo) {
-    // const base64Data = await this.readAsBase64(photo);
     const fileName = new Date().getTime() + '.jpeg';
 
     let image = {
