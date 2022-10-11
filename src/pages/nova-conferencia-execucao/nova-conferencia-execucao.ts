@@ -82,7 +82,6 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
   public fechamento: boolean = false;
   public contador: number = 0;
 
-  public clienteExterno = true;
   public porcentagem = 0;
 
   constructor(
@@ -393,186 +392,59 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
     }, 200);
   }
 
-  // executarSincronizacao() {
-  //   if (this.onLine) {
-  //     if (this.totalUpload > 0) {
-  //       this.authService.showSincronizacao();
+executarSincronizacao() {
+  if (this.onLine) {
+    if (this.totalUpload > 0) {
 
-  //       this.conferenciaConfiguracaoADO
-  //         .loadConferenciasPendentes(this.configuracao.id)
-  //         .pipe(
-  //           switchMap(async (conferencias: Conferencia[]) => {
+      this.authService.showSincronizacao();
 
+      this.conferenciaConfiguracaoADO.loadConferenciasPendentes(this.configuracao.id)
+      .subscribe(conferencias => {
 
-  //             //  A quantidade de veiculos do lote vai de 0 á 9
-  //             let tamanhoLote = 10;
-  //             let qtdDoLote = 9;
-  //             let loteVeiculos: Conferencia[] = [];
-  //             this.porcentagem = 0;
+        // A quantidade de veiculos do lote vai de 0 á 9
+        let tamanhoLote = 10;
+        let qtdDoLote = 9;
+        let loteVeiculos: Conferencia[] = [];
+        this.porcentagem = 0;
+        let processados = 0;
 
-  //             let totalVeiculosLidos = 0;
+        let totalVeiculosLidos = 0;
 
-  //             for (let i = 0; i < conferencias.length; i++) {
-  //               const element = conferencias[i];
-  //               loteVeiculos.push(element);
-  //               if (i == qtdDoLote) {
-  //                 await this.conferenciaDataService.conferirChassisEmLotesAsync(loteVeiculos, this.configuracao.id)
+        for (let i = 0; i < conferencias.length; i++) {
+          const element = conferencias[i];
+          loteVeiculos.push(element);
+          if (i == qtdDoLote) {
 
-  //                 this.porcentagem += (tamanhoLote*100)/conferencias.length;
-  //                 qtdDoLote += 10;
-  //                 loteVeiculos = [];
-  //               }
-  //               else if ((conferencias.length-totalVeiculosLidos) < tamanhoLote && (conferencias.length-1) == totalVeiculosLidos) {
+            this.conferenciaDataService.conferirChassisEmLote(loteVeiculos, this.configuracao.id)
+            .subscribe(() => {
+              this.porcentagem += (tamanhoLote*100)/conferencias.length;
+              processados += 10;
+              if (processados == conferencias.length) {
+                this.loadVeiculos();
+              }
+            })
 
-  //                 await this.conferenciaDataService.conferirChassisEmLotesAsync(loteVeiculos, this.configuracao.id)
-  //                 this.porcentagem = 100;
-  //               }
+            qtdDoLote += 10;
+            loteVeiculos = [];
+          }
+          else if ((conferencias.length-totalVeiculosLidos) < tamanhoLote && (conferencias.length-1) == totalVeiculosLidos) {
+            let tamanhoUltimoLote = loteVeiculos.length;
 
-  //               totalVeiculosLidos++;
-  //             }
-
-  //             // return this.conferenciaDataService.conferirChassisEmLote(
-  //             //   conferencias,
-  //             //   this.configuracao.id
-  //             // );
-  //           }),
-  //           switchMap((res) =>
-  //             this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(
-  //               this.configuracao.id
-  //             )
-  //           ),
-  //           switchMap((res) =>
-  //             this.conferenciaDataService.carregarConfiguracao(
-  //               this.configuracao.id
-  //             )
-  //           ),
-  //           switchMap((res) =>
-  //             this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(
-  //               res.retorno
-  //             )
-  //           ),
-  //           finalize(() => {
-  //             this.authService.hideSincronizacao();
-  //           })
-  //         )
-  //         .subscribe(
-  //           (res) => {
-  //             this.authService.showLoading();
-  //             this.conferenciaService.update();
-
-  //             this.gotoListagemVeiculos();
-  //             this.authService.hideLoading();
-
-  //             this.contador = 0;
-  //             localStorage.setItem('contador', this.contador.toString())
-  //           },
-  //           (err) => {
-  //             console.error(err);
-  //             this.alertService.showError(
-  //               'ERRO AO EXECUTAR A SINCRONIZAÇÃO',
-  //               'FIQUE ONLINE E TENTE NOVAMENTE.'
-  //             );
-  //           }
-  //         );
-  //     }
-  //   } else {
-  //     this.alertService.showError(
-  //       'SEM CONEXÃO COM A INTERNET',
-  //       'FIQUE ONLINE E TENTE NOVAMENTE.'
-  //     );
-  //   }
-  // }
-
-  executarSincronizacao() {
-    if (this.onLine) {
-      if (this.totalUpload > 0) {
-
-        this.authService.showSincronizacao();
-
-        this.conferenciaConfiguracaoADO.loadConferenciasPendentes(this.configuracao.id)
-        .subscribe(conferencias => {
-
-          // A quantidade de veiculos do lote vai de 0 á 9
-          let tamanhoLote = 10;
-          let qtdDoLote = 9;
-          let loteVeiculos: Conferencia[] = [];
-          this.porcentagem = 0;
-          let processados = 0;
-
-          let totalVeiculosLidos = 0;
-
-          for (let i = 0; i < conferencias.length; i++) {
-            const element = conferencias[i];
-            loteVeiculos.push(element);
-            if (i == qtdDoLote) {
-
-              this.conferenciaDataService.conferirChassisEmLote(loteVeiculos, this.configuracao.id)
-              .subscribe(() => {
-                this.porcentagem += (tamanhoLote*100)/conferencias.length;
-                processados += 10;
-                if (processados == conferencias.length) {
-                  this.loadVeiculos();
-                }
-              })
-
-              qtdDoLote += 10;
-              loteVeiculos = [];
-            }
-            else if ((conferencias.length-totalVeiculosLidos) < tamanhoLote && (conferencias.length-1) == totalVeiculosLidos) {
-              let tamanhoUltimoLote = loteVeiculos.length;
-
-              this.conferenciaDataService.conferirChassisEmLote(loteVeiculos, this.configuracao.id)
-              .subscribe(() => {
-                this.porcentagem += (tamanhoUltimoLote*100)/conferencias.length;
-                processados += tamanhoUltimoLote;
-                if (processados == conferencias.length) {
-                  this.loadVeiculos();
-                }
-              });
-            }
-
-            totalVeiculosLidos++;
+            this.conferenciaDataService.conferirChassisEmLote(loteVeiculos, this.configuracao.id)
+            .subscribe(() => {
+              this.porcentagem += (tamanhoUltimoLote*100)/conferencias.length;
+              processados += tamanhoUltimoLote;
+              if (processados == conferencias.length) {
+                this.loadVeiculos();
+              }
+            });
           }
 
-        });
-      }
+          totalVeiculosLidos++;
+        }
+
+      });
     }
-    else {
-      this.alertService.showError(
-        'SEM CONEXÃO COM A INTERNET',
-        'FIQUE ONLINE E TENTE NOVAMENTE.'
-        );
-    }
-  }
-
-  loadVeiculos(){
-    this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(this.configuracao.id)
-    .subscribe(() =>
-      this.conferenciaDataService.carregarConfiguracao(this.configuracao.id)
-      .subscribe((res) => {
-        this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(res.retorno)
-        .subscribe(() => {
-          this.authService.hideSincronizacao();
-          this.authService.showLoading();
-          this.conferenciaService.update();
-
-          this.gotoListagemVeiculos();
-          this.authService.hideLoading();
-
-          this.contador = 0;
-          localStorage.setItem('contador', this.contador.toString())
-
-            },
-            (err) => {
-              console.error(err);
-              this.alertService.showError(
-                'ERRO AO EXECUTAR A SINCRONIZAÇÃO',
-                'FIQUE ONLINE E TENTE NOVAMENTE.'
-              );
-            }
-          )
-      })
-    )
   }
   else {
     this.alertService.showError(

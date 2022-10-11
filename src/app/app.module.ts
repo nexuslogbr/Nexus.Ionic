@@ -162,7 +162,7 @@ import { NovaConferenciaVeiculosPage } from '../pages/nova-conferencia-veiculos/
 import { NovaConferenciaVeiculosConferidosPage } from '../pages/nova-conferencia-veiculos-conferidos/nova-conferencia-veiculos-conferidos';
 import { NovaConferenciaVeiculosPendentesPage } from '../pages/nova-conferencia-veiculos-pendentes/nova-conferencia-veiculos-pendentes';
 import { NovaConferenciaVeiculosTodosPage } from '../pages/nova-conferencia-veiculos-todos/nova-conferencia-veiculos-todos';
-import { SuperTabsModule } from 'ionic2-super-tabs';
+// import { SuperTabsModule } from 'ionic2-super-tabs';
 import { ConferenciaVeiculosComponent } from '../components/conferencia-veiculos/conferencia-veiculos';
 import { NovaConferenciaListarFinalizadasPage } from '../pages/nova-conferencia-listar-finalizadas/nova-conferencia-listar-finalizadas';
 import { NovaConferenciaJustificativaPage } from '../pages/nova-conferencia-justificativa/nova-conferencia-justificativa';
@@ -184,7 +184,6 @@ import { DesbloquearPage } from '../pages/desbloquear/desbloquear';
 import { FormBloqueioComponent } from '../components/form-bloqueio/form-bloqueio';
 import { ModalChassisBloqueioComponent } from '../components/modal-chassis-bloqueio/modal-chassis-bloqueio';
 import { ModalChassisDesbloqueioComponent } from '../components/modal-chassis-desbloqueio/modal-chassis-desbloqueio';
-// import { formatUrlPart } from 'ionic-angular/umd/navigation/url-serializer';
 import { FormDesbloqueioComponent } from '../components/form-desbloqueio/form-desbloqueio';
 import { LancamentoServicoPage } from '../pages/lancamento-servico/lancamento-servico';
 import { ModalLancamentoServicoComponent } from '../components/modal-lancamento-servico/modal-lancamento-servico';
@@ -215,13 +214,14 @@ import { LancamentoAvariaSelecaoSuperficiePage } from '../pages/lancamento-avari
 import { AvariaDataService } from '../providers/avaria-data-service';
 import { GravidadeDataService } from '../providers/gravidade-data-service';
 
-import { Camera } from '@ionic-native/Camera';
+import { Camera } from '@ionic-native/camera';
 import { File } from '@ionic-native/File';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path';
 import {RoundProgressModule} from 'angular-svg-round-progressbar';
 import { ModalSelecionarChassiBuscaComponent } from '../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
 import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
+import { ParteDataService } from '../providers/parte-data-service';
 
 @NgModule({
   declarations: [
@@ -399,7 +399,7 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     HttpClientModule,
     FormsModule,
     BrMaskerModule,
-    SuperTabsModule.forRoot(),
+    // SuperTabsModule.forRoot(),
     IonicModule.forRoot(PatioAutomotivo, {
       preloadModules: true,
       monthNames: [
@@ -451,7 +451,9 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     ModalCancelarCarregamentoPageModule,
     HttpClientModule,
     ReactiveFormsModule,
-    ProgressBarModule
+    ProgressBarModule,
+    CommonModule,
+    RoundProgressModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -656,7 +658,8 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     GravidadeDataService,
     File,
     WebView,
-    FilePath
+    FilePath,
+    ParteDataService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

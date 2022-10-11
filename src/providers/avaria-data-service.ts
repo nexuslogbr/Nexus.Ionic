@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { DataRetorno } from "../model/DataRetorno";
+import { DataRetorno } from "../model/dataretorno";
 import { AuthService } from "./auth-service/auth-service";
 
 const headers = new HttpHeaders({
@@ -62,12 +62,19 @@ export class AvariaDataService{
   public consultarChassi(model: any){
     let url = this.urlApi + '/lancamentoAvaria/ConsultarChassi';
     model.token = this.authService.getToken();
+    return this.http.post<any>(url, JSON.stringify(model), { headers: headers });
+  }
+
+  public uploadImages(model: any){
+    let url = this.urlApi + '/lancamentoAvaria/UploadImages';
+    model.token = this.token;
     return this.http.post<string>(url, model, httpOptions);
   }
 
-  public uploadImagens(model: any){
-    let url = this.urlApi + '/lancamentoAvaria/ConsultarChassi';
-    model.token = this.authService.getToken();
+  public getImagens(model:any){
+    let url = this.urlApi + '/lancamentoAvaria/LoadImages';
+    model.token = this.token;
     return this.http.post<string>(url, model, httpOptions);
   }
+
 }

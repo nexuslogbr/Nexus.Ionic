@@ -111,6 +111,7 @@ export class ModalSelecionarChassiComponent {
     });
     chassiModal.present();
 
+    this.select.close();
     this.view.dismiss();
   }
 

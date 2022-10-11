@@ -121,9 +121,9 @@ export class ModalSelecionarChassiBuscaComponent {
     });
     chassiModal.present();
 
-    chassiModal.onDidDismiss((data) => {
-      this.cleanInput();
-    });
+    // chassiModal.onDidDismiss((data) => {
+    //   this.cleanInput();
+    // });
 
     this.select.close();
     this.view.dismiss();

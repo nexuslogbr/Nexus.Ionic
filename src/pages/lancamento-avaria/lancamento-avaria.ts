@@ -4,7 +4,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 import { Modal, ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
-import { ModalLancamentoAvariaComponent } from '../../components/modal-lancamento-avaria/modal-lancamento-avaria';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { HomePage } from '../home/home';
 import * as $ from 'jquery';
@@ -55,28 +54,12 @@ export class LancamentoAvariaPage {
   };
 
   formData = {
-    // chassi: '',
-    // modelo: '',
     posicaoAtual: '',
-    // momentoID: '',
-
     veiculo: new Veiculo(),
     momento: new Momento()
   };
 
   formBloqueioData = {
-    token: '',
-    empresaID: '1',
-    id: '',
-    chassi: '',
-    local: '',
-    layout: '',
-    bolsao: '',
-    fila: '',
-    posicao: '',
-  };
-
-  bloqueioData = {
     token: '',
     empresaID: '1',
     id: '',
@@ -117,6 +100,7 @@ export class LancamentoAvariaPage {
     if (model) {
       this.formData.veiculo = model;
       this.formData.posicaoAtual = model.posicaoAtual;
+      this.formData.momento.id = model.momentoID;
       this.showInfoCar = true;
     }
 
@@ -267,9 +251,7 @@ export class LancamentoAvariaPage {
     });
     chassiModal.present();
 
-    // chassiModal.onDidDismiss((data) => {
-    //   this.cleanInput(true);
-    // });
+    this.view.dismiss();
   }
 
   navigateToHomePage() {
@@ -294,18 +276,6 @@ export class LancamentoAvariaPage {
       this.navCtrl.push(HomePage);
     });
   }
-
-  // openModalRecebimento(data, byScanner: boolean) {
-  //   ;
-  //   const recModal: Modal = this.modal.create(ModalRecebimentoComponent, {
-  //     data: data,
-  //   });
-  //   recModal.present();
-
-  //   recModal.onDidDismiss((data) => {
-  //     this.cleanInput(byScanner);
-  //   });
-  // }
 
   openLancarChassisAvaria(data, byScanner: boolean) {
     const chassiModal: Modal = this.modal.create(LancarAvariaComponent, {
@@ -345,8 +315,7 @@ export class LancamentoAvariaPage {
   }
 
   voltar(){
-    this.view.dismiss();
-    // this.navCtrl.push(QualidadeMenuPage);
+    this.navCtrl.push(QualidadeMenuPage);
   }
 
   openModalSelecionarSuperficie(){
@@ -355,7 +324,6 @@ export class LancamentoAvariaPage {
     });
     modal.present();
 
-    modal.onDidDismiss(data => {});
-    modal.onWillDismiss(data => {});
+    this.view.dismiss();
   }
 }

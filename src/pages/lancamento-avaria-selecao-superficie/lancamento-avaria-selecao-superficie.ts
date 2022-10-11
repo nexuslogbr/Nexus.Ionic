@@ -1,20 +1,14 @@
-import { ChangeDetectorRef, Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActionSheetController, Content, ModalController, NavController, NavParams, Platform, ToastController, ViewController } from 'ionic-angular';
+import { ActionSheetController, AlertController, Content, NavController, NavParams, Platform } from 'ionic-angular';
 import * as $ from 'jquery';
 import { TipoAvaria } from '../../model/TipoAvaria';
 import { AvariaDataService } from '../../providers/avaria-data-service';
 import { GravidadeDataService } from '../../providers/gravidade-data-service';
 import { AuthService } from '../../providers/auth-service/auth-service';
-
-import { File, FileEntry } from '@ionic-native/File';
-import { WebView } from '@ionic-native/ionic-webview/ngx';
-import { Storage } from '@ionic/storage';
-import { FilePath } from '@ionic-native/file-path';
-import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/index';
 import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
 import { PosicaoSuperficieChassi } from '../../model/PosicaoSuperficieChassi';
-import { Parte } from '../../model/Parte';
+import { Parte } from '../../model/parte';
 import { SuperficieChassiParte } from '../../model/superficieChassiParte';
 import { AlertService } from '../../providers/alert-service';
 import { finalize } from 'rxjs/operators';
@@ -22,13 +16,13 @@ import { Avaria } from '../../model/avaria';
 import { Veiculo } from '../../model/veiculo';
 import { Momento } from '../../model/Momento';
 import { GravidadeAvaria } from '../../model/gravidadeAvaria';
-
-const STORAGE_KEY = 'my_images';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 
 @Component({
   selector: 'page-lancamento-avaria-selecao-superficie',
 templateUrl: 'lancamento-avaria-selecao-superficie.html',
-  providers: [Camera]
+  // providers: [Camera]
 })
 export class LancamentoAvariaSelecaoSuperficiePage {
   title: string;
@@ -37,7 +31,9 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   gravidadesAvaria: Array<GravidadeAvaria> = [];
   partesAvaria: Array<Parte> = [];
   formSelecaoSuperficie: FormGroup;
-  images = [];
+
+  images: any[] = [];
+  imagesToSend: any[] = [];
 
   avaria = new Avaria();
   posicaoAvaria = new PosicaoSuperficieChassi();
@@ -63,7 +59,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   @ViewChild(Content) content: Content;
   @ViewChild('fixedContainer') fixedContainer: any;
 
-  urlImagem = 'http://nexus.luby.com.br/Arquivos/Empresas/';
+  urlImagem = '';
 
   primaryColor: string;
   secondaryColor: string;
@@ -87,50 +83,29 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   constructor(
   public navCtrl: NavController,
   public navParams: NavParams,
-  private view: ViewController,
   private formBuilder: FormBuilder,
   private platform: Platform,
-  private camera: Camera,
-  private file: File,
-  private webview: WebView,
   private actionSheetController: ActionSheetController,
-  private toastController: ToastController,
-  private storage: Storage,
-  private ref: ChangeDetectorRef,
-  private filePath: FilePath,
   public alertService: AlertService,
-
-  private modal: ModalController,
   private avariaService: AvariaDataService,
   private gravidadeService: GravidadeDataService,
   public authService: AuthService,
+  private alertController: AlertController
 ) {
     this.title = 'Lançamento de Avaria';
     let data = this.navParams.get('data');
     this.formData = data;
 
-    console.clear();
-    console.log(this.formData);
-
-    let posicaoAvaria = this.formData.posicaoSuperficieChassi == undefined ? '' : this.formData.posicaoSuperficieChassi.id;
-    let superficieChassiParte = this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID;
-    let tipoAvaria = this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id;
-    let subArea = this.formData.quadrante == undefined ? '' : this.formData.quadrante;
-    let gravidadeAvaria = this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id;
-    let observacao = this.formData.observacao == undefined ? '' : this.formData.observacao;
-
     this.formSelecaoSuperficie = formBuilder.group({
       chassi: [this.formData.veiculo.chassi, Validators.required],
       modelo: [this.formData.veiculo.modelo, Validators.required],
       partePeca: [false, Validators.required],
-
-
-      posicaoAvaria: [posicaoAvaria, Validators.required],
-      superficieChassiParte: [superficieChassiParte, Validators.required],
-      tipoAvaria: [tipoAvaria, Validators.required],
-      subArea: [subArea],
-      gravidadeAvaria: [gravidadeAvaria, Validators.required],
-      observacao: [observacao],
+      posicaoAvaria: [this.formData.posicaoSuperficieChassi == undefined ? '' : this.formData.posicaoSuperficieChassi.id, Validators.required],
+      superficieChassiParte: [this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID, Validators.required],
+      tipoAvaria: [this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id, Validators.required],
+      subArea: [this.formData.quadrante == undefined ? 0 : this.formData.quadrante],
+      gravidadeAvaria: [this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id, Validators.required],
+      observacao: [this.formData.observacao == undefined ? '' : this.formData.observacao],
     });
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
@@ -156,7 +131,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         token: ''
       })
       .subscribe((res: any) => {
-        this.urlImagem += res.retorno.imagem;
+        this.urlImagem = res.retorno.imagem;
 
         let imagem = document.getElementById('image')
         this.width = imagem.clientWidth;
@@ -165,13 +140,28 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         this.getImageDimenstion(this.width,this.height);
 
         if (this.formData.id > 0) {
-          this.assembleGrid(this.formData.superficieChassiParte);
+          this.avariaService.getImagens({ID: this.formData.id})
+          .subscribe((res: any) => {
+
+            if (res.retorno) {
+              res.retorno.forEach(file => {
+                this.images.push({
+                  id: file.attachmentID,
+                  path: file.path,
+                  fileName: file.fileName
+                });
+              });
+            }
+
+            this.assembleGrid(this.formData.superficieChassiParte);
+            this.loadPartes();
+          });
+        }else{
+          this.loadPartes();
         }
 
-        this.loadPartes();
       });
     }
-
   }
 
   toggleMenu = function (this) {
@@ -191,7 +181,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   getImageDimenstion(width: number, height: number){
     this.canvasElement = this.canvas.nativeElement;
     this.platform.width() + '';
-    // this.canvasElement.height = height;
     this.canvasElement.width = width;
     this.canvasElement.height = height;
   }
@@ -237,7 +226,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   selectTipoAvariaChange(id:number){
     this.avaria = this.avarias.filter(x => x.id == id).map(x => x)[0]
     this.formSelecaoSuperficie.patchValue({
-      // tipoAvaria: this.avaria.tipoAvaria.nome,
       partePeca: true
     });
 
@@ -247,11 +235,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
         this.abcissaX = pos.coordenadaX;
         this.ordenadaY = pos.coordenadaY;
       }
-      // else if(this.formSelecaoSuperficie.controls.subArea.value == 0){
-      //   let pos = this.posicoesSubArea.filter(x => x.posicao == 1).map(x => x)[0];
-      //   this.abcissaX = pos.coordenadaX;
-      //   this.ordenadaY = pos.coordenadaY;
-      // }
     }
     else if (this.divideEmPartes == 0){
       this.abcissaX = this.radiusX;
@@ -261,15 +244,11 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   selectPosicaoAvariaChange(event){
     this.posicaoAvaria = this.posicoesAvaria.filter(x => x.id == event).map(x => x)[0]
-    // this.formSelecaoSuperficie.patchValue({
-    //   posicaoAvaria: this.posicaoAvaria.nome
-    // });
   }
 
   selectPartesAvariaChange(event){
     this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0]
     this.formSelecaoSuperficie.patchValue({
-      // posicaoAvaria: event,
       partePeca: false,
     });
 
@@ -284,11 +263,6 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
   selectGravidadeChange(id){
     this.gravidadeAvaria = this.gravidadesAvaria.filter(x => x.id == id).map(x => x)[0]
-    // this.formSelecaoSuperficie.patchValue({
-    //   gravidadeAvaria: this.gravidadeAvaria.nome
-    // });
-
-    // this.assembleGrid(this.parteAvaria.superficieChassiParte);
   }
 
   touched(event){
@@ -496,64 +470,51 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   }
 
   voltar(){
-    // this.navCtrl.push(QualidadeMenuPage);
-    this.view.dismiss();
-    // const chassiModal: Modal = this.modal.create(QualidadeMenuPage, {
-    //   data: this.formData
-    // });
-    // chassiModal.present();
+    this.navCtrl.push(QualidadeMenuPage);
+    // this.view.dismiss();
   }
 
   save(){
     this.authService.showLoading();
 
-    let id = this.formData.id > 0 ? this.formData.id : 0;
-    let veiculoID = this.formData.veiculo.id > 0 ? this.formData.veiculo.id : 0;
-    let momentoID = this.formData.momento.id > 0 ? this.formData.momento.id : 0;
-    let posicaoSuperficieChassiID = this.posicaoAvaria.id != undefined ? this.posicaoAvaria.id : this.formSelecaoSuperficie.controls.posicaoAvaria.value;
-    let avariaID = this.avaria.id != undefined ? this.avaria.id : this.formData.avaria.id;
-    let tipoAvariaID = this.avaria.id != undefined ? this.avaria.tipoAvaria.id : this.formData.avaria.tipoAvaria.id;
-    let parteID = this.parteAvaria.id != undefined ? this.parteAvaria.id : this.formData.superficieChassiParte.parteID;
-    let superficieChassiParteID = this.parteAvaria.id != undefined ? this.parteAvaria.superficieChassiParte.id : this.formData.superficieChassiParte.superficieChassiID;
-    let gravidadeAvariaID = this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.id : this.formData.gravidadeAvaria.id;
-    let nivelGravidadeAvariaID = this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.nivelGravidadeAvaria.id : this.formData.gravidadeAvaria.nivelGravidadeAvaria.id;
-    let observacao = this.formSelecaoSuperficie.controls.observacao.value;
-    let quadrante = this.formSelecaoSuperficie.controls.subArea.value;
+    let imagesToSend = [];
+    this.images.forEach(image => {
+      imagesToSend.push({
+        id: image.id,
+        data: image.path,
+        fileName: image.fileName
+      });
+    });
 
     let model  = {
-      id: id,
-      veiculoID: veiculoID,
-      momentoID: momentoID,
-      posicaoSuperficieChassiID: posicaoSuperficieChassiID,
-      tipoAvariaID: tipoAvariaID,
-      avariaID: avariaID,
-      parteID: parteID,
-      superficieChassiParteID: superficieChassiParteID,
-      nivelGravidadeAvariaID: nivelGravidadeAvariaID,
-      observacao: observacao,
-      quadrante: parseInt(this.formSelecaoSuperficie.controls.subArea.value),
+      id: this.formData.id > 0 ? this.formData.id : 0,
+      veiculoID: this.formData.veiculo.id > 0 ? this.formData.veiculo.id : 0,
+      momentoID: this.formData.momento.id > 0 ? this.formData.momento.id : 0,
+      posicaoSuperficieChassiID: this.posicaoAvaria.id != undefined ? this.posicaoAvaria.id : this.formSelecaoSuperficie.controls.posicaoAvaria.value,
+      avariaID: this.avaria.id != undefined ? this.avaria.id : this.formData.avaria.id,
+      tipoAvariaID: this.avaria.id != undefined ? this.avaria.tipoAvaria.id : this.formData.avaria.tipoAvaria.id,
+      parteID: this.parteAvaria.id != undefined ? this.parteAvaria.id : this.formData.superficieChassiParte.parteID,
+      superficieChassiParteID: this.parteAvaria.id != undefined ? this.parteAvaria.superficieChassiParte.id : this.formData.superficieChassiParte.superficieChassiID,
+      gravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.id : this.formData.gravidadeAvaria.id,
+      nivelGravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.nivelGravidadeAvaria.id : this.formData.gravidadeAvaria.nivelGravidadeAvaria.id,
+      observacao: this.formSelecaoSuperficie.controls.observacao.value,
+      quadrante: this.formSelecaoSuperficie.controls.subArea.value,
+      arquivos: imagesToSend,
     };
 
     this.avariaService.salvar(model)
     .pipe(
       finalize(() => {
         this.authService.hideLoading();
-        if (model.id > 0) {
-          this.alertService.showInfo('Avaria alterada com sucesso');
-        }
-        else{
-          this.alertService.showInfo('Avaria cadastrada com sucesso');
-        }
         setTimeout(() => {
-          this.navCtrl.push(QualidadeMenuPage);
-          // this.voltar();
-        }, 500);
+          this.voltar();
+        }, 1500);
       })
-    )
-    .subscribe((response:any) => {
-      console.log(response);
-    }, (error: any) => {
-      this.alertService.showError('Erro ao salvar avaria');
+      )
+      .subscribe((response:any) => {
+        this.alertService.showInfo('Avaria alterada com sucesso');
+      }, (error: any) => {
+        this.alertService.showError('Erro ao salvar avaria');
     });
   }
 
@@ -562,175 +523,97 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
 
   /// Selecionar uma imagem da biblioteca do dispositivo
-  async selectImage() {
-      const actionSheet = await this.actionSheetController.create({
-          title: 'Selecionar imagem',
-          buttons: [{
-                  text: 'Galeria',
-                  handler: () => {
-                      this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
-                  }
-              },
-              {
-                  text: 'Camera',
-                  handler: () => { this.takePicture(this.camera.PictureSourceType.CAMERA); }
-              },
-              { text: 'Cancelar', role: 'cancel' }
-          ]
-      });
-      await actionSheet.present();
-  }
-
-  takePicture(sourceType: PictureSourceType) {
-      var options: CameraOptions = {
-          quality: 100,
-          sourceType: sourceType,
-          saveToPhotoAlbum: false,
-          correctOrientation: true
-      };
-
-      this.camera.getPicture(options).then(imagePath => {
-          if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
-              this.filePath.resolveNativePath(imagePath)
-                  .then(filePath => {
-                      let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-                      let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-                      this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-                  });
-          } else {
-              var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
-              var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-              this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+  selectImage(event:any) {
+    const actionSheet = this.actionSheetController.create({
+        title: 'Selecionar imagem',
+        buttons: [
+          {
+            text: 'Camera',
+            handler: () => {
+              this.selectImageCamera();
+            }
+          },
+          {
+            text: 'Galeria',
+            handler: () => {
+              this.selectImageLibrary();
+            }
+          },
+          {
+            text: 'Cancelar', role: 'cancel'
           }
-      });
-
-  }
-
-  createFileName() {
-    var d = new Date(),
-        n = d.getTime(),
-        newFileName = n + ".jpg";
-    return newFileName;
-  }
-
-  copyFileToLocalDir(namePath, currentName, newFileName) {
-      this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success => {
-          this.updateStoredImages(newFileName);
-      }, error => {
-          this.presentToast('Erro ao salvar o arquivo.');
-      });
-  }
-
-  startUpload(imgEntry) {
-    this.file.resolveLocalFilesystemUrl(imgEntry.filePath)
-        .then(entry => {
-            ( < FileEntry > entry).file(file => this.readFile(file))
-        })
-        .catch(err => {
-            this.presentToast('Erro ao ler o arquivo.');
-        });
-  }
-
-  readFile(file: any) {
-    const reader = new FileReader();
-    reader.onload = () => {
-        const formData = new FormData();
-        const imgBlob = new Blob([reader.result], {
-            type: file.type
-        });
-        formData.append('file', imgBlob, file.name);
-        this.uploadImageData(formData);
-    };
-    reader.readAsArrayBuffer(file);
-  }
-
-  loadStoredImages() {
-    this.storage.get(STORAGE_KEY).then(images => {
-      if (images) {
-        let arr = JSON.parse(images);
-        this.images = [];
-        for (let img of arr) {
-          let filePath = this.file.dataDirectory + img;
-          let resPath = this.pathForImage(filePath);
-          this.images.push({ name: img, path: resPath, filePath: filePath });
-        }
-      }
+        ]
     });
+    actionSheet.present();
   }
 
-  updateStoredImages(name) {
-    this.storage.get(STORAGE_KEY).then(images => {
-        let arr = JSON.parse(images);
-        if (!arr) {
-            let newImages = [name];
-            this.storage.set(STORAGE_KEY, JSON.stringify(newImages));
-        } else {
-            arr.push(name);
-            this.storage.set(STORAGE_KEY, JSON.stringify(arr));
-        }
-
-        let filePath = this.file.dataDirectory + name;
-        let resPath = this.pathForImage(filePath);
-
-        let newEntry = {
-            name: name,
-            path: resPath,
-            filePath: filePath
-        };
-
-        this.images = [newEntry, ...this.images];
-        this.ref.detectChanges();
-    });
-  }
-
-  uploadImageData(formData: FormData) {
+  async selectImageCamera() {
     this.authService.showLoading();
-    this.avariaService.uploadImagens(formData)
-    .pipe(
-      finalize(() => {
-        this.authService.hideLoading();
-      })
-    )
-    .subscribe((response: any) => {
-      var data = response;
-      console.log(data);
-    }, (error:any) => {
-      console.log(error);
-      this.authService.hideLoading();
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Camera
     });
-  }
 
-  deleteImage(imgEntry, position) {
-    this.images.splice(position, 1);
-
-    this.storage.get(STORAGE_KEY).then(images => {
-        let arr = JSON.parse(images);
-        let filtered = arr.filter(name => name != imgEntry.name);
-        this.storage.set(STORAGE_KEY, JSON.stringify(filtered));
-
-        var correctPath = imgEntry.filePath.substr(0, imgEntry.filePath.lastIndexOf('/') + 1);
-
-        this.file.removeFile(correctPath, imgEntry.name).then(res => {
-            this.presentToast('File removed.');
-        });
-    });
-  }
-
-  async presentToast(text) {
-    const toast = await this.toastController.create({
-        message: text,
-        position: 'bottom',
-        duration: 3000
-    });
-    toast.present();
-  }
-
-  pathForImage(img) {
-    if (img === null) {
-      return '';
-    } else {
-      let converted = this.webview.convertFileSrc(img);
-      return converted;
+    if (image) {
+      this.saveImage(image)
     }
+  }
+
+  async selectImageLibrary() {
+    this.authService.showLoading();
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Photos
+    });
+
+    if (image) {
+      this.saveImage(image)
+    }
+  }
+
+  saveImage(photo: Photo) {
+    // const base64Data = await this.readAsBase64(photo);
+    const fileName = new Date().getTime() + '.jpeg';
+
+    let image = {
+      id: 0,
+      path: 'data:image/jpeg;base64,' + photo.base64String,
+      fileName: fileName
+    }
+
+    this.images.push(image);
+    this.authService.hideLoading();
+  }
+
+  async presentAlert(image) {
+    const alert = await this.alertController.create({
+      title: 'Remover a imagem?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            // this.handlerMessage = 'Alert canceled';
+          }
+        },
+        {
+          text: 'OK',
+          role: 'confirm',
+          handler: () => {
+            this.deleteImage(image);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async deleteImage(image) {
+    this.images = this.images.filter(x => x !== image).map(x => x);
   }
 }

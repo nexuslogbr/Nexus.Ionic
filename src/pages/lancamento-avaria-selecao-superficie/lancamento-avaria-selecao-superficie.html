@@ -47,12 +47,6 @@
           </ion-select>
         </ion-item>
 
-        <!-- <ion-item *ngIf="tipoAvaria.id">
-          <div>
-            <ion-chip [ngStyle]="{'background-color': tipoAvaria.cor}"><b>{{tipoAvaria.sigla}}</b></ion-chip> <i>{{tipoAvaria.nome}}</i>
-          </div>
-        </ion-item> -->
-
         <div >
           <!-- <div *ngIf="formSelecaoSuperficie.controls.partePeca.value">
             <ion-chip size="small" [ngStyle]="styleObject()">
@@ -60,10 +54,9 @@
             </ion-chip>
           </div> -->
 
-          <img [src]="urlImagem" id="image">
+          <img [src]="urlImagem" id="image" class="img-relative">
 
           <div id="canvasWrapper">
-            <!-- <canvas #imageCanvas id="canvas"></canvas> -->
             <canvas #imageCanvas (touchstart)="touched($event)" (touchmove)="moved($event)" id="canvas"></canvas>
           </div>
         </div>
@@ -111,28 +104,32 @@
           <ion-label label-ios style="font-style: unset;"><b>Imagens:</b></ion-label>
         </ion-item>
 
-        <ion-toolbar color="primary">
+        <ion-toolbar color="primary" *ngFor="let file of images; index as pos" text-wrap>
           <ion-row style="align-items: center;">
             <ion-thumbnail>
-              <img src="assets/images/camera-white-model.png" class="align-camera" (click)="selectImage()">
+              <ion-col>
+                <img [src]="file.path" style="width:25% ; height: 25%;" class="align-items-dangerous-image">
+              </ion-col>
+              <ion-col>
+                <ion-label class="align-items-dangerous-image abel-align-dangerous">{{ file.fileName }}</ion-label>
+              </ion-col>
+              <ion-col size="1">
+                <button ion-button slot="end" (click)="presentAlert(file)" class="button-style">
+                  <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </button>
+              </ion-col>
             </ion-thumbnail>
           </ion-row>
         </ion-toolbar>
 
-        <ion-item *ngFor="let img of images; index as pos" text-wrap>
-          <ion-thumbnail slot="start">
-            <ion-img [src]="img.path"></ion-img>
-          </ion-thumbnail>
-          <ion-label>{{ img.name }}</ion-label>
+        <ion-toolbar color="primary">
+          <ion-row style="align-items: center;" (click)="selectImage($event)">
+            <ion-thumbnail>
+              <img src="assets/images/camera-white-model.png" class="align-camera">
+            </ion-thumbnail>
+          </ion-row>
+        </ion-toolbar>
 
-          <button slot="end" fill="clear" (click)="startUpload(img)">
-            <ion-icon slot="icon-only" name="cloud-upload"></ion-icon>
-          </button>
-
-          <button slot="end" fill="clear" (click)="deleteImage(img, pos)">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-          </button>
-        </ion-item>
       </ion-list>
 
     </form>
