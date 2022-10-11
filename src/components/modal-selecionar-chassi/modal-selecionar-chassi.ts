@@ -111,9 +111,7 @@ export class ModalSelecionarChassiComponent {
     });
     chassiModal.present();
 
-    chassiModal.onDidDismiss((data) => {
-      this.cleanInput();
-    });
+    this.view.dismiss();
   }
 
   cleanInput() { setTimeout(() => { }, 1000); }

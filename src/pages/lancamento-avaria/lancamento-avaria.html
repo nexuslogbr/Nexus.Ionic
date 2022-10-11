@@ -1,19 +1,16 @@
 <side-menu></side-menu>
-<ion-header (click)="toggleMenu()">
-  <button class="btn-menu">
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
     <i class="icon icon-menu"></i>
   </button>
-  <ion-title>{{title}}</ion-title>
+  <ion-title>
+    {{title}}
+  </ion-title>
 </ion-header>
-
 <ion-content padding id="recebimento" class="recebimento show">
   <div class="qr-code-container">
     <form form class="form-lancar-avaria" [formGroup]="formLancamentoAvaria">
       <ion-list>
-        <div class="login-content">
-          <button ion-button round end class="btn-receiving-long btn-ok"(click)="voltar()" type="button" *ngIf="showInfoCar">Voltar</button>
-        </div>
-        <br>
 
         <ion-item style="background-color: black;">
           <ion-label label-ios style="font-style: unset;">Lançamento de Avaria</ion-label>
@@ -26,7 +23,7 @@
         <ion-item>
           <ion-label label-ios>Momento:</ion-label>
           <ion-select  (ionChange)="onMomentoChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="momento" name="momento">
-              <ion-option *ngFor="let momento of momentos" value="{{momento.nome}}">{{momento.nome}}</ion-option>
+              <ion-option *ngFor="let momento of momentos" value="{{momento.id}}">{{momento.nome}}</ion-option>
           </ion-select>
         </ion-item>
       </ion-list>
@@ -34,66 +31,54 @@
       <ion-grid>
         <ion-row>
           <ion-col col-10>
-            <ion-input type="text" placeholder="Chassi" value="" formControlName="chassi" name="chassi"></ion-input>
+            <ion-input type="text" placeholder="Chassi" value="" formControlName="chassi" name="chassi" (click)="modalBuscarChassi()" formControlName="chassi"></ion-input>
           </ion-col>
           <ion-col col-1 style="align-self: center;">
             <i class="icon qrcode-gray" (click)="modalBuscarChassi()"></i>
           </ion-col>
         </ion-row>
       </ion-grid>
-<!--
-      <ion-list>
-        <ion-item>
-          <ion-label label-ios style="font-style: unset;"><b>Observação:</b></ion-label>
-          <ion-textarea label-ios style="font-style: unset; color: white;" formControlName="observacao" name="observacao"></ion-textarea>
-        </ion-item>
-      </ion-list> -->
-
     </form>
   </div>
-
-  <div class="login-content">
-    <button ion-button round first class="btn-receiving btn-cancel" (click)="voltar()" type="button" *ngIf="!showInfoCar">Voltar</button>
-    <button ion-button round end class="btn-receiving btn-ok" (click)="scanInput()" type="button" *ngIf="!showInfoCar">Busca</button>
-    <button ion-button round end class="btn-receiving-long btn-ok" type="button" *ngIf="showInfoCar">Busca</button>
-  </div>
-
-  <br>
 
   <div class="qr-code-container" *ngIf="showInfoCar">
     <form form class="form-lancar-avaria">
       <ion-list>
-
         <ion-item class="item-list-black">
           <ion-label label-ios style="font-style: unset;">Resultado Busca</ion-label>
         </ion-item>
-
         <ion-item>
-          <ion-label label-ios style="font-style: unset;"><b>Chassi: </b>{{formData.chassi}}</ion-label>
+          <ion-label label-ios style="font-style: unset;"><b>Chassi: </b>{{formData.veiculo.chassi}}</ion-label>
         </ion-item>
-
         <ion-item>
-          <ion-label label-ios style="font-style: unset;"><b>Modelo: </b>{{formData.modelo}}</ion-label>
+          <ion-label label-ios style="font-style: unset;"><b>Modelo: </b>{{formData.veiculo.modelo}}</ion-label>
         </ion-item>
-
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Posição: </b>{{formData.posicaoAtual}}</ion-label>
         </ion-item>
-
-        <ion-item>
-          <!-- <b>Cor: </b><ion-chip tappable></ion-chip> -->
+        <!-- <ion-item>
           <b>Cor: </b><ion-chip style="background: #1cdbc5;border:1px solid #1cdbc5"></ion-chip>
-        </ion-item>
-
-        <!-- <ion-label label-ios style="font-style: unset;"><b>Cor: </b>{{formData.cor}}</ion-label> -->
+        </ion-item> -->
       </ion-list>
     </form>
   </div>
 
-  <div class="login-content" *ngIf="showInfoCar">
-    <button ion-button round end class="btn-receiving-long btn-ok" (click)="openModalSelecionarSuperficie()" type="button">Selecione Superficie Avariada</button>
-  </div>
-
 </ion-content>
+
+<ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+        <button ion-button round class="btn-receiving-long btn-ok" (click)="openModalSelecionarSuperficie()" [disabled]="!formLancamentoAvaria.valid" type="button">Selecione Superficie Avariada</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button round class="btn-receiving-long btn-cancel"(click)="voltar()" type="button">Voltar</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
 <modal-error></modal-error>
 <modal-loading></modal-loading>

@@ -73,13 +73,13 @@ export class ModalSelecionarChassiBuscaComponent {
     }
   }
 
-  ionViewDidLoad(){
+  // ionViewDidLoad(){
+  //   var teste =  this.navParam.get('data');
+  //   console.log(teste);
+  // }
+
+  ionViewWillEnter() {
     var teste =  this.navParam.get('data');
-    console.log(teste);
-
-  }
-
-  ionViewDidEnter() {
     setTimeout(() => {
       this.select.open();
     }, 150);
@@ -111,15 +111,22 @@ export class ModalSelecionarChassiBuscaComponent {
     $('side-menu').toggleClass('show');
   };
 
-  openModalChassis() {
+  buscaAvarias(){
+    this.openModalBuscarAvarias(this.responseData[0]);
+  }
+
+  openModalBuscarAvarias(data) {
     const chassiModal: Modal = this.modal.create(BuscarAvariasPage, {
-      data: this.responseData[0],
+      data: data,
     });
     chassiModal.present();
 
     chassiModal.onDidDismiss((data) => {
       this.cleanInput();
     });
+
+    this.select.close();
+    this.view.dismiss();
   }
 
   cleanInput() { setTimeout(() => { }, 1000); }

@@ -11,42 +11,38 @@
 <ion-content padding [ngStyle]="{'background-color': secondaryColor}">
 
   <ion-list>
-    <ion-item [ngStyle]="{'background-color': '#000000'}" no-lines>
+    <ion-item [ngStyle]="{'background-color': '#000000'}" no-lines *ngIf="this.list.length > 0">
       <label class="title-header">{{filtro}}</label>
       <span style="font-weight: bold;"> {{filtroValor}}</span>
     </ion-item>
-    <div *ngFor="let item of list" (click)="editar(item)" [ngStyle]="{'background-color': primaryColor}" class="color">
-      <ion-item [ngStyle]="{'background-color': primaryColor}" no-lines>
+    <div *ngFor="let item of list" (click)="editar(item)" id="'{{item.id}}" class="color background-color-no-selected">
+      <ion-item [ngStyle]="{'background-color': primaryColor}" no-lines *ngIf="filtro != 'Chassi:'">
         <label class="title-header">Chassi: </label>
-        <span> {{item.chassi}}</span>
+        <span> {{item.veiculo.chassi}}</span>
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}" no-lines *ngIf="filtro != 'Modelo:'">
         <label class="title-header">Modelo: </label>
-        <span> {{item.modelo}}</span>
+        <span> {{item.veiculo.modelo}}</span>
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}" no-lines *ngIf="filtro != 'Data:'">
         <label class="title-header">Data: </label>
-        <span> {{item.data | date : "dd/MM/yyyy"}}</span>
+        <span> {{item.dataCadastro | date : "dd/MM/yyyy"}}</span>
       </ion-item>
 
     </div>
   </ion-list>
-  <!-- <div class="login-content">
-    <button ion-button round first class="btn-receiving btn-cancel" (click)="navigateToBuscarAvariaPage()" type="button">VOLTAR</button>
-    <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" (click)="avancar()" type="button">BUSCAR</button>
-  </div> -->
 </ion-content>
 
 <ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
   <ion-grid class="grid-botao-wrapper">
-    <ion-row>
+    <!-- <ion-row>
       <ion-col>
-        <button ion-button class="btn-menu-internal btn-cancel" (click)="toLancamentoAvaria()" type="button" [disabled]="disableContinuar">Editar</button>
+        <button ion-button class="btn-menu-internal btn-ok" (click)="toLancamentoAvaria()" type="button" [disabled]="disableContinuar">Editar</button>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
     <ion-row>
       <ion-col>
-        <button ion-button class="btn-menu-internal btn-menu" (click)="navigateToBuscarAvariaPage()" type="button">Voltar</button>
+        <button ion-button class="btn-menu-internal btn-cancel" (click)="navigateToBuscarAvariaPage()" type="button">Voltar</button>
       </ion-col>
     </ion-row>
   </ion-grid>

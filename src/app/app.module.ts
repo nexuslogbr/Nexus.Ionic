@@ -221,6 +221,7 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path';
 import {RoundProgressModule} from 'angular-svg-round-progressbar';
 import { ModalSelecionarChassiBuscaComponent } from '../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
+import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
 
 @NgModule({
   declarations: [
@@ -390,7 +391,8 @@ import { ModalSelecionarChassiBuscaComponent } from '../components/modal-selecio
     ModalSelecionarChassiComponent,
     LancamentoAvariaSelecaoSuperficiePage,
     AlterarCorPage,
-    ModalSelecionarChassiBuscaComponent
+    ModalSelecionarChassiBuscaComponent,
+    CanvasDrawComponent
   ],
   imports: [
     BrowserModule,
@@ -616,7 +618,8 @@ import { ModalSelecionarChassiBuscaComponent } from '../components/modal-selecio
     ModalSelecionarChassiComponent,
     LancamentoAvariaSelecaoSuperficiePage,
     AlterarCorPage,
-    ModalSelecionarChassiBuscaComponent
+    ModalSelecionarChassiBuscaComponent,
+    CanvasDrawComponent
   ],
   providers: [
     Camera,

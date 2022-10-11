@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
-import { Modal, ModalController, NavController, NavParams } from 'ionic-angular';
+import { Modal, ModalController, NavController, NavParams, ViewController } from 'ionic-angular';
 import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { ModalObservacoesComponent } from '../../components/modal-observacoes/modal-observacoes';
 import { AuthService } from '../../providers/auth-service/auth-service';
@@ -10,6 +10,7 @@ import * as $ from 'jquery';
 import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
 import { ModalSelecionarChassiComponent } from '../../components/modal-selecionar-chassi/modal-selecionar-chassi';
+import { ModalSelecionarChassiBuscaComponent } from '../../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
 
 @Component({
   selector: 'modal-busca-chassi',
@@ -27,7 +28,8 @@ export class ModalBuscaChassiComponent {
   modoOperacao: number;
   formData = {
     chassi: '',
-    observacao: ''
+    observacao: '',
+    buscaAvaria: false
   };
 
   formBloqueioData = {
@@ -44,6 +46,7 @@ export class ModalBuscaChassiComponent {
 
   @ViewChild('chassiInput') chassiInput;
   formControlChassi = new FormControl('');
+  modalChassi: Modal
 
   constructor(
     private http: HttpClient,
@@ -52,6 +55,7 @@ export class ModalBuscaChassiComponent {
     private modal: ModalController,
     private navCtrl: NavController,
     private storage: Storage,
+    private view: ViewController,
     public navParams: NavParams,
     private authService: AuthService
   ) {
@@ -158,14 +162,19 @@ export class ModalBuscaChassiComponent {
 
   openModal(data, byScanner: boolean) {
     data['momento'] = this.formData.observacao;
-    const modal: Modal = this.modal.create(ModalSelecionarChassiComponent, {
-      data: data,
-    });
-    modal.present();
+    if (this.formData.buscaAvaria) {
+      this.modalChassi = this.modal.create(ModalSelecionarChassiBuscaComponent, {
+        data: data,
+      });
+    }
+    else{
+      this.modalChassi = this.modal.create(ModalSelecionarChassiComponent, {
+        data: data,
+      });
+    }
+    this.modalChassi.present();
 
-    modal.onDidDismiss(() => {
-      this.cleanInput();
-    });
+    this.view.dismiss();
   }
 
   navigateToHomePage() {

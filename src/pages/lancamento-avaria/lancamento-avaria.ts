@@ -16,6 +16,8 @@ import { ModalSelecionarChassiComponent } from '../../components/modal-seleciona
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { ModalSucessoComponent } from '../../components/modal-sucesso/modal-sucesso';
 import { LancarAvariaComponent } from '../../components/lancar-avaria/lancar-avaria';
+import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
+import { Veiculo } from '../../model/veiculo';
 
 @Component({
   selector: 'page-lancamento-avaria',
@@ -53,12 +55,13 @@ export class LancamentoAvariaPage {
   };
 
   formData = {
-    chassi: '',
-    modelo: '',
+    // chassi: '',
+    // modelo: '',
     posicaoAtual: '',
-    cor: '',
-    observacao: '',
-    momento: ''
+    // momentoID: '',
+
+    veiculo: new Veiculo(),
+    momento: new Momento()
   };
 
   formBloqueioData = {
@@ -110,9 +113,10 @@ export class LancamentoAvariaPage {
     this.modoOperacao = this.authService.getLocalModoOperacao();
     this.userData = this.authService.getUserData()
 
-    var chassi_ = (this.navParam.get('data'));
-    if (chassi_) {
-      this.formData = chassi_;
+    var model = (this.navParam.get('data'));
+    if (model) {
+      this.formData.veiculo = model;
+      this.formData.posicaoAtual = model.posicaoAtual;
       this.showInfoCar = true;
     }
 
@@ -135,7 +139,7 @@ export class LancamentoAvariaPage {
             let chassi = value.replace(/[\W_]+/g, '');
             setTimeout(() => {
               this.buscarChassi(chassi, false);
-              this.formData.chassi = '';
+              this.formData.veiculo.chassi = '';
             }, 500);
           }
         }
@@ -143,7 +147,8 @@ export class LancamentoAvariaPage {
     });
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
+    this.authService.showLoading();
     this.loadMomentos();
     setTimeout(() => {
       // this.chassiInput.setFocus();
@@ -152,18 +157,17 @@ export class LancamentoAvariaPage {
 
   initializeFormControl(){
     this.formLancamentoAvaria = this.formBuilder.group({
-      chassi: [this.formData.chassi, Validators.required],
-      observacao: [''],
-      momento: ['']
+      chassi: [this.formData.veiculo.chassi, Validators.required],
+      momento: ['', Validators.required]
+      // observacao: [''],
     });
   }
 
   loadMomentos(){
     this.formLancamentoAvaria.patchValue({
-      chassi: this.formData.chassi,
-      momento: this.formData.momento
+      chassi: this.formData.veiculo.chassi,
+      momento: this.formData.momento.id
     });
-    this.authService.showLoading();
     this.momentoService.carregarMomentos().subscribe(result => {
       this.momentos = result.retorno;
       this.authService.hideLoading();
@@ -176,7 +180,7 @@ export class LancamentoAvariaPage {
         this.chassiInput.setFocus();
       }, 1000);
     }
-    this.formData.chassi = '';
+    this.formData.veiculo.chassi = '';
   }
 
   scan() {
@@ -337,12 +341,12 @@ export class LancamentoAvariaPage {
   }
 
   onMomentoChange(event){
-    this.formData.observacao = event;
+    this.formData.momento.id = event;
   }
 
   voltar(){
     this.view.dismiss();
-    this.navCtrl.push(HomePage);
+    // this.navCtrl.push(QualidadeMenuPage);
   }
 
   openModalSelecionarSuperficie(){

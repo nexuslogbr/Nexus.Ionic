@@ -16,6 +16,7 @@ const httpOptions = {
 @Injectable()
 export class AvariaDataService{
   urlApi: string;
+  token: string;
 
   constructor(
     public http: HttpClient,
@@ -23,11 +24,23 @@ export class AvariaDataService{
   )
   {
     this.urlApi = this.authService.getUrl();
+    this.token = this.authService.getToken();
+  }
+
+  public listarPartes(model: any) {
+    let url = this.urlApi + '/lancamentoAvaria/ListarPartesModelo';
+    model.token = this.authService.getToken();
+    return this.http.post<DataRetorno>(url, model, httpOptions);
+  }
+
+  public carregarPosicaoAvarias() {
+    let url = this.urlApi + '/posicaosuperficiechassi/ListarPosicaoSuperficieChassi?token=' + this.authService.getToken();
+    return this.http.get<DataRetorno>(url, { headers: headers });
   }
 
   public carregarTipoAvarias() {
-    let url = this.urlApi + '/tipoavaria/listartiposavaria?token=' + this.authService.getToken();
-    return this.http.get<DataRetorno>(url, { headers: headers });
+    let url = this.urlApi + '/lancamentoAvaria/ListarTiposAvaria?token=' + this.authService.getToken();
+    return this.http.post<DataRetorno>(url, { headers: headers });
   }
 
   public carregarAvarias(model: any){
@@ -40,13 +53,21 @@ export class AvariaDataService{
     return this.http.post<DataRetorno>(url, model, httpOptions);
   }
 
-  public salvar() {
-    let url = this.urlApi + '/tipoavaria/Salvar';
-    return this.http.post<DataRetorno>(url, { headers: headers });
+  public salvar(model: any) {
+    let url = this.urlApi + '/lancamentoAvaria/Salvar';
+    model.token = this.authService.getToken();
+    return this.http.post<DataRetorno>(url, model, httpOptions);
   }
 
   public consultarChassi(model: any){
     let url = this.urlApi + '/lancamentoAvaria/ConsultarChassi';
+    model.token = this.authService.getToken();
+    return this.http.post<string>(url, model, httpOptions);
+  }
+
+  public uploadImagens(model: any){
+    let url = this.urlApi + '/lancamentoAvaria/ConsultarChassi';
+    model.token = this.authService.getToken();
     return this.http.post<string>(url, model, httpOptions);
   }
 }

@@ -7,6 +7,14 @@ page-listar-avarias {
       margin-bottom: 0%;
     }
 
+    .background-color-no-selected {
+      background-color: #595959;
+    }
+
+    .background-color-selected {
+      background-color: #83A577;
+    }
+
     .login-content {
         margin-top: 15px;
         padding: 0;
@@ -44,7 +52,7 @@ page-listar-avarias {
   }
 
   ion-footer {
-    height: 190px;
+    height: 95px;
     background-color: #404040;
 
     .grid-botao-wrapper {
@@ -53,8 +61,17 @@ page-listar-avarias {
       padding-top: 0px;
 
       .btn-menu-internal {
-        background-color: #DEDEDE;
-        color: black;
+        // background-color: #DEDEDE;
+        // color: black;
+      }
+      .btn-ok {
+        // background-color: #747474;
+        background-color: #A7FF8D !important;
+        color: black !important;
+      }
+      .btn-cancel {
+        background-color: #404040;
+        color: #fff !important;
       }
     }
   }
