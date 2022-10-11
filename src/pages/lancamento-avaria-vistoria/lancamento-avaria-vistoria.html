@@ -1,0 +1,16 @@
+<ion-content padding [ngStyle]="{'background-color': secondaryColor}">
+  <div class="qr-code-container" [ngStyle]="{'background-color': secondaryColor}">
+    <i class="icon icon-reception"></i>
+    <p>VISTORIA REALIZADA COM</p>
+    <h3>SUCESSO!</h3>
+    <div class="line"></div>
+    <p>O VEÍCULO POSSUI AVARIA?</p>
+    <button ion-button round first class="btn-receiving btn-cancel" (click)="closeModal()" type="button" [ngStyle]="{'background-color': buttonColor}">
+      NÃO
+    </button>
+    <button ion-button round end class="btn-receiving btn-ok" (click)="openPage()" type="button" [ngStyle]="{'background-color': buttonColor}">
+      SIM
+    </button>
+  </div>
+</ion-content>
+<modal-loading></modal-loading>

@@ -68,4 +68,21 @@ export class ArquivoDataService {
 
     return this.http.put<DataRetorno>(url, {}, { headers: headers });
   }
+
+  public carregarArquivosDePlanilhasVistoria() {
+    let url = this.urlApi + '/arquivos/vistoria/lista?token=' + this.authService.getToken() + '&arquivoTipo=8';
+    return this.http.get<any>(url, { headers: headers });
+  }
+
+  public listarChassisVistoria(id: number, tipoVistoria: string) {
+
+    let url = '';;
+    if (tipoVistoria == 'Arquivo')
+      url = this.urlApi + '/arquivos/vistoria/chassis?token=' + this.authService.getToken() + '&arquivoID=' + id;
+    else if (tipoVistoria = 'Navio')
+      url = this.urlApi + '/navios/vistoria/chassis?token=' + this.authService.getToken() + '&navioId=' + id;
+
+    return this.http.get<any>(url, { headers: headers });
+  }
+
 }

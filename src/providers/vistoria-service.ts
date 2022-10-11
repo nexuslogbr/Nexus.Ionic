@@ -14,7 +14,7 @@ const httpOptions = {
 };
 
 @Injectable()
-export class MomentoDataService {
+export class VistoriaDataService {
   urlApi: string;
 
   constructor(
@@ -25,8 +25,8 @@ export class MomentoDataService {
     this.urlApi = this.authService.getUrl();
   }
 
-  public listar() {
-    let url = this.urlApi + '/momento/ListarMomentos?token=' + this.authService.getToken();
-    return this.http.get<DataRetorno>(url, { headers: headers });
+  public vistoriarChassi(veiculoID) {
+    let url = this.urlApi + '/Vistoriar/VistoriarVeiculo?token=' + this.authService.getToken() + '&veiculoID=' +  veiculoID;
+    return this.http.put<DataRetorno>(url, { });
   }
 }

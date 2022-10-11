@@ -1,10 +1,10 @@
 export class Local {
-  id: number;
-  empresaId?: number;
-  nome: string;
-  sigla?: string;
-  regiao?: string;
-  cidade?: string;
-  uf?: string;
-  bloquado?: boolean;
+  public id: number;
+  public empresaId?: number;
+  public nome: string;
+  public sigla?: string;
+  public regiao?: string;
+  public cidade?: string;
+  public uf?: string;
+  public bloquado?: boolean;
 }

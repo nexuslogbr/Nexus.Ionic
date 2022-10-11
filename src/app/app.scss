@@ -410,7 +410,7 @@ component-menu {
     background-color: #404040 !important;
     margin-top: 63px;
 
-    
+
     ion-list {
       padding: 0 15px;
       background-color: #404040;
@@ -607,15 +607,15 @@ ion-footer {
           height: 36px;
           background-size: 100%;
         }
-        
+
         .icon-parking-white {
           background-image: url( ' ../assets/images/parking-green.png' );
           width: 36px;
           height: 36px;
           background-size: 100%;
       }
-   
-        
+
+
       }
     }
 
@@ -750,3 +750,8 @@ ion-content.conferencia-content {
 }
 
 
+$fa-font-path: "../assets/fonts" !default;
+@import "font-awesome";
+i[class^="fa-"], ion-icon[class^="fa-"] {
+   font-family: "FontAwesome" !important;
+}
