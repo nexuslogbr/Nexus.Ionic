@@ -15,6 +15,12 @@ export class ModalNovoLancamentoAvariaPage {
   inputColor: string;
   buttonColor: string;
 
+  data = {
+    name: 'Hingo',
+    cargo: 'Front',
+    continue: true
+  };
+
   constructor(
     private modal: ModalController,
     private navParam: NavParams,
@@ -38,15 +44,12 @@ export class ModalNovoLancamentoAvariaPage {
 
   closeModal() {
     this.navCtrl.push(LancamentoAvariaPage);
-    this.view.dismiss();
+    this.data.continue = false;
+    this.view.dismiss(this.data);
   }
 
   openPage() {
-    const data = {
-      name: 'Hingo',
-      cargo: 'Front',
-      continue: true
-    };
-    this.view.dismiss(data);
+    this.data.continue = true;
+    this.view.dismiss(this.data);
   }
 }

@@ -7,7 +7,6 @@ import { AvariaDataService } from '../../providers/avaria-data-service';
 import { GravidadeDataService } from '../../providers/gravidade-data-service';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
-import { PosicaoSuperficieChassi } from '../../model/PosicaoSuperficieChassi';
 import { Parte } from '../../model/parte';
 import { SuperficieChassiParte } from '../../model/superficieChassiParte';
 import { AlertService } from '../../providers/alert-service';
@@ -20,6 +19,8 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ModalNovoLancamentoAvariaPage } from '../modal-novo-lancamento-avaria/modal-novo-lancamento-avaria';
+import { GrupoSuperficieChassi } from '../../model/grupoSuperficieChassi';
+import { DataRetorno } from '../../model/dataretorno';
 
 @Component({
   selector: 'page-lancamento-avaria-selecao-superficie',
@@ -29,7 +30,7 @@ templateUrl: 'lancamento-avaria-selecao-superficie.html',
 export class LancamentoAvariaSelecaoSuperficiePage {
   title: string;
   avarias: Array<Avaria> = [];
-  posicoesAvaria: Array<PosicaoSuperficieChassi> = [];
+  gruposAvaria: Array<GrupoSuperficieChassi> = [];
   gravidadesAvaria: Array<GravidadeAvaria> = [];
   partesAvaria: Array<Parte> = [];
   formSelecaoSuperficie: FormGroup;
@@ -38,7 +39,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   imagesToSend: any[] = [];
 
   avaria = new Avaria();
-  posicaoAvaria = new PosicaoSuperficieChassi();
+  grupoAvaria = new GrupoSuperficieChassi();
   parteAvaria = new Parte();
   gravidadeAvaria = new GravidadeAvaria();
 
@@ -75,7 +76,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
 
     veiculo: new Veiculo(),
     momento: new Momento(),
-    posicaoSuperficieChassi: new PosicaoSuperficieChassi(),
+    grupoSuperficieChassi: new GrupoSuperficieChassi(),
     superficieChassiParte: new SuperficieChassiParte(),
     avaria: new Avaria(),
     tipoAvaria: new TipoAvaria(),
@@ -105,7 +106,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       chassi: [this.formData.veiculo.chassi, Validators.required],
       modelo: [this.formData.veiculo.modelo, Validators.required],
       partePeca: [false, Validators.required],
-      posicaoAvaria: [this.formData.posicaoSuperficieChassi == undefined ? '' : this.formData.posicaoSuperficieChassi.id, Validators.required],
+      grupoAvaria: [this.formData.grupoSuperficieChassi == undefined ? '' : this.formData.grupoSuperficieChassi.id, Validators.required],
       superficieChassiParte: [this.formData.superficieChassiParte == undefined ? '' : this.formData.superficieChassiParte.parteID, Validators.required],
       tipoAvaria: [this.formData.avaria == undefined ? '' : this.formData.avaria.tipoAvaria.id, Validators.required],
       subArea: [this.formData.quadrante == undefined ? 0 : this.formData.quadrante],
@@ -172,8 +173,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
   loadScreen(){
     this.authService.showLoading();
     forkJoin([
-      this.avariaService.carregarPosicaoAvarias(),
-      this.avariaService.listarPartes({ chassi: this.formData.veiculo.chassi }),
+      this.avariaService.carregarGrupoAvarias({ chassi: this.formData.veiculo.chassi }),
       this.avariaService.carregarTipoAvarias(),
       this.gravidadeService.carregarGravidades()
     ])
@@ -186,16 +186,12 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       })
     )
     .subscribe(arrayResult => {
-      let posicoes$ = arrayResult[0];
-      let partes$ = arrayResult[1];
-      let tiposAvaria$ = arrayResult[2];
-      let gravidades$ = arrayResult[3];
+      let gruposAvaria$ = arrayResult[0];
+      let tiposAvaria$ = arrayResult[1];
+      let gravidades$ = arrayResult[2];
 
-      if (posicoes$.sucesso) {
-        this.posicoesAvaria = posicoes$.retorno;
-      }
-      if (partes$.sucesso) {
-        this.partesAvaria = partes$.retorno;
+      if (gruposAvaria$.sucesso) {
+        this.gruposAvaria = gruposAvaria$.retorno;
       }
       if (tiposAvaria$.sucesso) {
         this.avarias = tiposAvaria$.retorno;
@@ -250,8 +246,21 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     }
   }
 
-  selectPosicaoAvariaChange(event){
-    this.posicaoAvaria = this.posicoesAvaria.filter(x => x.id == event).map(x => x)[0]
+  selectGrupoAvariaChange(event){
+    if (event > 0) {
+      this.authService.showLoading();
+      this.grupoAvaria = this.gruposAvaria.filter(x => x.id == event).map(x => x)[0];
+
+      this.avariaService.listarPartes({
+        chassi: this.formData.veiculo.chassi,
+        grupoSuperficieChassiID: this.grupoAvaria.id
+       })
+       .subscribe((x:DataRetorno) => {
+        this.partesAvaria = x.retorno;
+        this.assembleGrid({});
+        this.authService.hideLoading();
+       });
+    }
   }
 
   selectPartesAvariaChange(event){
@@ -387,7 +396,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
       id: this.formData.id > 0 ? this.formData.id : 0,
       veiculoID: this.formData.veiculo.id > 0 ? this.formData.veiculo.id : 0,
       momentoID: this.formData.momento.id > 0 ? this.formData.momento.id : 0,
-      posicaoSuperficieChassiID: this.posicaoAvaria.id != undefined ? this.posicaoAvaria.id : this.formSelecaoSuperficie.controls.posicaoAvaria.value,
+      grupoSuperficieChassiID: this.grupoAvaria.id != undefined ? this.grupoAvaria.id : this.formSelecaoSuperficie.controls.grupoAvaria.value,
       avariaID: this.avaria.id != undefined ? this.avaria.id : this.formData.avaria.id,
       tipoAvariaID: this.avaria.id != undefined ? this.avaria.tipoAvaria.id : this.formData.avaria.tipoAvaria.id,
       parteID: this.parteAvaria.id != undefined ? this.parteAvaria.id : this.formData.superficieChassiParte.parteID,
@@ -416,7 +425,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
           if (data.continue) {
             this.images = [];
             this.formSelecaoSuperficie.patchValue({
-              posicaoAvaria: null,
+              grupoAvaria: null,
               superficieChassiParte: '',
               tipoAvaria: null,
               subArea: 1,
