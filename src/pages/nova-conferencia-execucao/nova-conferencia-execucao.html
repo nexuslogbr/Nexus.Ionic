@@ -137,17 +137,13 @@
       <ion-grid class="grid-wrapper" [ngStyle]="{'background-color': primaryColor}">
         <ion-row>
           <ion-col>
-            <ion-grid
-              class="grid-resumo-destino" *ngFor="let resumo of conferenciaService.sumDestinos$ | async"
-              [ngClass]="{'desabilitar': false}">
+            <ion-grid class="grid-resumo-destino" *ngFor="let resumo of conferenciaService.sumDestinos$ | async" [ngClass]="{'desabilitar': false}">
               <!-- <ion-row class="row-destino">
                 <ion-col class="text-left">
                   {{ resumo.destinoNome }}
                 </ion-col>
                 <ion-col class="col-resumo-quantidade">
-                  {{resumo.quantidadeConferidos}}/{{resumo.quantidadeVeiculos}}
-                  ({{ resumo.quantidadeVeiculos - resumo.quantidadeConferidos
-                  }})
+                  {{ resumo.quantidadeVeiculos - resumo.quantidadeConferidos }}/{{resumo.quantidadeConferidos}} ({{resumo.quantidadeVeiculos}})
                 </ion-col>
               </ion-row> -->
 
@@ -165,7 +161,7 @@
                         <strong> {{ modelo.modeloNome }}</strong>
                       </ion-col>
                       <ion-col class="col-resumo-quantidade">
-                        {{modelo.quantidadeVeiculos - modelo.quantidadeConferidos}}/{{ modelo.quantidadeConferidos }} ({{modelo.quantidadeVeiculos }})
+                        {{ modelo.quantidadeVeiculos - modelo.quantidadeConferidos }}/{{ modelo.quantidadeConferidos }} ({{ modelo.quantidadeVeiculos }})
                       </ion-col>
                     </ion-row>
                   </ion-grid>
@@ -283,14 +279,17 @@
       class="grid-dados"
       [ngClass]="{'amarelo': (  contador ) > 0, 'offline': !onLine }"
       *ngIf="!fechamento"
-      (click)="executarSincronizacao()">
+      (click)="executarSincronizacao()"
+
+    >
       <ion-row [ngStyle]="{'background-color': primaryColor}">
         <ion-col col-8>
           <div class="texto-sincronizacao">
             SINCRONIZAÇÃO PENDENTES:
           </div>
           <div class="resumo">
-            {{conferenciaService.totalUpload$ | async}} <strong>/ {{conferenciaService.saldoConferencia$ | async }}</strong>
+            {{conferenciaService.totalUpload$ | async}} / {{ (conferenciaService.saldoConferencia$ | async) }}
+            <!-- {{contador}} / {{conferenciaService.totalUpload$ | async}} <strong>({{ (conferenciaService.saldoConferencia$ | async) }})</strong> -->
           </div>
         </ion-col>
         <ion-col class="col-icone">
@@ -333,7 +332,9 @@
                 (click)="ok()"
                 type="button"
                 size="small"
-                [ngStyle]="{'background-color': buttonColor}">
+                [ngStyle]="{'background-color': buttonColor}"
+
+              >
                 OK
               </button>
               <button

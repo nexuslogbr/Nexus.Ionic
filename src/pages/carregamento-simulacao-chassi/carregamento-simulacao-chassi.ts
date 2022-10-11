@@ -127,7 +127,10 @@ export class CarregamentoSimulacaoChassiPage {
               this.responseCarData = res;
               console.log(this.responseCarData)
 
+
               if (this.responseCarData.sucesso) {
+
+
                 // this.authService.getChassiData(this.responseCarData.retorno);
                 console.log(this.responseCarData);
                 this.authService.hideLoading();

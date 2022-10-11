@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnDestroy, EventEmitter, Output } from '@angular/core';
 import {
   NavController,
   NavParams,
@@ -16,7 +16,7 @@ import { Turno } from '../../model/turno';
 import { ConferenciaConfiguracao } from '../../model/conferencia-configuracao';
 import { Navio } from '../../model/navio';
 import { Arquivo } from '../../model/arquivo';
-import { Local } from '../../model/Local';
+import { Local } from '../../model/local';
 import { ConferenciaOperacaoLote } from '../../model/conferencia-operacao-lote';
 import { Veiculo } from '../../model/veiculo';
 import { ConferenciaService } from '../../providers/conferencia-service';
@@ -29,7 +29,7 @@ import { AlertService } from '../../providers/alert-service';
 import { ModalSelecaoChassiPage } from '../modal-selecao-chassi/modal-selecao-chassi';
 import { ConferenciaVeiculoMotivos } from '../../model/conferencia-veiculo-motivos';
 import { InputChassiControllerComponent } from '../../components/input-chassi-controller/input-chassi-controller';
-import { Conferencia } from '../../model/Conferencia';
+import { Conferencia } from '../../model/conferencia';
 import { NovaConferenciaMenuPage } from '../nova-conferencia-menu/nova-conferencia-menu';
 import { BehaviorSubject } from 'rxjs';
 
@@ -82,6 +82,7 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
   public fechamento: boolean = false;
   public contador: number = 0;
 
+  public clienteExterno = true;
   public porcentagem = 0;
 
   constructor(
@@ -392,60 +393,186 @@ export class NovaConferenciaExecucaoPage implements OnDestroy {
     }, 200);
   }
 
+  // executarSincronizacao() {
+  //   if (this.onLine) {
+  //     if (this.totalUpload > 0) {
+  //       this.authService.showSincronizacao();
 
-executarSincronizacao() {
-  if (this.onLine) {
-    if (this.totalUpload > 0) {
+  //       this.conferenciaConfiguracaoADO
+  //         .loadConferenciasPendentes(this.configuracao.id)
+  //         .pipe(
+  //           switchMap(async (conferencias: Conferencia[]) => {
 
-      this.authService.showSincronizacao();
 
-      this.conferenciaConfiguracaoADO.loadConferenciasPendentes(this.configuracao.id)
-      .subscribe(conferencias => {
+  //             //  A quantidade de veiculos do lote vai de 0 á 9
+  //             let tamanhoLote = 10;
+  //             let qtdDoLote = 9;
+  //             let loteVeiculos: Conferencia[] = [];
+  //             this.porcentagem = 0;
 
-        // A quantidade de veiculos do lote vai de 0 á 9
-        let tamanhoLote = 10;
-        let qtdDoLote = 9;
-        let loteVeiculos: Conferencia[] = [];
-        this.porcentagem = 0;
-        let processados = 0;
+  //             let totalVeiculosLidos = 0;
 
-        let totalVeiculosLidos = 0;
+  //             for (let i = 0; i < conferencias.length; i++) {
+  //               const element = conferencias[i];
+  //               loteVeiculos.push(element);
+  //               if (i == qtdDoLote) {
+  //                 await this.conferenciaDataService.conferirChassisEmLotesAsync(loteVeiculos, this.configuracao.id)
 
-        for (let i = 0; i < conferencias.length; i++) {
-          const element = conferencias[i];
-          loteVeiculos.push(element);
-          if (i == qtdDoLote) {
+  //                 this.porcentagem += (tamanhoLote*100)/conferencias.length;
+  //                 qtdDoLote += 10;
+  //                 loteVeiculos = [];
+  //               }
+  //               else if ((conferencias.length-totalVeiculosLidos) < tamanhoLote && (conferencias.length-1) == totalVeiculosLidos) {
 
-            this.conferenciaDataService.conferirChassisEmLote(loteVeiculos, this.configuracao.id)
-            .subscribe(() => {
-              this.porcentagem += (tamanhoLote*100)/conferencias.length;
-              processados += 10;
-              if (processados == conferencias.length) {
-                this.loadVeiculos();
-              }
-            })
+  //                 await this.conferenciaDataService.conferirChassisEmLotesAsync(loteVeiculos, this.configuracao.id)
+  //                 this.porcentagem = 100;
+  //               }
 
-            qtdDoLote += 10;
-            loteVeiculos = [];
+  //               totalVeiculosLidos++;
+  //             }
+
+  //             // return this.conferenciaDataService.conferirChassisEmLote(
+  //             //   conferencias,
+  //             //   this.configuracao.id
+  //             // );
+  //           }),
+  //           switchMap((res) =>
+  //             this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(
+  //               this.configuracao.id
+  //             )
+  //           ),
+  //           switchMap((res) =>
+  //             this.conferenciaDataService.carregarConfiguracao(
+  //               this.configuracao.id
+  //             )
+  //           ),
+  //           switchMap((res) =>
+  //             this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(
+  //               res.retorno
+  //             )
+  //           ),
+  //           finalize(() => {
+  //             this.authService.hideSincronizacao();
+  //           })
+  //         )
+  //         .subscribe(
+  //           (res) => {
+  //             this.authService.showLoading();
+  //             this.conferenciaService.update();
+
+  //             this.gotoListagemVeiculos();
+  //             this.authService.hideLoading();
+
+  //             this.contador = 0;
+  //             localStorage.setItem('contador', this.contador.toString())
+  //           },
+  //           (err) => {
+  //             console.error(err);
+  //             this.alertService.showError(
+  //               'ERRO AO EXECUTAR A SINCRONIZAÇÃO',
+  //               'FIQUE ONLINE E TENTE NOVAMENTE.'
+  //             );
+  //           }
+  //         );
+  //     }
+  //   } else {
+  //     this.alertService.showError(
+  //       'SEM CONEXÃO COM A INTERNET',
+  //       'FIQUE ONLINE E TENTE NOVAMENTE.'
+  //     );
+  //   }
+  // }
+
+  executarSincronizacao() {
+    if (this.onLine) {
+      if (this.totalUpload > 0) {
+
+        this.authService.showSincronizacao();
+
+        this.conferenciaConfiguracaoADO.loadConferenciasPendentes(this.configuracao.id)
+        .subscribe(conferencias => {
+
+          // A quantidade de veiculos do lote vai de 0 á 9
+          let tamanhoLote = 10;
+          let qtdDoLote = 9;
+          let loteVeiculos: Conferencia[] = [];
+          this.porcentagem = 0;
+          let processados = 0;
+
+          let totalVeiculosLidos = 0;
+
+          for (let i = 0; i < conferencias.length; i++) {
+            const element = conferencias[i];
+            loteVeiculos.push(element);
+            if (i == qtdDoLote) {
+
+              this.conferenciaDataService.conferirChassisEmLote(loteVeiculos, this.configuracao.id)
+              .subscribe(() => {
+                this.porcentagem += (tamanhoLote*100)/conferencias.length;
+                processados += 10;
+                if (processados == conferencias.length) {
+                  this.loadVeiculos();
+                }
+              })
+
+              qtdDoLote += 10;
+              loteVeiculos = [];
+            }
+            else if ((conferencias.length-totalVeiculosLidos) < tamanhoLote && (conferencias.length-1) == totalVeiculosLidos) {
+              let tamanhoUltimoLote = loteVeiculos.length;
+
+              this.conferenciaDataService.conferirChassisEmLote(loteVeiculos, this.configuracao.id)
+              .subscribe(() => {
+                this.porcentagem += (tamanhoUltimoLote*100)/conferencias.length;
+                processados += tamanhoUltimoLote;
+                if (processados == conferencias.length) {
+                  this.loadVeiculos();
+                }
+              });
+            }
+
+            totalVeiculosLidos++;
           }
-          else if ((conferencias.length-totalVeiculosLidos) < tamanhoLote && (conferencias.length-1) == totalVeiculosLidos) {
-            let tamanhoUltimoLote = loteVeiculos.length;
 
-            this.conferenciaDataService.conferirChassisEmLote(loteVeiculos, this.configuracao.id)
-            .subscribe(() => {
-              this.porcentagem += (tamanhoUltimoLote*100)/conferencias.length;
-              processados += tamanhoUltimoLote;
-              if (processados == conferencias.length) {
-                this.loadVeiculos();
-              }
-            });
-          }
-
-          totalVeiculosLidos++;
-        }
-
-      });
+        });
+      }
     }
+    else {
+      this.alertService.showError(
+        'SEM CONEXÃO COM A INTERNET',
+        'FIQUE ONLINE E TENTE NOVAMENTE.'
+        );
+    }
+  }
+
+  loadVeiculos(){
+    this.conferenciaConfiguracaoADO.dropConferenciaConfiguracao(this.configuracao.id)
+    .subscribe(() =>
+      this.conferenciaDataService.carregarConfiguracao(this.configuracao.id)
+      .subscribe((res) => {
+        this.conferenciaConfiguracaoADO.saveConferenciaConfiguracao2(res.retorno)
+        .subscribe(() => {
+          this.authService.hideSincronizacao();
+          this.authService.showLoading();
+          this.conferenciaService.update();
+
+          this.gotoListagemVeiculos();
+          this.authService.hideLoading();
+
+          this.contador = 0;
+          localStorage.setItem('contador', this.contador.toString())
+
+            },
+            (err) => {
+              console.error(err);
+              this.alertService.showError(
+                'ERRO AO EXECUTAR A SINCRONIZAÇÃO',
+                'FIQUE ONLINE E TENTE NOVAMENTE.'
+              );
+            }
+          )
+      })
+    )
   }
   else {
     this.alertService.showError(
@@ -609,6 +736,46 @@ loadVeiculos(){
   //     );
   //   }
   // }
+
+
+
+  // conferirChassisEmLotes(data: Conferencia[], conferenciaConfiguracaoID: number) {
+  //   let model = [];
+  //   let size = 1;
+  //   let veiculosLidos: Conferencia[] = [];
+
+  //   let totalLotes = 0;
+  //   let totalVeiculos = 0;
+
+  //   for (let i = 0; i < data.length; i++) {
+  //     const element = data[i];
+  //     veiculosLidos.push(element);
+  //     if (i == size) {
+  //       this.conferenciaDataService.conferirChassisEmLote(veiculosLidos,conferenciaConfiguracaoID)
+  //       .subscribe(result =>{
+  //         model.push(result);
+  //       });
+
+  //       size = size + 2;
+  //       veiculosLidos = [];
+  //       totalLotes++;
+  //     }
+  //     else if ((totalVeiculos + 1) == data.length) {
+  //       this.conferenciaDataService.conferirChassisEmLote(veiculosLidos,conferenciaConfiguracaoID)
+  //       .subscribe(result => {
+  //         model.push(result);
+  //       });
+  //     }
+
+  //     totalVeiculos++;
+  //   }
+
+  //   console.log("Total de lotes: " + totalLotes);
+  //   console.log("Total de veiculos: " + totalVeiculos);
+
+  //   return model;
+  // }
+
 
   // persisteConfiguracao(configuracao: ConferenciaConfiguracao) {
   //   this.conferenciaConfiguracaoADO

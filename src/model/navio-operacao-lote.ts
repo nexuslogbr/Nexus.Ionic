@@ -1,6 +1,6 @@
 import { StakeHolder } from "./stakeholder";
 import { Modelo } from "./modelo";
-import { Local } from "./Local";
+import { Local } from "./local";
 import { NavioOperacaoLoteInvoice } from "./navio-operacao-lote-invoice";
 import { NavioOperacao } from "./navio-operacao";
 

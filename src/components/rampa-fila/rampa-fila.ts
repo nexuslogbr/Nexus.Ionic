@@ -9,7 +9,7 @@ import {
 import { AuthService } from "../../providers/auth-service/auth-service";
 import { ModalErrorComponent } from "../../components/modal-error/modal-error";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { DataRetorno } from "../../model/DataRetorno";
+import { DataRetorno } from "../../model/dataretorno";
 
 const httpOptions = {
   headers: new HttpHeaders({

@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { DatabaseProvider } from './database';
 import { ConferenciaConfiguracao } from '../../model/conferencia-configuracao';
 import { fromPromise } from 'rxjs/observable/fromPromise';
-import { Local } from '../../model/Local';
+import { Local } from '../../model/local';
 import { Observable } from 'rxjs';
 import { ConferenciaSumDestino } from '../../model/conferencia-sum-destino';
 import { ConferenciaSumModelo } from '../../model/conferencia-sum-modelo';
 import { Veiculo } from '../../model/veiculo';
-import { Conferencia } from '../../model/Conferencia';
+import { Conferencia } from '../../model/conferencia';
 import {
   ConferenciaResumoTurno,
   ConferenciaResumoTurnoItem,

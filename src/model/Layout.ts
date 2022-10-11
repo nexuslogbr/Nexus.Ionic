@@ -1,4 +1,4 @@
-import { Local } from "./Local";
+import { Local } from "./local";
 
 export interface Layout {
   id: number;

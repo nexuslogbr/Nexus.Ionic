@@ -1,4 +1,4 @@
-import { Conferencia } from "./Conferencia";
+import { Conferencia } from "./conferencia";
 
 export class VeiculoConferencia {
   public id?: number;

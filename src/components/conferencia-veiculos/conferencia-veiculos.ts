@@ -1,10 +1,10 @@
 import { ConferenciaConfiguracaoADO } from './../../providers/database/conferencia-configuracao-ado';
-import { Veiculo } from './../../model/Veiculo';
+import { Veiculo } from '../../model/veiculo';
 import { Component, Input } from '@angular/core';
 import { ConferenciaConfiguracao } from '../../model/conferencia-configuracao';
 import { Pagination } from '../../model/pagination';
 import { finalize } from 'rxjs/operators';
-import { Local } from '../../model/Local';
+import { Local } from '../../model/local';
 
 @Component({
   selector: 'conferencia-veiculos',

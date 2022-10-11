@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth-service/auth-service';
 import { ConferenciaConfiguracaoCriacao } from '../model/conferencia-configuracao-criacao';
 import { ConferenciaVeiculoMotivos } from '../model/conferencia-veiculo-motivos';
-import { Conferencia } from '../model/Conferencia';
+import { Conferencia } from '../model/conferencia';
 import { ConferenciaAnulacao } from '../model/conferencia-anulacao';
 
 const headers = new HttpHeaders({

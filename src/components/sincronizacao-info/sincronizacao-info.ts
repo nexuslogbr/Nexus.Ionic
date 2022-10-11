@@ -16,16 +16,16 @@ export class SincronizacaoInfoComponent {
   constructor(conferenciaDataService: ConferenciaDataService) {
 
     if (this.conferenciaConfiguracaoId && this.conferenciaConfiguracaoId > 0) {
-
-      conferenciaDataService.possuiConferenciaPendenteEmFila(this.conferenciaConfiguracaoId)
+    conferenciaDataService.possuiConferenciaPendenteEmFila(this.conferenciaConfiguracaoId)
         .pipe(take(1))
-        .subscribe((res) => {
-          this.possuiConferenciaEmFila = res.retorno;
-        });
-    }
+          .subscribe((res) => {
+            this.possuiConferenciaEmFila = res.retorno;
+          });
+      }
   }
 
   // ngOnDestroy(): void {
-  //   this.subscription.unsubscribe();
+  //   this.subscription = null;
+  //   // this.subscription.unsubscribe();
   // }
 }

@@ -16,7 +16,7 @@ import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { ModalSucessoComponent } from '../../components/modal-sucesso/modal-sucesso';
 import { CarregamentoExportacaoDataService } from '../../providers/carregamento-exportacao-data-service';
 import { ConferenciaDataService } from '../../providers/conferencia-data-service';
-import { Local } from '../../model/Local';
+import { Local } from '../../model/local';
 import { ModalSelecaoChassiPage } from '../modal-selecao-chassi/modal-selecao-chassi';
 import { NavioDataService } from '../../providers/navio-data-service';
 import { ConferenciaStorageProvider } from '../../providers/storage/conferencia-storage-provider';

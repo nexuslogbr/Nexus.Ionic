@@ -133,12 +133,12 @@ const menus = [
     nome: 'mnu_mob_historicochassi'
   },
 
-  {
-    texto: 'Módulo de Qualidade',
-    cssClass: 'historico-chassi',
-    id: 3118,
-    nome: 'mnu_mob_qualidade'
-  },
+  // {
+  //   texto: 'Qualidade',
+  //   cssClass: 'historico-chassi',
+  //   id: 3118,
+  //   nome: 'mnu_mob_qualidade'
+  // },
 
   // {
   //   texto: 'Vistoriar',
@@ -365,14 +365,29 @@ export class HomePage {
       this.navCtrl.setRoot(ObservacoesPage);
     } else if (menu.nome == 'mnu_mob_servico') {
       this.navCtrl.setRoot(LancamentoServicoPage);
-    } else if (menu.nome == 'mnu_mob_qualidade') {
-      this.navCtrl.setRoot(QualidadeMenuPage);
+    } else if (menu.nome == 'mnu_mob_vistoria') {
+      this.navCtrl.setRoot(VistoriaPage);
     }
-    // else if (menu.nome == 'mnu_mob_vistoria') {
-    //   this.navCtrl.setRoot(VistoriaPage);
+    // else if (menu.nome == 'mnu_mob_qualidade') {
+    //   this.navCtrl.setRoot(QualidadeMenuPage);
     // }
-    // else if (menu.nome == 'mnu_mob_buscaravaria') {
-    //   this.navCtrl.setRoot(BuscarAvariasPage);
-    // }
+
+
+    //   nome:'mnu_mob_parqueamento'
+    //   nome:'mnu_mob_receberparquear'
+    //   nome:'mnu_mob_conferencia'
+    //   nome:'mnu_mob_parquearbloco'
+    //   nome:'mnu_mob_movimentacao'
+    //   nome:'mnu_mob_rechego'
+    //   nome:'mnu_mob_carregamento'
+    //   nome:'mnu_mob_carregamentoexportacao'
+    //   nome:'mnu_mob_romaneio'
+    //   nome:'mnu_mob_historicochassi'
+    //   nome:'mnu_mob_bloqueio'
+    //   nome:'mnu_mob_observacao'
+    //   nome:'mnu_mob_servico'
+    //   nome:'mnu_mob_vistoria'
+    // },
+
   }
 }

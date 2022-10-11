@@ -11,11 +11,12 @@ export class ModalSincronizandoComponent {
   percent = 0;
 
   constructor(public authService: AuthService) {
-    setInterval(() => this.manageProgress(), 300);
+    setInterval(() =>  this.manageProgress(), 300);
   }
 
-  manageProgress(){
+  manageProgress() {
     if (this.percent < this.progress) {
+      // this.percent += 1;
       this.percent = this.progress;
     }
   }

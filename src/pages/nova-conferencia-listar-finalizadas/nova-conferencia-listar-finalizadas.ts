@@ -26,6 +26,7 @@ export class NovaConferenciaListarFinalizadasPage {
   secondaryColor: string;
   inputColor: string;
   buttonColor: string;
+  clienteExterno = true;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,

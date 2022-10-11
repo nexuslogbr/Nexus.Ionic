@@ -1,0 +1,1 @@
+docker build -t ionic_builder_14 .

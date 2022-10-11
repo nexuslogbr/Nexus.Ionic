@@ -14,12 +14,10 @@
       <div class="div-navio-viagem">{{ configuracao.navio.viagem }}</div>
     </ion-col>
     <ion-col col-4 class="col-status">
-      <div class="legenda">
-        Restante / Conferido (Total)
-      </div>
+      <div class="legenda">Restante / Conferido (Total)</div>
       <div class="divtotais">
         <sincronizacao-info [conferenciaConfiguracaoId]="configuracao.id"></sincronizacao-info>
-        {{totalVeiculos - totalConferidos}}/{{ totalConferidos }} <strong>({{ totalVeiculos }})</strong>
+        {{totalVeiculos - totalConferidos}}/{{totalConferidos}} <strong>({{totalVeiculos}})</strong>
       </div>
     </ion-col>
   </ion-row>
