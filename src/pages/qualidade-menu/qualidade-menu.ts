@@ -62,10 +62,6 @@ export class QualidadeMenuPage {
     this.navCtrl.push(BuscarAvariasPage);
   }
 
-  // navigateToVistoriar() {
-  //   this.navCtrl.push(LancamentoAvariaVistoriaPage);
-  // }
-
   navigateToVistoriar() {
     this.navCtrl.push(VistoriaPage);
   }

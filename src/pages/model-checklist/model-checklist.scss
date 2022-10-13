@@ -2,18 +2,18 @@ page-model-checklist {
   ion-content {
     .form-vistoria {
 
-      ion-input {
-        border:  1px solid #fff;
-        background-color: #747474;
-        color: #747474;
-        font: 14px 'avenir_demi';
-        width: 100%;
-        height: 100%;
-        border-radius: 2%;
-        text-align: left;
-        padding-right: 10px;
-        text-transform: uppercase;
-      }
+      // ion-input {
+      //   border:  1px solid #fff;
+      //   background-color: #747474;
+      //   color: #747474;
+      //   font: 14px 'avenir_demi';
+      //   width: 100%;
+      //   height: 100%;
+      //   border-radius: 2%;
+      //   text-align: left;
+      //   padding-right: 10px;
+      //   text-transform: uppercase;
+      // }
 
       label {
         font: 10px 'avenir_demi';
@@ -26,8 +26,6 @@ page-model-checklist {
       }
 
       .form-checkpoint {
-        // background-color: transparent !important;
-        // background-color: #747474;
         border-radius: 5px;
         border: 1px solid transparent;
         height: auto;
@@ -35,7 +33,6 @@ page-model-checklist {
         label {
           font: 16px 'avenir_demi';
           bottom: 10px;
-          // color: #fff;
           position: absolute;
           left: 15px;
           display: inline-block;
@@ -59,29 +56,26 @@ page-model-checklist {
           margin: 0;
 
           ion-item{
-            // background-color: #404040;
-            // background-color: transparent !important;
             padding: 0;
-            // border-bottom: 1px solid #747474;
 
             .item-inner{
-            padding-left: 15px;
-            border-bottom: 1px solid transparent !important;
+              padding-left: 15px;
+              border-bottom: 1px solid transparent !important;
 
-            ion-label{
-              color: #fff;
-            }
-
-            ion-select{
-              max-width: 85%;
-              .select-text{
-                padding-right: 10px;
+              ion-label{
                 color: #fff;
-                font: 14px 'avenir_demi';
+              }
+
+              ion-select{
+                max-width: 85%;
+                .select-text{
+                  padding-right: 10px;
+                  color: #fff;
+                  font: 14px 'avenir_demi';
+                }
               }
             }
           }
-        }
         }
 
         .grid-dados {

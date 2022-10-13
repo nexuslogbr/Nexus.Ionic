@@ -26,8 +26,6 @@ modal-chassis-vistoria {
       }
 
       .form-checkpoint {
-        // background-color: transparent !important;
-        // background-color: #747474;
         border-radius: 5px;
         border: 1px solid transparent;
         height: auto;
@@ -35,7 +33,6 @@ modal-chassis-vistoria {
         label {
           font: 16px 'avenir_demi';
           bottom: 10px;
-          // color: #fff;
           position: absolute;
           left: 15px;
           display: inline-block;
@@ -59,7 +56,6 @@ modal-chassis-vistoria {
           margin: 0;
 
           ion-item{
-            // padding: 0px 12px;
             padding: 0;
 
             .item-inner{

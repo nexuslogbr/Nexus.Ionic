@@ -53,6 +53,7 @@ export class ModalChassisVistoriaComponent {
     private formBuilder: FormBuilder,
     public alertService: AlertService,
     private checklistService: CheckpointDataService,
+    private veiculoService: VeiculoDataService
   ) {
     this.title = 'Vistoria';
     this.url = this.authService.getUrl();
@@ -147,7 +148,8 @@ export class ModalChassisVistoriaComponent {
       this.authService.showLoading();
 
       forkJoin([
-        this.checklistService.carregar({id: this.form.controls.checklist.value})
+        this.checklistService.carregar({id: this.form.controls.checklist.value}),
+        this.veiculoService.busarVeiculo(chassi)
       ])
       .pipe(
         finalize(() => {
@@ -157,9 +159,11 @@ export class ModalChassisVistoriaComponent {
       )
       .subscribe(arrayResult => {
         let checklist$ = arrayResult[0];
+        let veiculo$ = arrayResult[1];
 
-        if (checklist$.sucesso) {
+        if (checklist$.sucesso && veiculo$.sucesso) {
           this.checklist = checklist$.retorno;
+          this.checklist.veiculo = veiculo$.retorno;
 
           const chassiModal: Modal = this.modal.create(ModelChecklistPage, {data: this.checklist });
           chassiModal.present();

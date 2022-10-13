@@ -29,7 +29,7 @@
       class="grid-dados" [ngClass]="item.isChecked ? 'checklist-style7' : secondaryColor">
         <ion-item [ngStyle]="{'background-color': secondaryColor}">
           <ion-label label-ios style="font-style: unset;">{{item.item}}</ion-label>
-          <ion-checkbox slot="end" round color="primary" [checked]="item.isChecked" (click)="checked(i)"></ion-checkbox>
+          <!-- <ion-checkbox slot="end" round color="primary" [checked]="item.isChecked" (click)="checked(i)"></ion-checkbox> -->
         </ion-item>
       </ion-grid>
     </div>
@@ -54,13 +54,5 @@
     <button ion-button round first class="btn-receiving btn-ok" type="button" (click)="mudar()">Finalizar Vistoria</button>
     <button ion-button round first class="btn-receiving btn-cancel" type="button" (click)="close()">Voltar</button>
   </div>
-  <!-- <ion-grid class="grid-botao-wrapper">
-    <ion-row>
-      <ion-col>
-        <button ion-button round first class="btn-receiving btn-cancel" (click)="close()" type="button" [ngStyle]="{'background-color': buttonColor}">SEM AVARIA</button>
-        <button ion-button round end class="btn-receiving btn-ok" type="button" [ngStyle]="{'background-color': buttonColor}">AVARIADO</button>
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
 </ion-footer>
 <modal-loading></modal-loading>
