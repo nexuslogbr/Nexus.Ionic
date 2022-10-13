@@ -46,7 +46,8 @@
   </form>
 
   <div class="login-content">
-    <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" type="button" [disabled]="!form.valid" (click)="toNavigate()">AVANÇAR</button>
+    <!-- <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" type="button" [disabled]="!form.valid" (click)="toNavigate()">AVANÇAR</button> -->
+    <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" type="button" (click)="toNavigate()">AVANÇAR</button>
     <button ion-button round first class="btn-receiving btn-cancel" type="button" (click)="voltar()">VOLTAR</button>
   </div>
 

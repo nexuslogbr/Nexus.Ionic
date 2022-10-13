@@ -15,6 +15,8 @@ import { VeiculoDataService } from '../../providers/veiculo-data-service';
 import { ModelChecklistPage } from '../../pages/model-checklist/model-checklist';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { Checklist } from '../../model/checklist';
+import { ChecklistItem } from '../../model/checklistItem';
+import { LancamentoAvariaVistoriaPage } from '../../pages/lancamento-avaria-vistoria/lancamento-avaria-vistoria';
 
 @Component({
   selector: 'modal-chassis-vistoria',
@@ -42,16 +44,19 @@ export class ModalChassisVistoriaComponent {
 
   model: any;
   checklists: Array<Checklist> = [];
-  checklist: Checklist;
+  veiculo: Veiculo;
+  // checklist: Checklist;
+  // checkListItens: ChecklistItem[] = [];
 
   constructor(
+    public navCtrl: NavController,
+    public authService: AuthService,
+    public alertService: AlertService,
+    public modalController: ModalController,
     private modal: ModalController,
     private navParam: NavParams,
     private view: ViewController,
-    public navCtrl: NavController,
-    public authService: AuthService,
     private formBuilder: FormBuilder,
-    public alertService: AlertService,
     private checklistService: CheckpointDataService,
     private veiculoService: VeiculoDataService
   ) {
@@ -103,7 +108,7 @@ export class ModalChassisVistoriaComponent {
       momento: [data.momento.value],
       stakeholderOrigem: [data.stakeholderOrigem.value],
       stakeholderDestino: [data.stakeholderDestino.value],
-      checklist: [null, Validators.required]
+      // checklist: [null, Validators.required]
     });
   }
 
@@ -148,7 +153,7 @@ export class ModalChassisVistoriaComponent {
       this.authService.showLoading();
 
       forkJoin([
-        this.checklistService.carregar({id: this.form.controls.checklist.value}),
+        // this.checklistService.carregar({id: this.form.controls.checklist.value}),
         this.veiculoService.busarVeiculo(chassi)
       ])
       .pipe(
@@ -158,30 +163,34 @@ export class ModalChassisVistoriaComponent {
         })
       )
       .subscribe(arrayResult => {
-        let checklist$ = arrayResult[0];
-        let veiculo$ = arrayResult[1];
+        // let checklist$ = arrayResult[0];
+        let veiculo$ = arrayResult[0];
 
-        if (checklist$.sucesso && veiculo$.sucesso) {
-          this.checklist = checklist$.retorno;
-          this.checklist.veiculo = veiculo$.retorno;
+        if (veiculo$.sucesso) {
+        // if (checklist$.sucesso && veiculo$.sucesso) {
+          // this.checklist = checklist$.retorno;
+          // this.checklist.veiculo = veiculo$.retorno;
+          this.veiculo = veiculo$.retorno;
 
-          const chassiModal: Modal = this.modal.create(ModelChecklistPage, {data: this.checklist });
-          chassiModal.present();
+          // this.checkListItens = this.checklist.checkListItens;
+
+          // const chassiModal: Modal = this.modal.create(ModelChecklistPage, {data: this.checklist });
+          // chassiModal.present();
         }
         else {
           this.authService.hideLoading();
-          if (chassi.length < 17) {
-            this.alertService.showError(checklist$.mensagem);
-          }
-          else if (checklist$.dataErro == 'CHASSI_ALREADY_RECEIVED') {
-            this.alertService.showAlert(checklist$.mensagem);
-          }
-          else if (checklist$.dataErro == 'CHASSI_NOT_FOUND') {
-            this.alertService.showError('Fabricante sem checklist');
-          }
-          else {
-            this.alertService.showError(checklist$.mensagem);
-          }
+          // if (chassi.length < 17) {
+          //   this.alertService.showError(checklist$.mensagem);
+          // }
+          // else if (checklist$.dataErro == 'CHASSI_ALREADY_RECEIVED') {
+          //   this.alertService.showAlert(checklist$.mensagem);
+          // }
+          // else if (checklist$.dataErro == 'CHASSI_NOT_FOUND') {
+          //   this.alertService.showError('Fabricante sem checklist');
+          // }
+          // else {
+          //   this.alertService.showError(checklist$.mensagem);
+          // }
         }
       },
       (error) => {
@@ -192,4 +201,26 @@ export class ModalChassisVistoriaComponent {
       this.alertService.showAlert('Selecione um checklist!');
     }
   }
+
+  openModal(){
+    const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage, {data:
+      {
+        veiculo: this.veiculo
+      } });
+    chassiModal.present();
+
+    // chassiModal.onDidDismiss((data) => {
+      this.view.dismiss();
+    // })
+    // chassiModal.onWillDismiss((data) =>{
+
+    // })
+  }
+  // presentModal() {
+  //   let profileModal = this.modalController.create(Profile, { userId: 8675309 });
+  //   profileModal.onDidDismiss(data => {
+  //     console.log(data);
+  //   });
+  //   profileModal.present();
+  // }
 }
