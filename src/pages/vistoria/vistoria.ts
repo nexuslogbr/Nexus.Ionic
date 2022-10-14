@@ -42,6 +42,7 @@ export class VistoriaPage {
 
   momentos: Momento[] = [];
   stakeholders: StakeHolder[] = [];
+  momento = new Momento();
 
   constructor(
     public http: HttpClient,
@@ -162,9 +163,28 @@ export class VistoriaPage {
     this.view.dismiss();
   }
 
+  changeMomento(id: number){
+      this.momento = this.momentos.filter(x => x.id == id).map(x => x)[0];
+  }
+
   toNavigate(){
     this.navCtrl.push(ModalChassisVistoriaComponent, {
-      data: this.form.controls
+      data: {
+        empresa : {
+          nome: this.form.controls.empresa.value
+        },
+        local : {
+          nome: this.form.controls.local.value
+        },
+        momento : {
+          id: this.momento.id,
+          nome: this.momento.nome
+        },
+        stakeholder : {
+          origem: this.form.controls.stakeholderOrigem.value,
+          destino: this.form.controls.stakeholderDestino.value
+        },
+      }
     });
   }
 }

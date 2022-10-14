@@ -3,7 +3,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Modal, ModalController, NavController, NavParams, Select, ViewController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import * as $ from 'jquery';
-import { LancamentoAvariaPage } from '../../pages/lancamento-avaria/lancamento-avaria';
 import { BuscarAvariasPage } from '../../pages/buscar-avarias/buscar-avarias';
 
 /**

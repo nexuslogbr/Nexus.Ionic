@@ -1,5 +1,6 @@
 import { Conferencia } from "./conferencia";
 import { ConferenciaVeiculoMotivos } from "./conferencia-veiculo-motivos";
+import { Modelo } from "./modelo";
 
 export class Veiculo {
   public chassi: string;
@@ -21,6 +22,8 @@ export class Veiculo {
   public destinoId: number;
   public selecionado: boolean;
   public vistoriado: boolean;
+
+  public model: Modelo
 }
 
 

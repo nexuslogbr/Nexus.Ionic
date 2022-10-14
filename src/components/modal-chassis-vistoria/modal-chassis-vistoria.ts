@@ -17,6 +17,9 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { Checklist } from '../../model/checklist';
 import { ChecklistItem } from '../../model/checklistItem';
 import { LancamentoAvariaVistoriaPage } from '../../pages/lancamento-avaria-vistoria/lancamento-avaria-vistoria';
+import { Momento } from '../../model/momento';
+import { StakeHolder } from '../../model/stakeholder';
+import { Local } from '../../model/local';
 
 @Component({
   selector: 'modal-chassis-vistoria',
@@ -42,7 +45,13 @@ export class ModalChassisVistoriaComponent {
   inputColor: string;
   buttonColor: string;
 
-  model: any;
+  model = {
+    empresa: null,
+    local: new Local(),
+    momento: new Momento(),
+    stakeholder: null,
+  };
+  ;
   checklists: Array<Checklist> = [];
   veiculo: Veiculo;
   // checklist: Checklist;
@@ -58,7 +67,8 @@ export class ModalChassisVistoriaComponent {
     private view: ViewController,
     private formBuilder: FormBuilder,
     private checklistService: CheckpointDataService,
-    private veiculoService: VeiculoDataService
+    private veiculoService: VeiculoDataService,
+    private vistoriaService: VistoriaDataService
   ) {
     this.title = 'Vistoria';
     this.url = this.authService.getUrl();
@@ -91,7 +101,7 @@ export class ModalChassisVistoriaComponent {
       }
     });
 
-    this.initializeFormControl(this.navParam.get('data'));
+    this.initializeFormControl();
   }
 
   ionViewWillEnter() {
@@ -101,13 +111,13 @@ export class ModalChassisVistoriaComponent {
     this. loadChecklists();
   }
 
-  initializeFormControl(data:any){
+  initializeFormControl(){
     this.form = this.formBuilder.group({
-      empresa: [data.empresa.value],
-      local: [data.local.value],
-      momento: [data.momento.value],
-      stakeholderOrigem: [data.stakeholderOrigem.value],
-      stakeholderDestino: [data.stakeholderDestino.value],
+      empresa: [this.model.empresa.nome],
+      local: [this.model.local.nome],
+      momento: [this.model.momento.nome],
+      stakeholderOrigem: [this.model.stakeholder.origem],
+      stakeholderDestino: [this.model.stakeholder.destino],
       // checklist: [null, Validators.required]
     });
   }
@@ -153,7 +163,6 @@ export class ModalChassisVistoriaComponent {
       this.authService.showLoading();
 
       forkJoin([
-        // this.checklistService.carregar({id: this.form.controls.checklist.value}),
         this.veiculoService.busarVeiculo(chassi)
       ])
       .pipe(
@@ -163,34 +172,13 @@ export class ModalChassisVistoriaComponent {
         })
       )
       .subscribe(arrayResult => {
-        // let checklist$ = arrayResult[0];
         let veiculo$ = arrayResult[0];
 
         if (veiculo$.sucesso) {
-        // if (checklist$.sucesso && veiculo$.sucesso) {
-          // this.checklist = checklist$.retorno;
-          // this.checklist.veiculo = veiculo$.retorno;
           this.veiculo = veiculo$.retorno;
-
-          // this.checkListItens = this.checklist.checkListItens;
-
-          // const chassiModal: Modal = this.modal.create(ModelChecklistPage, {data: this.checklist });
-          // chassiModal.present();
         }
         else {
           this.authService.hideLoading();
-          // if (chassi.length < 17) {
-          //   this.alertService.showError(checklist$.mensagem);
-          // }
-          // else if (checklist$.dataErro == 'CHASSI_ALREADY_RECEIVED') {
-          //   this.alertService.showAlert(checklist$.mensagem);
-          // }
-          // else if (checklist$.dataErro == 'CHASSI_NOT_FOUND') {
-          //   this.alertService.showError('Fabricante sem checklist');
-          // }
-          // else {
-          //   this.alertService.showError(checklist$.mensagem);
-          // }
         }
       },
       (error) => {
@@ -203,24 +191,24 @@ export class ModalChassisVistoriaComponent {
   }
 
   openModal(){
-    const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage, {data:
-      {
-        veiculo: this.veiculo
-      } });
-    chassiModal.present();
+    this.vistoriaService.vistoriarChassi(this.veiculo.id)
+    .subscribe((res: DataRetorno) => {
+      if (res.sucesso) {
+        const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage, {data:
+          {
+            veiculo: this.veiculo,
+            momento: this.model.momento
+          } });
+        chassiModal.present();
 
-    // chassiModal.onDidDismiss((data) => {
-      this.view.dismiss();
-    // })
-    // chassiModal.onWillDismiss((data) =>{
+        this.view.dismiss();
 
-    // })
+      }
+      else {
+        this.alertService.showError(res.mensagem);
+      }
+    }, (error: any) => {
+      this.alertService.showError('Erro');
+    });
   }
-  // presentModal() {
-  //   let profileModal = this.modalController.create(Profile, { userId: 8675309 });
-  //   profileModal.onDidDismiss(data => {
-  //     console.log(data);
-  //   });
-  //   profileModal.present();
-  // }
 }
