@@ -187,4 +187,12 @@ export class VistoriaPage {
       }
     });
   }
+
+  selectEmpresaChange(id:number) {
+    let stakeholder = this.stakeholders.filter(x => x.id == id).map(x => x)[0];
+
+    if (stakeholder.id == 1) {
+
+    }
+  }
 }
