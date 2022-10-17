@@ -26,8 +26,6 @@ modal-chassis-vistoria {
       }
 
       .form-checkpoint {
-        // background-color: transparent !important;
-        // background-color: #747474;
         border-radius: 5px;
         border: 1px solid transparent;
         height: auto;
@@ -35,7 +33,6 @@ modal-chassis-vistoria {
         label {
           font: 16px 'avenir_demi';
           bottom: 10px;
-          // color: #fff;
           position: absolute;
           left: 15px;
           display: inline-block;
@@ -59,7 +56,6 @@ modal-chassis-vistoria {
           margin: 0;
 
           ion-item{
-            // padding: 0px 12px;
             padding: 0;
 
             .item-inner{
@@ -88,35 +84,64 @@ modal-chassis-vistoria {
   }
 
   ion-footer {
-    height: 110px;
+    height: 180px;
     background-color: #404040;
     text-align: center;
     display: flex;
-  }
-}
 
-.login-content {
-  margin-top: 15px;
-  padding-right: 1%;
-  width: 850%;
-  text-align: center;
-  display: block;
-  p {
-      color: #fff;
-      text-align: center;
-      font: 10px 'avenir_demi';
-      margin: 10px 0;
-  }
-  .btn-receiving {
-      width: 100%;
-      height: auto;
-      .button-inner {
-          padding: 25px 15px;
-          font: 19px 'avenir_bold';
+    .grid-botao-wrapper {
+      padding: 12px 2px !important;
+
+      .btn-receiving-long {
+        width: 90%;
+        height: auto;
+        .button-inner {
+            padding: 25px 15px 25px 15px;
+            font: 19px 'avenir_bold';
+        }
       }
-  }
-  .btn-cancel {
-      background-color: #404040;
+
+      .btn-receiving {
+        width: 45%;
+        height: auto;
+        .button-inner {
+            padding: 25px 15px;
+            font: 19px 'avenir_bold';
+        }
+      }
+      .btn-ok {
+        background-color: #A7FF8D !important;
+        color: black !important;
+      }
+      .btn-cancel {
+        background-color: #484848 !important;
+      }
+    }
+
+    .login-content {
+      margin-top: 10px;
+      width: 850%;
+      text-align: center;
+      display: block;
+      margin-right: 2%;
+      margin-left: 1%;
+
+      .btn-receiving {
+          width: 100%;
+          height: auto;
+          .button-inner {
+              padding: 25px 15px;
+              font: 19px 'avenir_bold';
+          }
+      }
+      .btn-cancel {
+          background-color: #404040;
+      }
+      .btn-ok {
+        background-color: #A7FF8D !important;
+        color: black !important;
+      }
+    }
   }
 }
 
@@ -128,4 +153,9 @@ modal-chassis-vistoria {
   // background-color: #06273f;
   // background-color: #00141b;
   // background-color: #A7FF8D;
+}
+
+.checklist-style7 {
+  background-color: #A7FF8D;
+  color: white;
 }

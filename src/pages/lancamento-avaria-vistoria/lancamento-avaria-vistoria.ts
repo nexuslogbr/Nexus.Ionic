@@ -6,9 +6,6 @@ import * as $ from 'jquery';
 import { Veiculo } from '../../model/veiculo';
 import { Momento } from '../../model/momento';
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
-import { LancamentoAvariaVistoriaLancarPage } from '../lancamento-avaria-vistoria-lancar/lancamento-avaria-vistoria-lancar';
-import { Arquivo } from '../../model/arquivo';
-import { Navio } from '../../model/navio';
 
 @Component({
   selector: 'page-lancamento-avaria-vistoria',
@@ -19,8 +16,6 @@ export class LancamentoAvariaVistoriaPage {
   formData = {
     veiculo: new Veiculo(),
     momento: new Momento(),
-    arquivo: new Arquivo(),
-    navio: new Navio(),
     veiculos: new Array<Veiculo>()
   };
 
@@ -55,25 +50,6 @@ export class LancamentoAvariaVistoriaPage {
   }
 
   closeModal() {
-    var modal: Modal;
-
-    // if (this.formData.arquivo.id) {
-    //   this.formData.arquivo.momentoId = this.formData.momento.id;
-    //   this.formData.momento.id = this.formData.momento.id;
-    //   modal = this.modal.create(LancamentoAvariaVistoriaLancarPage, {
-    //     arquivo: this.formData.arquivo,
-    //   });
-    // }
-    // else if (this.formData.navio.id) {
-    //   this.formData.navio.momentoId = this.formData.momento.id;
-    //   this.formData.momento.id = this.formData.momento.id;
-    //   modal = this.modal.create(LancamentoAvariaVistoriaLancarPage, {
-    //     navio: this.formData.navio,
-    //   });
-    // }
-
-
-    // modal.present();
     const data = {
       name: 'Hingo',
       cargo: 'Front',
