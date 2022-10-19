@@ -153,6 +153,7 @@ export class VistoriaPage {
       stakeholderDestino: [{ value: null, disabled: true }, Validators.required],
       local: [{ value: this.local, disabled: true }, Validators.required],
       momento: [{ value: null, disabled: true }, Validators.required],
+      vistoriaGM: [false, Validators.required]
     });
   }
 
@@ -211,6 +212,7 @@ export class VistoriaPage {
 
         this.form.enable();
         this.form.controls.momento.disable();
+        this.form.patchValue({ vistoriaGM: true });
       }
       else{
         this.alertService.showError(this.companies$['responseStatus']['message']);
@@ -225,6 +227,7 @@ export class VistoriaPage {
       this.stakeholdersDestino = this.stakeholders$;
 
       this.form.enable();
+      this.form.patchValue({ vistoriaGM: false });
     }
   }
 
@@ -259,6 +262,7 @@ export class VistoriaPage {
           origem: this.form.controls.stakeholderOrigem.value,
           destino: this.form.controls.stakeholderDestino.value
         },
+        vistoriaGM: this.form.controls.vistoriaGM.value
       }
     });
   }
