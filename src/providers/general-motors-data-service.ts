@@ -25,39 +25,38 @@ export class GeneralMotorsDataService {
     this.urlApi = this.authService.getUrl();
   }
 
-  public qualityinconsistences(model: any) {
-    let url = this.urlApi + '/generalMotors/qualityinconsistences?token=' + this.authService.getToken();
-    model.token = this.authService.getToken();
-    return this.http.post<DataRetorno>(url, model, httpOptions);
+  public qualityinconsistences() {
+    let url = this.urlApi + '/generalMotors/qualityinconsistences';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 
-  public checkPoints(model: any) {
-    let url = this.urlApi + '/generalMotors/checkPoints?token=' + this.authService.getToken();
-    model.token = this.authService.getToken();
-    return this.http.post<DataRetorno>(url, model, httpOptions);
+  public checkPoints() {
+    let url = this.urlApi + '/generalMotors/checkPoints';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 
-  public companies(model: any) {
-    let url = this.urlApi + '/generalMotors/companies?token=' + this.authService.getToken();
-    model.token = this.authService.getToken();
-    return this.http.post<DataRetorno>(url, model, httpOptions);
+  public companies() {
+    let url = this.urlApi + '/generalMotors/companies';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 
-  public severity(model: any) {
-    let url = this.urlApi + '/generalMotors/severity?token=' + this.authService.getToken();
-    model.token = this.authService.getToken();
-    return this.http.post<DataRetorno>(url, model, httpOptions);
+  public severity() {
+    let url = this.urlApi + '/generalMotors/severity';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 
-  public trips(model: any) {
-    let url = this.urlApi + '/generalMotors/trips?token=' + this.authService.getToken();
-    model.token = this.authService.getToken();
-    return this.http.post<DataRetorno>(url, model, httpOptions);
+  public places() {
+    let url = this.urlApi + '/generalMotors/places';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 
-  public insertsurvey(model: any) {
-    let url = this.urlApi + '/generalMotors/insertsurvey?token=' + this.authService.getToken();
-    model.token = this.authService.getToken();
-    return this.http.post<DataRetorno>(url, model, httpOptions);
+  public trips() {
+    let url = this.urlApi + '/generalMotors/trips';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
+  }
+
+  public insertsurvey() {
+    let url = this.urlApi + '/generalMotors/insertsurvey';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 }
