@@ -8,4 +8,7 @@ export class StakeHolder
   public usuarioID: string;
   public dataCadastro: string;
   public dataAlteracao: string;
+
+  public origem: number;
+  public destino: number;
 }

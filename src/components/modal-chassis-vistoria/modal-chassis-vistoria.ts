@@ -15,6 +15,8 @@ import { Checklist } from '../../model/checklist';
 import { LancamentoAvariaVistoriaPage } from '../../pages/lancamento-avaria-vistoria/lancamento-avaria-vistoria';
 import { Momento } from '../../model/momento';
 import { Local } from '../../model/local';
+import { Survey } from '../../model/GeneralMotors/survey';
+import { StakeHolder } from '../../model/stakeholder';
 
 @Component({
   selector: 'modal-chassis-vistoria',
@@ -44,12 +46,10 @@ export class ModalChassisVistoriaComponent {
     empresa: null,
     local: new Local(),
     momento: new Momento(),
-    stakeholder: null,
+    stakeholder: new StakeHolder(),
   };
 
-  modelGM = {
-
-  };
+  modelGM = new Survey();
 
   checklists: Array<Checklist> = [];
   veiculo: Veiculo;
@@ -72,12 +72,14 @@ export class ModalChassisVistoriaComponent {
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
     let data = this.navParam.get('data');
-
+    this.model = data;
     if (data.vistoriaGM) {
-
+      this.modelGM.company = this.model.empresa;
+      this.modelGM.local = this.model.local.id;
+      this.modelGM.origin = this.model.stakeholder.origem;
+      this.modelGM.destination = this.model.stakeholder.destino;
+      this.modelGM.checkpoint = this.model.momento.id;
     }
-
-    this.model = this.navParam.get('data');
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -187,7 +189,7 @@ export class ModalChassisVistoriaComponent {
       });
     }
     else {
-      this.alertService.showAlert('Selecione um checklist!');
+      this.alertService.showAlert('Erro!');
     }
   }
 
