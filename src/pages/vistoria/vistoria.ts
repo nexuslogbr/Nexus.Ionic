@@ -18,6 +18,10 @@ import { finalize } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { StakeHolder } from '../../model/stakeholder';
 import { ModalChassisVistoriaComponent } from '../../components/modal-chassis-vistoria/modal-chassis-vistoria';
+import { GeneralMotorsDataService } from '../../providers/general-motors-data-service';
+import { Checkpoint } from '../../model/GeneralMotors/checkpoint';
+import { Company } from '../../model/GeneralMotors/Company';
+import { Place } from '../../model/GeneralMotors/place';
 
 @Component({
   selector: 'page-vistoria',
@@ -40,9 +44,24 @@ export class VistoriaPage {
 
   public form: FormGroup
 
+  momentos$: Momento[] = [];
+  stakeholders$: StakeHolder[] = [];
+  checkpoints$: Checkpoint[] = [];
+  companies$: Company[] = [];
+  places$: Place[] = [];
+
   momentos: Momento[] = [];
-  stakeholders: StakeHolder[] = [];
+  stakeholdersOrigem: StakeHolder[] = [];
+  stakeholdersDestino: StakeHolder[] = [];
+  checkpoints: Checkpoint[] = [];
+  checkpointsByPlace: Checkpoint[] = [];
+  companies: Company[] = [];
+  places: Place[] = [];
+
   momento = new Momento();
+  checkpoint = new Checkpoint();
+  stakeholder = new StakeHolder();
+  place = new Place();
 
   constructor(
     public http: HttpClient,
@@ -57,7 +76,8 @@ export class VistoriaPage {
     private checkpointService: CheckpointDataService,
     private momentoService: MomentoDataService,
     private stakeholderService: StakeholderService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private generalMotorsService: GeneralMotorsDataService
   ) {
     this.title = 'Vistoria';
     this.url = this.authService.getUrl();
@@ -84,7 +104,10 @@ export class VistoriaPage {
 
     forkJoin([
       this.momentoService.listar(),
-      this.stakeholderService.listar()
+      this.stakeholderService.listar(),
+      this.generalMotorsService.companies(),
+      this.generalMotorsService.checkPoints(),
+      this.generalMotorsService.places(),
     ])
     .pipe(
       finalize(() => {
@@ -94,14 +117,28 @@ export class VistoriaPage {
     .subscribe(arrayResult => {
       let momentos$ = arrayResult[0];
       let stakeholders$ = arrayResult[1];
+      let companies$ = arrayResult[2];
+      let checkpoints$ = arrayResult[3];
+      let places$ = arrayResult[4];
+
+      if (companies$.sucesso && checkpoints$.sucesso && places$.sucesso) {
+        this.companies$ = companies$.retorno.company;
+        this.checkpoints$ = checkpoints$.retorno.checkPoints;
+        this.places$ = places$.retorno;
+      }
 
       if (momentos$.sucesso && stakeholders$.sucesso) {
-        this.momentos = momentos$.retorno;
-        this.stakeholders = stakeholders$.retorno;
+        this.momentos$ = momentos$.retorno;
+        this.stakeholders$ = stakeholders$.retorno;
+
+        this.momentos = this.momentos$;
+        this.stakeholdersDestino = this.stakeholders$;
+        this.stakeholdersOrigem = stakeholders$.retorno;
       }
       else {
-      this.showErrorMessage = true;
+        this.alertService.showError("Erro ao carregar as listas!");
       }
+
     },
     error => {
       this.showErrorMessage = true;
@@ -114,10 +151,11 @@ export class VistoriaPage {
   initializeFormControl(){
     this.form = this.formBuilder.group({
       empresa: ['Nexus', Validators.required],
-      local: [this.local, Validators.required],
-      momento: [null, Validators.required],
       stakeholderOrigem: [null, Validators.required],
-      stakeholderDestino: [null, Validators.required]
+      stakeholderDestino: [{ value: null, disabled: true }, Validators.required],
+      local: [{ value: this.local, disabled: true }, Validators.required],
+      momento: [{ value: null, disabled: true }, Validators.required],
+      vistoriaGM: [false, Validators.required]
     });
   }
 
@@ -163,28 +201,96 @@ export class VistoriaPage {
     this.view.dismiss();
   }
 
+  selectEmpresaChange(id:number) {
+    this.stakeholder = this.stakeholdersOrigem.filter(x => x.id == id).map(x => x)[0];
+
+    if (this.stakeholder.id == 1) {
+      if (this.companies$.length > 0 && this.checkpoints$.length > 0) {
+        this.momentos = [];
+        this.stakeholdersDestino = [];
+        this.companies = this.companies$;
+        this.checkpoints = this.checkpoints$;
+        this.places = this.places$;
+
+        this.form.enable();
+        this.form.controls.momento.disable();
+        this.form.patchValue({ vistoriaGM: true });
+      }
+      else{
+        this.alertService.showError(this.companies$['responseStatus']['message']);
+      }
+    }
+    else if (this.stakeholder.id > 1) {
+      this.companies = [];
+      this.checkpoints = [];
+      this.places = [];
+      this.checkpointsByPlace = [];
+      this.momentos = this.momentos$;
+      this.stakeholdersDestino = this.stakeholders$;
+
+      this.form.enable();
+      this.form.patchValue({ vistoriaGM: false });
+    }
+  }
+
   changeMomento(id: number){
-      this.momento = this.momentos.filter(x => x.id == id).map(x => x)[0];
+    this.momento = this.momentos.filter(x => x.id == id).map(x => x)[0];
+  }
+
+  changeCheckpoint(id: number){
+    this.checkpoint = this.checkpoints.filter(x => x.checkpoint == id).map(x => x)[0];
+  }
+
+  changePlace(local: number){
+    this.place = this.places.filter(x => x.local == local).map(x => x)[0];
+    var places = this.checkpoints.filter(x => x.local == local).map(x => x);
+    this.checkpointsByPlace = places;
+    this.form.controls.momento.enable();
   }
 
   toNavigate(){
-    this.navCtrl.push(ModalChassisVistoriaComponent, {
-      data: {
-        empresa : {
-          nome: this.form.controls.empresa.value
-        },
-        local : {
-          nome: this.form.controls.local.value
-        },
-        momento : {
-          id: this.momento.id,
-          nome: this.momento.nome
-        },
-        stakeholder : {
-          origem: this.form.controls.stakeholderOrigem.value,
-          destino: this.form.controls.stakeholderDestino.value
-        },
-      }
-    });
+    if (!this.form.controls.vistoriaGM.value) {
+      this.navCtrl.push(ModalChassisVistoriaComponent, {
+        data: {
+          empresa : {
+            nome: this.form.controls.empresa.value
+          },
+          local : {
+            nome: this.form.controls.local.value
+          },
+          momento : {
+            id: this.momento.id,
+            nome: this.momento.nome
+          },
+          stakeholder : {
+            origem: this.form.controls.stakeholderOrigem.value,
+            destino: this.form.controls.stakeholderDestino.value
+          },
+          vistoriaGM: this.form.controls.vistoriaGM.value
+        }
+      });
+    }
+    else if (this.form.controls.vistoriaGM.value) {
+      this.navCtrl.push(ModalChassisVistoriaComponent, {
+        data: {
+          empresa : {
+            nome: this.form.controls.empresa.value
+          },
+          local : {
+            id: this.place.local,
+            nome: this.place.localDescription
+          },
+          momento : {
+            id: this.checkpoint.checkpoint,
+            nome: this.checkpoint.checkpointDescription
+          },
+          stakeholder : {
+            origem: this.stakeholder.nome,
+            destino: this.form.controls.stakeholderDestino.value
+          },
+          vistoriaGM: this.form.controls.vistoriaGM.value
+        }
+      });
+    }
   }
 }

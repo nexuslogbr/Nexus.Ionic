@@ -50,6 +50,7 @@ import { VeiculoDataService } from '../providers/veiculo-data-service';
 import { ResponsabilidadeAvariaDataService } from '../providers/responsabilidade-avaria-service';
 import { ModeloDataService } from '../providers/modelo-data-service'
 import { NivelAvariaDataService } from '../providers/nivel-avaria-data-service'
+import { GeneralMotorsDataService } from '../providers/general-motors-data-service'
 
 // Pages
 import { CarregamentoCanceladoPage } from '../pages/carregamento-cancelado/carregamento-cancelado';
@@ -690,7 +691,8 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     VeiculoDataService,
     ResponsabilidadeAvariaDataService,
     ModeloDataService,
-    NivelAvariaDataService
+    NivelAvariaDataService,
+    GeneralMotorsDataService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

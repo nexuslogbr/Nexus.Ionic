@@ -2,8 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, ViewController, Modal, ModalController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import * as $ from 'jquery';
-import { ModalSucessoComponent } from '../modal-sucesso/modal-sucesso';
-import { VistoriaPage } from '../../pages/vistoria/vistoria';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Veiculo } from '../../model/veiculo';
 import { CheckpointDataService } from '../../providers/checkpoint-service';
@@ -12,14 +10,13 @@ import { finalize } from 'rxjs/operators/finalize';
 import { DataRetorno } from '../../model/dataretorno';
 import { VistoriaDataService } from '../../providers/vistoria-service';
 import { VeiculoDataService } from '../../providers/veiculo-data-service';
-import { ModelChecklistPage } from '../../pages/model-checklist/model-checklist';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { Checklist } from '../../model/checklist';
-import { ChecklistItem } from '../../model/checklistItem';
 import { LancamentoAvariaVistoriaPage } from '../../pages/lancamento-avaria-vistoria/lancamento-avaria-vistoria';
 import { Momento } from '../../model/momento';
-import { StakeHolder } from '../../model/stakeholder';
 import { Local } from '../../model/local';
+import { Survey } from '../../model/GeneralMotors/survey';
+import { StakeHolder } from '../../model/stakeholder';
 
 @Component({
   selector: 'modal-chassis-vistoria',
@@ -49,13 +46,13 @@ export class ModalChassisVistoriaComponent {
     empresa: null,
     local: new Local(),
     momento: new Momento(),
-    stakeholder: null,
+    stakeholder: new StakeHolder(),
   };
-  ;
+
+  modelGM = new Survey();
+
   checklists: Array<Checklist> = [];
   veiculo: Veiculo;
-  // checklist: Checklist;
-  // checkListItens: ChecklistItem[] = [];
 
   constructor(
     public navCtrl: NavController,
@@ -74,7 +71,15 @@ export class ModalChassisVistoriaComponent {
     this.url = this.authService.getUrl();
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
-    this.model = this.navParam.get('data');
+    let data = this.navParam.get('data');
+    this.model = data;
+    if (data.vistoriaGM) {
+      this.modelGM.company = this.model.empresa;
+      this.modelGM.local = this.model.local.id;
+      this.modelGM.origin = this.model.stakeholder.origem;
+      this.modelGM.destination = this.model.stakeholder.destino;
+      this.modelGM.checkpoint = this.model.momento.id;
+    }
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -118,7 +123,6 @@ export class ModalChassisVistoriaComponent {
       momento: [this.model.momento.nome],
       stakeholderOrigem: [this.model.stakeholder.origem],
       stakeholderDestino: [this.model.stakeholder.destino],
-      // checklist: [null, Validators.required]
     });
   }
 
@@ -158,7 +162,6 @@ export class ModalChassisVistoriaComponent {
   };
 
   buscarChassi(chassi: string) {
-
     if (this.form.valid) {
       this.authService.showLoading();
 
@@ -186,11 +189,14 @@ export class ModalChassisVistoriaComponent {
       });
     }
     else {
-      this.alertService.showAlert('Selecione um checklist!');
+      this.alertService.showAlert('Erro!');
     }
   }
 
   openModal(){
+    if (this.modelGM) {
+
+    }
     this.vistoriaService.vistoriarChassi(this.veiculo.id)
     .subscribe((res: DataRetorno) => {
       if (res.sucesso) {
