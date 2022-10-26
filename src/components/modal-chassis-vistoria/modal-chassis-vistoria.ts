@@ -17,6 +17,7 @@ import { Momento } from '../../model/momento';
 import { Local } from '../../model/local';
 import { Survey } from '../../model/GeneralMotors/survey';
 import { StakeHolder } from '../../model/stakeholder';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'modal-chassis-vistoria',
@@ -53,6 +54,7 @@ export class ModalChassisVistoriaComponent {
 
   checklists: Array<Checklist> = [];
   veiculo: Veiculo;
+  retorno: DataRetorno;
 
   constructor(
     public navCtrl: NavController,
@@ -146,14 +148,6 @@ export class ModalChassisVistoriaComponent {
     })
   }
 
-  close() {
-    const data = {
-      name: 'Hingo',
-      cargo: 'Front',
-    };
-    this.view.dismiss(data);
-  }
-
   toggleMenu = function (this) {
     $('.menu-body').toggleClass('show-menu');
     $('menu-inner').toggleClass('show');
@@ -193,10 +187,38 @@ export class ModalChassisVistoriaComponent {
     }
   }
 
-  openModal(){
-    if (this.modelGM) {
+  semAvaria() {
+    this.authService.showLoading();
 
-    }
+    forkJoin([
+      this.vistoriaService.vistoriarChassi(this.veiculo.id)
+    ])
+    .pipe(
+      finalize(() => {
+        this.authService.hideLoading();
+        this.veiculo = null;
+      })
+    )
+    .subscribe(arrayResult => {
+      let vistoria$ = arrayResult[0];
+
+      if (vistoria$.sucesso) {
+        if (vistoria$.tipo == 205) {
+          this.alertService.showAlert(vistoria$.mensagem);
+        }
+        else {
+          this.alertService.showInfo(vistoria$.mensagem);
+        }
+      }
+      else if (!vistoria$.sucesso) {
+        this.alertService.showError(vistoria$.mensagem);
+      }
+    }, error => {
+      this.alertService.showError(error);
+    })
+  }
+
+  comAvaria(){
     this.vistoriaService.vistoriarChassi(this.veiculo.id)
     .subscribe((res: DataRetorno) => {
       if (res.sucesso) {
@@ -216,5 +238,13 @@ export class ModalChassisVistoriaComponent {
     }, (error: any) => {
       this.alertService.showError('Erro');
     });
+  }
+
+  close() {
+    const data = {
+      name: 'Hingo',
+      cargo: 'Front',
+    };
+    this.view.dismiss(data);
   }
 }
