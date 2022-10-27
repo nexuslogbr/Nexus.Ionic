@@ -400,6 +400,7 @@ import { VistoriaGeneralMotorsPage } from '../pages/vistoria-general-motors/vist
     ObservacoesPage,
     AlterarCorPage,
     VistoriaPage,
+    VistoriaGeneralMotorsPage,
     BuscarAvariasPage,
     ListarAvariasPage,
     EditarAvariasPage,

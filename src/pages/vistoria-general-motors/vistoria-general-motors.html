@@ -36,9 +36,21 @@
           <ion-option *ngFor="let item of companies" [value]="item.companyName" id="{{item.id}}">{{item.companyName}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Empresa Destino:</ion-label>
         <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="stakeholderDestino" (ionChange)="selectDestinationCompanyChange($event)">
+          <ion-option *ngFor="let item of companies" [value]="item.companyName" id="{{item.id}}">{{item.companyName}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Nome do Navio:</ion-label>
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="stakeholderDestino">
+          <ion-option *ngFor="let item of companies" [value]="item.companyName" id="{{item.id}}">{{item.companyName}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">
+        <ion-label label-ios>Numero da Viagem:</ion-label>
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="stakeholderDestino">
           <ion-option *ngFor="let item of companies" [value]="item.companyName" id="{{item.id}}">{{item.companyName}}</ion-option>
         </ion-select>
       </ion-item>
