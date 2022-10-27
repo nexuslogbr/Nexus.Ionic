@@ -235,6 +235,7 @@ import { ModalBuscaChassiComponent } from '../pages/modal-busca-chassi/modal-bus
 import { ModalSelecionarChassiComponent } from '../components/modal-selecionar-chassi/modal-selecionar-chassi';
 import { ModalSelecionarChassiBuscaComponent } from '../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
 import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
+import { VistoriaGeneralMotorsPage } from '../pages/vistoria-general-motors/vistoria-general-motors';
 
 @NgModule({
   declarations: [
@@ -634,6 +635,7 @@ import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
     ObservacoesPage,
     AlterarCorPage,
     VistoriaPage,
+    VistoriaGeneralMotorsPage,
     BuscarAvariasPage,
     ListarAvariasPage,
     EditarAvariasPage,

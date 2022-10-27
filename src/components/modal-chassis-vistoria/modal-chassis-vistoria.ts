@@ -18,6 +18,7 @@ import { Local } from '../../model/local';
 import { Survey } from '../../model/GeneralMotors/survey';
 import { StakeHolder } from '../../model/stakeholder';
 import { Observable } from 'rxjs/Observable';
+import { enumVeiculoStatus } from '../../providers/enumerables/enum';
 
 @Component({
   selector: 'modal-chassis-vistoria',
@@ -203,7 +204,7 @@ export class ModalChassisVistoriaComponent {
       let vistoria$ = arrayResult[0];
 
       if (vistoria$.sucesso) {
-        if (vistoria$.tipo == 205) {
+        if (vistoria$.tipo == enumVeiculoStatus.Vistoriado) {
           this.alertService.showAlert(vistoria$.mensagem);
         }
         else {
@@ -219,25 +220,19 @@ export class ModalChassisVistoriaComponent {
   }
 
   comAvaria(){
-    this.vistoriaService.vistoriarChassi(this.veiculo.id)
-    .subscribe((res: DataRetorno) => {
-      if (res.sucesso) {
-        const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage, {data:
-          {
-            veiculo: this.veiculo,
-            momento: this.model.momento
-          } });
-        chassiModal.present();
+    this.authService.showLoading();
 
-        this.view.dismiss();
+    const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage,
+      {
+        data:
+        {
+          veiculo: this.veiculo,
+          momento: this.model.momento
+        }
+      });
 
-      }
-      else {
-        this.alertService.showError(res.mensagem);
-      }
-    }, (error: any) => {
-      this.alertService.showError('Erro');
-    });
+    chassiModal.present();
+    this.view.dismiss();
   }
 
   close() {
