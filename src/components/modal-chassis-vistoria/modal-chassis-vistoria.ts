@@ -19,6 +19,12 @@ import { Survey } from '../../model/GeneralMotors/survey';
 import { StakeHolder } from '../../model/stakeholder';
 import { Observable } from 'rxjs/Observable';
 import { enumVeiculoStatus } from '../../providers/enumerables/enum';
+import { Checkpoint } from '../../model/GeneralMotors/checkpoint';
+import { Place } from '../../model/GeneralMotors/place';
+import { Company } from '../../model/GeneralMotors/Company';
+import { Ship } from '../../model/GeneralMotors/ship';
+import { Trip } from '../../model/GeneralMotors/trip';
+import { THROW_IF_NOT_FOUND } from '@angular/core/src/di/injector';
 
 @Component({
   selector: 'modal-chassis-vistoria',
@@ -48,10 +54,19 @@ export class ModalChassisVistoriaComponent {
     empresa: null,
     local: new Local(),
     momento: new Momento(),
-    stakeholder: new StakeHolder(),
+    stakeholderOrigem: new StakeHolder(),
+    stakeholderDestino: new StakeHolder(),
   };
 
-  modelGM = new Survey();
+  modelGM = {
+    company: new Company(),
+    place: new Place(),
+    checkpoint: new Checkpoint(),
+    companyOrigin: new Company(),
+    companyDestination: new Company(),
+    ship: new Ship(),
+    trip: new Trip(),
+  };
 
   checklists: Array<Checklist> = [];
   veiculo: Veiculo;
@@ -75,13 +90,11 @@ export class ModalChassisVistoriaComponent {
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
     let data = this.navParam.get('data');
-    this.model = data;
     if (data.vistoriaGM) {
-      this.modelGM.company = this.model.empresa;
-      this.modelGM.local = this.model.local.id;
-      this.modelGM.origin = this.model.stakeholder.origem;
-      this.modelGM.destination = this.model.stakeholder.destino;
-      this.modelGM.checkpoint = this.model.momento.id;
+      this.modelGM = data;
+    }
+    else {
+      this.model = data;
     }
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
@@ -121,11 +134,11 @@ export class ModalChassisVistoriaComponent {
 
   initializeFormControl(){
     this.form = this.formBuilder.group({
-      empresa: [this.model.empresa.nome],
-      local: [this.model.local.nome],
-      momento: [this.model.momento.nome],
-      stakeholderOrigem: [this.model.stakeholder.origem],
-      stakeholderDestino: [this.model.stakeholder.destino],
+      empresa: [this.model.empresa ? this.model.empresa.nome : this.modelGM.company.companyName],
+      local: [this.model.empresa ? this.model.local.nome : this.modelGM.place.localDescription],
+      momento: [this.model.empresa ? this.model.momento.nome : this.modelGM.checkpoint.checkpointDescription],
+      stakeholderOrigem: [this.model.empresa ? this.model.stakeholderOrigem : this.modelGM.companyOrigin.companyName],
+      stakeholderDestino: [this.model.empresa ? this.model.stakeholderDestino : this.modelGM.companyDestination.companyName],
     });
   }
 

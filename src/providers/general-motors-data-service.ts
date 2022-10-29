@@ -55,6 +55,11 @@ export class GeneralMotorsDataService {
     return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 
+  public ships() {
+    let url = this.urlApi + '/generalMotors/ships';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
+  }
+
   public insertsurvey() {
     let url = this.urlApi + '/generalMotors/insertsurvey';
     return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);

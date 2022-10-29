@@ -14,13 +14,13 @@
     <ion-list>
       <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Empresa</ion-label>
-        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="empresa" value="Nexus">
-          <ion-option>Nexus</ion-option>
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="company" (ionChange)="changeCompany($event)" [disabled]="true">
+          <ion-option *ngFor="let item of companies" [value]="item.id" id="{{item.id}}">{{item.companyName}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Local:</ion-label>
-        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="local" (ionChange)="changePlace($event)">
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="place" (ionChange)="changePlace($event)">
           <ion-option *ngFor="let item of places" value="{{item.local}}">{{item.localDescription}}</ion-option>
         </ion-select>
       </ion-item>
@@ -32,26 +32,26 @@
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Empresa Origem:</ion-label>
-        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="stakeholderOrigem" (ionChange)="selectOriginCompanyChange($event)">
-          <ion-option *ngFor="let item of companies" [value]="item.companyName" id="{{item.id}}">{{item.companyName}}</ion-option>
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="companyOrigin" (ionChange)="changeOriginCompany($event)">
+          <ion-option *ngFor="let item of companies" [value]="item.id" id="{{item.id}}">{{item.companyName}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Empresa Destino:</ion-label>
-        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="stakeholderDestino" (ionChange)="selectDestinationCompanyChange($event)">
-          <ion-option *ngFor="let item of companies" [value]="item.companyName" id="{{item.id}}">{{item.companyName}}</ion-option>
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="companyDestiny" (ionChange)="changeDestinationCompany($event)">
+          <ion-option *ngFor="let item of companies" [value]="item.id" id="{{item.id}}">{{item.companyName}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Nome do Navio:</ion-label>
-        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="stakeholderDestino">
-          <ion-option *ngFor="let item of companies" [value]="item.companyName" id="{{item.id}}">{{item.companyName}}</ion-option>
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="ship" (ionChange)="changeShip($event)">
+          <ion-option *ngFor="let item of ships" [value]="item.id" id="{{item.id}}">{{item.description}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">
         <ion-label label-ios>Numero da Viagem:</ion-label>
-        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="stakeholderDestino">
-          <ion-option *ngFor="let item of companies" [value]="item.companyName" id="{{item.id}}">{{item.companyName}}</ion-option>
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="trip" (ionChange)="changeTrip($event)">
+          <ion-option *ngFor="let item of trips" [value]="item.id" id="{{item.id}}">{{item.identifierNumber}}</ion-option>
         </ion-select>
       </ion-item>
     </ion-list>

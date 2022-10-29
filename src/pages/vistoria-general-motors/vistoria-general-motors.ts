@@ -22,6 +22,8 @@ import { GeneralMotorsDataService } from '../../providers/general-motors-data-se
 import { Checkpoint } from '../../model/GeneralMotors/checkpoint';
 import { Company } from '../../model/GeneralMotors/Company';
 import { Place } from '../../model/GeneralMotors/place';
+import { Trip } from '../../model/GeneralMotors/trip';
+import { Ship } from '../../model/GeneralMotors/ship';
 
 @Component({
   selector: 'page-vistoria-general-motors',
@@ -49,11 +51,16 @@ export class VistoriaGeneralMotorsPage {
   checkpointsByPlace: Checkpoint[] = [];
   companies: Company[] = [];
   places: Place[] = [];
+  ships: Ship[] = [];
+  trips: Trip[] = [];
 
   checkpoint = new Checkpoint();
   place = new Place();
+  company = new Company();
   companyOrigin = new Company();
   companyDestination = new Company();
+  ship = new Ship();
+  trip = new Trip();
 
   constructor(
     public http: HttpClient,
@@ -94,9 +101,11 @@ export class VistoriaGeneralMotorsPage {
     this.authService.showLoading();
 
     forkJoin([
-      this.generalMotorsService.companies(),
       this.generalMotorsService.places(),
       this.generalMotorsService.checkPoints(),
+      this.generalMotorsService.companies(),
+      this.generalMotorsService.trips(),
+      this.generalMotorsService.ships(),
     ])
     .pipe(
       finalize(() => {
@@ -104,14 +113,24 @@ export class VistoriaGeneralMotorsPage {
       })
     )
     .subscribe(arrayResult => {
-      let companies$ = arrayResult[0];
-      let places$ = arrayResult[1];
-      let checkpoints$ = arrayResult[2];
+      let places$ = arrayResult[0];
+      let checkpoints$ = arrayResult[1];
+      let companies$ = arrayResult[2];
+      let trips$ = arrayResult[3];
+      let ships$ = arrayResult[4];
 
-      if (companies$.sucesso && checkpoints$.sucesso && places$.sucesso) {
+      if (companies$.sucesso && checkpoints$.sucesso && places$.sucesso && trips$.sucesso && ships$.sucesso) {
         this.companies = companies$.retorno.company;
         this.checkpoints = checkpoints$.retorno.checkPoints;
         this.places = places$.retorno;
+        this.trips = trips$.retorno.trips;
+        this.ships = ships$.retorno.ships;
+
+        let company = this.companies.filter(x => x.companyName == 'Nexus').map(x => x)[0];
+        this.form.patchValue({
+          company: company.id
+        });
+        this.company = company;
       }
 
       else {
@@ -128,12 +147,15 @@ export class VistoriaGeneralMotorsPage {
   }
 
   initializeFormControl(){
+
     this.form = this.formBuilder.group({
-      empresa: ['Nexus', Validators.required],
-      local: [null, Validators.required],
+      company: [null, Validators.required],
+      place: [null, Validators.required],
       checkpoint: [null, Validators.required],
-      stakeholderOrigem: [null, Validators.required],
-      stakeholderDestino: [{ value: null, disabled: true }, Validators.required]
+      companyOrigin: [null, Validators.required],
+      companyDestiny: [null, Validators.required],
+      ship: [null, Validators.required],
+      trip: [null, Validators.required]
     });
   }
 
@@ -148,45 +170,47 @@ export class VistoriaGeneralMotorsPage {
     this.view.dismiss();
   }
 
-  selectOriginCompanyChange(id:number) {
+  changeCompany(id:number) {
+    this.company = this.companies.filter(x => x.id == id).map(x => x)[0];
+  }
+
+  changeOriginCompany(id:number) {
     this.companyOrigin = this.companies.filter(x => x.id == id).map(x => x)[0];
-
   }
 
-  selectDestinationCompanyChange(id:number) {
+  changeDestinationCompany(id:number) {
     this.companyDestination = this.companies.filter(x => x.id == id).map(x => x)[0];
-
-  }
-
-  changeCheckpoint(id: number){
-    this.checkpoint = this.checkpoints.filter(x => x.checkpoint == id).map(x => x)[0];
   }
 
   changePlace(local: number){
     this.place = this.places.filter(x => x.local == local).map(x => x)[0];
     var places = this.checkpoints.filter(x => x.local == local).map(x => x);
     this.checkpointsByPlace = places;
-    this.form.controls.momento.enable();
+  }
+
+  changeCheckpoint(id: number){
+    this.checkpoint = this.checkpoints.filter(x => x.checkpoint == id).map(x => x)[0];
+  }
+
+  changeTrip(id: number){
+    this.trip = this.trips.filter(x => x.id == id).map(x => x)[0];
+  }
+
+  changeShip(id: number){
+    this.ship = this.ships.filter(x => x.id == id).map(x => x)[0];
   }
 
   toNavigate(){
     this.navCtrl.push(ModalChassisVistoriaComponent, {
       data: {
-        empresa : {
-          nome: this.form.controls.empresa.value
-        },
-        local : {
-          id: this.place.local,
-          nome: this.place.localDescription
-        },
-        momento : {
-          id: this.checkpoint.checkpoint,
-          nome: this.checkpoint.checkpointDescription
-        },
-        stakeholder : {
-          destino: this.form.controls.stakeholderDestino.value
-        },
-        vistoriaGM: this.form.controls.vistoriaGM.value
+        company: this.company,
+        place: this.place,
+        checkpoint: this.checkpoint,
+        companyOrigin: this.companyOrigin,
+        companyDestination: this.companyDestination,
+        ship: this.ship,
+        trip: this.trip,
+        vistoriaGM: true
       }
     });
   }

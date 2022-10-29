@@ -20,20 +20,14 @@
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Local:</ion-label>
-        <ion-select *ngIf="places.length == 0" okText="Confirmar" cancelText="Cancelar" formControlName="local" [value]="local">
-          <ion-option>{{local}}</ion-option>
-        </ion-select>
-        <ion-select *ngIf="places.length > 0" okText="Confirmar" cancelText="Cancelar" formControlName="local" (ionChange)="changePlace($event)">
-          <ion-option *ngFor="let item of places" value="{{item.local}}">{{item.localDescription}}</ion-option>
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="local" [value]="local">
+          <ion-option value="{{local}}">{{local}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Checkpoint:</ion-label>
-        <ion-select *ngIf="checkpointsByPlace.length == 0" okText="Confirmar" cancelText="Cancelar" formControlName="momento" (ionChange)="changeMomento($event)">
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="momento" (ionChange)="changeMomento($event)">
           <ion-option *ngFor="let item of momentos" value="{{item.id}}">{{item.nome}}</ion-option>
-        </ion-select>
-        <ion-select *ngIf="checkpointsByPlace.length > 0" okText="Confirmar" cancelText="Cancelar" formControlName="momento" (ionChange)="changeCheckpoint($event)">
-          <ion-option *ngFor="let item of checkpointsByPlace" value="{{item.checkpoint}}">{{item.checkpointDescription}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}">
@@ -44,11 +38,8 @@
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">
         <ion-label label-ios>Empresa Destino:</ion-label>
-        <ion-select *ngIf="stakeholdersDestino.length > 0" okText="Confirmar" cancelText="Cancelar" formControlName="stakeholderDestino">
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="stakeholderDestino">
           <ion-option *ngFor="let item of stakeholdersDestino" [value]="item.nome" id="{{item.id}}">{{item.nome}}</ion-option>
-        </ion-select>
-        <ion-select *ngIf="companies.length > 0" okText="Confirmar" cancelText="Cancelar" formControlName="stakeholderDestino">
-          <ion-option *ngFor="let item of companies" [value]="item.companyName" id="{{item.id}}">{{item.companyName}}</ion-option>
         </ion-select>
       </ion-item>
     </ion-list>
@@ -56,7 +47,6 @@
 
   <div class="login-content">
     <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" type="button" [disabled]="!form.valid" (click)="toNavigate()">AVANÇAR</button>
-    <!-- <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" type="button" (click)="toNavigate()">AVANÇAR</button> -->
     <button ion-button round first class="btn-receiving btn-cancel" type="button" (click)="voltar()">VOLTAR</button>
   </div>
 
