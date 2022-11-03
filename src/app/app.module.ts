@@ -236,6 +236,7 @@ import { ModalSelecionarChassiComponent } from '../components/modal-selecionar-c
 import { ModalSelecionarChassiBuscaComponent } from '../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
 import { CanvasDrawComponent } from '../components/canvas-draw/canvas-draw';
 import { VistoriaGeneralMotorsPage } from '../pages/vistoria-general-motors/vistoria-general-motors';
+import { LancamentoAvariaGmSelecaoPage } from '../pages/lancamento-avaria-gm-selecao/lancamento-avaria-gm-selecao';
 
 @NgModule({
   declarations: [
@@ -413,7 +414,8 @@ import { VistoriaGeneralMotorsPage } from '../pages/vistoria-general-motors/vist
     LancamentoAvariaVistoriaLancarPage,
     ModalBuscaChassiVistoriaPage,
     ModelChecklistPage,
-    ModalNovoLancamentoAvariaPage
+    ModalNovoLancamentoAvariaPage,
+    LancamentoAvariaGmSelecaoPage
   ],
   imports: [
     // SuperTabsModule.forRoot(),
@@ -649,7 +651,8 @@ import { VistoriaGeneralMotorsPage } from '../pages/vistoria-general-motors/vist
     LancamentoAvariaVistoriaLancarPage,
     ModalBuscaChassiVistoriaPage,
     ModelChecklistPage,
-    ModalNovoLancamentoAvariaPage
+    ModalNovoLancamentoAvariaPage,
+    LancamentoAvariaGmSelecaoPage
   ],
   providers: [
     Camera,

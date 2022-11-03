@@ -9,18 +9,18 @@
 <ion-content>
 
   <div>
-    <form [formGroup]="formSelecaoSuperficie" class="form-selecao">
+    <form [formGroup]="form" class="form-selecao">
       <ion-list>
 
         <div >
 
           <ion-item no-lines>
             <div>
-              <div class="duas-imagens">
+              <div class="duas-imagens" (click)="selectImage(1)">
                 <img src="assets/images/frente-capo-selecionado.jpeg">
               </div>
 
-              <div class="duas-imagens">
+              <div class="duas-imagens" (click)="selectImage(2)">
                 <img src="assets/images/frente-parachoques-selecionado.jpg">
               </div>
             </div>
@@ -28,11 +28,11 @@
 
           <ion-item no-lines>
             <div>
-              <div class="duas-imagens">
+              <div class="duas-imagens" (click)="selectImage(3)">
                 <img src="assets/images/traseira-parachoques-selecionado.jpg">
               </div>
 
-              <div class="duas-imagens">
+              <div class="duas-imagens" (click)="selectImage(4)">
                 <img src="assets/images/traseira-porta-malas-selecionado.jpg">
               </div>
             </div>
@@ -40,15 +40,15 @@
 
           <ion-item no-lines>
             <div>
-              <div class="tres-imagens">
+              <div class="tres-imagens-esquerda" (click)="selectImage(5)">
                 <img src="assets/images/lateral-frente.jpeg">
               </div>
 
-              <div class="tres-imagens">
+              <div class="tres-imagens-centro" (click)="selectImage(6)">
                 <img src="assets/images/lateral-centro.jpeg">
               </div>
 
-              <div class="tres-imagens">
+              <div class="tres-imagens-direita" (click)="selectImage(7)">
                 <img src="assets/images/lateral-tras.jpeg">
               </div>
             </div>
@@ -56,7 +56,7 @@
 
           <ion-item no-lines>
             <div>
-              <div class="uma-imagem">
+              <div class="uma-imagem" (click)="selectImage(8)">
                 <img src="assets/images/cima-selecionado.png">
               </div>
             </div>

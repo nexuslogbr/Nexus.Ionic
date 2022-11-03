@@ -1,0 +1,93 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>{{title}}</ion-title>
+</ion-header>
+
+<ion-content padding id="selecao-superficie" class="recebimento show">
+
+  <div>
+    <form [formGroup]="form" class="form-selecao-superficie">
+      <ion-list>
+
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Peça:</b></ion-label>
+          <ion-select (ionChange)="selectPartesAvariaChange($event)" placeholder="Peça" okText="Selecionar" cancelText="Cancelar" formControlName="superficieChassiParte">
+             <ion-option *ngFor="let item of partesAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Tipo de Avaria:</b></ion-label>
+          <ion-select (ionChange)="selectTipoAvariaChange($event)" placeholder="Tipo de Avaria" okText="Selecionar" cancelText="Cancelar" formControlName="tipoAvaria">
+            <ion-option *ngFor="let item of avarias" value="{{item.tipoAvaria.id}}" id="{{item.tipoAvaria.id}}">{{item.tipoAvaria.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Gravidade: </b></ion-label>
+          <ion-select (ionChange)="selectGravidadeChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="gravidadeAvaria">
+            <ion-option *ngFor="let item of gravidadesAvaria" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <div >
+
+          <img [src]="urlImagem" id="image" class="img-relative">
+          <div id="canvasWrapper">
+            <canvas #imageCanvas (touchstart)="touched($event)" (touchmove)="moved($event)" id="canvas"></canvas>
+          </div>
+        </div>
+
+        <ion-item no-lines>
+          <ion-label label-ios style="font-style: unset;"><b>Imagens:</b></ion-label>
+        </ion-item>
+
+        <ion-toolbar color="primary" *ngFor="let file of images; index as pos" text-wrap>
+          <ion-row style="align-items: center;">
+            <ion-thumbnail>
+              <ion-col>
+                <img [src]="file.path" style="width:25% ; height: 25%;" class="align-items-dangerous-image">
+              </ion-col>
+              <ion-col>
+                <ion-label class="align-items-dangerous-image abel-align-dangerous">{{ file.fileName }}</ion-label>
+              </ion-col>
+              <ion-col size="1">
+                <button ion-button slot="end" (click)="presentAlert(file)" class="button-style">
+                  <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </button>
+              </ion-col>
+            </ion-thumbnail>
+          </ion-row>
+        </ion-toolbar>
+
+        <ion-toolbar color="primary">
+          <ion-row style="align-items: center;" (click)="selectImage($event)">
+            <ion-thumbnail>
+              <img src="assets/images/camera-white-model.png" class="align-camera">
+            </ion-thumbnail>
+          </ion-row>
+        </ion-toolbar>
+
+      </ion-list>
+
+    </form>
+  </div>
+
+</ion-content>
+
+<ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+          <button ion-button round end class="btn-receiving btn-cancel"  (click)="return()" type="button">Voltar</button>
+          <button ion-button round end class="btn-receiving btn-ok" type="button" (click)="save()" [disabled]="!form.valid">Salvar</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<modal-error></modal-error>
+<modal-loading></modal-loading>
