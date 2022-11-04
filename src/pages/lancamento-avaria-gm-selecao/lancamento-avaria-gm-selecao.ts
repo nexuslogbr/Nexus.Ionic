@@ -4,7 +4,6 @@ import { ActionSheetController, AlertController, Content, Modal, ModalController
 import * as $ from 'jquery';
 import { TipoAvaria } from '../../model/TipoAvaria';
 import { AvariaDataService } from '../../providers/avaria-data-service';
-import { GravidadeDataService } from '../../providers/gravidade-data-service';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { Parte } from '../../model/parte';
 import { SuperficieChassiParte } from '../../model/superficieChassiParte';
@@ -17,12 +16,11 @@ import { GravidadeAvaria } from '../../model/gravidadeAvaria';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ModalNovoLancamentoAvariaPage } from '../modal-novo-lancamento-avaria/modal-novo-lancamento-avaria';
-import { GrupoSuperficieChassi } from '../../model/grupoSuperficieChassi';
 import { DataRetorno } from '../../model/dataretorno';
-import { ResponsabilidadeAvaria } from '../../model/responsabilidadeAvaria';
-import { ResponsabilidadeAvariaDataService } from '../../providers/responsabilidade-avaria-service';
-import { NivelGravidadeAvaria } from '../../model/nivelGravidadeAvaria';
 import { GeneralMotorsDataService } from '../../providers/general-motors-data-service';
+import { Part } from '../../model/GeneralMotors/part';
+import { Qualityinconsistence } from '../../model/GeneralMotors/qualityinconsistence';
+import { Severity } from '../../model/GeneralMotors/severity';
 
 @Component({
   selector: 'page-lancamento-avaria-gm-selecao',
@@ -30,34 +28,27 @@ import { GeneralMotorsDataService } from '../../providers/general-motors-data-se
 })
 export class LancamentoAvariaGmSelecaoPage {
   title: string;
-  partesAvaria: Array<Parte> = [];
-  avarias: Array<Avaria> = [];
-  gravidadesAvaria: Array<GravidadeAvaria> = [];
+
+  partes: Array<Part> = [];
+  avarias: Array<Qualityinconsistence> = [];
+  gravidades: Array<Severity> = [];
+
+  parte = new Part();
+  avaria = new Qualityinconsistence();
+  gravidade = new Severity();
 
   form: FormGroup;
 
   images: any[] = [];
   imagesToSend: any[] = [];
 
-  parteAvaria = new Parte();
-  avaria = new Avaria();
-  gravidadeAvaria = new GravidadeAvaria();
-
   @Output() onSuperficieParteChassiInputed: EventEmitter<SuperficieChassiParte> = new EventEmitter<SuperficieChassiParte>();
 
   @ViewChild('imageCanvas') canvas: any;
   canvasElement: any;
 
-  saveX: number;
-  saveY: number;
-  abcissaX: number = 1;
-  ordenadaY: number = -245;
   width = 0;
   height = 0;
-  posicoesSubArea = [];
-  divideEmPartes: number;
-  radiusX = 0;
-  radiusY = 0;
 
   @ViewChild(Content) content: Content;
   @ViewChild('fixedContainer') fixedContainer: any;
@@ -93,15 +84,12 @@ export class LancamentoAvariaGmSelecaoPage {
     private view: ViewController,
   ) {
     this.title = 'Lançamento de Avaria';
-    let data = this.navParams.get('data');
-    this.formData = data;
+    this.formData = this.navParams.get('data');
 
     this.form = formBuilder.group({
-      chassi: [this.formData.veiculo.chassi, Validators.required],
-      modelo: [this.formData.veiculo.modelo, Validators.required],
-      superficieChassiParte: [null,Validators.required],
-      tipoAvaria: [ this.formData.avaria, Validators.required],
-      gravidadeAvaria: [this.formData.gravidadeAvaria == undefined ? '' : this.formData.gravidadeAvaria.id, Validators.required],
+      parte: [null,Validators.required],
+      avaria: [ this.formData.avaria, Validators.required],
+      gravidade: [null, Validators.required],
     });
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
@@ -118,36 +106,38 @@ export class LancamentoAvariaGmSelecaoPage {
   }
 
   ionViewWillEnter() {
-    this.authService.showLoading();
+    // this.authService.showLoading();
 
-    if (this.formData.veiculo.chassi) {
-      this.avariaService.consultarChassi({
-        chassi: this.formData.veiculo.chassi,
-        token: ''
-      })
-      .subscribe((res: any) => {
-        this.urlImagem = res.retorno.imagem;
+    // if (this.formData.veiculo.chassi) {
+    //   this.avariaService.consultarChassi({
+    //     chassi: this.formData.veiculo.chassi,
+    //     token: ''
+    //   })
+    //   .subscribe((res: any) => {
+    //     this.urlImagem = res.retorno.imagem;
 
-        let imagem = document.getElementById('image')
-        this.width = imagem.clientWidth;
+    //     let imagem = document.getElementById('image')
+    //     this.width = imagem.clientWidth;
 
-        if (imagem.clientHeight < 100) {
-          this.height = (imagem.clientHeight * 10);
-        }
-        else {
-          this.height = imagem.clientHeight;
-        }
+    //     if (imagem.clientHeight < 100) {
+    //       this.height = (imagem.clientHeight * 10);
+    //     }
+    //     else {
+    //       this.height = imagem.clientHeight;
+    //     }
 
-        this.getImageDimenstion(this.width,this.height);
-      });
-    }
+    //     // this.getImageDimenstion(this.width,this.height);
+    //   });
+      this.loadScreen();
+    // }
   }
 
   loadScreen(){
     this.authService.showLoading();
     forkJoin([
-      this.avariaService.carregarGrupoAvarias({ chassi: this.formData.veiculo.chassi }),
-      this.avariaService.carregarTipoAvarias(),
+      this.generalMotorsService.parts(),
+      this.generalMotorsService.qualityinconsistences(),
+      this.generalMotorsService.severity()
     ])
     .pipe(
       finalize(() => {
@@ -155,11 +145,15 @@ export class LancamentoAvariaGmSelecaoPage {
       })
     )
     .subscribe(arrayResult => {
-      let gruposAvaria$ = arrayResult[0];
-      let tiposAvaria$ = arrayResult[1];
-      let gravidades$ = arrayResult[2];
-      let responsabilidadeAvaria$ = arrayResult[3];
+      let parts$ = arrayResult[0];
+      let qualityinconsistences$ = arrayResult[1];
+      let severity$ = arrayResult[2];
 
+      if (parts$.sucesso && qualityinconsistences$.sucesso && severity$.sucesso) {
+        this.partes = parts$.retorno.parts;
+        this.avarias = qualityinconsistences$.retorno.qualityInconsistences;
+        this.gravidades = severity$.retorno.severity;
+      }
     });
   }
 
@@ -170,18 +164,7 @@ export class LancamentoAvariaGmSelecaoPage {
     $('side-menu').toggleClass('show');
   };
 
-  styleObject(): Object {
-    if (this.avaria) {
-      return {
-        'background-color': this.avaria.tipoAvaria.cor,
-        'transform': "translate(" + this.abcissaX + "px," + this.ordenadaY + "px)",
-      }
-    }
-  }
-
-  touched(event){
-
-  }
+  touched(event){ }
 
   moved(event){ }
 
@@ -209,61 +192,27 @@ export class LancamentoAvariaGmSelecaoPage {
         chassi: this.formData.veiculo.chassi,
        })
        .subscribe((x:DataRetorno) => {
-        this.partesAvaria = x.retorno;
         this.assembleGrid({});
         this.authService.hideLoading();
        });
     }
   }
 
-  selectPartesAvariaChange(event){
+  selectPartesChange(event){
     if (event.length > 0) {
-      this.parteAvaria = this.partesAvaria.filter(x => x.id == event).map(x => x)[0];
-      this.form.patchValue({
-        tipoAvaria: null,
-        partePeca: false,
-      });
-
-      this.assembleGrid(this.parteAvaria.superficieChassiParte);
-      this.form.controls.tipoAvaria.enable();
-      this.form.controls.partePeca.enable();
+      this.parte = this.partes.filter(x => x.id == event).map(x => x)[0];
     }
   }
 
-  selectTipoAvariaChange(id:number){
-    this.avaria = this.avarias.filter(x => x.tipoAvaria.id == id).map(x => x)[0];
-    this.form.patchValue({
-      partePeca: true
-    });
-
-    if(this.divideEmPartes == 1){
-      if (this.form.controls.subArea.value > 0) {
-        let pos = this.posicoesSubArea.filter(x => x.posicao == this.form.controls.subArea.value).map(x => x)[0];
-        this.abcissaX = pos.coordenadaX;
-        this.ordenadaY = pos.coordenadaY;
-      }
-    }
-    else if (this.divideEmPartes == 0){
-      this.abcissaX = this.radiusX;
-      this.ordenadaY = this.radiusY;
-    }
-  }
-
-  selectSubareaChange(subArea: number){
-    let pos = this.posicoesSubArea.filter(x => x.posicao == subArea).map(x => x)[0];
-    this.abcissaX = pos.coordenadaX;
-    this.ordenadaY = pos.coordenadaY;
+  selectAvariaChange(id:number){
+    this.avaria = this.avarias.filter(x => x.id == id).map(x => x)[0];
   }
 
   selectGravidadeChange(id){
-    this.gravidadeAvaria = this.gravidadesAvaria.filter(x => x.id == id).map(x => x)[0]
-
-    if (this.gravidadeAvaria && this.gravidadeAvaria.nivelGravidadeAvaria.length > 0) {
-    }
+    this.gravidade = this.gravidades.filter(x => x.id == id).map(x => x)[0]
   }
 
   assembleGrid(data) {
-    this.posicoesSubArea = [];
     let superficieChassi = data;
 
     let ctx = this.canvasElement.getContext('2d');
@@ -274,9 +223,6 @@ export class LancamentoAvariaGmSelecaoPage {
 
     // espessura das linhas do grid
     ctx.lineWidth = 2;
-
-    // calcular onde a tela está na janela (usado para ajudar a calcular mouseX/mouseY)
-    this.divideEmPartes = superficieChassi.tipoSelecao;
 
     // essas vars irão manter a posição inicial do mouse
     var startX = 0;
@@ -294,63 +240,6 @@ export class LancamentoAvariaGmSelecaoPage {
 
     var width = endX - startX;
     var height = endY - startY;
-
-    if (this.divideEmPartes == 1) {
-        $('#subAreaCombo').removeClass("hidden");
-
-        // Espessura da borda externa do retângulo
-        ctx.lineWidth = 1;
-        var alturaTerco = height / 3;
-        var larguraTerco = width / 3;
-        var tamanhoFonte = alturaTerco / 2;
-        var linhaHor1 = [startX, startY + alturaTerco, startX + width, startY + alturaTerco];
-        var linhaHor2 = [startX, startY + (alturaTerco * 2), startX + width, startY + (alturaTerco * 2)];
-        var linhaVer1 = [startX + larguraTerco, startY, startX + larguraTerco, startY + height];
-        var linhaVer2 = [startX + (larguraTerco * 2), startY, startX + (larguraTerco * 2), startY + height];
-
-        ctx.beginPath();
-        ctx.moveTo(linhaHor1[0], linhaHor1[1]);
-        ctx.lineTo(linhaHor1[2], linhaHor1[3]);
-
-        ctx.moveTo(linhaHor2[0], linhaHor2[1]);
-        ctx.lineTo(linhaHor2[2], linhaHor2[3]);
-
-        ctx.moveTo(linhaVer1[0], linhaVer1[1]);
-        ctx.lineTo(linhaVer1[2], linhaVer1[3]);
-
-        ctx.moveTo(linhaVer2[0], linhaVer2[1]);
-        ctx.lineTo(linhaVer2[2], linhaVer2[3]);
-
-        ctx.stroke();
-
-        // Desenhar os números dos quadrantes
-        ctx.font = tamanhoFonte + "px Arial";
-        ctx.fillStyle = superficieChassi.cor;
-        ctx.textAlign = "center";
-        var numeroQuadrante = 1;
-
-        for (let coluna = 3; coluna >= 1; coluna--) {
-            for (let linha = 1; linha <= 3; linha++) {
-                var quadrante = [larguraTerco * (coluna - 0.5), alturaTerco * (linha - 0.30)];
-                ctx.fillText(numeroQuadrante, startX + quadrante[0], startY + quadrante[1]);
-                this.posicoesSubArea.push({ posicao: numeroQuadrante, coordenadaX: startX + quadrante[0], coordenadaY: startY + quadrante[1] });
-
-                if (numeroQuadrante == 1) {
-                  this.ordenadaY = startY + quadrante[1];
-                  this.abcissaX = startX + quadrante[0];
-                }
-
-                numeroQuadrante++;
-            }
-        }
-    }
-    else if (this.divideEmPartes == 0) {
-        $('#subAreaCombo').addClass("hidden");
-    }
-
-    this.radiusX = startX + ((endX - startX)/2);
-    this.radiusY = startY + ((endY - startY)/2);
-    ctx.strokeRect(startX, startY, endX - startX, endY - startY);
   }
 
   return(){
@@ -374,8 +263,8 @@ export class LancamentoAvariaGmSelecaoPage {
       veiculoID: this.formData.veiculo.id > 0 ? this.formData.veiculo.id : 0,
       momentoID: this.formData.momento.id > 0 ? this.formData.momento.id : 0,
       avariaID: this.avaria.id != undefined ? this.avaria.id : this.formData.avaria.id,
-      tipoAvariaID: this.avaria.id != undefined ? this.avaria.tipoAvaria.id : this.formData.avaria.tipoAvaria.id,
-      gravidadeAvariaID: this.gravidadeAvaria.id != undefined ? this.gravidadeAvaria.id : this.formData.gravidadeAvaria.id,
+      tipoAvariaID: this.formData.avaria.tipoAvaria.id,
+      gravidadeAvariaID: this.formData.gravidadeAvaria.id,
       nivelGravidadeAvariaID: this.form.controls.nivelGravidadeAvaria.value,
       observacao: this.form.controls.observacao.value,
       quadrante: this.form.controls.subArea.value,

@@ -45,6 +45,11 @@ export class GeneralMotorsDataService {
     return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 
+  public parts() {
+    let url = this.urlApi + '/generalMotors/Parts';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
+  }
+
   public places() {
     let url = this.urlApi + '/generalMotors/places';
     return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
