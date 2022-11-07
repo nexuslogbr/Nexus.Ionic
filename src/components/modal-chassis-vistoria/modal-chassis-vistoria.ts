@@ -189,7 +189,9 @@ export class ModalChassisVistoriaComponent {
           this.veiculo = veiculo$.retorno;
         }
         else {
+          this.veiculo = null;
           this.authService.hideLoading();
+          this.alertService.showError(veiculo$.mensagem);
         }
       },
       (error) => {

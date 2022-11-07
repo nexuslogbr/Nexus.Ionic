@@ -20,6 +20,7 @@ export class LancamentoAvariaVistoriaPage {
   inputColor: string;
   buttonColor: string;
   formData = {
+    number: 0,
     parte: '',
     veiculo: new Veiculo(),
     momento: new Momento()
@@ -82,15 +83,35 @@ export class LancamentoAvariaVistoriaPage {
   selectImage(event:any){
     if (event == 1) {
       this.formData.parte = 'Dianteira';
+      this.formData.number = 1;
     }
     else if (event == 2) {
-      this.formData.parte = 'Traseira';
+      this.formData.parte = 'Dianteira';
+      this.formData.number = 2;
     }
     else if (event == 3) {
-      this.formData.parte = 'Laterais';
+      this.formData.parte = 'Traseira';
+      this.formData.number = 3;
     }
     else if (event == 4) {
+      this.formData.parte = 'Traseira';
+      this.formData.number = 4;
+    }
+    else if (event == 5) {
+      this.formData.parte = 'Laterais';
+      this.formData.number = 5;
+    }
+    else if (event == 6) {
+      this.formData.parte = 'Laterais';
+      this.formData.number = 6;
+    }
+    else if (event == 7) {
+      this.formData.parte = 'Laterais';
+      this.formData.number = 7;
+    }
+    else if (event == 8) {
       this.formData.parte = 'Teto';
+      this.formData.number = 8;
     }
 
     const modal: Modal = this.modal.create(LancamentoAvariaGmSelecaoPage, {

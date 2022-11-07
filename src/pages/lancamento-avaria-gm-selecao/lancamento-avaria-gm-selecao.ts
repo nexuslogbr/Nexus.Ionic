@@ -61,6 +61,7 @@ export class LancamentoAvariaGmSelecaoPage {
   buttonColor: string;
 
   formData = {
+    number: 0,
     veiculo: new Veiculo(),
     momento: new Momento(),
     tipoAvaria: new TipoAvaria(),
@@ -106,34 +107,38 @@ export class LancamentoAvariaGmSelecaoPage {
   }
 
   ionViewWillEnter() {
-    // this.authService.showLoading();
-
-    // if (this.formData.veiculo.chassi) {
-    //   this.avariaService.consultarChassi({
-    //     chassi: this.formData.veiculo.chassi,
-    //     token: ''
-    //   })
-    //   .subscribe((res: any) => {
-    //     this.urlImagem = res.retorno.imagem;
-
-    //     let imagem = document.getElementById('image')
-    //     this.width = imagem.clientWidth;
-
-    //     if (imagem.clientHeight < 100) {
-    //       this.height = (imagem.clientHeight * 10);
-    //     }
-    //     else {
-    //       this.height = imagem.clientHeight;
-    //     }
-
-    //     // this.getImageDimenstion(this.width,this.height);
-    //   });
       this.loadScreen();
     // }
   }
 
   loadScreen(){
     this.authService.showLoading();
+
+    if (this.formData.number == 1) {
+      this.urlImagem = 'assets/images/onix-frente.png';
+    }
+    else if (this.formData.number == 2) {
+      this.urlImagem = 'assets/images/onix-parachoques.png';
+    }
+    else if (this.formData.number == 3) {
+      this.urlImagem = 'assets/images/onix-traseira-parachoques.png';
+    }
+    else if (this.formData.number == 4) {
+      this.urlImagem = 'assets/images/onix-traseira-portamalas.png';
+    }
+    else if (this.formData.number == 5) {
+      this.urlImagem = 'assets/images/onix-lateral-frente.png';
+    }
+    else if (this.formData.number == 6) {
+      this.urlImagem = 'assets/images/onix-lateral-porta.png';
+    }
+    else if (this.formData.number == 7) {
+      this.urlImagem = 'assets/images/onix-lateral-traseira.png';
+    }
+    else if (this.formData.number == 7) {
+      this.urlImagem = 'assets/images/onix-teto.png';
+    }
+
     forkJoin([
       this.generalMotorsService.parts(),
       this.generalMotorsService.qualityinconsistences(),
