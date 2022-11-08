@@ -20,6 +20,21 @@
         </div>
 
         <ion-item>
+          <ion-label label-ios style="font-style: unset;"><b>Subárea: </b></ion-label>
+          <ion-select okText="Selecionar" cancelText="Cancelar" formControlName="subArea">
+            <ion-option value="{{1}}">1</ion-option>
+            <ion-option value="{{2}}">2</ion-option>
+            <ion-option value="{{3}}">3</ion-option>
+            <ion-option value="{{4}}">4</ion-option>
+            <ion-option value="{{5}}">5</ion-option>
+            <ion-option value="{{6}}">6</ion-option>
+            <ion-option value="{{7}}">7</ion-option>
+            <ion-option value="{{8}}">8</ion-option>
+            <ion-option value="{{9}}">9</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Peça:</b></ion-label>
           <ion-select (ionChange)="selectPartesChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="parte">
              <ion-option *ngFor="let item of partes" value="{{item.id}}" id="{{item.id}}">{{item.description}}</ion-option>
@@ -81,8 +96,8 @@
   <ion-grid class="grid-botao-wrapper">
     <ion-row>
       <ion-col>
-          <button ion-button round end class="btn-receiving btn-cancel"  (click)="return()" type="button">Voltar</button>
-          <button ion-button round end class="btn-receiving btn-ok" type="button" (click)="save()" [disabled]="!form.valid">Salvar</button>
+        <button ion-button round end class="btn-receiving btn-cancel"  (click)="return()" type="button" [disabled]="!form.valid">Nova Avaria</button>
+        <button ion-button round end class="btn-receiving btn-ok" type="button" (click)="save()" [disabled]="!form.valid">Finalizar</button>
       </ion-col>
     </ion-row>
   </ion-grid>

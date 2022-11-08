@@ -65,8 +65,19 @@ export class GeneralMotorsDataService {
     return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 
-  public insertsurvey() {
-    let url = this.urlApi + '/generalMotors/insertsurvey';
+  public listSurveyors() {
+    let url = this.urlApi + '/generalMotors/surveyor/ListSurveyors';
     return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
+  }
+
+  public insertsurvey(model:any) {
+    let url = this.urlApi + '/generalMotors/insertsurvey';
+    return this.http.post<DataRetorno>(
+      url,
+      {
+        token: this.authService.getToken(),
+        insertSurvey: model
+      }, httpOptions
+    );
   }
 }

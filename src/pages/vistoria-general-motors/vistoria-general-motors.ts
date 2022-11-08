@@ -24,6 +24,7 @@ import { Company } from '../../model/GeneralMotors/Company';
 import { Place } from '../../model/GeneralMotors/place';
 import { Trip } from '../../model/GeneralMotors/trip';
 import { Ship } from '../../model/GeneralMotors/ship';
+import { Surveyor } from '../../model/GeneralMotors/surveyor';
 
 @Component({
   selector: 'page-vistoria-general-motors',
@@ -53,6 +54,7 @@ export class VistoriaGeneralMotorsPage {
   places: Place[] = [];
   ships: Ship[] = [];
   trips: Trip[] = [];
+  surveyors: Surveyor[] = [];
 
   checkpoint = new Checkpoint();
   place = new Place();
@@ -61,6 +63,7 @@ export class VistoriaGeneralMotorsPage {
   companyDestination = new Company();
   ship = new Ship();
   trip = new Trip();
+  surveyor = new Surveyor();
 
   constructor(
     public http: HttpClient,
@@ -106,6 +109,7 @@ export class VistoriaGeneralMotorsPage {
       this.generalMotorsService.companies(),
       this.generalMotorsService.trips(),
       this.generalMotorsService.ships(),
+      this.generalMotorsService.listSurveyors()
     ])
     .pipe(
       finalize(() => {
@@ -118,13 +122,15 @@ export class VistoriaGeneralMotorsPage {
       let companies$ = arrayResult[2];
       let trips$ = arrayResult[3];
       let ships$ = arrayResult[4];
+      let surveyors$ = arrayResult[4];
 
-      if (companies$.sucesso && checkpoints$.sucesso && places$.sucesso && trips$.sucesso && ships$.sucesso) {
+      if (companies$.sucesso && checkpoints$.sucesso && places$.sucesso && trips$.sucesso && ships$.sucesso && surveyors$.sucesso) {
         this.companies = companies$.retorno.company;
         this.checkpoints = checkpoints$.retorno.checkPoints;
         this.places = places$.retorno;
         this.trips = trips$.retorno.trips;
         this.ships = ships$.retorno.ships;
+        this.surveyors = surveyors$.retorno.surveyors;
 
         let company = this.companies.filter(x => x.companyName == 'Nexus').map(x => x)[0];
         this.form.patchValue({
@@ -150,6 +156,7 @@ export class VistoriaGeneralMotorsPage {
 
     this.form = this.formBuilder.group({
       company: [null, Validators.required],
+      surveyor: [null, Validators.required],
       place: [null, Validators.required],
       checkpoint: [null, Validators.required],
       companyOrigin: [null, Validators.required],

@@ -247,7 +247,6 @@ export class ModalChassisVistoriaComponent {
       });
 
     chassiModal.present();
-    this.view.dismiss();
   }
 
   close() {

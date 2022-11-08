@@ -19,6 +19,12 @@
         </ion-select>
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}">
+        <ion-label label-ios>Vistoriador:</ion-label>
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="surveyor" (ionChange)="changePlace($event)">
+          <ion-option *ngFor="let item of surveyors" value="{{item.id}}">{{item.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Local:</ion-label>
         <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="place" (ionChange)="changePlace($event)">
           <ion-option *ngFor="let item of places" value="{{item.local}}">{{item.localDescription}}</ion-option>
