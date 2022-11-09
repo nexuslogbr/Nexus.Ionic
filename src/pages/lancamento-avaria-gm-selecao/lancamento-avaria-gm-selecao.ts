@@ -18,6 +18,11 @@ import { GeneralMotorsDataService } from '../../providers/general-motors-data-se
 import { Part } from '../../model/GeneralMotors/part';
 import { Qualityinconsistence } from '../../model/GeneralMotors/qualityinconsistence';
 import { Severity } from '../../model/GeneralMotors/severity';
+import { Checkpoint } from '../../model/GeneralMotors/checkpoint';
+import { Company } from '../../model/GeneralMotors/Company';
+import { Place } from '../../model/GeneralMotors/place';
+import { Ship } from '../../model/GeneralMotors/ship';
+import { Trip } from '../../model/GeneralMotors/trip';
 
 @Component({
   selector: 'page-lancamento-avaria-gm-selecao',
@@ -26,13 +31,9 @@ import { Severity } from '../../model/GeneralMotors/severity';
 export class LancamentoAvariaGmSelecaoPage {
   title: string;
 
-  partes: Array<Part> = [];
-  avarias: Array<Qualityinconsistence> = [];
-  gravidades: Array<Severity> = [];
-
-  parte = new Part();
-  avaria = new Qualityinconsistence();
-  gravidade = new Severity();
+  parts: Array<Part> = [];
+  qualityinconsistences: Array<Qualityinconsistence> = [];
+  severities: Array<Severity> = [];
 
   form: FormGroup;
 
@@ -41,9 +42,6 @@ export class LancamentoAvariaGmSelecaoPage {
 
   @ViewChild('imageCanvas') canvas: any;
   canvasElement: any;
-
-  width = 0;
-  height = 0;
 
   urlImagem = '';
 
@@ -55,12 +53,39 @@ export class LancamentoAvariaGmSelecaoPage {
   formData = {
     number: 0,
     parte: '',
-    veiculo: new Veiculo(),
-    momento: new Momento(),
-    tipoAvaria: new TipoAvaria(),
-    gravidadeAvaria: new GravidadeAvaria(),
     avaria: new Avaria(),
+    veiculo: new Veiculo(),
+    company: new Company(),
+    place: new Place(),
+    checkpoint: new Checkpoint(),
+    companyOrigin: new Company(),
+    companyDestination: new Company(),
+    ship: new Ship(),
+    trip: new Trip(),
   };
+
+  damage: {
+    quadrant: number,
+    part: number,
+    qualityInconsistency: number,
+    severity: number,
+    vehicleZone: number,
+    other: string,
+    photoClose: string,
+    photoNormal: string,
+
+    side: number, //??
+    block: number, //??
+  };
+
+  document = {
+    documentType: null, //??
+    additionalInfo: null, //??
+    document: null, //??
+  }
+
+  damages = [];
+  documents = [];
 
   constructor(
     public navCtrl: NavController,
@@ -148,9 +173,9 @@ export class LancamentoAvariaGmSelecaoPage {
       let severity$ = arrayResult[2];
 
       if (parts$.sucesso && qualityinconsistences$.sucesso && severity$.sucesso) {
-        this.partes = parts$.retorno.parts;
-        this.avarias = qualityinconsistences$.retorno.qualityInconsistences;
-        this.gravidades = severity$.retorno.severity;
+        this.parts = parts$.retorno.parts;
+        this.qualityinconsistences = qualityinconsistences$.retorno.qualityInconsistences;
+        this.severities = severity$.retorno.severity;
       }
     });
   }
@@ -166,18 +191,22 @@ export class LancamentoAvariaGmSelecaoPage {
 
   moved(event){ }
 
-  selectPartesChange(event){
-    if (event.length > 0) {
-      this.parte = this.partes.filter(x => x.id == event).map(x => x)[0];
-    }
+  selectSubAreaChange(){
+    this.damage.quadrant = this.form.controls.subArea.value;
   }
 
-  selectAvariaChange(id:number){
-    this.avaria = this.avarias.filter(x => x.id == id).map(x => x)[0];
+  selectPartsChange(event){
+    this.damage.part = this.parts.filter(x => x.id == event).map(x => x)[0].id;
+    this.damage.vehicleZone = this.parts.filter(x => x.id == event).map(x => x)[0].zone;
   }
 
-  selectGravidadeChange(id){
-    this.gravidade = this.gravidades.filter(x => x.id == id).map(x => x)[0]
+  selectqualityinconsistenceChange(id:number){
+    this.damage.qualityInconsistency = this.qualityinconsistences.filter(x => x.id == id).map(x => x)[0].id;
+    this.damage.other = this.qualityinconsistences.filter(x => x.id == id).map(x => x)[0].description;
+  }
+
+  selectSeverityChange(id){
+    this.damage.severity = this.severities.filter(x => x.id == id).map(x => x)[0].id;
   }
 
   return(){
@@ -197,34 +226,25 @@ export class LancamentoAvariaGmSelecaoPage {
     });
 
     let model  = {
-      Company: null,
-      Local: null,
-      Origin: null,
-      Destination: null,
-      Checkpoint: null,
-      Vin: null,
-      Surveyor: null,
-      SurveyDate: null,
-      Validator: null,
-      ValidationDate: null,
-      HasDamages: null,
-      HasDocuments: null,
-      Released: null,
-      VehicleZone: null,
-      Part: null,
-      Side: null,
-      Quadrant: null,
-      QualityInconsistency: null,
-      Severity: null,
-      Block: null,
-      Other: null,
-      PhotoClose: null,
-      PhotoNormal: null,
-      DocumentType: null,
-      AdditionalInfo: null,
-      Document: null,
-      ListDamage: null,
-      ListDoc: null,
+      company: this.formData.company.id,
+      local: this.formData.place.local,
+      origin: this.formData.companyOrigin.id,
+      destination: this.formData.companyDestination.id,
+      checkpoint: this.formData.checkpoint.checkpoint,
+      vin: this.formData.veiculo.chassi,
+
+      surveyor: null,
+      surveyDate: null,
+      validator: null,
+      validationDate: null,
+
+      hasDamages: true,
+      hasDocuments: false,
+
+      released: null, //??
+
+      damages: this.damages,
+      documents: this.documents
     };
 
     this.generalMotorsService.insertsurvey(model)
@@ -301,6 +321,9 @@ export class LancamentoAvariaGmSelecaoPage {
       path: 'data:image/jpeg;base64,' + photo.base64String,
       fileName: fileName
     }
+
+    this.damage.photoClose = 'data:image/jpeg;base64,' + photo.base64String;
+    this.damage.photoNormal = 'data:image/jpeg;base64,' + photo.base64String;
 
     this.images.push(image);
     this.authService.hideLoading();

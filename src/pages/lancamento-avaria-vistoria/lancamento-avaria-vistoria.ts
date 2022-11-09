@@ -8,6 +8,11 @@ import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-sele
 import { Veiculo } from '../../model/veiculo';
 import { Momento } from '../../model/momento';
 import { LancamentoAvariaGmSelecaoPage } from '../lancamento-avaria-gm-selecao/lancamento-avaria-gm-selecao';
+import { Checkpoint } from '../../model/GeneralMotors/checkpoint';
+import { Company } from '../../model/GeneralMotors/Company';
+import { Place } from '../../model/GeneralMotors/place';
+import { Ship } from '../../model/GeneralMotors/ship';
+import { Trip } from '../../model/GeneralMotors/trip';
 @Component({
   selector: 'page-lancamento-avaria-vistoria',
   templateUrl: 'lancamento-avaria-vistoria.html',
@@ -19,11 +24,17 @@ export class LancamentoAvariaVistoriaPage {
   secondaryColor: string;
   inputColor: string;
   buttonColor: string;
+
   formData = {
     number: 0,
     parte: '',
-    veiculo: new Veiculo(),
-    momento: new Momento()
+    company: new Company(),
+    place: new Place(),
+    checkpoint: new Checkpoint(),
+    companyOrigin: new Company(),
+    companyDestination: new Company(),
+    ship: new Ship(),
+    trip: new Trip(),
   };
 
   public form: FormGroup
