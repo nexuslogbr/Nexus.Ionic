@@ -200,7 +200,7 @@ export class LancamentoAvariaGmSelecaoPage {
     this.damage.vehicleZone = this.parts.filter(x => x.id == event).map(x => x)[0].zone;
   }
 
-  selectqualityinconsistenceChange(id:number){
+  selectQualityInconsistenceChange(id:number){
     this.damage.qualityInconsistency = this.qualityinconsistences.filter(x => x.id == id).map(x => x)[0].id;
     this.damage.other = this.qualityinconsistences.filter(x => x.id == id).map(x => x)[0].description;
   }
@@ -213,17 +213,12 @@ export class LancamentoAvariaGmSelecaoPage {
     this.view.dismiss();
   }
 
+  newQualityinconsistence() {
+    this.damages.push(this.damage);
+  }
+
   save(){
     this.authService.showLoading();
-
-    let imagesToSend = [];
-    this.images.forEach(image => {
-      imagesToSend.push({
-        id: image.id,
-        data: image.path,
-        fileName: image.fileName
-      });
-    });
 
     let model  = {
       company: this.formData.company.id,

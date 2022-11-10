@@ -43,7 +43,7 @@
 
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Tipo de Avaria:</b></ion-label>
-          <ion-select (ionChange)="selectqualityinconsistenceChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="avaria">
+          <ion-select (ionChange)="selectQualityInconsistenceChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="avaria">
             <ion-option *ngFor="let item of qualityinconsistences" value="{{item.id}}" id="{{item.id}}">{{item.description}}</ion-option>
           </ion-select>
         </ion-item>
