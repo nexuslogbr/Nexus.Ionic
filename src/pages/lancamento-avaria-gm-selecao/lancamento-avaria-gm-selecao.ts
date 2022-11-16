@@ -191,13 +191,14 @@ export class LancamentoAvariaGmSelecaoPage {
 
   moved(event){ }
 
-  selectSubAreaChange(){
-    this.damage.quadrant = this.form.controls.subArea.value;
+  selectPartsChange(event){
+    this.damage.vehicleZone = this.parts.filter(x => x.id == event).map(x => x)[0].zone;
+    this.damage.part = this.parts.filter(x => x.id == event).map(x => x)[0].id;
+    this.damage.side = null;
   }
 
-  selectPartsChange(event){
-    this.damage.part = this.parts.filter(x => x.id == event).map(x => x)[0].id;
-    this.damage.vehicleZone = this.parts.filter(x => x.id == event).map(x => x)[0].zone;
+  selectSubAreaChange(){
+    this.damage.quadrant = this.form.controls.subArea.value;
   }
 
   selectQualityInconsistenceChange(id:number){

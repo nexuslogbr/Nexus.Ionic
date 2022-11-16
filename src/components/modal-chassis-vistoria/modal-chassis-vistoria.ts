@@ -15,7 +15,6 @@ import { Checklist } from '../../model/checklist';
 import { LancamentoAvariaVistoriaPage } from '../../pages/lancamento-avaria-vistoria/lancamento-avaria-vistoria';
 import { Momento } from '../../model/momento';
 import { Local } from '../../model/local';
-import { Survey } from '../../model/GeneralMotors/survey';
 import { StakeHolder } from '../../model/stakeholder';
 import { Observable } from 'rxjs/Observable';
 import { enumVeiculoStatus } from '../../providers/enumerables/enum';
@@ -25,6 +24,7 @@ import { Company } from '../../model/GeneralMotors/Company';
 import { Ship } from '../../model/GeneralMotors/ship';
 import { Trip } from '../../model/GeneralMotors/trip';
 import { THROW_IF_NOT_FOUND } from '@angular/core/src/di/injector';
+import { LancamentoAvariaSelecaoSuperficiePage } from '../../pages/lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 
 @Component({
   selector: 'modal-chassis-vistoria',
@@ -234,19 +234,33 @@ export class ModalChassisVistoriaComponent {
     })
   }
 
-  comAvaria(){
+  comAvaria(gm = false){
     this.authService.showLoading();
 
-    const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage,
-      {
-        data:
+    if (gm) {
+      const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage,
         {
-          veiculo: this.veiculo,
-          momento: this.model.momento
-        }
-      });
+          data:
+          {
+            veiculo: this.veiculo,
+            momento: this.model.momento
+          }
+        });
 
-    chassiModal.present();
+      chassiModal.present();
+    }
+    else{
+      const chassiModal: Modal = this.modal.create(LancamentoAvariaSelecaoSuperficiePage,
+        {
+          data:
+          {
+            veiculo: this.veiculo,
+            momento: this.model.momento
+          }
+        });
+
+      chassiModal.present();
+    }
   }
 
   close() {

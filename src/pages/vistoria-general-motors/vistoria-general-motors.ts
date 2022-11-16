@@ -122,7 +122,7 @@ export class VistoriaGeneralMotorsPage {
       let companies$ = arrayResult[2];
       let trips$ = arrayResult[3];
       let ships$ = arrayResult[4];
-      let surveyors$ = arrayResult[4];
+      let surveyors$ = arrayResult[5];
 
       if (companies$.sucesso && checkpoints$.sucesso && places$.sucesso && trips$.sucesso && ships$.sucesso && surveyors$.sucesso) {
         this.companies = companies$.retorno.company;
