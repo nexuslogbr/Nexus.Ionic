@@ -2,15 +2,11 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActionSheetController, AlertController, Content, Modal, ModalController, NavController, NavParams, Platform, ViewController } from 'ionic-angular';
 import * as $ from 'jquery';
-import { TipoAvaria } from '../../model/TipoAvaria';
 import { AvariaDataService } from '../../providers/avaria-data-service';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { AlertService } from '../../providers/alert-service';
 import { finalize } from 'rxjs/operators';
-import { Avaria } from '../../model/avaria';
 import { Veiculo } from '../../model/veiculo';
-import { Momento } from '../../model/momento';
-import { GravidadeAvaria } from '../../model/gravidadeAvaria';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { DataRetorno } from '../../model/dataretorno';
@@ -23,6 +19,8 @@ import { Company } from '../../model/GeneralMotors/Company';
 import { Place } from '../../model/GeneralMotors/place';
 import { Ship } from '../../model/GeneralMotors/ship';
 import { Trip } from '../../model/GeneralMotors/trip';
+import { Surveyor } from '../../model/GeneralMotors/surveyor';
+import { Damage } from '../../model/GeneralMotors/damage';
 
 @Component({
   selector: 'page-lancamento-avaria-gm-selecao',
@@ -50,12 +48,12 @@ export class LancamentoAvariaGmSelecaoPage {
   inputColor: string;
   buttonColor: string;
 
-  formData = {
+  public formData = {
     number: 0,
     parte: '',
-    avaria: new Avaria(),
     veiculo: new Veiculo(),
     company: new Company(),
+    surveyor: new Surveyor(),
     place: new Place(),
     checkpoint: new Checkpoint(),
     companyOrigin: new Company(),
@@ -64,25 +62,7 @@ export class LancamentoAvariaGmSelecaoPage {
     trip: new Trip(),
   };
 
-  damage: {
-    quadrant: number,
-    part: number,
-    qualityInconsistency: number,
-    severity: number,
-    vehicleZone: number,
-    other: string,
-    photoClose: string,
-    photoNormal: string,
-
-    side: number, //??
-    block: number, //??
-  };
-
-  document = {
-    documentType: null, //??
-    additionalInfo: null, //??
-    document: null, //??
-  }
+  public damage = new Damage();
 
   damages = [];
   documents = [];
@@ -102,13 +82,16 @@ export class LancamentoAvariaGmSelecaoPage {
     private view: ViewController,
   ) {
 
-    this.formData = this.navParams.get('data');
+    var data = this.navParams.get('data');
+    this.formData = data.formData;
+    this.damages = data.array == null ? [] : data.array;
+
     this.title = this.formData.parte;
 
     this.form = formBuilder.group({
       subArea: [null, Validators.required],
       parte: [null,Validators.required],
-      avaria: [ this.formData.avaria, Validators.required],
+      avaria: [null , Validators.required],
       gravidade: [null, Validators.required],
     });
 
@@ -191,23 +174,31 @@ export class LancamentoAvariaGmSelecaoPage {
 
   moved(event){ }
 
-  selectPartsChange(event){
-    this.damage.vehicleZone = this.parts.filter(x => x.id == event).map(x => x)[0].zone;
-    this.damage.part = this.parts.filter(x => x.id == event).map(x => x)[0].id;
-    this.damage.side = null;
+  selectPartsChange(id: number){
+    if (id > 0) {
+      this.damage.vehicleZone = this.parts.filter(x => x.id == id).map(x => x)[0].zone;
+      this.damage.part = this.parts.filter(x => x.id == id).map(x => x)[0].id;
+      this.damage.side = null;
+    }
   }
 
   selectSubAreaChange(){
-    this.damage.quadrant = this.form.controls.subArea.value;
+    if (this.form.controls.subArea.value) {
+      this.damage.quadrant = parseInt(this.form.controls.subArea.value);
+    }
   }
 
   selectQualityInconsistenceChange(id:number){
-    this.damage.qualityInconsistency = this.qualityinconsistences.filter(x => x.id == id).map(x => x)[0].id;
-    this.damage.other = this.qualityinconsistences.filter(x => x.id == id).map(x => x)[0].description;
+    if (id > 0) {
+      this.damage.qualityInconsistency = this.qualityinconsistences.filter(x => x.id == id).map(x => x)[0].id;
+      this.damage.other = this.qualityinconsistences.filter(x => x.id == id).map(x => x)[0].description;
+    }
   }
 
   selectSeverityChange(id){
-    this.damage.severity = this.severities.filter(x => x.id == id).map(x => x)[0].id;
+    if (id > 0) {
+      this.damage.severity = this.severities.filter(x => x.id == id).map(x => x)[0].id;
+    }
   }
 
   return(){
@@ -215,33 +206,45 @@ export class LancamentoAvariaGmSelecaoPage {
   }
 
   newQualityinconsistence() {
+    this.authService.showLoading();
+    this.images = [];
     this.damages.push(this.damage);
+    this.form.reset();
+
+    setTimeout(() => {
+      this.view.dismiss(this.damages);
+      this.authService.hideLoading();
+    }, 2000);
   }
 
   save(){
     this.authService.showLoading();
+    this.damages.push(this.damage);
 
     let model  = {
-      company: this.formData.company.id,
       local: this.formData.place.local,
       origin: this.formData.companyOrigin.id,
       destination: this.formData.companyDestination.id,
       checkpoint: this.formData.checkpoint.checkpoint,
-      vin: this.formData.veiculo.chassi,
 
-      surveyor: null,
-      surveyDate: null,
-      validator: null,
-      validationDate: null,
+      TripId: this.formData.trip.id,
+      ShipId: this.formData.ship.id,
+
+      vin: this.formData.veiculo.chassi,
+      surveyor: this.formData.surveyor.id,
+      surveyDate: Date.now(),
+      validator: this.formData.surveyor.id,
+      validationDate: Date.now(),
 
       hasDamages: true,
       hasDocuments: false,
-
-      released: null, //??
-
+      released: 2,
       damages: this.damages,
       documents: this.documents
     };
+
+    // console.clear();
+    // console.log(model);
 
     this.generalMotorsService.insertsurvey(model)
     .pipe(
@@ -249,7 +252,15 @@ export class LancamentoAvariaGmSelecaoPage {
         this.authService.hideLoading();
       })
       )
-      .subscribe((response:any) => {
+      .subscribe((response:DataRetorno) => {
+        if (response.sucesso) {
+          this.view.dismiss();
+          var response = response;
+          this.alertService.showInfo(response.retorno.ResponseStatus.Message);
+        }
+        else {
+          this.alertService.showError(response.mensagem);;
+        }
 
       }, (error: any) => {
         this.alertService.showError('Erro ao salvar avaria');
@@ -351,5 +362,7 @@ export class LancamentoAvariaGmSelecaoPage {
 
   async deleteImage(image) {
     this.images = this.images.filter(x => x !== image).map(x => x);
+    this.damage.photoClose = '' ;
+    this.damage.photoNormal = '';
   }
 }

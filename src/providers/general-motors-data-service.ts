@@ -71,13 +71,14 @@ export class GeneralMotorsDataService {
   }
 
   public insertsurvey(model:any) {
-    let url = this.urlApi + '/generalMotors/insertsurvey';
-    return this.http.post<DataRetorno>(
-      url,
-      {
-        token: this.authService.getToken(),
-        insertSurvey: model
-      }, httpOptions
-    );
+    let url = this.urlApi + '/generalMotors/survey/insertsurvey';
+    let data = {
+      token: this.authService.getToken(),
+      insertSurvey: model
+    }
+    console.log(data);
+
+
+    return this.http.post<DataRetorno>(url, data, httpOptions);
   }
 }

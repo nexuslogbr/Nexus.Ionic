@@ -26,21 +26,35 @@ import { Trip } from '../../model/GeneralMotors/trip';
 import { THROW_IF_NOT_FOUND } from '@angular/core/src/di/injector';
 import { LancamentoAvariaSelecaoSuperficiePage } from '../../pages/lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { Surveyor } from '../../model/GeneralMotors/surveyor';
-
+import { GeneralMotorsDataService } from '../../providers/general-motors-data-service';
+/**
+ * Generated class for the ModalChassisVistoriaGmComponent component.
+ *
+ * See https://angular.io/api/core/Component for more info on Angular
+ * Components.
+ */
 @Component({
-  selector: 'modal-chassis-vistoria',
-  templateUrl: 'modal-chassis-vistoria.html',
+  selector: 'modal-chassis-vistoria-gm',
+  templateUrl: 'modal-chassis-vistoria-gm.html'
 })
-
-export class ModalChassisVistoriaComponent {
+export class ModalChassisVistoriaGmComponent {
   title: string;
   url: string;
   formControl = new FormControl("");
   public form: FormGroup
   @ViewChild('chassiInput') chassiInput;
+  chassi = '';
 
   formData = {
-    chassi: "",
+    veiculo: new Veiculo(),
+    company: new Company(),
+    place: new Place(),
+    checkpoint: new Checkpoint(),
+    trip: new Trip(),
+    ship: new Ship(),
+    surveyor: new Surveyor(),
+    companyOrigin: new Company(),
+    companyDestination: new Company()
   };
 
   modoOperacao: number;
@@ -50,25 +64,6 @@ export class ModalChassisVistoriaComponent {
   secondaryColor: string;
   inputColor: string;
   buttonColor: string;
-
-  model = {
-    empresa: null,
-    local: new Local(),
-    momento: new Momento(),
-    stakeholderOrigem: new StakeHolder(),
-    stakeholderDestino: new StakeHolder(),
-  };
-
-  modelGM = {
-    company: new Company(),
-    place: new Place(),
-    checkpoint: new Checkpoint(),
-    surveyor: new Surveyor(),
-    companyOrigin: new Company(),
-    companyDestination: new Company(),
-    ship: new Ship(),
-    trip: new Trip(),
-  };
 
   checklists: Array<Checklist> = [];
   veiculo: Veiculo;
@@ -83,21 +78,15 @@ export class ModalChassisVistoriaComponent {
     private navParam: NavParams,
     private view: ViewController,
     private formBuilder: FormBuilder,
-    private checklistService: CheckpointDataService,
     private veiculoService: VeiculoDataService,
-    private vistoriaService: VistoriaDataService
+    private gmService: GeneralMotorsDataService
   ) {
     this.title = 'Vistoria';
     this.url = this.authService.getUrl();
     this.modoOperacao = this.authService.getLocalModoOperacao();
 
     let data = this.navParam.get('data');
-    if (data.vistoriaGM) {
-      this.modelGM = data;
-    }
-    else {
-      this.model = data;
-    }
+    this.formData = data;
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -131,37 +120,16 @@ export class ModalChassisVistoriaComponent {
     setTimeout(() => {
       this.chassiInput.setFocus();
     }, 1000);
-    this. loadChecklists();
   }
 
   initializeFormControl(){
     this.form = this.formBuilder.group({
-      empresa: [this.model.empresa ? this.model.empresa.nome : this.modelGM.company.companyName],
-      local: [this.model.empresa ? this.model.local.nome : this.modelGM.place.localDescription],
-      momento: [this.model.empresa ? this.model.momento.nome : this.modelGM.checkpoint.checkpointDescription],
-      stakeholderOrigem: [this.model.empresa ? this.model.stakeholderOrigem : this.modelGM.companyOrigin.companyName],
-      stakeholderDestino: [this.model.empresa ? this.model.stakeholderDestino : this.modelGM.companyDestination.companyName],
+      empresa: [this.formData.company.companyName],
+      local: [this.formData.place.localDescription],
+      momento: [this.formData.checkpoint.checkpointDescription],
+      stakeholderOrigem: [this.formData.companyOrigin.companyName],
+      stakeholderDestino: [this.formData.companyDestination.companyName],
     });
-  }
-
-  loadChecklists(){
-    this.authService.showLoading();
-    this.checklistService.listar()
-    .pipe(
-      finalize(() => {
-        this.authService.hideLoading();
-      })
-    )
-    .subscribe((r: DataRetorno) => {
-      if (r.retorno != null) {
-        this.checklists = r.retorno;
-      }
-      else {
-        this.alertService.showAlert(r.mensagem);
-      }
-    }, error => {
-      this.alertService.showAlert(error.message);
-    })
   }
 
   toggleMenu = function (this) {
@@ -181,7 +149,7 @@ export class ModalChassisVistoriaComponent {
       .pipe(
         finalize(() => {
           this.authService.hideLoading();
-          this.formData.chassi = '';
+          this.chassi = '';
         })
       )
       .subscribe(arrayResult => {
@@ -189,6 +157,7 @@ export class ModalChassisVistoriaComponent {
 
         if (veiculo$.sucesso) {
           this.veiculo = veiculo$.retorno;
+          this.formData.veiculo = veiculo$.retorno;
         }
         else {
           this.veiculo = null;
@@ -208,61 +177,63 @@ export class ModalChassisVistoriaComponent {
   semAvaria() {
     this.authService.showLoading();
 
-    forkJoin([
-      this.vistoriaService.vistoriarChassi(this.veiculo.id)
-    ])
-    .pipe(
-      finalize(() => {
-        this.authService.hideLoading();
-        this.veiculo = null;
-      })
-    )
-    .subscribe(arrayResult => {
-      let vistoria$ = arrayResult[0];
+    let model  = {
+      company: this.formData.company.id,
+      local: this.formData.place.local,
+      origin: this.formData.companyOrigin.id,
+      destination: this.formData.companyDestination.id,
+      checkpoint: this.formData.checkpoint.checkpoint,
+      TripId: this.formData.trip.id,
+      ShipId: this.formData.ship.id,
+      vin: this.veiculo.chassi,
 
-      if (vistoria$.sucesso) {
-        if (vistoria$.tipo == enumVeiculoStatus.Vistoriado) {
-          this.alertService.showAlert(vistoria$.mensagem);
-        }
-        else {
-          this.alertService.showInfo(vistoria$.mensagem);
-        }
-      }
-      else if (!vistoria$.sucesso) {
-        this.alertService.showError(vistoria$.mensagem);
-      }
-    }, error => {
-      this.alertService.showError(error);
-    })
+      surveyor: this.formData.surveyor.id,
+      surveyDate: new Date().getDate(),
+      validator: this.formData.surveyor.id,
+      validationDate: new Date().getDate(),
+
+      hasDamages: false,
+      hasDocuments: false,
+      released: 1,
+      damages: [],
+      documents: []
+    };
+
+    console.log(model);
+    this.alertService.showInfo('Vistoriado com sucesso!');
+    this.veiculo = null;
+
+    // forkJoin([
+    //   this.gmService.insertsurvey(model)
+    // ])
+    // .pipe(
+    //   finalize(() => {
+        this.authService.hideLoading();
+    //     this.veiculo = null;
+    //   })
+    // )
+    // .subscribe(arrayResult => {
+    //   let vistoria$ = arrayResult[0];
+
+    //   if (vistoria$.sucesso) {
+    //     this.alertService.showInfo('Vistoriado com sucesso!');
+    //     this.close();
+    //   }
+    //   else if (!vistoria$.sucesso) {
+    //     this.alertService.showError(vistoria$.mensagem);
+    //   }
+    // }, error => {
+    //   this.alertService.showError(error);
+    // })
   }
 
-  comAvaria(gm = false){
-    this.authService.showLoading();
+  comAvaria(){
+    const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage,
+      {
+        data: this.formData
+      });
 
-    if (gm) {
-      const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage,
-        {
-          data:
-          {
-            veiculo: this.veiculo,
-            momento: this.model.momento
-          }
-        });
-
-      chassiModal.present();
-    }
-    else{
-      const chassiModal: Modal = this.modal.create(LancamentoAvariaSelecaoSuperficiePage,
-        {
-          data:
-          {
-            veiculo: this.veiculo,
-            momento: this.model.momento
-          }
-        });
-
-      chassiModal.present();
-    }
+    chassiModal.present();
   }
 
   close() {

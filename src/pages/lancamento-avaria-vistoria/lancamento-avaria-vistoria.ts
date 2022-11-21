@@ -10,6 +10,8 @@ import { Company } from '../../model/GeneralMotors/Company';
 import { Place } from '../../model/GeneralMotors/place';
 import { Ship } from '../../model/GeneralMotors/ship';
 import { Trip } from '../../model/GeneralMotors/trip';
+import { Surveyor } from '../../model/GeneralMotors/surveyor';
+import { Veiculo } from '../../model/veiculo';
 @Component({
   selector: 'page-lancamento-avaria-vistoria',
   templateUrl: 'lancamento-avaria-vistoria.html',
@@ -22,19 +24,21 @@ export class LancamentoAvariaVistoriaPage {
   inputColor: string;
   buttonColor: string;
 
+  damages = [];
+
   formData = {
     number: 0,
     parte: '',
+    veiculo: new Veiculo(),
     company: new Company(),
     place: new Place(),
     checkpoint: new Checkpoint(),
-    companyOrigin: new Company(),
-    companyDestination: new Company(),
-    ship: new Ship(),
     trip: new Trip(),
+    ship: new Ship(),
+    surveyor: new Surveyor(),
+    companyOrigin: new Company(),
+    companyDestination: new Company()
   };
-
-  public form: FormGroup
 
   constructor(
     public navCtrl: NavController,
@@ -62,23 +66,7 @@ export class LancamentoAvariaVistoriaPage {
   }
 
   ionViewWillLoad() {
-    let data = this.navParams.get('data');
-
-    this.initializeFormControl();
-
-  }
-
-  initializeFormControl(){
-    this.form = this.formBuilder.group({
-      capo: [null],
-      parachoquefrente: [null],
-      parachoquetras: [null],
-      portamalas: [null],
-      lateralfrente: [null],
-      lateralmeio: [null],
-      lateraltras: [null],
-      teto: [null],
-    });
+    this.formData = this.navParams.get('data');
   }
 
   toggleMenu = function (this) {
@@ -123,11 +111,21 @@ export class LancamentoAvariaVistoriaPage {
     }
 
     const modal: Modal = this.modal.create(LancamentoAvariaGmSelecaoPage, {
-      data: this.formData,
+      data: {
+        formData: this.formData,
+        array: this.damages
+      },
     });
     modal.present();
 
-
+    modal.onWillDismiss((data) => {
+      if (data) {
+        this.damages = data;
+      }
+      else{
+        this.view.dismiss();
+      }
+    });
   }
 
   return(){

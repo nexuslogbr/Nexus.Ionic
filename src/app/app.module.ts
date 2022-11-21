@@ -151,6 +151,7 @@ import { ModalNovoLancamentoAvariaPage } from '../pages/modal-novo-lancamento-av
 // Components
 import { SincronizacaoInfoComponent } from './../components/sincronizacao-info/sincronizacao-info';
 import { ModalChassisVistoriaComponent } from '../components/modal-chassis-vistoria/modal-chassis-vistoria';
+import { ModalChassisVistoriaGmComponent } from '../components/modal-chassis-vistoria-gm/modal-chassis-vistoria-gm';
 import { ConferenciaVeiculosComponent } from '../components/conferencia-veiculos/conferencia-veiculos';
 import { VistoriaVeiculosComponent } from '../components/vistoria-veiculos/vistoria-veiculos';
 import { ModalErrorComponent } from '../components/modal-error/modal-error';
@@ -312,6 +313,7 @@ import { LancamentoAvariaGmSelecaoPage } from '../pages/lancamento-avaria-gm-sel
     ModalObservacoesComponent,
     FormObservacoesComponent,
     ModalChassisVistoriaComponent,
+    ModalChassisVistoriaGmComponent,
     LancarAvariaComponent,
     LancarAvariaSelecionarComponent,
     FormLancamentoAvariaComponent,
@@ -551,6 +553,7 @@ import { LancamentoAvariaGmSelecaoPage } from '../pages/lancamento-avaria-gm-sel
     ModalObservacoesComponent,
     FormObservacoesComponent,
     ModalChassisVistoriaComponent,
+    ModalChassisVistoriaGmComponent,
     LancarAvariaComponent,
     LancarAvariaSelecionarComponent,
     FormLancamentoAvariaComponent,

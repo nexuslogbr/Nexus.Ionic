@@ -6,18 +6,10 @@ import * as $ from 'jquery';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../../providers/alert-service';
-import { ModalBuscaChassiComponent } from '../modal-busca-chassi/modal-busca-chassi';
-import { ModalErrorComponent } from '../../components/modal-error/modal-error';
-import { ModalSucessoComponent } from '../../components/modal-sucesso/modal-sucesso';
-import { HomePage } from '../home/home';
-import { CheckpointDataService } from '../../providers/checkpoint-service';
-import { Momento } from '../../model/momento';
 import { MomentoDataService } from '../../providers/momento-data-service';
 import { StakeholderService } from '../../providers/stakeholder-data-service';
 import { finalize } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { StakeHolder } from '../../model/stakeholder';
-import { ModalChassisVistoriaComponent } from '../../components/modal-chassis-vistoria/modal-chassis-vistoria';
 import { GeneralMotorsDataService } from '../../providers/general-motors-data-service';
 import { Checkpoint } from '../../model/GeneralMotors/checkpoint';
 import { Company } from '../../model/GeneralMotors/Company';
@@ -25,6 +17,7 @@ import { Place } from '../../model/GeneralMotors/place';
 import { Trip } from '../../model/GeneralMotors/trip';
 import { Ship } from '../../model/GeneralMotors/ship';
 import { Surveyor } from '../../model/GeneralMotors/surveyor';
+import { ModalChassisVistoriaGmComponent } from '../../components/modal-chassis-vistoria-gm/modal-chassis-vistoria-gm';
 
 @Component({
   selector: 'page-vistoria-general-motors',
@@ -185,6 +178,10 @@ export class VistoriaGeneralMotorsPage {
     this.companyOrigin = this.companies.filter(x => x.id == id).map(x => x)[0];
   }
 
+  changeSurveyors(id:number) {
+    this.surveyor = this.surveyors.filter(x => x.id == id).map(x => x)[0];
+  }
+
   changeDestinationCompany(id:number) {
     this.companyDestination = this.companies.filter(x => x.id == id).map(x => x)[0];
   }
@@ -208,16 +205,16 @@ export class VistoriaGeneralMotorsPage {
   }
 
   toNavigate(){
-    this.navCtrl.push(ModalChassisVistoriaComponent, {
+    this.navCtrl.push(ModalChassisVistoriaGmComponent, {
       data: {
         company: this.company,
         place: this.place,
         checkpoint: this.checkpoint,
+        trip: this.trip,
+        ship: this.ship,
+        surveyor: this.surveyor,
         companyOrigin: this.companyOrigin,
         companyDestination: this.companyDestination,
-        ship: this.ship,
-        trip: this.trip,
-        vistoriaGM: true
       }
     });
   }
