@@ -65,7 +65,6 @@ export class LancamentoAvariaGmSelecaoPage {
   public damage = new Damage();
 
   damages = [];
-  documents = [];
 
   constructor(
     public navCtrl: NavController,
@@ -176,9 +175,11 @@ export class LancamentoAvariaGmSelecaoPage {
 
   selectPartsChange(id: number){
     if (id > 0) {
-      this.damage.vehicleZone = this.parts.filter(x => x.id == id).map(x => x)[0].zone;
-      this.damage.part = this.parts.filter(x => x.id == id).map(x => x)[0].id;
+      let part = this.parts.filter(x => x.id == id).map(x => x)[0];
+      this.damage.vehicleZone = part.zone;
+      this.damage.part = part.id;
       this.damage.side = null;
+      this.damage.block = part.block;
     }
   }
 
@@ -191,7 +192,7 @@ export class LancamentoAvariaGmSelecaoPage {
   selectQualityInconsistenceChange(id:number){
     if (id > 0) {
       this.damage.qualityInconsistency = this.qualityinconsistences.filter(x => x.id == id).map(x => x)[0].id;
-      this.damage.other = this.qualityinconsistences.filter(x => x.id == id).map(x => x)[0].description;
+      this.damage.other = null;
     }
   }
 
@@ -226,25 +227,19 @@ export class LancamentoAvariaGmSelecaoPage {
       origin: this.formData.companyOrigin.id,
       destination: this.formData.companyDestination.id,
       checkpoint: this.formData.checkpoint.checkpoint,
-
-      TripId: this.formData.trip.id,
-      ShipId: this.formData.ship.id,
-
+      tripId: this.formData.trip.id,
+      shipId: this.formData.ship.id,
       vin: this.formData.veiculo.chassi,
       surveyor: this.formData.surveyor.id,
       surveyDate: Date.now(),
       validator: this.formData.surveyor.id,
       validationDate: Date.now(),
-
       hasDamages: true,
       hasDocuments: false,
       released: 2,
       damages: this.damages,
-      documents: this.documents
+      documents: []
     };
-
-    // console.clear();
-    // console.log(model);
 
     this.generalMotorsService.insertsurvey(model)
     .pipe(
