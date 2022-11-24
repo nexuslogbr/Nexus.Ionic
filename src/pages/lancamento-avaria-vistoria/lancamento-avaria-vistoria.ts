@@ -122,10 +122,18 @@ export class LancamentoAvariaVistoriaPage {
       if (data) {
         this.damages = data;
       }
-      else{
+      else if (data == 'esc'){
         this.view.dismiss();
       }
     });
+  }
+
+  navigateToIntenal(){
+    alert('Vistoria interna');
+  }
+
+  navigateToOthers(){
+    alert('Vistoria outros');
   }
 
   return(){

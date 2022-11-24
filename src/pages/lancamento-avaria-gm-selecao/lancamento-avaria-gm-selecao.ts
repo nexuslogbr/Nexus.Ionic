@@ -139,56 +139,48 @@ export class LancamentoAvariaGmSelecaoPage {
         this.partsAll = parts$.retorno.parts;
 
         let image = this.formData.number;
-        var zone = 0;
 
-        if (image == 1 || image == 2) {
-          if (image == 1) {
-            this.parts = zone > 0 ? this.partsAll.filter(x => x.zone == zone).map(x => x) : this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
-          }
-          else if (image == 2) {
-            this.parts = zone > 0 ? this.partsAll.filter(x => x.zone == zone).map(x => x) : this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
-          }
+        // Frente capo
+        if (image == 1) {
+          this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 1).map(x => x);
+          this.urlImagem = 'assets/images/onix-frente.png';
         }
-        else if (image == 3 || image == 4) {
-          zone = 2;// traseira
-          this.parts = zone > 0 ? this.partsAll.filter(x => x.zone == zone).map(x => x) : this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
+        // Frente parachoques e farol
+        else if (image == 2) {
+          this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 1).map(x => x);
+          this.urlImagem = 'assets/images/onix-parachoques.png';
         }
-        else if (image == 5 || image == 6 || image == 7) {
-          zone = 3;// laterais
-          this.parts = zone > 0 ? this.partsAll.filter(x => x.zone == zone).map(x => x) : this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
+        // Traseira parachoques
+        else if (image == 3) {
+            this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 2).map(x => x);
+            this.urlImagem = 'assets/images/onix-traseira-parachoques.png';
         }
+        // Traseira porta-malas e lanterna
+        else if (image == 4) {
+          this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 2).map(x => x);
+          this.urlImagem = 'assets/images/onix-traseira-portamalas.png';
+        }
+        // Lateral frente
+        else if (image == 5) {
+          this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 3).map(x => x);
+          this.urlImagem = 'assets/images/onix-lateral-frente.png';
+        }
+        // Lateral meio
+        else if (image == 6) {
+          this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 3).map(x => x);
+          this.urlImagem = 'assets/images/onix-lateral-porta.png';
+        }
+        // Lateral traseira
+        else if (image == 7) {
+          this.parts = this.partsAll.filter(x => x.block == 3 && x.zone == 3).map(x => x);
+          this.urlImagem = 'assets/images/onix-lateral-traseira.png';
+        }
+        // Teto
         else if (image == 8) {
-          this.parts = zone > 0 ? this.partsAll.filter(x => x.zone == zone).map(x => x) : this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
+          this.parts = this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
+          this.urlImagem = 'assets/images/onix-teto.png';
         }
-
       }
-
-
-      if (this.formData.number == 1) {
-        this.urlImagem = 'assets/images/onix-frente.png';
-      }
-      else if (this.formData.number == 2) {
-        this.urlImagem = 'assets/images/onix-parachoques.png';
-      }
-      else if (this.formData.number == 3) {
-        this.urlImagem = 'assets/images/onix-traseira-parachoques.png';
-      }
-      else if (this.formData.number == 4) {
-        this.urlImagem = 'assets/images/onix-traseira-portamalas.png';
-      }
-      else if (this.formData.number == 5) {
-        this.urlImagem = 'assets/images/onix-lateral-frente.png';
-      }
-      else if (this.formData.number == 6) {
-        this.urlImagem = 'assets/images/onix-lateral-porta.png';
-      }
-      else if (this.formData.number == 7) {
-        this.urlImagem = 'assets/images/onix-lateral-traseira.png';
-      }
-      else if (this.formData.number == 8) {
-        this.urlImagem = 'assets/images/onix-teto.png';
-      }
-
     });
   }
 
@@ -233,7 +225,8 @@ export class LancamentoAvariaGmSelecaoPage {
   }
 
   return(){
-    this.view.dismiss();
+    let data = 'esc';
+    this.view.dismiss(data);
   }
 
   newQualityinconsistence() {
