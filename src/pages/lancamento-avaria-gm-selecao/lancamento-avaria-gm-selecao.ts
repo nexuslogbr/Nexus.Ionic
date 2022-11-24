@@ -91,11 +91,12 @@ export class LancamentoAvariaGmSelecaoPage {
     this.title = this.formData.parte;
 
     this.form = formBuilder.group({
-      lado: [0, Validators.required],
-      subArea: [null, Validators.required],
-      parte: [null,Validators.required],
-      avaria: [null , Validators.required],
-      gravidade: [null, Validators.required],
+      lado: [0],
+      subArea: [null],
+      parte: [null],
+      parteOutros: [null],
+      avaria: [null],
+      gravidade: [null],
     });
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
@@ -179,6 +180,10 @@ export class LancamentoAvariaGmSelecaoPage {
         else if (image == 8) {
           this.parts = this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
           this.urlImagem = 'assets/images/onix-teto.png';
+        }
+        // Interno
+        else if (image == 9) {
+          this.parts = this.partsAll.filter(x => x.block == 0 && x.zone == 4).map(x => x);
         }
       }
     });

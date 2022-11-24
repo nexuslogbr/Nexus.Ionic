@@ -12,13 +12,15 @@
     <form [formGroup]="form" class="form-selecao-superficie">
       <ion-list>
 
-        <div >
+        <!-- Imagem -->
+        <div *ngIf="formData.number != 9 && formData.number != 10">
           <img [src]="urlImagem" id="image" class="img-relative">
           <div id="canvasWrapper">
             <canvas #imageCanvas (touchstart)="touched($event)" (touchmove)="moved($event)" id="canvas"></canvas>
           </div>
         </div>
 
+        <!-- Lado -->
         <ion-item *ngIf="formData.number == 5 || formData.number == 6 || formData.number == 7">
           <ion-label label-ios style="font-style: unset;"><b>Lado: </b></ion-label>
           <ion-select okText="Selecionar" cancelText="Cancelar" formControlName="lado">
@@ -27,7 +29,8 @@
           </ion-select>
         </ion-item>
 
-        <ion-item>
+        <!-- Subarea -->
+        <ion-item *ngIf="formData.number != 9 && formData.number != 10">
           <ion-label label-ios style="font-style: unset;"><b>Subárea: </b></ion-label>
           <ion-select (ionChange)="selectSubAreaChange()" okText="Selecionar" cancelText="Cancelar" formControlName="subArea">
             <ion-option value="{{1}}">1</ion-option>
@@ -42,13 +45,21 @@
           </ion-select>
         </ion-item>
 
-        <ion-item>
+        <!-- Peça -->
+        <ion-item *ngIf="formData.number != 10">
           <ion-label label-ios style="font-style: unset;"><b>Peça:</b></ion-label>
           <ion-select (ionChange)="selectPartsChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="parte">
              <ion-option *ngFor="let item of parts" value="{{item.id}}" id="{{item.id}}">{{item.description}}</ion-option>
           </ion-select>
         </ion-item>
 
+        <!-- Peça Outros -->
+        <ion-item *ngIf="formData.number == 10">
+          <ion-label label-ios style="font-style: unset;"><b>Peça: </b></ion-label>
+          <ion-textarea label-ios style="font-style: unset; color: white;"  formControlName="parteOutros"></ion-textarea>
+        </ion-item>
+
+        <!-- Tipo Avaria -->
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Tipo de Avaria:</b></ion-label>
           <ion-select (ionChange)="selectQualityInconsistenceChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="avaria">
@@ -56,6 +67,7 @@
           </ion-select>
         </ion-item>
 
+        <!-- Gravidade -->
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Gravidade: </b></ion-label>
           <ion-select (ionChange)="selectSeverityChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="gravidade">
@@ -64,7 +76,7 @@
         </ion-item>
 
         <ion-item no-lines>
-          <ion-label label-ios style="font-style: unset;"><b>Imagens:</b></ion-label>
+          <ion-label label-ios style="font-style: unset;"><b>Foto Avaria:</b></ion-label>
         </ion-item>
 
         <ion-toolbar color="primary" *ngFor="let file of images; index as pos" text-wrap>

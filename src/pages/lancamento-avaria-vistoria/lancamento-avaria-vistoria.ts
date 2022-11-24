@@ -109,6 +109,14 @@ export class LancamentoAvariaVistoriaPage {
       this.formData.parte = 'Teto';
       this.formData.number = 8;
     }
+    else if (event == 9) {
+      this.formData.parte = 'Interno';
+      this.formData.number = 9;
+    }
+    else if (event == 10) {
+      this.formData.parte = 'Outros';
+      this.formData.number = 10;
+    }
 
     const modal: Modal = this.modal.create(LancamentoAvariaGmSelecaoPage, {
       data: {
@@ -126,14 +134,6 @@ export class LancamentoAvariaVistoriaPage {
         this.view.dismiss();
       }
     });
-  }
-
-  navigateToIntenal(){
-    alert('Vistoria interna');
-  }
-
-  navigateToOthers(){
-    alert('Vistoria outros');
   }
 
   return(){

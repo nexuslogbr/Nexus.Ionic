@@ -178,7 +178,6 @@ export class ModalChassisVistoriaGmComponent {
     this.authService.showLoading();
 
     let model  = {
-      company: this.formData.company.id,
       local: this.formData.place.local,
       origin: this.formData.companyOrigin.id,
       destination: this.formData.companyDestination.id,
@@ -188,9 +187,9 @@ export class ModalChassisVistoriaGmComponent {
       vin: this.veiculo.chassi,
 
       surveyor: this.formData.surveyor.id,
-      surveyDate: new Date().getDate(),
+      surveyDate: new Date().toISOString(),
       validator: this.formData.surveyor.id,
-      validationDate: new Date().getDate(),
+      validationDate: new Date().toISOString(),
 
       hasDamages: false,
       hasDocuments: false,
@@ -203,28 +202,28 @@ export class ModalChassisVistoriaGmComponent {
     this.alertService.showInfo('Vistoriado com sucesso!');
     this.veiculo = null;
 
-    // forkJoin([
-    //   this.gmService.insertsurvey(model)
-    // ])
-    // .pipe(
-    //   finalize(() => {
+    forkJoin([
+      this.gmService.insertsurvey(model)
+    ])
+    .pipe(
+      finalize(() => {
         this.authService.hideLoading();
-    //     this.veiculo = null;
-    //   })
-    // )
-    // .subscribe(arrayResult => {
-    //   let vistoria$ = arrayResult[0];
+        this.veiculo = null;
+      })
+    )
+    .subscribe(arrayResult => {
+      let vistoria$ = arrayResult[0];
 
-    //   if (vistoria$.sucesso) {
-    //     this.alertService.showInfo('Vistoriado com sucesso!');
-    //     this.close();
-    //   }
-    //   else if (!vistoria$.sucesso) {
-    //     this.alertService.showError(vistoria$.mensagem);
-    //   }
-    // }, error => {
-    //   this.alertService.showError(error);
-    // })
+      if (vistoria$.sucesso) {
+        this.alertService.showInfo('Vistoriado com sucesso!');
+        this.close();
+      }
+      else if (!vistoria$.sucesso) {
+        this.alertService.showError(vistoria$.mensagem);
+      }
+    }, error => {
+      this.alertService.showError(error);
+    })
   }
 
   comAvaria(){
