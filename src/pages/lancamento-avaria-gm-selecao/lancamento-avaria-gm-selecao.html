@@ -19,6 +19,14 @@
           </div>
         </div>
 
+        <ion-item *ngIf="formData.number == 5 || formData.number == 6 || formData.number == 7">
+          <ion-label label-ios style="font-style: unset;"><b>Lado: </b></ion-label>
+          <ion-select okText="Selecionar" cancelText="Cancelar" formControlName="lado">
+            <ion-option value="{{1}}">Direito</ion-option>
+            <ion-option value="{{2}}">Esquerdo</ion-option>
+          </ion-select>
+        </ion-item>
+
         <ion-item>
           <ion-label label-ios style="font-style: unset;"><b>Subárea: </b></ion-label>
           <ion-select (ionChange)="selectSubAreaChange()" okText="Selecionar" cancelText="Cancelar" formControlName="subArea">

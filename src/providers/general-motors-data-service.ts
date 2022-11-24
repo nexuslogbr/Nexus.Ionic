@@ -74,8 +74,10 @@ export class GeneralMotorsDataService {
     let url = this.urlApi + '/generalMotors/survey/insertsurvey';
     let data = {
       token: this.authService.getToken(),
-      insertSurvey: model
+      survey: model
     }
+
+    console.clear();
     console.log(data);
 
 

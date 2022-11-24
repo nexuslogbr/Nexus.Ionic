@@ -1,3 +1,5 @@
+import { Damage } from "./damage";
+import { Doc } from "./doc";
 
 export class Survey {
   public company: string;
@@ -5,8 +7,8 @@ export class Survey {
   public origin: number;
   public destination: number;
   public checkpoint: number;
+  public tripId: number;
   public shipId: number;
-  public tripId: Number;
   public vin: string;
   public surveyor: number;
   public surveyDate: string;
@@ -15,8 +17,6 @@ export class Survey {
   public hasDamages: boolean;
   public hasDocuments: boolean;
   public released: number;
-  public vehicleZone: number;
-  public part: number;
-  public side: number;
-
+  public damages: Damage[];
+  public documents: Doc[];
 }

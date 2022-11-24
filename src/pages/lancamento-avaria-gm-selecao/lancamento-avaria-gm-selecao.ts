@@ -21,6 +21,7 @@ import { Ship } from '../../model/GeneralMotors/ship';
 import { Trip } from '../../model/GeneralMotors/trip';
 import { Surveyor } from '../../model/GeneralMotors/surveyor';
 import { Damage } from '../../model/GeneralMotors/damage';
+import { Survey } from '../../model/GeneralMotors/survey';
 
 @Component({
   selector: 'page-lancamento-avaria-gm-selecao',
@@ -63,8 +64,10 @@ export class LancamentoAvariaGmSelecaoPage {
   };
 
   public damage = new Damage();
+  public survey = new Survey();
 
-  damages = [];
+  damages:Damage[] = [];
+  partsAll: Part[];
 
   constructor(
     public navCtrl: NavController,
@@ -88,6 +91,7 @@ export class LancamentoAvariaGmSelecaoPage {
     this.title = this.formData.parte;
 
     this.form = formBuilder.group({
+      lado: [0, Validators.required],
       subArea: [null, Validators.required],
       parte: [null,Validators.required],
       avaria: [null , Validators.required],
@@ -114,31 +118,6 @@ export class LancamentoAvariaGmSelecaoPage {
   loadScreen(){
     this.authService.showLoading();
 
-    if (this.formData.number == 1) {
-      this.urlImagem = 'assets/images/onix-frente.png';
-    }
-    else if (this.formData.number == 2) {
-      this.urlImagem = 'assets/images/onix-parachoques.png';
-    }
-    else if (this.formData.number == 3) {
-      this.urlImagem = 'assets/images/onix-traseira-parachoques.png';
-    }
-    else if (this.formData.number == 4) {
-      this.urlImagem = 'assets/images/onix-traseira-portamalas.png';
-    }
-    else if (this.formData.number == 5) {
-      this.urlImagem = 'assets/images/onix-lateral-frente.png';
-    }
-    else if (this.formData.number == 6) {
-      this.urlImagem = 'assets/images/onix-lateral-porta.png';
-    }
-    else if (this.formData.number == 7) {
-      this.urlImagem = 'assets/images/onix-lateral-traseira.png';
-    }
-    else if (this.formData.number == 8) {
-      this.urlImagem = 'assets/images/onix-teto.png';
-    }
-
     forkJoin([
       this.generalMotorsService.parts(),
       this.generalMotorsService.qualityinconsistences(),
@@ -155,10 +134,61 @@ export class LancamentoAvariaGmSelecaoPage {
       let severity$ = arrayResult[2];
 
       if (parts$.sucesso && qualityinconsistences$.sucesso && severity$.sucesso) {
-        this.parts = parts$.retorno.parts;
         this.qualityinconsistences = qualityinconsistences$.retorno.qualityInconsistences;
         this.severities = severity$.retorno.severity;
+        this.partsAll = parts$.retorno.parts;
+
+        let image = this.formData.number;
+        var zone = 0;
+
+        if (image == 1 || image == 2) {
+          if (image == 1) {
+            this.parts = zone > 0 ? this.partsAll.filter(x => x.zone == zone).map(x => x) : this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
+          }
+          else if (image == 2) {
+            this.parts = zone > 0 ? this.partsAll.filter(x => x.zone == zone).map(x => x) : this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
+          }
+        }
+        else if (image == 3 || image == 4) {
+          zone = 2;// traseira
+          this.parts = zone > 0 ? this.partsAll.filter(x => x.zone == zone).map(x => x) : this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
+        }
+        else if (image == 5 || image == 6 || image == 7) {
+          zone = 3;// laterais
+          this.parts = zone > 0 ? this.partsAll.filter(x => x.zone == zone).map(x => x) : this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
+        }
+        else if (image == 8) {
+          this.parts = zone > 0 ? this.partsAll.filter(x => x.zone == zone).map(x => x) : this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
+        }
+
       }
+
+
+      if (this.formData.number == 1) {
+        this.urlImagem = 'assets/images/onix-frente.png';
+      }
+      else if (this.formData.number == 2) {
+        this.urlImagem = 'assets/images/onix-parachoques.png';
+      }
+      else if (this.formData.number == 3) {
+        this.urlImagem = 'assets/images/onix-traseira-parachoques.png';
+      }
+      else if (this.formData.number == 4) {
+        this.urlImagem = 'assets/images/onix-traseira-portamalas.png';
+      }
+      else if (this.formData.number == 5) {
+        this.urlImagem = 'assets/images/onix-lateral-frente.png';
+      }
+      else if (this.formData.number == 6) {
+        this.urlImagem = 'assets/images/onix-lateral-porta.png';
+      }
+      else if (this.formData.number == 7) {
+        this.urlImagem = 'assets/images/onix-lateral-traseira.png';
+      }
+      else if (this.formData.number == 8) {
+        this.urlImagem = 'assets/images/onix-teto.png';
+      }
+
     });
   }
 
@@ -173,26 +203,26 @@ export class LancamentoAvariaGmSelecaoPage {
 
   moved(event){ }
 
+  selectSubAreaChange(){
+    if (this.form.controls.subArea.value) {
+      this.damage.quadrant = parseInt(this.form.controls.subArea.value);
+      this.damage.side = parseInt(this.form.controls.lado.value);
+    }
+  }
+
   selectPartsChange(id: number){
     if (id > 0) {
       let part = this.parts.filter(x => x.id == id).map(x => x)[0];
       this.damage.vehicleZone = part.zone;
       this.damage.part = part.id;
-      this.damage.side = null;
       this.damage.block = part.block;
-    }
-  }
-
-  selectSubAreaChange(){
-    if (this.form.controls.subArea.value) {
-      this.damage.quadrant = parseInt(this.form.controls.subArea.value);
     }
   }
 
   selectQualityInconsistenceChange(id:number){
     if (id > 0) {
       this.damage.qualityInconsistency = this.qualityinconsistences.filter(x => x.id == id).map(x => x)[0].id;
-      this.damage.other = null;
+      this.damage.other = '';
     }
   }
 
@@ -222,26 +252,27 @@ export class LancamentoAvariaGmSelecaoPage {
     this.authService.showLoading();
     this.damages.push(this.damage);
 
-    let model  = {
-      local: this.formData.place.local,
-      origin: this.formData.companyOrigin.id,
-      destination: this.formData.companyDestination.id,
-      checkpoint: this.formData.checkpoint.checkpoint,
-      tripId: this.formData.trip.id,
-      shipId: this.formData.ship.id,
-      vin: this.formData.veiculo.chassi,
-      surveyor: this.formData.surveyor.id,
-      surveyDate: Date.now(),
-      validator: this.formData.surveyor.id,
-      validationDate: Date.now(),
-      hasDamages: true,
-      hasDocuments: false,
-      released: 2,
-      damages: this.damages,
-      documents: []
-    };
+    var date = new Date();
 
-    this.generalMotorsService.insertsurvey(model)
+    this.survey.company = '',
+    this.survey.local = this.formData.place.local,
+    this.survey.origin = this.formData.companyOrigin.id,
+    this.survey.destination = this.formData.companyDestination.id,
+    this.survey.checkpoint = this.formData.checkpoint.checkpoint,
+    this.survey.tripId = this.formData.trip.id,
+    this.survey.shipId = this.formData.ship.id,
+    this.survey.vin = this.formData.veiculo.chassi,
+    this.survey.surveyor = this.formData.surveyor.id,
+    this.survey.surveyDate = date.toISOString(),
+    this.survey.validator = this.formData.surveyor.id,
+    this.survey.validationDate = date.toISOString(),
+    this.survey.hasDamages = true,
+    this.survey.hasDocuments = false,
+    this.survey.released = 2,
+    this.survey.damages = this.damages,
+    this.survey.documents = []
+
+    this.generalMotorsService.insertsurvey(this.survey)
     .pipe(
       finalize(() => {
         this.authService.hideLoading();
@@ -251,7 +282,8 @@ export class LancamentoAvariaGmSelecaoPage {
         if (response.sucesso) {
           this.view.dismiss();
           var response = response;
-          this.alertService.showInfo(response.retorno.ResponseStatus.Message);
+          this.alertService.showInfo('Salvo com sucesso!');
+          // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
         }
         else {
           this.alertService.showError(response.mensagem);;

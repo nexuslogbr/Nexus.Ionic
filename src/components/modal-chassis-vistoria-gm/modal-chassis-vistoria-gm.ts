@@ -233,6 +233,7 @@ export class ModalChassisVistoriaGmComponent {
         data: this.formData
       });
 
+    this.veiculo = null;
     chassiModal.present();
   }
 
