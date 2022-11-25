@@ -198,10 +198,6 @@ export class ModalChassisVistoriaGmComponent {
       documents: []
     };
 
-    console.log(model);
-    this.alertService.showInfo('Vistoriado com sucesso!');
-    this.veiculo = null;
-
     forkJoin([
       this.gmService.insertsurvey(model)
     ])
@@ -216,7 +212,6 @@ export class ModalChassisVistoriaGmComponent {
 
       if (vistoria$.sucesso) {
         this.alertService.showInfo('Vistoriado com sucesso!');
-        this.close();
       }
       else if (!vistoria$.sucesso) {
         this.alertService.showError(vistoria$.mensagem);

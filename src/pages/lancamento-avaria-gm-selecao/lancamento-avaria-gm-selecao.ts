@@ -230,8 +230,9 @@ export class LancamentoAvariaGmSelecaoPage {
   }
 
   return(){
-    let data = 'esc';
-    this.view.dismiss(data);
+    // let data = 'esc';
+    // this.view.dismiss(data);
+    this.view.dismiss();
   }
 
   newQualityinconsistence() {
@@ -357,6 +358,7 @@ export class LancamentoAvariaGmSelecaoPage {
     this.damage.photoClose = 'data:image/jpeg;base64,' + photo.base64String;
     this.damage.photoNormal = 'data:image/jpeg;base64,' + photo.base64String;
 
+    this.images = [];
     this.images.push(image);
     this.authService.hideLoading();
   }

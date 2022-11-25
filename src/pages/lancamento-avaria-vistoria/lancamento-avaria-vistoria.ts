@@ -130,9 +130,12 @@ export class LancamentoAvariaVistoriaPage {
       if (data) {
         this.damages = data;
       }
-      else if (data == 'esc'){
+      else {
         this.view.dismiss();
       }
+      // else if (data == 'esc'){
+      //   this.view.dismiss();
+      // }
     });
   }
 
