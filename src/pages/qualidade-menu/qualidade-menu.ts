@@ -6,6 +6,9 @@ import { AlertService } from '../../providers/alert-service';
 import { QualidadeDashboardBuscaAvariasPage } from '../qualidade-dashboard-busca-avarias/qualidade-dashboard-busca-avarias';
 import { BuscarAvariasPage } from '../buscar-avarias/buscar-avarias';
 import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
+import { LancamentoAvariaVistoriaPage } from '../lancamento-avaria-vistoria/lancamento-avaria-vistoria';
+import { VistoriaPage } from '../vistoria/vistoria';
+import { VistoriaGeneralMotorsPage } from '../vistoria-general-motors/vistoria-general-motors';
 
 @Component({
   selector: 'page-qualidade-menu',
@@ -41,10 +44,6 @@ export class QualidadeMenuPage {
     }
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad QualidadeMenuPage');
-  }
-
   toggleMenu = function (this) {
     $('.menu-body').toggleClass('show-menu');
     $('menu-inner').toggleClass('show');
@@ -56,13 +55,20 @@ export class QualidadeMenuPage {
     this.navCtrl.pop();
   }
 
-
   navigateToDashboard() {
     this.navCtrl.push(QualidadeDashboardBuscaAvariasPage);
   }
 
   navigateToBuscar() {
     this.navCtrl.push(BuscarAvariasPage);
+  }
+
+  navigateToVistoriar() {
+    this.navCtrl.push(VistoriaPage);
+  }
+
+  navigateToVistoriarGM() {
+    this.navCtrl.push(VistoriaGeneralMotorsPage);
   }
 
   navigateToLancar() {

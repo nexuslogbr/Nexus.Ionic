@@ -14,6 +14,11 @@ import { ModalSelecionarChassiBuscaComponent } from "../../components/modal-sele
 import { AlertService } from "../../providers/alert-service";
 import { ModalBuscaChassiComponent } from "../modal-busca-chassi/modal-busca-chassi";
 import { ParteDataService } from "../../providers/parte-data-service";
+import { forkJoin } from "rxjs/observable/forkJoin";
+import { ModeloDataService } from "../../providers/modelo-data-service";
+import { AvariaDataService } from "../../providers/avaria-data-service";
+import { NivelAvariaDataService } from "../../providers/nivel-avaria-data-service";
+import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "page-buscar-avarias",
@@ -75,7 +80,10 @@ export class BuscarAvariasPage {
     private view: ViewController,
     public alertService: AlertService,
     private navParam: NavParams,
-    private parteService: ParteDataService
+    private parteService: ParteDataService,
+    private modeloService: ModeloDataService,
+    private avariaService: AvariaDataService,
+    private nivelAvariaService: NivelAvariaDataService
   ) {
     this.title = "BUSCAR AVARIAS";
     this.url = this.authService.getUrl();
@@ -114,7 +122,7 @@ export class BuscarAvariasPage {
   ionViewWillEnter() {
     this.authService.showLoading();
     this.formData.localID = this.userData.localModoOperacao;
-    this.ListarParte();
+    this.loadList();
   }
 
   loadForm(){
@@ -129,82 +137,49 @@ export class BuscarAvariasPage {
 
   }
 
-  ListarParte() {
-    this.parteService.listarPartes()
-    .subscribe( (resultado) => {
-          this.car = resultado;
-          if (this.car.sucesso){
-            this.partes = this.car.retorno;
-            this.ListarModelos();
-          }
-          else
-            this.openModalErro(this.car.mensagem);
-        },
-        (error) => {
-          this.openModalErro("Erro ao carregar as partes, volte ao menu e tente novamente!");
-        }
-      );
-  }
+  loadList(){
+    this.authService.showLoading();
 
-  ListarModelos() {
-    this.http
-      .get(this.url + "/Modelo/Listar?token=" + this.authService.getToken())
-      .subscribe((resultado) => {
-          this.car = resultado;
-          if (this.car.sucesso){
-            this.modelos = this.car.retorno;
-            this.ListarTipoAvaria();
-          }
-          else
-            this.openModalErro(this.car.mensagem);
-        },
-        (error) => {
+    forkJoin([
+      this.parteService.listar(),
+      this.modeloService.listar(),
+      this.avariaService.carregarTipoAvarias(),
+      this.nivelAvariaService.listar()
+    ])
+    .pipe(
+      finalize(() => {
+        this.authService.hideLoading();
+      })
+    )
+    .subscribe(arrayResult => {
+      let partes$ = arrayResult[0];
+      let modelos$ = arrayResult[1];
+      let tipoAvarias$ = arrayResult[2];
+      let nivelAvarias$ = arrayResult[3];
 
-          this.openModalErro( "Erro ao carregar os modelos, volte ao menu e tente novamente!" );
-        }
-      );
+      if (partes$.sucesso)
+        this.partes = partes$.retorno;
+      else
+        this.openModalErro("Erro ao carregar as partes, volte ao menu e tente novamente!");
 
+      if (modelos$.sucesso)
+        this.modelos = modelos$.retorno;
+      else
+        this.openModalErro("Erro ao carregar os modelos, volte ao menu e tente novamente!");
 
-  }
+      if (tipoAvarias$.sucesso)
+        this.tipoAvarias = tipoAvarias$.retorno;
+      else
+        this.openModalErro("Erro ao carregar os tipos de avaria, volte ao menu e tente novamente!");
 
-  ListarTipoAvaria() {
-    this.http.get(this.url + "/tipoavaria/ListarTiposAvaria?token=" + this.authService.getToken())
-      .subscribe((resultado) => {
-          this.car = resultado;
-          if (this.car.sucesso){
-            this.tipoAvarias = this.car.retorno;
-            this.ListarNivelAvaria();
-          }
+      if (nivelAvarias$.sucesso)
+        this.nivelAvarias = nivelAvarias$.retorno;
+      else
+        this.openModalErro("Erro ao carregar os níveis de avaria, volte ao menu e tente novamente!");
 
-          else
-            this.openModalErro(this.car.mensagem);
-        },
-        (error) => {
-
-          this.openModalErro("Erro ao carregar o layout, volte ao menu e tente novamente!");
-        }
-      );
-  }
-
-  ListarNivelAvaria() {
-    this.http
-      .get(this.url + "/nivelgravidadeavaria/ListarNivelGravidadeAvaria?token=" + this.authService.getToken())
-      .subscribe((resultado) => {
-          this.car = resultado;
-          if (this.car.sucesso){
-            this.nivelAvarias = this.car.retorno;
-            this.authService.hideLoading();
-          }
-          else
-            this.openModalErro(this.car.mensagem);
-        },
-        (error) => {
-
-          this.openModalErro(
-            "Erro ao carregar o layout, volte ao menu e tente novamente!"
-          );
-        }
-      );
+    }, error => {
+      this.openModalErro(error.mensagem);
+    })
   }
 
   avancar(onDismiss?: Function) {
@@ -223,10 +198,10 @@ export class BuscarAvariasPage {
       }
 
       this.navCtrl.push(ListarAvariasPage, model);
+      this.form.reset();
     }
     else {
-    this.alertService.showAlert('Sem dados para busca');
-      // this.openModalErro('Preencha os campos da busca');
+      this.alertService.showAlert('Sem dados para busca');
     }
   }
 

@@ -16,4 +16,6 @@ export class Navio {
   public statusConfiguracao: string;
   public statusData: string;
   public conferenciaStatus: number;
+  public statusVistoria: string;
+  public momentoId?: number;
 }

@@ -1,0 +1,114 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>{{title}}</ion-title>
+</ion-header>
+
+<ion-content padding id="recebimento" class="recebimento show">
+  <div class="qr-code-container">
+    <form form class="form-lancar-avaria" [formGroup]="formLancamentoAvaria">
+      <ion-list>
+
+        <ion-item style="background-color: black;">
+          <ion-label label-ios style="font-style: unset;">Vistoriar Chassi</ion-label>
+        </ion-item>
+
+        <ion-item style="background-color: darkred;">
+          <ion-label label-ios  style="font-style: unset;">Local: {{local}}</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label label-ios>Momento:</ion-label>
+          <ion-select  (ionChange)="onMomentoChange($event)" okText="Selecionar" cancelText="Cancelar" formControlName="momento" name="momento">
+              <ion-option *ngFor="let momento of momentos" value="{{momento.id}}">{{momento.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-grid>
+        <ion-row class="row-navio">
+          <ion-col col-8 class="col-navio">
+            <div class="div-navio-nome">{{tipoVistoria}}</div>
+            <div class="div-navio-viagem">{{nomeArquivo}}</div>
+          </ion-col>
+          <ion-col col-4 class="col-status">
+            <div class="legenda">Restante / Lidos (Total)</div>
+            <div class="divtotais">
+              {{totalRegistros - totalVistoriados}}/{{ totalVistoriados }} <strong>({{ totalRegistros }})</strong>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid *ngIf="formLancamentoAvaria.valid">
+        <ion-row>
+          <ion-col col-10>
+            <ion-input type="text" placeholder="Chassi" value="" name="chassi" (click)="modalBuscarChassi()" formControlName="chassi"></ion-input>
+          </ion-col>
+          <ion-col col-1 style="align-self: center;">
+            <i class="icon qrcode-gray" (click)="modalBuscarChassi()"></i>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid *ngIf="formLancamentoAvaria.valid" class="grid-select-wrapper">
+        <ion-row>
+          <ion-col>
+            <ion-grid class="grid-select">
+              <ion-row>
+                <ion-col class="col-left" [ngClass]="{ selected: slideLeftSelected }" (click)="changeSlideToLeft()">
+                  <span>VISTORIDOS</span>
+                </ion-col>
+                <ion-col class="col-center" [ngClass]="{ selected: slideCenterSelected }" (click)="changeSlideToCenter()">
+                  <span>À VISTORIAR</span>
+                </ion-col>
+                <ion-col class="col-right" [ngClass]="{ selected: slideRightSelected }" (click)="changeSlideToRight()">
+                  <span>TODOS</span>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid *ngIf="formLancamentoAvaria.valid" class="grid-slide-wrapper">
+        <ion-row [hidden]="!slideLeftSelected">
+          <ion-col class="col-slide-wrapper">
+            <vistoria-veiculos [veiculos]="veiculos"></vistoria-veiculos>
+          </ion-col>
+        </ion-row>
+
+        <ion-row [hidden]="!slideCenterSelected">
+          <ion-col class="col-slide-wrapper">
+            <ion-col class="col-slide-wrapper">
+              <vistoria-veiculos [veiculos]="veiculos"></vistoria-veiculos>
+            </ion-col>
+          </ion-col>
+        </ion-row>
+
+        <ion-row [hidden]="!slideRightSelected">
+          <ion-col class="col-slide-wrapper">
+            <vistoria-veiculos [veiculos]="veiculos"></vistoria-veiculos>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </form>
+  </div>
+
+</ion-content>
+
+<ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+        <button ion-button round class="btn-receiving-long btn-cancel"(click)="voltar()" type="button">Voltar</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<modal-error></modal-error>
+<modal-loading></modal-loading>

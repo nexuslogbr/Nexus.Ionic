@@ -1,0 +1,107 @@
+page-lancamento-avaria-vistoria {
+  background-color: #404040;
+  ion-content {
+    background-color: color($colors, bgQrCode) !important;
+    .form-selecao {
+      border-radius: 5px;
+      border: 1px solid transparent;
+      height: auto;
+      ion-list{
+        margin: 0;
+        ion-item {
+          background-color: #404040;
+          padding: 0;
+          border-bottom: 1px solid #747474;
+        }
+
+        .uma-imagem {
+          width: 365px;
+          height: 200px;
+          background-color: transparent !important;
+          display:inline-block;
+          position: relative;
+          padding-left: 12%;
+        }
+
+        .duas-imagens {
+          width: 160px;
+          height: 150px;
+          background-color: transparent !important;
+          display:inline-block;
+          position: relative;
+          transform: translate(25%, 3%);
+        }
+
+        .tres-imagens-esquerda {
+          width: 97px;
+          height: 100px;
+          display:inline-block;
+          position: relative;
+          border-radius: 5%;
+          margin-left: 11%;
+        }
+
+        .tres-imagens-centro {
+          width: 97px;
+          height: 130px;
+          display:inline-block;
+          position: relative;
+          border-radius: 5%;
+          padding-left: 2%;
+          padding-right: 2%;
+        }
+
+        .tres-imagens-direita {
+          width: 120px;
+          height: 130px;
+          display:inline-block;
+          position: relative;
+          border-radius: 5%;
+        }
+
+        .botoes {
+          width: 158px;
+          height: 50px;
+          display:inline-block;
+          border-radius: 5%;
+          transform: translate(30%, -60%);
+          background-color: #747474;
+          color: white;
+
+          ion-label {
+            padding-top: 2%;
+            text-align: center;
+            font-size: large;
+          }
+        }
+
+        img {
+          border-radius: 5%;
+        }
+      }
+    }
+  }
+
+  ion-footer {
+    height: 90px;
+    background-color: #404040;
+    text-align: center;
+
+    .grid-botao-wrapper {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+      padding-top: 0px;
+    }
+    .btn-cancel {
+      background-color: #404040;
+    }
+    .btn-receiving {
+      width: 95%;
+      height: auto;
+      .button-inner {
+          padding: 25px 15px;
+          font: 19px 'avenir_bold';
+      }
+    }
+  }
+}

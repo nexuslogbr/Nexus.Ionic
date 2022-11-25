@@ -50,6 +50,8 @@ RUN echo y | sdkmanager "platform-tools" "platforms;${ANDROID_API_LEVELS}"
 # Installing Ionic
 RUN npm install -g @ionic/cli@${IONIC_VERSION}
 
+# Installing Cordova-res
+RUN npm install -g cordova-res --unsafe-perm=true --allow-root
 
 #FILES DELETION
 RUN rm -rf /tmp/* /var/cache/apk/*

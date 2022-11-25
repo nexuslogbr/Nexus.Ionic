@@ -9,7 +9,7 @@ import { HomePage } from '../home/home';
 import * as $ from 'jquery';
 import { Storage } from '@ionic/storage';
 import { MomentoDataService } from '../../providers/momento-data-service';
-import { Momento } from '../../model/Momento';
+import { Momento } from '../../model/momento';
 import { ModalBuscaChassiComponent } from '../modal-busca-chassi/modal-busca-chassi';
 import { ModalSelecionarChassiComponent } from '../../components/modal-selecionar-chassi/modal-selecionar-chassi';
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
@@ -152,7 +152,7 @@ export class LancamentoAvariaPage {
       chassi: this.formData.veiculo.chassi,
       momento: this.formData.momento.id
     });
-    this.momentoService.carregarMomentos().subscribe(result => {
+    this.momentoService.listar().subscribe(result => {
       this.momentos = result.retorno;
       this.authService.hideLoading();
     });
@@ -324,6 +324,6 @@ export class LancamentoAvariaPage {
     });
     modal.present();
 
-    this.view.dismiss();
+    // this.view.dismiss();
   }
 }

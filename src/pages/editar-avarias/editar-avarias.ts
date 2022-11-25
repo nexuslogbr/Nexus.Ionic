@@ -1,16 +1,8 @@
 import { Component, ViewChild } from "@angular/core";
-import {
-  IonicPage,
-  NavController,
-  Modal,
-  ModalController,
-  NavParams
-} from "ionic-angular";
+import { NavController, Modal, ModalController, NavParams } from "ionic-angular";
 import { AuthService } from "../../providers/auth-service/auth-service";
-import { HomePage } from "../home/home";
 import { ModalErrorComponent } from "../../components/modal-error/modal-error";
 import { ModalSucessoComponent } from "../../components/modal-sucesso/modal-sucesso";
-import { ModalReceberParquearComponent } from "../../components/modal-receber-parquear/modal-receber-parquear";
 import { RomaneioPage } from "../romaneio/romaneio";
 import { MovimentacaoPage } from "../movimentacao/movimentacao";
 import { ParqueamentoPage } from "../parqueamento/parqueamento";
@@ -22,7 +14,6 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import "rxjs/add/operator/map";
 import * as $ from "jquery";
 import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-scanner";
-import { ListarAvariasPage } from "../listar-avarias/listar-avarias";
 import { BuscarAvariasPage } from "../buscar-avarias/buscar-avarias";
 
 const httpOptions = {
@@ -267,10 +258,10 @@ export class EditarAvariasPage {
     this.formData.parteID = value;
   }
 
-  // onModeloChange(value) {
-  //   var item = this.modelos.find(item => item['id'] === value);
-  //   this.formData.modelo = item.nome;
-  // }
+  onModeloChange(value) {
+    // var item = this.modelos.find(item => item['id'] === value);
+    // this.formData.modelo = item.nome;
+  }
 
   onTipoAvariaChange(value) {
 
@@ -369,7 +360,7 @@ export class EditarAvariasPage {
         else {
           this.authService.hideLoading();
           this.openModalErro(this.retorno.mensagem);
-          // this.navCtrl.push(HomePage);         
+          // this.navCtrl.push(HomePage);
         }
 
       }, (error) => {

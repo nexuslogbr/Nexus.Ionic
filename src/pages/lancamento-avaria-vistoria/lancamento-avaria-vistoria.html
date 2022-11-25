@@ -1,0 +1,93 @@
+<side-menu></side-menu>
+<ion-header (click)="toggleMenu()" [ngStyle]="{'background-color': primaryColor}">
+  <button class="btn-menu" [ngStyle]="{'background-color': primaryColor}">
+    <i class="icon icon-menu"></i>
+  </button>
+  <ion-title>{{title}}</ion-title>
+</ion-header>
+
+<ion-content>
+
+  <div>
+    <form class="form-selecao">
+      <ion-list>
+
+        <div >
+
+          <ion-item no-lines>
+            <div>
+              <div class="duas-imagens" (click)="selectImage(1)">
+                <img src="assets/images/frente-capo-selecionado.jpeg">
+              </div>
+
+              <div class="duas-imagens" (click)="selectImage(2)">
+                <img src="assets/images/frente-parachoques-selecionado.jpg">
+              </div>
+            </div>
+          </ion-item>
+
+          <ion-item no-lines>
+            <div>
+              <div class="duas-imagens" (click)="selectImage(3)">
+                <img src="assets/images/traseira-parachoques-selecionado.jpg">
+              </div>
+
+              <div class="duas-imagens" (click)="selectImage(4)">
+                <img src="assets/images/traseira-porta-malas-selecionado.jpg">
+              </div>
+            </div>
+          </ion-item>
+
+          <ion-item no-lines>
+            <div>
+              <div class="tres-imagens-esquerda" (click)="selectImage(5)">
+                <img src="assets/images/lateral-frente.jpeg">
+              </div>
+
+              <div class="tres-imagens-centro" (click)="selectImage(6)">
+                <img src="assets/images/lateral-centro.jpeg">
+              </div>
+
+              <div class="tres-imagens-direita" (click)="selectImage(7)">
+                <img src="assets/images/lateral-tras.jpeg">
+              </div>
+            </div>
+          </ion-item>
+
+          <ion-item no-lines>
+            <div>
+              <div class="uma-imagem" (click)="selectImage(8)">
+                <img src="assets/images/cima-selecionado.png">
+              </div>
+            </div>
+          </ion-item>
+
+          <div>
+            <div class="botoes" (click)="selectImage(9)">
+              <ion-label>Interno</ion-label>
+            </div>
+
+            <div class="botoes" (click)="selectImage(10)">
+              <ion-label>Outros</ion-label>
+            </div>
+          </div>
+
+        </div>
+      </ion-list>
+    </form>
+  </div>
+
+</ion-content>
+
+<ion-footer no-border [ngStyle]="{'background-color': primaryColor}">
+  <ion-grid class="grid-botao-wrapper">
+    <ion-row>
+      <ion-col>
+          <button ion-button round end class="btn-receiving btn-cancel"  (click)="return()" type="button">Voltar</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+
+<modal-error></modal-error>
+<modal-loading></modal-loading>

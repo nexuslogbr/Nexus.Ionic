@@ -18,15 +18,15 @@ export class MomentoDataService {
   urlApi: string;
 
   constructor(
-      private http: HttpClient, 
+      private http: HttpClient,
       private authService: AuthService
-    ) 
+    )
     {
     this.urlApi = this.authService.getUrl();
   }
 
-  public carregarMomentos() {
-    let url = this.urlApi + '/momento/ListarMomentos?token=' + this.authService.getToken();
+  public listar() {
+    let url = this.urlApi + '/momento/Listar?token=' + this.authService.getToken();
     return this.http.get<DataRetorno>(url, { headers: headers });
   }
 }

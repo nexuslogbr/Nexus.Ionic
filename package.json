@@ -20,13 +20,13 @@
     "@angular/http": "^5.2.11",
     "@angular/platform-browser": "^5.2.11",
     "@angular/platform-browser-dynamic": "^5.2.11",
+    "@angular/router": "^5.2.11",
     "@capacitor/android": "^3.5.1",
-    "@capacitor/ios": "^3.5.1",
     "@capacitor/camera": "^1.1.0",
-    "@capacitor/filesystem": "^1.1.0",
     "@capacitor/cli": "^3.5.1",
     "@capacitor/core": "^3.5.1",
-    "@angular/router": "^5.2.11",
+    "@capacitor/filesystem": "^1.1.0",
+    "@capacitor/ios": "^3.5.1",
     "@ionic-native/app-version": "4.5.3",
     "@ionic-native/barcode-scanner": "^4.20.0",
     "@ionic-native/camera": "^4.20.0",
@@ -70,6 +70,7 @@
     "cordova-sqlite-storage": "^6.0.0",
     "dotenv-webpack": "1.7.0",
     "es6-promise-plugin": "^4.2.2",
+    "font-awesome": "^4.7.0",
     "formidable": "^2.0.1",
     "ionic-angular": "3.9.2",
     "ionic-app-base": "0.0.1",
@@ -128,6 +129,8 @@
     ]
   },
   "config": {
-    "ionic_enable_lint": false
+    "ionic_enable_lint": false,
+    "ionic_copy": "./config/copy.config.js",
+    "ionic_sass": "./config/sass.config.js"
   }
 }

@@ -20,7 +20,7 @@ export class GravidadeDataService{
   }
 
   public carregarGravidades() {
-    let url = this.urlApi + '/gravidadeAvaria/ListarGravidadesAvaria?token=' + this.authService.getToken();
+    let url = this.urlApi + '/gravidadeAvaria/Listar?token=' + this.authService.getToken();
     return this.http.get<DataRetorno>(url, { headers: headers });
   }
 }

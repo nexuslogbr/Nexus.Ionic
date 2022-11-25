@@ -21,10 +21,7 @@ import { LancamentoServicoPage } from '../lancamento-servico/lancamento-servico'
 import { ObservacoesPage } from '../observacoes/observacoes';
 import { Storage } from '@ionic/storage';
 import { VistoriaPage } from '../vistoria/vistoria';
-import { BuscarAvariasPage } from '../buscar-avarias/buscar-avarias';
 import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
-import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
-import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 
 
 // 3101	mnu_mob_recebimento
@@ -135,7 +132,7 @@ const menus = [
 
   {
     texto: 'Módulo de Qualidade',
-    cssClass: 'historico-chassi',
+    cssClass: 'vistoriar',
     id: 3118,
     nome: 'mnu_mob_qualidade'
   },
