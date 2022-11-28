@@ -15,7 +15,7 @@ import { Part } from '../../model/GeneralMotors/part';
 import { Qualityinconsistence } from '../../model/GeneralMotors/qualityinconsistence';
 import { Severity } from '../../model/GeneralMotors/severity';
 import { Checkpoint } from '../../model/GeneralMotors/checkpoint';
-import { Company } from '../../model/GeneralMotors/Company';
+import { Company } from '../../model/GeneralMotors/company';
 import { Place } from '../../model/GeneralMotors/place';
 import { Ship } from '../../model/GeneralMotors/ship';
 import { Trip } from '../../model/GeneralMotors/trip';

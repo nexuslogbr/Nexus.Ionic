@@ -20,7 +20,7 @@ import { Observable } from 'rxjs/Observable';
 import { enumVeiculoStatus } from '../../providers/enumerables/enum';
 import { Checkpoint } from '../../model/GeneralMotors/checkpoint';
 import { Place } from '../../model/GeneralMotors/place';
-import { Company } from '../../model/GeneralMotors/Company';
+import { Company } from '../../model/GeneralMotors/company';
 import { Ship } from '../../model/GeneralMotors/ship';
 import { Trip } from '../../model/GeneralMotors/trip';
 import { THROW_IF_NOT_FOUND } from '@angular/core/src/di/injector';

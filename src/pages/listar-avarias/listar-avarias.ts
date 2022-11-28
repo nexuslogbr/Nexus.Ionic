@@ -14,7 +14,7 @@ import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-sele
 import { Veiculo } from "../../model/veiculo";
 import { Momento } from "../../model/momento";
 import { GravidadeAvaria } from "../../model/gravidadeAvaria";
-import { TipoAvaria } from "../../model/TipoAvaria";
+import { TipoAvaria } from "../../model/tipoAvaria";
 import { SuperficieChassiParte } from "../../model/superficieChassiParte";
 import { PosicaoSuperficieChassi } from "../../model/posicaoSuperficieChassi";
 

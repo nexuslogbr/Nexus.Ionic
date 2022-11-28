@@ -20,7 +20,7 @@ import { Observable } from 'rxjs/Observable';
 import { enumVeiculoStatus } from '../../providers/enumerables/enum';
 import { Checkpoint } from '../../model/GeneralMotors/checkpoint';
 import { Place } from '../../model/GeneralMotors/place';
-import { Company } from '../../model/GeneralMotors/Company';
+import { Company } from '../../model/GeneralMotors/company';
 import { Ship } from '../../model/GeneralMotors/ship';
 import { Trip } from '../../model/GeneralMotors/trip';
 import { THROW_IF_NOT_FOUND } from '@angular/core/src/di/injector';
@@ -176,6 +176,8 @@ export class ModalChassisVistoriaGmComponent {
 
   semAvaria() {
     this.authService.showLoading();
+    let date = new Date();
+    let dateNow = date.getUTCDay() + date.getUTCMonth() + date.getUTCFullYear() + date.getUTCHours() + date.getUTCMinutes() + date.getUTCSeconds()
 
     let model  = {
       local: this.formData.place.local,
@@ -187,9 +189,11 @@ export class ModalChassisVistoriaGmComponent {
       vin: this.veiculo.chassi,
 
       surveyor: this.formData.surveyor.id,
-      surveyDate: new Date().toISOString(),
+      surveyDate: dateNow,
+      // surveyDate: new Date().toISOString(),
       validator: this.formData.surveyor.id,
-      validationDate: new Date().toISOString(),
+      validationDate: dateNow,
+      // validationDate: new Date().toISOString(),
 
       hasDamages: false,
       hasDocuments: false,

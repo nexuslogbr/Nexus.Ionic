@@ -1,4 +1,4 @@
-import { TipoAvaria } from "./TipoAvaria";
+import { TipoAvaria } from "./tipoAvaria";
 
 export class Avaria {
   id: number;

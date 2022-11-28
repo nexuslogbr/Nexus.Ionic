@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActionSheetController, AlertController, Content, Modal, ModalController, NavController, NavParams, Platform, ViewController } from 'ionic-angular';
 import * as $ from 'jquery';
-import { TipoAvaria } from '../../model/TipoAvaria';
+import { TipoAvaria } from '../../model/tipoAvaria';
 import { AvariaDataService } from '../../providers/avaria-data-service';
 import { GravidadeDataService } from '../../providers/gravidade-data-service';
 import { AuthService } from '../../providers/auth-service/auth-service';
