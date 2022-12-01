@@ -27,6 +27,7 @@ import { THROW_IF_NOT_FOUND } from '@angular/core/src/di/injector';
 import { LancamentoAvariaSelecaoSuperficiePage } from '../../pages/lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { Surveyor } from '../../model/GeneralMotors/surveyor';
 import { GeneralMotorsDataService } from '../../providers/general-motors-data-service';
+import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 /**
  * Generated class for the ModalChassisVistoriaGmComponent component.
  *
@@ -44,6 +45,8 @@ export class ModalChassisVistoriaGmComponent {
   public form: FormGroup
   @ViewChild('chassiInput') chassiInput;
   chassi = '';
+  options: BarcodeScannerOptions;
+  qrCodeText: string;
 
   formData = {
     veiculo: new Veiculo(),
@@ -79,6 +82,7 @@ export class ModalChassisVistoriaGmComponent {
     private view: ViewController,
     private formBuilder: FormBuilder,
     private veiculoService: VeiculoDataService,
+    private barcodeScanner: BarcodeScanner,
     private gmService: GeneralMotorsDataService
   ) {
     this.title = 'Vistoria';
@@ -138,6 +142,29 @@ export class ModalChassisVistoriaGmComponent {
     $('.icon-menu').toggleClass('close-menu');
     $('side-menu').toggleClass('show');
   };
+
+  scan() {
+    this.options = {
+      showTorchButton: true,
+      prompt: '',
+      resultDisplayDuration: 0,
+    };
+
+    this.authService.showLoading();
+    this.barcodeScanner.scan(this.options).then((barcodeData) => {
+        this.qrCodeText = barcodeData.text;
+        if (this.qrCodeText && this.qrCodeText.length) {
+          let partChassi = this.qrCodeText.substr(this.qrCodeText.length - 17, 17);
+          this.formData['chassi'] = partChassi;
+          this.buscarChassi(partChassi);
+        }
+      },
+      (err) => {
+        this.authService.hideLoading();
+        this.alertService.showError('Erro de qr code!');
+      }
+    );
+  }
 
   buscarChassi(chassi: string) {
     if (this.form.valid) {

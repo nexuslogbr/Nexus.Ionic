@@ -127,15 +127,9 @@ export class LancamentoAvariaVistoriaPage {
     modal.present();
 
     modal.onWillDismiss((data) => {
-      if (data) {
-        this.damages = data;
-      }
-      else {
+      if (data == 'esc'){
         this.view.dismiss();
       }
-      // else if (data == 'esc'){
-      //   this.view.dismiss();
-      // }
     });
   }
 
