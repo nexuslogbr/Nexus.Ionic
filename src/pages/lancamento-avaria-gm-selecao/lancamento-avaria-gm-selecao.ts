@@ -230,8 +230,6 @@ export class LancamentoAvariaGmSelecaoPage {
   }
 
   return(){
-    // let data = 'esc';
-    // this.view.dismiss(data);
     this.view.dismiss();
   }
 
@@ -271,26 +269,30 @@ export class LancamentoAvariaGmSelecaoPage {
     this.survey.damages = this.damages,
     this.survey.documents = []
 
-    this.generalMotorsService.insertsurvey(this.survey)
-    .pipe(
-      finalize(() => {
-        this.authService.hideLoading();
-      })
-      )
-      .subscribe((response:DataRetorno) => {
-        if (response.sucesso) {
-          this.view.dismiss();
-          var response = response;
-          this.alertService.showInfo('Salvo com sucesso!');
-          // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
-        }
-        else {
-          this.alertService.showError(response.mensagem);;
-        }
+    // this.generalMotorsService.insertsurvey(this.survey)
+    // .pipe(
+    //   finalize(() => {
+    //     this.authService.hideLoading();
+    //   })
+    //   )
+    //   .subscribe((response:DataRetorno) => {
+    //     if (response.sucesso) {
+    setTimeout(() => {
+      let data = 'esc';
+      this.authService.hideLoading();
+      this.alertService.showInfo('Salvo com sucesso!');
+      this.view.dismiss(data);
+    }, 1500);
+    //       var response = response;
+    //       // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
+    //     }
+    //     else {
+    //       this.alertService.showError(response.mensagem);;
+    //     }
 
-      }, (error: any) => {
-        this.alertService.showError('Erro ao salvar avaria');
-    });
+    //   }, (error: any) => {
+    //     this.alertService.showError('Erro ao salvar avaria');
+    // });
   }
 
   /// Funções relativas a captura, exibição e upload de imagens
