@@ -18,6 +18,7 @@ import { Trip } from '../../model/GeneralMotors/trip';
 import { Ship } from '../../model/GeneralMotors/ship';
 import { Surveyor } from '../../model/GeneralMotors/surveyor';
 import { ModalChassisVistoriaGmComponent } from '../../components/modal-chassis-vistoria-gm/modal-chassis-vistoria-gm';
+import { StakeHolder } from '../../model/stakeholder';
 
 @Component({
   selector: 'page-vistoria-general-motors',
@@ -58,6 +59,8 @@ export class VistoriaGeneralMotorsPage {
   trip = new Trip();
   surveyor = new Surveyor();
 
+  data: StakeHolder;
+
   constructor(
     public http: HttpClient,
     private modal: ModalController,
@@ -71,12 +74,14 @@ export class VistoriaGeneralMotorsPage {
     private momentoService: MomentoDataService,
     private stakeholderService: StakeholderService,
     private formBuilder: FormBuilder,
+    public navParams: NavParams,
     private generalMotorsService: GeneralMotorsDataService
   ) {
     this.title = 'Vistoria';
     this.url = this.authService.getUrl();
     this.user = this.authService.getUserData();
     this.local = this.authService.getUserData().localNome;
+    this.data = this.navParams.get('data');
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -94,6 +99,25 @@ export class VistoriaGeneralMotorsPage {
   }
 
   ionViewWillEnter(){
+    if (this.data.nome == 'General Motors do Brasil') {
+      this.loadGM();
+    }
+  }
+
+  initializeFormControl(){
+    this.form = this.formBuilder.group({
+      company: [null, Validators.required],
+      surveyor: [null, Validators.required],
+      place: [null, Validators.required],
+      checkpoint: [null, Validators.required],
+      companyOrigin: [null, Validators.required],
+      companyDestiny: [null, Validators.required],
+      ship: [null, Validators.required],
+      trip: [null, Validators.required]
+    });
+  }
+
+  loadGM(){
     this.authService.showLoading();
 
     forkJoin([
@@ -142,20 +166,6 @@ export class VistoriaGeneralMotorsPage {
     },
     () => {
       this.authService.hideLoading();
-    });
-  }
-
-  initializeFormControl(){
-
-    this.form = this.formBuilder.group({
-      company: [null, Validators.required],
-      surveyor: [null, Validators.required],
-      place: [null, Validators.required],
-      checkpoint: [null, Validators.required],
-      companyOrigin: [null, Validators.required],
-      companyDestiny: [null, Validators.required],
-      ship: [null, Validators.required],
-      trip: [null, Validators.required]
     });
   }
 
