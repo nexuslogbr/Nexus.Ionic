@@ -14,7 +14,7 @@ const httpOptions = {
 };
 
 @Injectable()
-export class VistoriaDataService {
+export class LocalDataService {
   urlApi: string;
 
   constructor(
@@ -25,13 +25,8 @@ export class VistoriaDataService {
     this.urlApi = this.authService.getUrl();
   }
 
-  public vistoriarChassi(veiculoID) {
-    let url = this.urlApi + '/Vistoriar/VistoriarVeiculo?token=' + this.authService.getToken() + '&veiculoID=' +  veiculoID;
-    return this.http.put<DataRetorno>(url, { });
-  }
-
-  public vistoriadores() {
-    let url = this.urlApi + '/Vistoriar/Vistoriadores';
+  public listar() {
+    let url = this.urlApi + '/Local/Listar';
     return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 

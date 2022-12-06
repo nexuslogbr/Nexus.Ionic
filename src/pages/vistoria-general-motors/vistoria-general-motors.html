@@ -50,7 +50,7 @@
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">
         <ion-label label-ios>Numero da Viagem:</ion-label>
-        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="trip" (ionChange)="changeTrip($event)">
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="trip" (ionChange)="changeTrip($event)" [disabled]="trips.length == 0">
           <ion-option *ngFor="let item of trips" [value]="item.id" id="{{item.id}}">{{item.identifierNumber}}</ion-option>
         </ion-select>
       </ion-item>

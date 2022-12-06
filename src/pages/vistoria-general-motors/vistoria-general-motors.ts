@@ -19,6 +19,9 @@ import { Ship } from '../../model/GeneralMotors/ship';
 import { Surveyor } from '../../model/GeneralMotors/surveyor';
 import { ModalChassisVistoriaGmComponent } from '../../components/modal-chassis-vistoria-gm/modal-chassis-vistoria-gm';
 import { StakeHolder } from '../../model/stakeholder';
+import { VistoriaDataService } from '../../providers/vistoria-service';
+import { LocalDataService } from '../../providers/local-data-service';
+import { NavioDataService } from '../../providers/navio-data-service';
 
 @Component({
   selector: 'page-vistoria-general-motors',
@@ -75,7 +78,10 @@ export class VistoriaGeneralMotorsPage {
     private stakeholderService: StakeholderService,
     private formBuilder: FormBuilder,
     public navParams: NavParams,
-    private generalMotorsService: GeneralMotorsDataService
+    private generalMotorsService: GeneralMotorsDataService,
+    private vistoriaService: VistoriaDataService,
+    private localService: LocalDataService,
+    private navioService: NavioDataService
   ) {
     this.title = 'Vistoria';
     this.url = this.authService.getUrl();
@@ -101,6 +107,9 @@ export class VistoriaGeneralMotorsPage {
   ionViewWillEnter(){
     if (this.data.nome == 'General Motors do Brasil') {
       this.loadGM();
+    }
+    else {
+      this.loadGeral();
     }
   }
 
@@ -169,6 +178,86 @@ export class VistoriaGeneralMotorsPage {
     });
   }
 
+  loadGeral(){
+    this.authService.showLoading();
+
+    forkJoin([
+      this.vistoriaService.vistoriadores(),
+      this.localService.listar(),
+      this.momentoService.listar(),
+      this.stakeholderService.listar(),
+      this.navioService.listar()
+    ])
+    .pipe(
+      finalize(() => {
+        this.authService.hideLoading();
+      })
+    )
+    .subscribe(arrayResult => {
+      let vistoriadores$ = arrayResult[0];
+      let local$ = arrayResult[1];
+      let momentos$ = arrayResult[2];
+      let stakeholders$ = arrayResult[3];
+      let navios$ = arrayResult[4];
+
+      if (vistoriadores$.sucesso && local$.sucesso && momentos$.sucesso && stakeholders$.sucesso && navios$.sucesso) {
+
+        vistoriadores$.retorno.forEach(item => {
+          let surveyor = new Surveyor();
+          surveyor.id = item.id;
+          surveyor.name = item.nome
+          this.surveyors.push(surveyor);
+        });
+
+        local$.retorno.forEach(item => {
+          let place = new Place();
+          place.local = item.id;
+          place.localDescription = item.nome;
+          this.places.push(place);
+        });
+
+        momentos$.retorno.forEach(item => {
+          let checkpoint = new Checkpoint();
+          checkpoint.checkpoint = item.id;
+          checkpoint.localDescription = item.nome;
+          this.checkpointsByPlace.push(checkpoint);
+        });
+
+        stakeholders$.retorno.forEach(item => {
+          let company = new Company();
+          company.id = item.id;
+          company.companyName = item.nome;
+          this.companies.push(company);
+        });
+
+        navios$.retorno.forEach(item => {
+
+          let temNavio = this.ships.filter(x => x.description == item.nome).map(x => x);
+
+          if (temNavio.length == 0) {
+            let ship = new Ship();
+            ship.id = item.id;
+            ship.description = item.nome;
+            ship.viagem = item.viagem;
+
+            this.ships.push(ship);
+          }
+        });
+      }
+
+      else {
+        this.alertService.showError("Erro ao carregar as listas!");
+      }
+
+    },
+    error => {
+      this.showErrorMessage = true;
+    },
+    () => {
+      this.authService.hideLoading();
+    });
+  }
+
   toggleMenu = function (this) {
     $(".menu-body").toggleClass("show-menu");
     $("menu-inner").toggleClass("show");
@@ -211,7 +300,22 @@ export class VistoriaGeneralMotorsPage {
   }
 
   changeShip(id: number){
-    this.ship = this.ships.filter(x => x.id == id).map(x => x)[0];
+    var ships = this.ships.filter(x => x.id == id).map(x => x);
+    this.ship = ships[0];
+
+    if (this.data.nome != 'General Motors do Brasil') {
+      this.trips = [];
+      ships.forEach(item => {
+        let trip = new Trip();
+        trip.id = item.id;
+        trip.identifierNumber = item.viagem;
+        trip.shipId = item.id;
+        this.trips.push(trip);
+      });
+    }
+    else {
+
+    }
   }
 
   toNavigate(){

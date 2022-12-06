@@ -169,4 +169,9 @@ export class NavioDataService {
     return this.http.get<DataRetorno>(url, { headers: headers });
   }
 
+  public listar() {
+    let url = this.urlApi + '/navios/listar';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
+  }
+
 }
