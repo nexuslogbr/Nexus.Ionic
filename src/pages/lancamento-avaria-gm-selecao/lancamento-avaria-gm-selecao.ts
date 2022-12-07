@@ -22,6 +22,8 @@ import { Trip } from '../../model/GeneralMotors/trip';
 import { Surveyor } from '../../model/GeneralMotors/surveyor';
 import { Damage } from '../../model/GeneralMotors/damage';
 import { Survey } from '../../model/GeneralMotors/survey';
+import { ParteDataService } from '../../providers/parte-data-service';
+import { GravidadeDataService } from '../../providers/gravidade-data-service';
 
 @Component({
   selector: 'page-lancamento-avaria-gm-selecao',
@@ -69,6 +71,8 @@ export class LancamentoAvariaGmSelecaoPage {
   damages:Damage[] = [];
   partsAll: Part[];
 
+  tipoVistoria = 0;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -82,11 +86,14 @@ export class LancamentoAvariaGmSelecaoPage {
     private alertController: AlertController,
     private modal: ModalController,
     private view: ViewController,
+    private pecaService: ParteDataService,
+    private gravidadeService: GravidadeDataService
   ) {
 
     var data = this.navParams.get('data');
     this.formData = data.formData;
     this.damages = data.array == null ? [] : data.array;
+    this.tipoVistoria = data.tipoVistoria;
 
     this.title = this.formData.parte;
 
@@ -117,7 +124,17 @@ export class LancamentoAvariaGmSelecaoPage {
   }
 
   loadScreen(){
+    if (this.tipoVistoria == 1) {
+      this.loadGeral();
+    }
+    else if (this.tipoVistoria == 2) {
+      this.loadGM();
+    }
+  }
+
+  loadGM(){
     this.authService.showLoading();
+    this.loadImage();
 
     forkJoin([
       this.generalMotorsService.parts(),
@@ -144,42 +161,34 @@ export class LancamentoAvariaGmSelecaoPage {
         // Frente capo
         if (image == 1) {
           this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 1).map(x => x);
-          this.urlImagem = 'assets/images/onix-frente.png';
         }
         // Frente parachoques e farol
         else if (image == 2) {
           this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 1).map(x => x);
-          this.urlImagem = 'assets/images/onix-parachoques.png';
         }
         // Traseira parachoques
         else if (image == 3) {
             this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 2).map(x => x);
-            this.urlImagem = 'assets/images/onix-traseira-parachoques.png';
         }
         // Traseira porta-malas e lanterna
         else if (image == 4) {
           this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 2).map(x => x);
-          this.urlImagem = 'assets/images/onix-traseira-portamalas.png';
         }
         // Lateral frente
         else if (image == 5) {
           this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 3).map(x => x);
-          this.urlImagem = 'assets/images/onix-lateral-frente.png';
         }
         // Lateral meio
         else if (image == 6) {
           this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 3).map(x => x);
-          this.urlImagem = 'assets/images/onix-lateral-porta.png';
         }
         // Lateral traseira
         else if (image == 7) {
           this.parts = this.partsAll.filter(x => x.block == 3 && x.zone == 3).map(x => x);
-          this.urlImagem = 'assets/images/onix-lateral-traseira.png';
         }
         // Teto
         else if (image == 8) {
           this.parts = this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
-          this.urlImagem = 'assets/images/onix-teto.png';
         }
         // Interno
         else if (image == 9) {
@@ -187,6 +196,109 @@ export class LancamentoAvariaGmSelecaoPage {
         }
       }
     });
+  }
+
+  loadGeral(){
+    this.authService.showLoading();
+    this.loadImage();
+
+    forkJoin([
+      this.pecaService.listar(),
+      this.avariaService.carregarTipoAvarias(),
+      this.gravidadeService.carregarGravidades()
+    ])
+    .pipe(
+      finalize(() => {
+        this.authService.hideLoading();
+      })
+    )
+    .subscribe(arrayResult => {
+      let parts$ = arrayResult[0];
+      let qualityinconsistences$ = arrayResult[1];
+      let severity$ = arrayResult[2];
+
+      if (parts$.sucesso && qualityinconsistences$.sucesso && severity$.sucesso) {
+        this.qualityinconsistences = qualityinconsistences$.retorno.qualityInconsistences;
+        this.severities = severity$.retorno.severity;
+        this.partsAll = parts$.retorno.parts;
+
+        let image = this.formData.number;
+
+        // Frente capo
+        if (image == 1) {
+          this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 1).map(x => x);
+        }
+        // Frente parachoques e farol
+        else if (image == 2) {
+          this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 1).map(x => x);
+        }
+        // Traseira parachoques
+        else if (image == 3) {
+            this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 2).map(x => x);
+        }
+        // Traseira porta-malas e lanterna
+        else if (image == 4) {
+          this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 2).map(x => x);
+        }
+        // Lateral frente
+        else if (image == 5) {
+          this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 3).map(x => x);
+        }
+        // Lateral meio
+        else if (image == 6) {
+          this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 3).map(x => x);
+        }
+        // Lateral traseira
+        else if (image == 7) {
+          this.parts = this.partsAll.filter(x => x.block == 3 && x.zone == 3).map(x => x);
+        }
+        // Teto
+        else if (image == 8) {
+          this.parts = this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
+        }
+        // Interno
+        else if (image == 9) {
+          this.parts = this.partsAll.filter(x => x.block == 0 && x.zone == 4).map(x => x);
+        }
+      }
+    });
+  }
+
+  loadImage(){
+    let image = this.formData.number;
+
+    // Frente capo
+    if (image == 1)
+      this.urlImagem = 'assets/images/onix-frente.png';
+
+    // Frente parachoques e farol
+    else if (image == 2)
+      this.urlImagem = 'assets/images/onix-parachoques.png';
+
+    // Traseira parachoques
+    else if (image == 3)
+        this.urlImagem = 'assets/images/onix-traseira-parachoques.png';
+
+    // Traseira porta-malas e lanterna
+    else if (image == 4)
+      this.urlImagem = 'assets/images/onix-traseira-portamalas.png';
+
+    // Lateral frente
+    else if (image == 5)
+      this.urlImagem = 'assets/images/onix-lateral-frente.png';
+
+    // Lateral meio
+    else if (image == 6)
+      this.urlImagem = 'assets/images/onix-lateral-porta.png';
+
+    // Lateral traseira
+    else if (image == 7)
+      this.urlImagem = 'assets/images/onix-lateral-traseira.png';
+
+    // Teto
+    else if (image == 8)
+      this.urlImagem = 'assets/images/onix-teto.png';
+
   }
 
   toggleMenu = function (this) {

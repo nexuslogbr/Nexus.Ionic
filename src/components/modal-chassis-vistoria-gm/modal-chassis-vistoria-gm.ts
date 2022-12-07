@@ -72,6 +72,8 @@ export class ModalChassisVistoriaGmComponent {
   veiculo: Veiculo;
   retorno: DataRetorno;
 
+  tipoVistoria = 0;
+
   constructor(
     public navCtrl: NavController,
     public authService: AuthService,
@@ -91,6 +93,7 @@ export class ModalChassisVistoriaGmComponent {
 
     let data = this.navParam.get('data');
     this.formData = data;
+    this.tipoVistoria = this.navParam.get('tipoVistoria');
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -251,7 +254,8 @@ export class ModalChassisVistoriaGmComponent {
   comAvaria(){
     const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage,
       {
-        data: this.formData
+        data: this.formData,
+        tipoVistoria: this.tipoVistoria
       });
 
     this.veiculo = null;

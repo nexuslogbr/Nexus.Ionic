@@ -329,7 +329,8 @@ export class VistoriaGeneralMotorsPage {
         surveyor: this.surveyor,
         companyOrigin: this.companyOrigin,
         companyDestination: this.companyDestination,
-      }
+      },
+      tipoVistoria: this.data.nome == 'General Motors do Brasil' ? 2 : 1
     });
   }
 }
