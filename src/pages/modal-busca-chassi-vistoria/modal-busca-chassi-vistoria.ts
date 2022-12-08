@@ -11,7 +11,7 @@ import { Momento } from '../../model/momento';
 import { Veiculo } from '../../model/veiculo';
 import { finalize } from 'rxjs/operators';
 import { VistoriaDataService } from '../../providers/vistoria-service';
-import { DataRetorno } from '../../model/dataretorno';
+import { DataRetorno } from '../../model/dataRetorno';
 import { AlertService } from '../../providers/alert-service';
 import { ModelChecklistPage } from '../model-checklist/model-checklist';
 import { Arquivo } from '../../model/arquivo';

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActionSheetController, AlertController, Content, Modal, ModalController, NavController, NavParams, Platform, ViewController } from 'ionic-angular';
 import * as $ from 'jquery';
-import { TipoAvaria } from '../../model/TipoAvaria';
+import { TipoAvaria } from '../../model/tipoAvaria';
 import { AvariaDataService } from '../../providers/avaria-data-service';
 import { GravidadeDataService } from '../../providers/gravidade-data-service';
 import { AuthService } from '../../providers/auth-service/auth-service';
@@ -19,7 +19,7 @@ import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ModalNovoLancamentoAvariaPage } from '../modal-novo-lancamento-avaria/modal-novo-lancamento-avaria';
 import { GrupoSuperficieChassi } from '../../model/grupoSuperficieChassi';
-import { DataRetorno } from '../../model/dataretorno';
+import { DataRetorno } from '../../model/dataRetorno';
 import { ResponsabilidadeAvaria } from '../../model/responsabilidadeAvaria';
 import { ResponsabilidadeAvariaDataService } from '../../providers/responsabilidade-avaria-service';
 import { NivelGravidadeAvaria } from '../../model/nivelGravidadeAvaria';

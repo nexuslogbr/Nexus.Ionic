@@ -8,13 +8,13 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import "rxjs/add/operator/map";
 import * as $ from "jquery";
 import { AvariaDataService } from "../../providers/avaria-data-service";
-import { DataRetorno } from "../../model/dataretorno";
+import { DataRetorno } from "../../model/dataRetorno";
 import { AlertService } from "../../providers/alert-service";
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { Veiculo } from "../../model/veiculo";
 import { Momento } from "../../model/momento";
 import { GravidadeAvaria } from "../../model/gravidadeAvaria";
-import { TipoAvaria } from "../../model/TipoAvaria";
+import { TipoAvaria } from "../../model/tipoAvaria";
 import { SuperficieChassiParte } from "../../model/superficieChassiParte";
 import { PosicaoSuperficieChassi } from "../../model/posicaoSuperficieChassi";
 
