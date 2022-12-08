@@ -29,18 +29,18 @@ export class AvariaDataService{
 
   public listarPartes(model: any) {
     let url = this.urlApi + '/lancamentoAvaria/ListarPartesModelo';
-    model.token = this.authService.getToken();
+    model.token = this.token;
     return this.http.post<DataRetorno>(url, model, httpOptions);
   }
 
   public carregarGrupoAvarias(model: any) {
-    let url = this.urlApi + '/gruposuperficiechassi/Listar?token=' + this.authService.getToken();
-    model.token = this.authService.getToken();
+    let url = this.urlApi + '/gruposuperficiechassi/Listar?token=' + this.token;
+    model.token = this.token;
     return this.http.post<DataRetorno>(url, model, httpOptions);
   }
 
   public carregarTipoAvarias() {
-    let url = this.urlApi + '/lancamentoAvaria/ListarTiposAvaria?token=' + this.authService.getToken();
+    let url = this.urlApi + '/lancamentoAvaria/ListarTiposAvaria?token=' + this.token;
     return this.http.post<DataRetorno>(url, { headers: headers });
   }
 
@@ -56,13 +56,13 @@ export class AvariaDataService{
 
   public salvar(model: any) {
     let url = this.urlApi + '/lancamentoAvaria/Salvar';
-    model.token = this.authService.getToken();
+    model.token = this.token;
     return this.http.post<DataRetorno>(url, model, httpOptions);
   }
 
   public consultarChassi(model: any){
     let url = this.urlApi + '/lancamentoAvaria/ConsultarChassi';
-    model.token = this.authService.getToken();
+    model.token = this.token;
     return this.http.post<any>(url, JSON.stringify(model), { headers: headers });
   }
 
@@ -76,6 +76,11 @@ export class AvariaDataService{
     let url = this.urlApi + '/lancamentoAvaria/LoadImages';
     model.token = this.token;
     return this.http.post<string>(url, model, httpOptions);
+  }
+
+  public listar() {
+    let url = this.urlApi + '/Avaria/Listar';
+    return this.http.post<DataRetorno>(url, {token: this.token}, httpOptions);
   }
 
 }

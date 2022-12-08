@@ -7,9 +7,15 @@ const headers = new HttpHeaders({
   'Content-Type': 'application/json'
 });
 
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+};
 @Injectable()
 export class GravidadeDataService{
   urlApi: string;
+  token: string;
 
   constructor(
       private http: HttpClient,
@@ -17,10 +23,11 @@ export class GravidadeDataService{
     )
     {
     this.urlApi = this.authService.getUrl();
+    this.token = this.authService.getToken();
   }
 
-  public carregarGravidades() {
-    let url = this.urlApi + '/gravidadeAvaria/Listar?token=' + this.authService.getToken();
-    return this.http.get<DataRetorno>(url, { headers: headers });
+  public listar() {
+    let url = this.urlApi + '/gravidadeAvaria/Listar';
+    return this.http.post<DataRetorno>(url, {token: this.token}, httpOptions);
   }
 }

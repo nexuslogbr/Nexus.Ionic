@@ -46,7 +46,6 @@ export class VistoriaGeneralMotorsPage {
   public form: FormGroup
 
   checkpoints: Checkpoint[] = [];
-  checkpointsByPlace: Checkpoint[] = [];
   companies: Company[] = [];
   places: Place[] = [];
   ships: Ship[] = [];
@@ -63,6 +62,8 @@ export class VistoriaGeneralMotorsPage {
   surveyor = new Surveyor();
 
   data: StakeHolder;
+
+  desableCheckpoint = true;
 
   constructor(
     public http: HttpClient,
@@ -220,7 +221,7 @@ export class VistoriaGeneralMotorsPage {
           let checkpoint = new Checkpoint();
           checkpoint.checkpoint = item.id;
           checkpoint.localDescription = item.nome;
-          this.checkpointsByPlace.push(checkpoint);
+          this.checkpoints.push(checkpoint);
         });
 
         stakeholders$.retorno.forEach(item => {
@@ -288,7 +289,10 @@ export class VistoriaGeneralMotorsPage {
   changePlace(local: number){
     this.place = this.places.filter(x => x.local == local).map(x => x)[0];
     var places = this.checkpoints.filter(x => x.local == local).map(x => x);
-    this.checkpointsByPlace = places;
+    if (this.data.nome == 'General Motors do Brasil') {
+      this.checkpoints = places;
+    }
+    this.desableCheckpoint = false;
   }
 
   changeCheckpoint(id: number){

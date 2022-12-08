@@ -24,6 +24,9 @@ import { Damage } from '../../model/GeneralMotors/damage';
 import { Survey } from '../../model/GeneralMotors/survey';
 import { ParteDataService } from '../../providers/parte-data-service';
 import { GravidadeDataService } from '../../providers/gravidade-data-service';
+import { Parte } from '../../model/parte';
+import { GravidadeAvaria } from '../../model/gravidadeAvaria';
+import { Avaria } from '../../model/avaria';
 
 @Component({
   selector: 'page-lancamento-avaria-gm-selecao',
@@ -35,6 +38,10 @@ export class LancamentoAvariaGmSelecaoPage {
   parts: Array<Part> = [];
   qualityinconsistences: Array<Qualityinconsistence> = [];
   severities: Array<Severity> = [];
+
+  partes: Array<Parte> = [];
+  avarias: Array<Avaria> = [];
+  gravidades: Array<GravidadeAvaria> = [];
 
   form: FormGroup;
 
@@ -69,7 +76,7 @@ export class LancamentoAvariaGmSelecaoPage {
   public survey = new Survey();
 
   damages:Damage[] = [];
-  partsAll: Part[];
+  partsAll: Part[] = [];
 
   tipoVistoria = 0;
 
@@ -204,8 +211,8 @@ export class LancamentoAvariaGmSelecaoPage {
 
     forkJoin([
       this.pecaService.listar(),
-      this.avariaService.carregarTipoAvarias(),
-      this.gravidadeService.carregarGravidades()
+      this.avariaService.listar(),
+      this.gravidadeService.listar()
     ])
     .pipe(
       finalize(() => {
@@ -213,52 +220,59 @@ export class LancamentoAvariaGmSelecaoPage {
       })
     )
     .subscribe(arrayResult => {
-      let parts$ = arrayResult[0];
-      let qualityinconsistences$ = arrayResult[1];
-      let severity$ = arrayResult[2];
+      let partes$ = arrayResult[0];
+      let avarias$ = arrayResult[1];
+      let gravidades$ = arrayResult[2];
 
-      if (parts$.sucesso && qualityinconsistences$.sucesso && severity$.sucesso) {
-        this.qualityinconsistences = qualityinconsistences$.retorno.qualityInconsistences;
-        this.severities = severity$.retorno.severity;
-        this.partsAll = parts$.retorno.parts;
+      if (partes$.sucesso && avarias$.sucesso && gravidades$.sucesso) {
+
+        this.partes = partes$.retorno;
+        this.partes.forEach(element => {
+          let part = new Part();
+          part.id = element.id;
+          part.description = element.nome;
+          part.block = element.parteVeiculo.id;
+          part.zone = element.parteVeiculo.id;
+          this.partsAll.push(part);
+        });
+
+        this.avarias = avarias$.retorno;
+        this.avarias.forEach(element => {
+          let qualityinconsistence = new Qualityinconsistence();
+          qualityinconsistence.id = element.id;
+          qualityinconsistence.description = element.nome;
+          this.qualityinconsistences.push(qualityinconsistence);
+        });
+
+        this.gravidades = gravidades$.retorno;
+        this.gravidades.forEach(element => {
+          let severity = new Severity();
+          severity.id = element.id;
+          severity.description = element.nome;
+          this.severities.push(severity);
+        });
 
         let image = this.formData.number;
 
-        // Frente capo
-        if (image == 1) {
-          this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 1).map(x => x);
+        // Frente capo, parachoques e farol
+        if (image == 1 || image == 2) {
+          this.parts = this.partsAll.filter(x => x.block == 1).map(x => x);
         }
-        // Frente parachoques e farol
-        else if (image == 2) {
-          this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 1).map(x => x);
+        // Traseira parachoques, porta-malas e lanterna
+        else if (image == 3 || image == 4) {
+            this.parts = this.partsAll.filter(x => x.block == 2).map(x => x);
         }
-        // Traseira parachoques
-        else if (image == 3) {
-            this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 2).map(x => x);
-        }
-        // Traseira porta-malas e lanterna
-        else if (image == 4) {
-          this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 2).map(x => x);
-        }
-        // Lateral frente
-        else if (image == 5) {
-          this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 3).map(x => x);
-        }
-        // Lateral meio
-        else if (image == 6) {
-          this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 3).map(x => x);
-        }
-        // Lateral traseira
-        else if (image == 7) {
-          this.parts = this.partsAll.filter(x => x.block == 3 && x.zone == 3).map(x => x);
+        // Lateral frente, meio e traseira
+        else if (image == 5 || image == 6 || image == 7) {
+          this.parts = this.partsAll.filter(x => x.block == 3).map(x => x);
         }
         // Teto
-        else if (image == 8) {
-          this.parts = this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
+        else if (image == 8 || image == 8) {
+          this.parts = this.partsAll.filter(x => x.block == 4).map(x => x);
         }
         // Interno
-        else if (image == 9) {
-          this.parts = this.partsAll.filter(x => x.block == 0 && x.zone == 4).map(x => x);
+        else if (image == 9 || image == 9) {
+          this.parts = this.partsAll.filter(x => x.block == 0).map(x => x);
         }
       }
     });

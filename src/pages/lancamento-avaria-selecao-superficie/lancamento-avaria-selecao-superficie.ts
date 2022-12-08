@@ -203,7 +203,7 @@ export class LancamentoAvariaSelecaoSuperficiePage {
     forkJoin([
       this.avariaService.carregarGrupoAvarias({ chassi: this.formData.veiculo.chassi }),
       this.avariaService.carregarTipoAvarias(),
-      this.gravidadeService.carregarGravidades(),
+      this.gravidadeService.listar(),
       this.responsabilidadeAvariaService.listar()
     ])
     .pipe(
