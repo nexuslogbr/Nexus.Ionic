@@ -83,9 +83,9 @@ export class ModalChassisVistoriaGmComponent {
     private navParam: NavParams,
     private view: ViewController,
     private formBuilder: FormBuilder,
-    private veiculoService: VeiculoDataService,
     private barcodeScanner: BarcodeScanner,
-    private gmService: GeneralMotorsDataService
+    private gmService: GeneralMotorsDataService,
+    private vistoriaService: VistoriaDataService
   ) {
     this.title = 'Vistoria';
     this.url = this.authService.getUrl();
@@ -174,7 +174,7 @@ export class ModalChassisVistoriaGmComponent {
       this.authService.showLoading();
 
       forkJoin([
-        this.veiculoService.busarVeiculo(chassi)
+        this.vistoriaService.consultarChassi(chassi)
       ])
       .pipe(
         finalize(() => {

@@ -209,7 +209,7 @@ export class ModalChassisVistoriaComponent {
     this.authService.showLoading();
 
     forkJoin([
-      this.vistoriaService.vistoriarChassi(this.veiculo.id)
+      this.vistoriaService.vistoriarVeiculo(this.veiculo.id)
     ])
     .pipe(
       finalize(() => {

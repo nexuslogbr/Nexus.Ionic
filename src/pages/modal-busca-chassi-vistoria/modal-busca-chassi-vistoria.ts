@@ -145,7 +145,7 @@ export class ModalBuscaChassiVistoriaPage {
   }
 
   vistoriarChassi(veiculo: Veiculo){
-    this.vistoriaService.vistoriarChassi(veiculo.id)
+    this.vistoriaService.vistoriarVeiculo(veiculo.id)
     .pipe(
       finalize(() => {
         this.authService.hideLoading();
