@@ -24,12 +24,16 @@
           <ion-option *ngFor="let item of places" value="{{item.local}}">{{item.localDescription}}</ion-option>
         </ion-select>
       </ion-item>
+
+
       <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Checkpoint:</ion-label>
         <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="checkpoint" (ionChange)="changeCheckpoint($event)" [disabled]="desableCheckpoint">
           <ion-option *ngFor="let item of checkpoints" value="{{item.checkpoint}}">{{item.checkpointDescription}}</ion-option>
         </ion-select>
       </ion-item>
+
+
       <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Empresa Origem:</ion-label>
         <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="companyOrigin" (ionChange)="changeOriginCompany($event)">

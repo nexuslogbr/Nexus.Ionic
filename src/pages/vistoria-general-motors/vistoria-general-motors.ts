@@ -220,27 +220,24 @@ export class VistoriaGeneralMotorsPage {
         momentos$.retorno.forEach(item => {
           let checkpoint = new Checkpoint();
           checkpoint.checkpoint = item.id;
-          checkpoint.localDescription = item.nome;
+          checkpoint.checkpointDescription = item.nome;
           this.checkpoints.push(checkpoint);
         });
 
         stakeholders$.retorno.forEach(item => {
           let company = new Company();
           company.id = item.id;
-          company.companyName = item.nome;
+          company.companyName = item.nome[0].toUpperCase() + item.nome.substring(1);
           this.companies.push(company);
         });
 
         navios$.retorno.forEach(item => {
-
-          let temNavio = this.ships.filter(x => x.description == item.nome).map(x => x);
-
-          if (temNavio.length == 0) {
+          let temNavio = this.ships.filter(x => x.description == item.nome).map(x => x)[0];
+          if (!temNavio) {
             let ship = new Ship();
             ship.id = item.id;
             ship.description = item.nome;
             ship.viagem = item.viagem;
-
             this.ships.push(ship);
           }
         });
@@ -304,21 +301,19 @@ export class VistoriaGeneralMotorsPage {
   }
 
   changeShip(id: number){
-    var ships = this.ships.filter(x => x.id == id).map(x => x);
-    this.ship = ships[0];
+    this.ship = this.ships.filter(x => x.id == id).map(x => x)[0];
 
     if (this.data.nome != 'General Motors do Brasil') {
       this.trips = [];
-      ships.forEach(item => {
-        let trip = new Trip();
-        trip.id = item.id;
-        trip.identifierNumber = item.viagem;
-        trip.shipId = item.id;
-        this.trips.push(trip);
+      this.ships.forEach(item => {
+        if (item.description == this.ship.description) {
+          let trip = new Trip();
+          trip.id = item.id;
+          trip.identifierNumber = item.viagem;
+          trip.shipId = item.id;
+          this.trips.push(trip);
+        }
       });
-    }
-    else {
-
     }
   }
 

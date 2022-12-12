@@ -27,6 +27,10 @@ import { GravidadeDataService } from '../../providers/gravidade-data-service';
 import { Parte } from '../../model/parte';
 import { GravidadeAvaria } from '../../model/gravidadeAvaria';
 import { Avaria } from '../../model/avaria';
+import { TipoAvariaDataService } from '../../providers/tipoAvaria-data-service';
+import { TipoAvaria } from '../../model/tipoAvaria';
+import { ResponsabilidadeAvaria } from '../../model/responsabilidadeAvaria';
+import { ResponsabilidadeAvariaDataService } from '../../providers/responsabilidade-avaria-service';
 
 @Component({
   selector: 'page-lancamento-avaria-gm-selecao',
@@ -38,10 +42,12 @@ export class LancamentoAvariaGmSelecaoPage {
   parts: Array<Part> = [];
   qualityinconsistences: Array<Qualityinconsistence> = [];
   severities: Array<Severity> = [];
+  responsabilidadeAvarias: Array<ResponsabilidadeAvaria> = [];
 
   partes: Array<Parte> = [];
-  avarias: Array<Avaria> = [];
+  tipoAvarias: Array<TipoAvaria> = [];
   gravidades: Array<GravidadeAvaria> = [];
+  responsabilidadeAvaria = new ResponsabilidadeAvaria();
 
   form: FormGroup;
 
@@ -89,12 +95,13 @@ export class LancamentoAvariaGmSelecaoPage {
     public alertService: AlertService,
     public authService: AuthService,
     private generalMotorsService: GeneralMotorsDataService,
-    private avariaService: AvariaDataService,
+    private tipoAvariaService: TipoAvariaDataService,
     private alertController: AlertController,
     private modal: ModalController,
     private view: ViewController,
     private pecaService: ParteDataService,
-    private gravidadeService: GravidadeDataService
+    private gravidadeService: GravidadeDataService,
+    private responsabilidadeAvariaService: ResponsabilidadeAvariaDataService
   ) {
 
     var data = this.navParams.get('data');
@@ -211,8 +218,9 @@ export class LancamentoAvariaGmSelecaoPage {
 
     forkJoin([
       this.pecaService.listar(),
-      this.avariaService.listar(),
-      this.gravidadeService.listar()
+      this.tipoAvariaService.listar(),
+      this.gravidadeService.listar(),
+      this.responsabilidadeAvariaService.listar()
     ])
     .pipe(
       finalize(() => {
@@ -221,10 +229,11 @@ export class LancamentoAvariaGmSelecaoPage {
     )
     .subscribe(arrayResult => {
       let partes$ = arrayResult[0];
-      let avarias$ = arrayResult[1];
+      let tipoAvarias$ = arrayResult[1];
       let gravidades$ = arrayResult[2];
+      let responsabilidadeAvaria$ = arrayResult[3];
 
-      if (partes$.sucesso && avarias$.sucesso && gravidades$.sucesso) {
+      if (partes$.sucesso && tipoAvarias$.sucesso && gravidades$.sucesso && responsabilidadeAvaria$.sucesso) {
 
         this.partes = partes$.retorno;
         this.partes.forEach(element => {
@@ -236,8 +245,8 @@ export class LancamentoAvariaGmSelecaoPage {
           this.partsAll.push(part);
         });
 
-        this.avarias = avarias$.retorno;
-        this.avarias.forEach(element => {
+        this.tipoAvarias = tipoAvarias$.retorno;
+        this.tipoAvarias.forEach(element => {
           let qualityinconsistence = new Qualityinconsistence();
           qualityinconsistence.id = element.id;
           qualityinconsistence.description = element.nome;
@@ -251,6 +260,9 @@ export class LancamentoAvariaGmSelecaoPage {
           severity.description = element.nome;
           this.severities.push(severity);
         });
+
+        this.responsabilidadeAvarias = responsabilidadeAvaria$.retorno;
+
 
         let image = this.formData.number;
 
@@ -353,6 +365,10 @@ export class LancamentoAvariaGmSelecaoPage {
     if (id > 0) {
       this.damage.severity = this.severities.filter(x => x.id == id).map(x => x)[0].id;
     }
+  }
+
+  selectResponsabilidadeAvariaChange(id){
+    this.responsabilidadeAvaria = this.responsabilidadeAvarias.filter(x => x.id == id).map(x => x)[0]
   }
 
   return(){
