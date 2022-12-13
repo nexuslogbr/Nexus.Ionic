@@ -46,4 +46,19 @@ export class VistoriaDataService {
     return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 
+  public salvar(model:any, imagesToSend, responsabilidadeAvariaID: number) {
+    let url = this.urlApi + '/Vistoriar/Salvar';
+    let data = {
+      token: this.authService.getToken(),
+      survey: model,
+      arquivos: imagesToSend,
+      responsabilidadeAvariaID: responsabilidadeAvariaID
+    }
+
+    console.clear();
+    console.log(data);
+
+
+    return this.http.post<DataRetorno>(url, data, httpOptions);
+  }
 }

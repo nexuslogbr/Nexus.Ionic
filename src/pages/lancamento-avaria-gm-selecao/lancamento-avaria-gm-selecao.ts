@@ -31,6 +31,7 @@ import { TipoAvariaDataService } from '../../providers/tipoAvaria-data-service';
 import { TipoAvaria } from '../../model/tipoAvaria';
 import { ResponsabilidadeAvaria } from '../../model/responsabilidadeAvaria';
 import { ResponsabilidadeAvariaDataService } from '../../providers/responsabilidade-avaria-service';
+import { VistoriaDataService } from '../../providers/vistoria-service';
 
 @Component({
   selector: 'page-lancamento-avaria-gm-selecao',
@@ -101,7 +102,8 @@ export class LancamentoAvariaGmSelecaoPage {
     private view: ViewController,
     private pecaService: ParteDataService,
     private gravidadeService: GravidadeDataService,
-    private responsabilidadeAvariaService: ResponsabilidadeAvariaDataService
+    private responsabilidadeAvariaService: ResponsabilidadeAvariaDataService,
+    private vistoriaService: VistoriaDataService
   ) {
 
     var data = this.navParams.get('data');
@@ -393,48 +395,85 @@ export class LancamentoAvariaGmSelecaoPage {
 
     var date = new Date();
 
-    this.survey.company = '',
-    this.survey.local = this.formData.place.local,
-    this.survey.origin = this.formData.companyOrigin.id,
-    this.survey.destination = this.formData.companyDestination.id,
-    this.survey.checkpoint = this.formData.checkpoint.checkpoint,
-    this.survey.tripId = this.formData.trip.id,
-    this.survey.shipId = this.formData.ship.id,
-    this.survey.vin = this.formData.veiculo.chassi,
-    this.survey.surveyor = this.formData.surveyor.id,
-    this.survey.surveyDate = date.toISOString(),
-    this.survey.validator = this.formData.surveyor.id,
-    this.survey.validationDate = date.toISOString(),
-    this.survey.hasDamages = true,
-    this.survey.hasDocuments = false,
-    this.survey.released = 2,
-    this.survey.damages = this.damages,
-    this.survey.documents = []
+    this.survey.company = '';
+    this.survey.local = this.formData.place.local;
+    this.survey.origin = this.formData.companyOrigin.id;
+    this.survey.destination = this.formData.companyDestination.id;
+    this.survey.checkpoint = this.formData.checkpoint.checkpoint;
+    this.survey.tripId = this.formData.trip.id;
+    this.survey.shipId = this.formData.ship.id;
+    this.survey.vin = this.formData.veiculo.chassi;
+    this.survey.surveyor = this.formData.surveyor.id;
+    this.survey.surveyDate = date.toISOString();
+    this.survey.validator = this.formData.surveyor.id;
+    this.survey.validationDate = date.toISOString();
+    this.survey.hasDamages = true;
+    this.survey.hasDocuments = false;
+    this.survey.released = 2;
+    this.survey.damages = this.damages;
+    this.survey.documents = [];
 
-    // this.generalMotorsService.insertsurvey(this.survey)
-    // .pipe(
-    //   finalize(() => {
-    //     this.authService.hideLoading();
-    //   })
-    //   )
-    //   .subscribe((response:DataRetorno) => {
-    //     if (response.sucesso) {
-    setTimeout(() => {
-      let data = 'esc';
-      this.authService.hideLoading();
-      this.alertService.showInfo('Salvo com sucesso!');
-      this.view.dismiss(data);
-    }, 1500);
-    //       var response = response;
-    //       // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
-    //     }
-    //     else {
-    //       this.alertService.showError(response.mensagem);;
-    //     }
+    if (this.tipoVistoria == 1) {
 
-    //   }, (error: any) => {
-    //     this.alertService.showError('Erro ao salvar avaria');
-    // });
+    let imagesToSend = [];
+    this.images.forEach(image => {
+      imagesToSend.push({
+        id: image.id,
+        data: image.path,
+        fileName: image.fileName
+      });
+    });
+
+    this.survey['ResponsabilidadeAvariaID'] = this.responsabilidadeAvaria.id;
+      this.vistoriaService.salvar(this.survey, imagesToSend, this.responsabilidadeAvaria.id)
+      .pipe(
+        finalize(() => {
+          this.authService.hideLoading();
+        })
+        )
+        .subscribe((response:DataRetorno) => {
+          if (response.sucesso) {
+            setTimeout(() => {
+              let data = 'esc';
+              this.alertService.showInfo('Salvo com sucesso!');
+              this.view.dismiss(data);
+            }, 1500);
+            var response = response;
+            // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
+          }
+          else {
+            this.alertService.showError(response.mensagem);;
+          }
+
+        }, (error: any) => {
+          this.alertService.showError('Erro ao salvar avaria');
+      });
+    }
+    else if (this.tipoVistoria == 2) {
+      this.generalMotorsService.insertsurvey(this.survey)
+      .pipe(
+        finalize(() => {
+          this.authService.hideLoading();
+        })
+        )
+        .subscribe((response:DataRetorno) => {
+          if (response.sucesso) {
+            setTimeout(() => {
+              let data = 'esc';
+              this.alertService.showInfo('Salvo com sucesso!');
+              this.view.dismiss(data);
+            }, 1500);
+            var response = response;
+            // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
+          }
+          else {
+            this.alertService.showError(response.mensagem);;
+          }
+
+        }, (error: any) => {
+          this.alertService.showError('Erro ao salvar avaria');
+      });
+    }
   }
 
   /// Funções relativas a captura, exibição e upload de imagens
