@@ -50,6 +50,9 @@ export class QualidadeMenuPage {
       this.buttonColor = "#1c6381";
     }
 
+  }
+
+  ionViewWillEnter(){
     this. loadStakeholders();
   }
 
@@ -59,12 +62,8 @@ export class QualidadeMenuPage {
     forkJoin([
       this.stakeholderService.listar()
     ])
-    .pipe(
-      finalize(() => {
-        this.authService.hideLoading();
-      })
-    )
     .subscribe(arrayResult => {
+      this.authService.hideLoading();
       let stakeholders$ = arrayResult[0];
 
       if (stakeholders$.sucesso) {
