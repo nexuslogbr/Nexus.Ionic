@@ -9,7 +9,7 @@ import { finalize } from 'rxjs/operators';
 import { Veiculo } from '../../model/veiculo';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { DataRetorno } from '../../model/dataretorno';
+import { DataRetorno } from '../../model/dataRetorno';
 import { GeneralMotorsDataService } from '../../providers/general-motors-data-service';
 import { Part } from '../../model/GeneralMotors/part';
 import { Qualityinconsistence } from '../../model/GeneralMotors/qualityinconsistence';
@@ -22,6 +22,16 @@ import { Trip } from '../../model/GeneralMotors/trip';
 import { Surveyor } from '../../model/GeneralMotors/surveyor';
 import { Damage } from '../../model/GeneralMotors/damage';
 import { Survey } from '../../model/GeneralMotors/survey';
+import { ParteDataService } from '../../providers/parte-data-service';
+import { GravidadeDataService } from '../../providers/gravidade-data-service';
+import { Parte } from '../../model/parte';
+import { GravidadeAvaria } from '../../model/gravidadeAvaria';
+import { Avaria } from '../../model/avaria';
+import { TipoAvariaDataService } from '../../providers/tipoAvaria-data-service';
+import { TipoAvaria } from '../../model/tipoAvaria';
+import { ResponsabilidadeAvaria } from '../../model/responsabilidadeAvaria';
+import { ResponsabilidadeAvariaDataService } from '../../providers/responsabilidade-avaria-service';
+import { VistoriaDataService } from '../../providers/vistoria-service';
 
 @Component({
   selector: 'page-lancamento-avaria-gm-selecao',
@@ -33,6 +43,12 @@ export class LancamentoAvariaGmSelecaoPage {
   parts: Array<Part> = [];
   qualityinconsistences: Array<Qualityinconsistence> = [];
   severities: Array<Severity> = [];
+  responsabilidadeAvarias: Array<ResponsabilidadeAvaria> = [];
+
+  partes: Array<Parte> = [];
+  tipoAvarias: Array<TipoAvaria> = [];
+  gravidades: Array<GravidadeAvaria> = [];
+  responsabilidadeAvaria = new ResponsabilidadeAvaria();
 
   form: FormGroup;
 
@@ -67,7 +83,9 @@ export class LancamentoAvariaGmSelecaoPage {
   public survey = new Survey();
 
   damages:Damage[] = [];
-  partsAll: Part[];
+  partsAll: Part[] = [];
+
+  tipoVistoria = 0;
 
   constructor(
     public navCtrl: NavController,
@@ -78,15 +96,20 @@ export class LancamentoAvariaGmSelecaoPage {
     public alertService: AlertService,
     public authService: AuthService,
     private generalMotorsService: GeneralMotorsDataService,
-    private avariaService: AvariaDataService,
+    private tipoAvariaService: TipoAvariaDataService,
     private alertController: AlertController,
     private modal: ModalController,
     private view: ViewController,
+    private pecaService: ParteDataService,
+    private gravidadeService: GravidadeDataService,
+    private responsabilidadeAvariaService: ResponsabilidadeAvariaDataService,
+    private vistoriaService: VistoriaDataService
   ) {
 
     var data = this.navParams.get('data');
     this.formData = data.formData;
     this.damages = data.array == null ? [] : data.array;
+    this.tipoVistoria = data.tipoVistoria;
 
     this.title = this.formData.parte;
 
@@ -117,7 +140,17 @@ export class LancamentoAvariaGmSelecaoPage {
   }
 
   loadScreen(){
+    if (this.tipoVistoria == 1) {
+      this.loadGeral();
+    }
+    else if (this.tipoVistoria == 2) {
+      this.loadGM();
+    }
+  }
+
+  loadGM(){
     this.authService.showLoading();
+    this.loadImage();
 
     forkJoin([
       this.generalMotorsService.parts(),
@@ -144,42 +177,34 @@ export class LancamentoAvariaGmSelecaoPage {
         // Frente capo
         if (image == 1) {
           this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 1).map(x => x);
-          this.urlImagem = 'assets/images/onix-frente.png';
         }
         // Frente parachoques e farol
         else if (image == 2) {
           this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 1).map(x => x);
-          this.urlImagem = 'assets/images/onix-parachoques.png';
         }
         // Traseira parachoques
         else if (image == 3) {
             this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 2).map(x => x);
-            this.urlImagem = 'assets/images/onix-traseira-parachoques.png';
         }
         // Traseira porta-malas e lanterna
         else if (image == 4) {
           this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 2).map(x => x);
-          this.urlImagem = 'assets/images/onix-traseira-portamalas.png';
         }
         // Lateral frente
         else if (image == 5) {
           this.parts = this.partsAll.filter(x => x.block == 1 && x.zone == 3).map(x => x);
-          this.urlImagem = 'assets/images/onix-lateral-frente.png';
         }
         // Lateral meio
         else if (image == 6) {
           this.parts = this.partsAll.filter(x => x.block == 2 && x.zone == 3).map(x => x);
-          this.urlImagem = 'assets/images/onix-lateral-porta.png';
         }
         // Lateral traseira
         else if (image == 7) {
           this.parts = this.partsAll.filter(x => x.block == 3 && x.zone == 3).map(x => x);
-          this.urlImagem = 'assets/images/onix-lateral-traseira.png';
         }
         // Teto
         else if (image == 8) {
           this.parts = this.partsAll.filter(x => x.block == 3 && x.zone == 1).map(x => x);
-          this.urlImagem = 'assets/images/onix-teto.png';
         }
         // Interno
         else if (image == 9) {
@@ -187,6 +212,121 @@ export class LancamentoAvariaGmSelecaoPage {
         }
       }
     });
+  }
+
+  loadGeral(){
+    this.authService.showLoading();
+    this.loadImage();
+
+    forkJoin([
+      this.pecaService.listar(),
+      this.tipoAvariaService.listar(),
+      this.gravidadeService.listar(),
+      this.responsabilidadeAvariaService.listar()
+    ])
+    .pipe(
+      finalize(() => {
+        this.authService.hideLoading();
+      })
+    )
+    .subscribe(arrayResult => {
+      let partes$ = arrayResult[0];
+      let tipoAvarias$ = arrayResult[1];
+      let gravidades$ = arrayResult[2];
+      let responsabilidadeAvaria$ = arrayResult[3];
+
+      if (partes$.sucesso && tipoAvarias$.sucesso && gravidades$.sucesso && responsabilidadeAvaria$.sucesso) {
+
+        this.partes = partes$.retorno;
+        this.partes.forEach(element => {
+          let part = new Part();
+          part.id = element.id;
+          part.description = element.nome;
+          part.block = element.parteVeiculo.id;
+          part.zone = element.parteVeiculo.id;
+          this.partsAll.push(part);
+        });
+
+        this.tipoAvarias = tipoAvarias$.retorno;
+        this.tipoAvarias.forEach(element => {
+          let qualityinconsistence = new Qualityinconsistence();
+          qualityinconsistence.id = element.id;
+          qualityinconsistence.description = element.nome;
+          this.qualityinconsistences.push(qualityinconsistence);
+        });
+
+        this.gravidades = gravidades$.retorno;
+        this.gravidades.forEach(element => {
+          let severity = new Severity();
+          severity.id = element.id;
+          severity.description = element.nome;
+          this.severities.push(severity);
+        });
+
+        this.responsabilidadeAvarias = responsabilidadeAvaria$.retorno;
+
+
+        let image = this.formData.number;
+
+        // Frente capo, parachoques e farol
+        if (image == 1 || image == 2) {
+          this.parts = this.partsAll.filter(x => x.block == 1).map(x => x);
+        }
+        // Traseira parachoques, porta-malas e lanterna
+        else if (image == 3 || image == 4) {
+            this.parts = this.partsAll.filter(x => x.block == 2).map(x => x);
+        }
+        // Lateral frente, meio e traseira
+        else if (image == 5 || image == 6 || image == 7) {
+          this.parts = this.partsAll.filter(x => x.block == 3).map(x => x);
+        }
+        // Teto
+        else if (image == 8 || image == 8) {
+          this.parts = this.partsAll.filter(x => x.block == 4).map(x => x);
+        }
+        // Interno
+        else if (image == 9 || image == 9) {
+          this.parts = this.partsAll.filter(x => x.block == 0).map(x => x);
+        }
+      }
+    });
+  }
+
+  loadImage(){
+    let image = this.formData.number;
+
+    // Frente capo
+    if (image == 1)
+      this.urlImagem = 'assets/images/onix-frente.png';
+
+    // Frente parachoques e farol
+    else if (image == 2)
+      this.urlImagem = 'assets/images/onix-parachoques.png';
+
+    // Traseira parachoques
+    else if (image == 3)
+        this.urlImagem = 'assets/images/onix-traseira-parachoques.png';
+
+    // Traseira porta-malas e lanterna
+    else if (image == 4)
+      this.urlImagem = 'assets/images/onix-traseira-portamalas.png';
+
+    // Lateral frente
+    else if (image == 5)
+      this.urlImagem = 'assets/images/onix-lateral-frente.png';
+
+    // Lateral meio
+    else if (image == 6)
+      this.urlImagem = 'assets/images/onix-lateral-porta.png';
+
+    // Lateral traseira
+    else if (image == 7)
+      this.urlImagem = 'assets/images/onix-lateral-traseira.png';
+
+    // Teto
+    else if (image == 8)
+      this.urlImagem = 'assets/images/onix-teto.png';
+
   }
 
   toggleMenu = function (this) {
@@ -229,6 +369,10 @@ export class LancamentoAvariaGmSelecaoPage {
     }
   }
 
+  selectResponsabilidadeAvariaChange(id){
+    this.responsabilidadeAvaria = this.responsabilidadeAvarias.filter(x => x.id == id).map(x => x)[0]
+  }
+
   return(){
     this.view.dismiss();
   }
@@ -251,48 +395,85 @@ export class LancamentoAvariaGmSelecaoPage {
 
     var date = new Date();
 
-    this.survey.company = '',
-    this.survey.local = this.formData.place.local,
-    this.survey.origin = this.formData.companyOrigin.id,
-    this.survey.destination = this.formData.companyDestination.id,
-    this.survey.checkpoint = this.formData.checkpoint.checkpoint,
-    this.survey.tripId = this.formData.trip.id,
-    this.survey.shipId = this.formData.ship.id,
-    this.survey.vin = this.formData.veiculo.chassi,
-    this.survey.surveyor = this.formData.surveyor.id,
-    this.survey.surveyDate = date.toISOString(),
-    this.survey.validator = this.formData.surveyor.id,
-    this.survey.validationDate = date.toISOString(),
-    this.survey.hasDamages = true,
-    this.survey.hasDocuments = false,
-    this.survey.released = 2,
-    this.survey.damages = this.damages,
-    this.survey.documents = []
+    this.survey.company = '';
+    this.survey.local = this.formData.place.local;
+    this.survey.origin = this.formData.companyOrigin.id;
+    this.survey.destination = this.formData.companyDestination.id;
+    this.survey.checkpoint = this.formData.checkpoint.checkpoint;
+    this.survey.tripId = this.formData.trip.id;
+    this.survey.shipId = this.formData.ship.id;
+    this.survey.vin = this.formData.veiculo.chassi;
+    this.survey.surveyor = this.formData.surveyor.id;
+    this.survey.surveyDate = date.toISOString();
+    this.survey.validator = this.formData.surveyor.id;
+    this.survey.validationDate = date.toISOString();
+    this.survey.hasDamages = true;
+    this.survey.hasDocuments = false;
+    this.survey.released = 2;
+    this.survey.damages = this.damages;
+    this.survey.documents = [];
 
-    // this.generalMotorsService.insertsurvey(this.survey)
-    // .pipe(
-    //   finalize(() => {
-    //     this.authService.hideLoading();
-    //   })
-    //   )
-    //   .subscribe((response:DataRetorno) => {
-    //     if (response.sucesso) {
-    setTimeout(() => {
-      let data = 'esc';
-      this.authService.hideLoading();
-      this.alertService.showInfo('Salvo com sucesso!');
-      this.view.dismiss(data);
-    }, 1500);
-    //       var response = response;
-    //       // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
-    //     }
-    //     else {
-    //       this.alertService.showError(response.mensagem);;
-    //     }
+    if (this.tipoVistoria == 1) {
 
-    //   }, (error: any) => {
-    //     this.alertService.showError('Erro ao salvar avaria');
-    // });
+    let imagesToSend = [];
+    this.images.forEach(image => {
+      imagesToSend.push({
+        id: image.id,
+        data: image.path,
+        fileName: image.fileName
+      });
+    });
+
+    this.survey['ResponsabilidadeAvariaID'] = this.responsabilidadeAvaria.id;
+      this.vistoriaService.salvar(this.survey, imagesToSend, this.responsabilidadeAvaria.id)
+      .pipe(
+        finalize(() => {
+          this.authService.hideLoading();
+        })
+        )
+        .subscribe((response:DataRetorno) => {
+          if (response.sucesso) {
+            setTimeout(() => {
+              let data = 'esc';
+              this.alertService.showInfo('Salvo com sucesso!');
+              this.view.dismiss(data);
+            }, 1500);
+            var response = response;
+            // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
+          }
+          else {
+            this.alertService.showError(response.mensagem);;
+          }
+
+        }, (error: any) => {
+          this.alertService.showError('Erro ao salvar avaria');
+      });
+    }
+    else if (this.tipoVistoria == 2) {
+      this.generalMotorsService.insertsurvey(this.survey)
+      .pipe(
+        finalize(() => {
+          this.authService.hideLoading();
+        })
+        )
+        .subscribe((response:DataRetorno) => {
+          if (response.sucesso) {
+            setTimeout(() => {
+              let data = 'esc';
+              this.alertService.showInfo('Salvo com sucesso!');
+              this.view.dismiss(data);
+            }, 1500);
+            var response = response;
+            // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
+          }
+          else {
+            this.alertService.showError(response.mensagem);;
+          }
+
+        }, (error: any) => {
+          this.alertService.showError('Erro ao salvar avaria');
+      });
+    }
   }
 
   /// Funções relativas a captura, exibição e upload de imagens

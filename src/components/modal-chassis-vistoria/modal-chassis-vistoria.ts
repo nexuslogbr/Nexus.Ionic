@@ -7,7 +7,7 @@ import { Veiculo } from '../../model/veiculo';
 import { CheckpointDataService } from '../../providers/checkpoint-service';
 import { AlertService } from '../../providers/alert-service';
 import { finalize } from 'rxjs/operators/finalize';
-import { DataRetorno } from '../../model/dataretorno';
+import { DataRetorno } from '../../model/dataRetorno';
 import { VistoriaDataService } from '../../providers/vistoria-service';
 import { VeiculoDataService } from '../../providers/veiculo-data-service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
@@ -209,7 +209,7 @@ export class ModalChassisVistoriaComponent {
     this.authService.showLoading();
 
     forkJoin([
-      this.vistoriaService.vistoriarChassi(this.veiculo.id)
+      this.vistoriaService.vistoriarVeiculo(this.veiculo.id)
     ])
     .pipe(
       finalize(() => {

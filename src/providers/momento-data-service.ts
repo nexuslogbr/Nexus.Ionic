@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth-service/auth-service';
-import { DataRetorno } from '../model/dataretorno';
+import { DataRetorno } from '../model/dataRetorno';
 
 const headers = new HttpHeaders({
   'Content-Type': 'application/json'
@@ -26,7 +26,7 @@ export class MomentoDataService {
   }
 
   public listar() {
-    let url = this.urlApi + '/momento/Listar?token=' + this.authService.getToken();
-    return this.http.get<DataRetorno>(url, { headers: headers });
+    let url = this.urlApi + '/momento/Listar';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 }

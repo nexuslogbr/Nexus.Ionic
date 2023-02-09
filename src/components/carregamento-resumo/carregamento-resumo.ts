@@ -21,7 +21,7 @@ import * as $ from "jquery";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { DataService } from "../../providers/data-service";
 import { Romaneio } from "../../model/romaneio";
-import { RomaneioDetalhe } from "../../model/romaneiodetalhe";
+import { RomaneioDetalhe } from "../../model/romaneioDetalhe";
 import { ModalCancelarCarregamentoPage } from "../../pages/modal-cancelar-carregamento/modal-cancelar-carregamento";
 import { CarregamentoPage } from "../../pages/carregamento/carregamento";
 
@@ -130,7 +130,7 @@ export class CarregamentoResumoComponent {
     } else {
       this.textSituacao = "Carregados";
     }
-   
+
     if (!this.isEmpty(dados)) {
       this.result = dados;
 

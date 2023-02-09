@@ -11,7 +11,7 @@ import { Momento } from '../../model/momento';
 import { Veiculo } from '../../model/veiculo';
 import { finalize } from 'rxjs/operators';
 import { VistoriaDataService } from '../../providers/vistoria-service';
-import { DataRetorno } from '../../model/dataretorno';
+import { DataRetorno } from '../../model/dataRetorno';
 import { AlertService } from '../../providers/alert-service';
 import { ModelChecklistPage } from '../model-checklist/model-checklist';
 import { Arquivo } from '../../model/arquivo';
@@ -145,7 +145,7 @@ export class ModalBuscaChassiVistoriaPage {
   }
 
   vistoriarChassi(veiculo: Veiculo){
-    this.vistoriaService.vistoriarChassi(veiculo.id)
+    this.vistoriaService.vistoriarVeiculo(veiculo.id)
     .pipe(
       finalize(() => {
         this.authService.hideLoading();

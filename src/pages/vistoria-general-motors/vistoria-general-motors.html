@@ -24,12 +24,16 @@
           <ion-option *ngFor="let item of places" value="{{item.local}}">{{item.localDescription}}</ion-option>
         </ion-select>
       </ion-item>
+
+
       <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Checkpoint:</ion-label>
-        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="checkpoint" (ionChange)="changeCheckpoint($event)">
-          <ion-option *ngFor="let item of checkpointsByPlace" value="{{item.checkpoint}}">{{item.checkpointDescription}}</ion-option>
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="checkpoint" (ionChange)="changeCheckpoint($event)" [disabled]="desableCheckpoint">
+          <ion-option *ngFor="let item of checkpoints" value="{{item.checkpoint}}">{{item.checkpointDescription}}</ion-option>
         </ion-select>
       </ion-item>
+
+
       <ion-item [ngStyle]="{'background-color': primaryColor}">
         <ion-label label-ios>Empresa Origem:</ion-label>
         <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="companyOrigin" (ionChange)="changeOriginCompany($event)">
@@ -50,7 +54,7 @@
       </ion-item>
       <ion-item [ngStyle]="{'background-color': primaryColor}" style="padding-bottom: 5%;">
         <ion-label label-ios>Numero da Viagem:</ion-label>
-        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="trip" (ionChange)="changeTrip($event)">
+        <ion-select okText="Confirmar" cancelText="Cancelar" formControlName="trip" (ionChange)="changeTrip($event)" [disabled]="trips.length == 0">
           <ion-option *ngFor="let item of trips" [value]="item.id" id="{{item.id}}">{{item.identifierNumber}}</ion-option>
         </ion-select>
       </ion-item>
@@ -58,8 +62,8 @@
   </form>
 
   <div class="login-content">
-    <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" type="button" [disabled]="!form.valid" (click)="toNavigate()">AVANÇAR</button>
-    <!-- <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" type="button" (click)="toNavigate()">AVANÇAR</button> -->
+    <!-- <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" type="button" [disabled]="!form.valid" (click)="toNavigate()">AVANÇAR</button> -->
+    <button ion-button round end class="btn-receiving btn-ok" [ngStyle]="{'background-color': buttonColor}" type="button" (click)="toNavigate()">AVANÇAR</button>
     <button ion-button round first class="btn-receiving btn-cancel" type="button" (click)="voltar()">VOLTAR</button>
   </div>
 

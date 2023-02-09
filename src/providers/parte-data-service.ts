@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { DataRetorno } from "../model/dataretorno";
+import { DataRetorno } from "../model/dataRetorno";
 import { AuthService } from "./auth-service/auth-service";
 
 const headers = new HttpHeaders({
@@ -28,7 +28,8 @@ export class ParteDataService{
   }
 
   public listar() {
-    return this.http.get<DataRetorno>(this.url + "/Parte/Partes?token=" + this.authService.getToken(), httpOptions);
+    let url = this.url + '/Parte/Listar';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
   }
 
 }

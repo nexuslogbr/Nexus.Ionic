@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { ActionSheetController, Modal, ModalController, NavController, NavParams } from 'ionic-angular';
 import * as $ from 'jquery';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { AlertService } from '../../providers/alert-service';
@@ -9,6 +9,10 @@ import { LancamentoAvariaPage } from '../lancamento-avaria/lancamento-avaria';
 import { LancamentoAvariaVistoriaPage } from '../lancamento-avaria-vistoria/lancamento-avaria-vistoria';
 import { VistoriaPage } from '../vistoria/vistoria';
 import { VistoriaGeneralMotorsPage } from '../vistoria-general-motors/vistoria-general-motors';
+import { StakeholderService } from '../../providers/stakeholder-data-service';
+import { StakeHolder } from '../../model/stakeholder';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'page-qualidade-menu',
@@ -23,13 +27,16 @@ export class QualidadeMenuPage {
   inputColor: string;
   buttonColor: string;
 
-  //naviteTransitionOptions: NativeTransitionOptions;
+  stakeholders: StakeHolder[] = [];
 
   constructor(public navCtrl: NavController,
     public authService: AuthService,
     public alertService: AlertService,
-    //private nativePageTransitions: NativePageTransitions,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    private actionSheetController: ActionSheetController,
+    private modal: ModalController,
+    private stakeholderService: StakeholderService
+    ) {
     this.userData = this.authService.getUserData();
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -42,6 +49,28 @@ export class QualidadeMenuPage {
       this.inputColor = '#06273f';
       this.buttonColor = "#1c6381";
     }
+
+  }
+
+  ionViewWillEnter(){
+    this. loadStakeholders();
+  }
+
+  loadStakeholders(){
+    this.authService.showLoading();
+
+    forkJoin([
+      this.stakeholderService.listar()
+    ])
+    .subscribe(arrayResult => {
+      this.authService.hideLoading();
+      let stakeholders$ = arrayResult[0];
+
+      if (stakeholders$.sucesso) {
+        this.stakeholders = stakeholders$.retorno;
+        this.stakeholders = this.stakeholders.filter(x => x.stakeholderTipo == 3).map(x => x);
+      }
+    });
   }
 
   toggleMenu = function (this) {
@@ -67,11 +96,39 @@ export class QualidadeMenuPage {
     this.navCtrl.push(VistoriaPage);
   }
 
-  navigateToVistoriarGM() {
-    this.navCtrl.push(VistoriaGeneralMotorsPage);
+  navigateToVistoriarGM(element: StakeHolder) {
+
+    const modal: Modal = this.modal.create(VistoriaGeneralMotorsPage, {
+      data: element,
+    });
+    modal.present();
+
+    // this.navCtrl.push(VistoriaGeneralMotorsPage);
   }
 
   navigateToLancar() {
     this.navCtrl.push(LancamentoAvariaPage);
+  }
+
+  selectTypeSurvey() {
+
+    let options = []
+    this.stakeholders.forEach(element => {
+      options.push({
+        text: element.nome,
+        handler: () => {
+          this.navigateToVistoriarGM(element);
+        }
+      });
+    })
+    options.push({
+      text: 'Cancelar', role: 'cancel'
+    });
+
+    const actionSheet = this.actionSheetController.create({
+        title: 'Selecionar fabricante',
+        buttons: options
+    });
+    actionSheet.present();
   }
 }

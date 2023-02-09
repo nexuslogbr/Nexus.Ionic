@@ -7,7 +7,7 @@ import { Veiculo } from '../../model/veiculo';
 import { CheckpointDataService } from '../../providers/checkpoint-service';
 import { AlertService } from '../../providers/alert-service';
 import { finalize } from 'rxjs/operators/finalize';
-import { DataRetorno } from '../../model/dataretorno';
+import { DataRetorno } from '../../model/dataRetorno';
 import { VistoriaDataService } from '../../providers/vistoria-service';
 import { VeiculoDataService } from '../../providers/veiculo-data-service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
@@ -72,6 +72,8 @@ export class ModalChassisVistoriaGmComponent {
   veiculo: Veiculo;
   retorno: DataRetorno;
 
+  tipoVistoria = 0;
+
   constructor(
     public navCtrl: NavController,
     public authService: AuthService,
@@ -81,9 +83,9 @@ export class ModalChassisVistoriaGmComponent {
     private navParam: NavParams,
     private view: ViewController,
     private formBuilder: FormBuilder,
-    private veiculoService: VeiculoDataService,
     private barcodeScanner: BarcodeScanner,
-    private gmService: GeneralMotorsDataService
+    private gmService: GeneralMotorsDataService,
+    private vistoriaService: VistoriaDataService
   ) {
     this.title = 'Vistoria';
     this.url = this.authService.getUrl();
@@ -91,6 +93,7 @@ export class ModalChassisVistoriaGmComponent {
 
     let data = this.navParam.get('data');
     this.formData = data;
+    this.tipoVistoria = this.navParam.get('tipoVistoria');
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -171,7 +174,7 @@ export class ModalChassisVistoriaGmComponent {
       this.authService.showLoading();
 
       forkJoin([
-        this.veiculoService.busarVeiculo(chassi)
+        this.vistoriaService.consultarChassi(chassi)
       ])
       .pipe(
         finalize(() => {
@@ -255,7 +258,8 @@ export class ModalChassisVistoriaGmComponent {
   comAvaria(){
     const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage,
       {
-        data: this.formData
+        data: this.formData,
+        tipoVistoria: this.tipoVistoria
       });
 
     this.veiculo = null;

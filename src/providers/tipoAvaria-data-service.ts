@@ -12,22 +12,24 @@ const httpOptions = {
     'Content-Type': 'application/json'
   })
 };
+
 @Injectable()
-export class GravidadeDataService{
+export class TipoAvariaDataService{
   urlApi: string;
   token: string;
 
   constructor(
-      private http: HttpClient,
-      private authService: AuthService
-    )
-    {
+    public http: HttpClient,
+    public authService: AuthService
+  )
+  {
     this.urlApi = this.authService.getUrl();
     this.token = this.authService.getToken();
   }
 
   public listar() {
-    let url = this.urlApi + '/gravidadeAvaria/Listar';
+    let url = this.urlApi + '/TipoAvaria/Listar';
     return this.http.post<DataRetorno>(url, {token: this.token}, httpOptions);
   }
+
 }

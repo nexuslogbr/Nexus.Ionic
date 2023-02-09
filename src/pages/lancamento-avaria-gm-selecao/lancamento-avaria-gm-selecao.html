@@ -75,6 +75,14 @@
           </ion-select>
         </ion-item>
 
+        <!-- Responsabilidade -->
+        <ion-item *ngIf="tipoVistoria == 1">
+          <ion-label label-ios style="font-style: unset;"><b>Responsabilidade Avaria: </b></ion-label>
+          <ion-select (ionChange)="selectResponsabilidadeAvariaChange($event)" okText="Selecionar" cancelText="Cancelar">
+            <ion-option *ngFor="let item of responsabilidadeAvarias" value="{{item.id}}" id="{{item.id}}">{{item.nome}}</ion-option>
+          </ion-select>
+        </ion-item>
+
         <ion-item no-lines>
           <ion-label label-ios style="font-style: unset;"><b>Foto Avaria:</b></ion-label>
         </ion-item>

@@ -51,6 +51,8 @@ import { ResponsabilidadeAvariaDataService } from '../providers/responsabilidade
 import { ModeloDataService } from '../providers/modelo-data-service'
 import { NivelAvariaDataService } from '../providers/nivel-avaria-data-service'
 import { GeneralMotorsDataService } from '../providers/general-motors-data-service'
+import { LocalDataService } from '../providers/local-data-service'
+import { TipoAvariaDataService } from '../providers/tipoAvaria-data-service';
 
 // Pages
 import { CarregamentoCanceladoPage } from '../pages/carregamento-cancelado/carregamento-cancelado';
@@ -701,7 +703,9 @@ import { LancamentoAvariaGmSelecaoPage } from '../pages/lancamento-avaria-gm-sel
     ResponsabilidadeAvariaDataService,
     ModeloDataService,
     NivelAvariaDataService,
-    GeneralMotorsDataService
+    GeneralMotorsDataService,
+    LocalDataService,
+    TipoAvariaDataService
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

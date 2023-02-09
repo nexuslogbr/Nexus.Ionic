@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth-service/auth-service';
-import { DataRetorno } from '../model/dataretorno';
+import { DataRetorno } from '../model/dataRetorno';
 
 const headers = new HttpHeaders({
   'Content-Type': 'application/json'
@@ -16,6 +16,7 @@ const httpOptions = {
 @Injectable()
 export class VistoriaDataService {
   urlApi: string;
+  token: string;
 
   constructor(
       private http: HttpClient,
@@ -23,10 +24,41 @@ export class VistoriaDataService {
     )
     {
     this.urlApi = this.authService.getUrl();
+    this.token = this.authService.getToken();
   }
 
-  public vistoriarChassi(veiculoID) {
-    let url = this.urlApi + '/Vistoriar/VistoriarVeiculo?token=' + this.authService.getToken() + '&veiculoID=' +  veiculoID;
-    return this.http.put<DataRetorno>(url, { });
+  public vistoriarVeiculo(veiculoID) {
+    let url = this.urlApi + '/Vistoriar/VistoriarVeiculo';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken(), veiculoID: veiculoID}, httpOptions);
+  }
+
+  public consultarChassi(chassi:string) {
+    let url = this.urlApi + '/Vistoriar/ConsultarChassi';
+    let model = {
+      chassi: chassi,
+      token: this.token
+    }
+    return this.http.post<DataRetorno>(url, model, httpOptions);
+  }
+
+  public vistoriadores() {
+    let url = this.urlApi + '/Vistoriar/Vistoriadores';
+    return this.http.post<DataRetorno>(url, {token: this.authService.getToken()}, httpOptions);
+  }
+
+  public salvar(model:any, imagesToSend, responsabilidadeAvariaID: number) {
+    let url = this.urlApi + '/Vistoriar/Salvar';
+    let data = {
+      token: this.authService.getToken(),
+      survey: model,
+      arquivos: imagesToSend,
+      responsabilidadeAvariaID: responsabilidadeAvariaID
+    }
+
+    console.clear();
+    console.log(data);
+
+
+    return this.http.post<DataRetorno>(url, data, httpOptions);
   }
 }
