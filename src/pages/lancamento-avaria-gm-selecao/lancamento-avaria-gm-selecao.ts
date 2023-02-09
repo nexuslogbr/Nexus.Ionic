@@ -9,7 +9,7 @@ import { finalize } from 'rxjs/operators';
 import { Veiculo } from '../../model/veiculo';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { DataRetorno } from '../../model/dataRetorno';
+import { DataRetorno } from '../../model/dataretorno';
 import { GeneralMotorsDataService } from '../../providers/general-motors-data-service';
 import { Part } from '../../model/GeneralMotors/part';
 import { Qualityinconsistence } from '../../model/GeneralMotors/qualityinconsistence';

@@ -19,7 +19,7 @@ import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ModalNovoLancamentoAvariaPage } from '../modal-novo-lancamento-avaria/modal-novo-lancamento-avaria';
 import { GrupoSuperficieChassi } from '../../model/grupoSuperficieChassi';
-import { DataRetorno } from '../../model/dataRetorno';
+import { DataRetorno } from '../../model/dataretorno';
 import { ResponsabilidadeAvaria } from '../../model/responsabilidadeAvaria';
 import { ResponsabilidadeAvariaDataService } from '../../providers/responsabilidade-avaria-service';
 import { NivelGravidadeAvaria } from '../../model/nivelGravidadeAvaria';
