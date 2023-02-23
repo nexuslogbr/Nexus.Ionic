@@ -54,6 +54,8 @@ export class LancamentoAvariaGmSelecaoPage {
 
   images: any[] = [];
   imagesToSend: any[] = [];
+  imageClose = { id: 0, path: '', fileName: '' };
+  ImageNormal = { id: 0, path: '', fileName: '' };
 
   @ViewChild('imageCanvas') canvas: any;
   canvasElement: any;
@@ -477,20 +479,20 @@ export class LancamentoAvariaGmSelecaoPage {
   }
 
   /// Funções relativas a captura, exibição e upload de imagens
-  selectImage(event:any) {
+  selectImage(event:any, type:number) {
     const actionSheet = this.actionSheetController.create({
         title: 'Selecionar imagem',
         buttons: [
           {
             text: 'Camera',
             handler: () => {
-              this.selectImageCamera();
+              this.selectImageCamera(type);
             }
           },
           {
             text: 'Galeria',
             handler: () => {
-              this.selectImageLibrary();
+              this.selectImageLibrary(type);
             }
           },
           {
@@ -501,7 +503,7 @@ export class LancamentoAvariaGmSelecaoPage {
     actionSheet.present();
   }
 
-  async selectImageCamera() {
+  async selectImageCamera(type:number) {
     this.authService.showLoading();
     const image = await Camera.getPhoto({
       quality: 90,
@@ -511,11 +513,11 @@ export class LancamentoAvariaGmSelecaoPage {
     });
 
     if (image) {
-      this.saveImage(image)
+      this.saveImage(image, type)
     }
   }
 
-  async selectImageLibrary() {
+  async selectImageLibrary(type:number) {
     this.authService.showLoading();
     const image = await Camera.getPhoto({
       quality: 90,
@@ -525,11 +527,11 @@ export class LancamentoAvariaGmSelecaoPage {
     });
 
     if (image) {
-      this.saveImage(image)
+      this.saveImage(image, type)
     }
   }
 
-  saveImage(photo: Photo) {
+  saveImage(photo: Photo, type:number) {
     const fileName = new Date().getTime() + '.jpeg';
 
     let image = {
@@ -538,15 +540,23 @@ export class LancamentoAvariaGmSelecaoPage {
       fileName: fileName
     }
 
-    this.damage.photoClose = 'data:image/jpeg;base64,' + photo.base64String;
-    this.damage.photoNormal = 'data:image/jpeg;base64,' + photo.base64String;
+    if (type === 1) {
+      this.imageClose = null;
+      this.imageClose = image;
+      this.damage.photoClose = 'data:image/jpeg;base64,' + photo.base64String;
+    }
+    else if (type === 2){
+      this.ImageNormal = null;
+      this.ImageNormal = image;
+      this.damage.photoNormal = 'data:image/jpeg;base64,' + photo.base64String;
+    }
 
-    this.images = [];
-    this.images.push(image);
+    // this.images = [];
+    // this.images.push(image);
     this.authService.hideLoading();
   }
 
-  async presentAlert(image) {
+  async presentAlert(image, type:number) {
     const alert = await this.alertController.create({
       title: 'Remover a imagem?',
       buttons: [
@@ -561,7 +571,7 @@ export class LancamentoAvariaGmSelecaoPage {
           text: 'OK',
           role: 'confirm',
           handler: () => {
-            this.deleteImage(image);
+            this.deleteImage(image, type);
           }
         }
       ]
@@ -570,9 +580,19 @@ export class LancamentoAvariaGmSelecaoPage {
     await alert.present();
   }
 
-  async deleteImage(image) {
+  async deleteImage(image, type:number) {
     this.images = this.images.filter(x => x !== image).map(x => x);
-    this.damage.photoClose = '' ;
-    this.damage.photoNormal = '';
+
+    if (type === 1) {
+      this.imageClose.id = 0;
+      this.imageClose.path = '' ;
+      this.imageClose.fileName = '' ;
+    }
+    else if (type === 2){
+      this.ImageNormal.id = 0;
+      this.ImageNormal.path = '';
+      this.ImageNormal.fileName = '';
+    }
+
   }
 }
