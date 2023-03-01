@@ -435,13 +435,13 @@ export class LancamentoAvariaGmSelecaoPage {
         )
         .subscribe((response:DataRetorno) => {
           if (response.sucesso) {
+            let data = 'esc';
+            this.view.dismiss(data);
             setTimeout(() => {
-              let data = 'esc';
               this.alertService.showInfo('Salvo com sucesso!');
-              this.view.dismiss(data);
+              // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
             }, 1500);
             var response = response;
-            // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
           }
           else {
             this.alertService.showError(response.mensagem);;
@@ -460,13 +460,13 @@ export class LancamentoAvariaGmSelecaoPage {
         )
         .subscribe((response:DataRetorno) => {
           if (response.sucesso) {
+            let data = 'esc';
+            this.view.dismiss(data);
             setTimeout(() => {
-              let data = 'esc';
               this.alertService.showInfo('Salvo com sucesso!');
-              this.view.dismiss(data);
+              // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
             }, 1500);
             var response = response;
-            // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
           }
           else {
             this.alertService.showError(response.mensagem);;
