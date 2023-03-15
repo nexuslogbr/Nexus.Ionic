@@ -58,6 +58,7 @@ export class AuthService {
   // url: string = 'http://localhost:9945/api'
   url: string = 'https://api-nexus.luby.com.br/api';
   //headers: any =  {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'};
+  //
 
   private LOGIN_KEY = 'login_data';
 
