@@ -12,7 +12,7 @@ import { finalize } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { GeneralMotorsDataService } from '../../providers/general-motors-data-service';
 import { Checkpoint } from '../../model/GeneralMotors/checkpoint';
-import { Company } from '../../model/GeneralMotors/Company';
+import { Company } from '../../model/GeneralMotors/company';
 import { Place } from '../../model/GeneralMotors/place';
 import { Trip } from '../../model/GeneralMotors/trip';
 import { Ship } from '../../model/GeneralMotors/ship';

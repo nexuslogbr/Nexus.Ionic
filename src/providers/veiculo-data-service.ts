@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { DataRetorno } from "../model/dataRetorno";
+import { DataRetorno } from "../model/dataretorno";
 import { AuthService } from "./auth-service/auth-service";
 
 

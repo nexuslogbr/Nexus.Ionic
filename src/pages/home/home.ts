@@ -362,11 +362,12 @@ export class HomePage {
       this.navCtrl.setRoot(ObservacoesPage);
     } else if (menu.nome == 'mnu_mob_servico') {
       this.navCtrl.setRoot(LancamentoServicoPage);
-    } else if (menu.nome == 'mnu_mob_vistoria') {
-      this.navCtrl.setRoot(VistoriaPage);
-    } else if (menu.nome == 'mnu_mob_qualidade') {
-      this.navCtrl.setRoot(QualidadeMenuPage);
     }
+    // else if (menu.nome == 'mnu_mob_vistoria') {
+    //   this.navCtrl.setRoot(VistoriaPage);
+    // } else if (menu.nome == 'mnu_mob_qualidade') {
+    //   this.navCtrl.setRoot(QualidadeMenuPage);
+    // }
     // else if (menu.nome == 'mnu_mob_vistoria') {
     //   this.navCtrl.setRoot(VistoriaPage);
     // }

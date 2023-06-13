@@ -10,7 +10,7 @@ import { Veiculo } from '../../model/veiculo';
 import { CheckpointDataService } from '../../providers/checkpoint-service';
 import { AlertService } from '../../providers/alert-service';
 import { finalize } from 'rxjs/operators/finalize';
-import { DataRetorno } from '../../model/dataRetorno';
+import { DataRetorno } from '../../model/dataretorno';
 import { VistoriaDataService } from '../../providers/vistoria-service';
 import { VeiculoDataService } from '../../providers/veiculo-data-service';
 import { Checklist } from '../../model/checklist';
