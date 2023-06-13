@@ -14,7 +14,7 @@ import { Arquivo } from '../../model/arquivo';
 import { AlertService } from '../../providers/alert-service';
 import { ModalBuscaChassiVistoriaPage } from '../modal-busca-chassi-vistoria/modal-busca-chassi-vistoria';
 import { ArquivoDataService } from '../../providers/arquivo-data-service';
-import { DataRetorno } from '../../model/dataRetorno';
+import { DataRetorno } from '../../model/dataretorno';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { finalize } from 'rxjs/operators';
 

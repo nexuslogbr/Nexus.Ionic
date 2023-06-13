@@ -6,7 +6,7 @@ import { AlertService } from '../../providers/alert-service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { LancamentoAvariaGmSelecaoPage } from '../lancamento-avaria-gm-selecao/lancamento-avaria-gm-selecao';
 import { Checkpoint } from '../../model/GeneralMotors/checkpoint';
-import { Company } from '../../model/GeneralMotors/Company';
+import { Company } from '../../model/GeneralMotors/company';
 import { Place } from '../../model/GeneralMotors/place';
 import { Ship } from '../../model/GeneralMotors/ship';
 import { Trip } from '../../model/GeneralMotors/trip';

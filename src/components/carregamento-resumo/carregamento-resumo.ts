@@ -21,7 +21,7 @@ import * as $ from "jquery";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { DataService } from "../../providers/data-service";
 import { Romaneio } from "../../model/romaneio";
-import { RomaneioDetalhe } from "../../model/romaneioDetalhe";
+import { RomaneioDetalhe } from "../../model/romaneiodetalhe";
 import { ModalCancelarCarregamentoPage } from "../../pages/modal-cancelar-carregamento/modal-cancelar-carregamento";
 import { CarregamentoPage } from "../../pages/carregamento/carregamento";
 

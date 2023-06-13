@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import "rxjs/add/operator/map";
 import * as $ from "jquery";
 import { AvariaDataService } from "../../providers/avaria-data-service";
-import { DataRetorno } from "../../model/dataRetorno";
+import { DataRetorno } from "../../model/dataretorno";
 import { AlertService } from "../../providers/alert-service";
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { Veiculo } from "../../model/veiculo";
