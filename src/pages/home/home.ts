@@ -12,16 +12,13 @@ import { HistoricoChassiPage } from '../../pages/historico-chassi/historico-chas
 import { RechegoPage } from '../../pages/rechego/rechego';
 import { ParquearBlocoPage } from '../../pages/parquear-bloco/parquear-bloco';
 import * as $ from 'jquery';
-import { CarregamentoSimulacaoPage } from '../carregamento-simulacao/carregamento-simulacao';
 import { CarregamentoExportOperacaoPage } from '../carregamento-export-operacao/carregamento-export-operacao';
-import { ConferenciaMenuPage } from '../conferencia-menu/conferencia-menu';
 import { NovaConferenciaMenuPage } from '../nova-conferencia-menu/nova-conferencia-menu';
 import { BloqueioPage } from '../bloqueio/bloqueio';
 import { LancamentoServicoPage } from '../lancamento-servico/lancamento-servico';
 import { ObservacoesPage } from '../observacoes/observacoes';
 import { Storage } from '@ionic/storage';
-import { VistoriaPage } from '../vistoria/vistoria';
-import { QualidadeMenuPage } from '../qualidade-menu/qualidade-menu';
+import { VistoriaGeneralMotorsPage } from '../vistoria-general-motors/vistoria-general-motors';
 
 
 // 3101	mnu_mob_recebimento
@@ -131,16 +128,9 @@ const menus = [
   },
 
   {
-    texto: 'Módulo de Qualidade',
+    texto: 'Vistoria',
     cssClass: 'vistoriar',
     id: 3118,
-    nome: 'mnu_mob_qualidade'
-  },
-
-  {
-    texto: 'Vistoriar',
-    cssClass: 'vistoriar',
-    id: 3142,
     nome: 'mnu_mob_vistoria'
   },
 
@@ -363,13 +353,8 @@ export class HomePage {
     } else if (menu.nome == 'mnu_mob_servico') {
       this.navCtrl.setRoot(LancamentoServicoPage);
     } else if (menu.nome == 'mnu_mob_vistoria') {
-      this.navCtrl.setRoot(VistoriaPage);
-    } else if (menu.nome == 'mnu_mob_qualidade') {
-      this.navCtrl.setRoot(QualidadeMenuPage);
+      this.navCtrl.setRoot(VistoriaGeneralMotorsPage);
     }
-    // else if (menu.nome == 'mnu_mob_vistoria') {
-    //   this.navCtrl.setRoot(VistoriaPage);
-    // }
     // else if (menu.nome == 'mnu_mob_buscaravaria') {
     //   this.navCtrl.setRoot(BuscarAvariasPage);
     // }

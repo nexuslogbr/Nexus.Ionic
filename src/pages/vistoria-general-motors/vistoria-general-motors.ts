@@ -88,7 +88,7 @@ export class VistoriaGeneralMotorsPage {
     this.url = this.authService.getUrl();
     this.user = this.authService.getUserData();
     this.local = this.authService.getUserData().localNome;
-    this.data = this.navParams.get('data');
+    // this.data = this.navParams.get('data');
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -106,12 +106,13 @@ export class VistoriaGeneralMotorsPage {
   }
 
   ionViewWillEnter(){
-    if (this.data.nome == 'General Motors do Brasil') {
-      this.loadGM();
-    }
-    else {
-      this.loadGeral();
-    }
+    this.loadGM();
+    // if (this.data.nome == 'General Motors do Brasil') {
+    //   this.loadGM();
+    // }
+    // else {
+    //   this.loadGeral();
+    // }
   }
 
   initializeFormControl(){
