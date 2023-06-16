@@ -46,10 +46,12 @@ export class VistoriaGeneralMotorsPage {
   public form: FormGroup
 
   checkpoints: Checkpoint[] = [];
+  checkpointsFiltered: Checkpoint[] = [];
   companies: Company[] = [];
   places: Place[] = [];
   ships: Ship[] = [];
   trips: Trip[] = [];
+  tripsFiltered: Trip[] = [];
   surveyors: Surveyor[] = [];
 
   checkpoint = new Checkpoint();
@@ -62,8 +64,6 @@ export class VistoriaGeneralMotorsPage {
   surveyor = new Surveyor();
 
   data: StakeHolder;
-
-  desableCheckpoint = true;
 
   constructor(
     public http: HttpClient,
@@ -118,13 +118,12 @@ export class VistoriaGeneralMotorsPage {
   initializeFormControl(){
     this.form = this.formBuilder.group({
       company: [null, Validators.required],
-      surveyor: [null, Validators.required],
       place: [null, Validators.required],
-      checkpoint: [null, Validators.required],
+      checkpoint: [{ value:null, disabled: true }, Validators.required],
       companyOrigin: [null, Validators.required],
       companyDestiny: [null, Validators.required],
       ship: [null, Validators.required],
-      trip: [null, Validators.required]
+      trip: [{ value:null, disabled: true }, Validators.required]
     });
   }
 
@@ -158,7 +157,16 @@ export class VistoriaGeneralMotorsPage {
         this.places = places$.retorno;
         this.trips = trips$.retorno.trips;
         this.ships = ships$.retorno.ships;
+
         this.surveyors = surveyors$.retorno.surveyors;
+        if (this.surveyors.length) {
+          this.surveyors.forEach(surveyor => {
+            if (this.user) {
+
+            }
+          });
+        }
+
 
         let company = this.companies.filter(x => x.companyName == 'Nexus').map(x => x)[0];
         this.form.patchValue({
@@ -287,35 +295,30 @@ export class VistoriaGeneralMotorsPage {
   changePlace(local: number){
     this.place = this.places.filter(x => x.local == local).map(x => x)[0];
     var places = this.checkpoints.filter(x => x.local == local).map(x => x);
-    if (this.data.nome == 'General Motors do Brasil') {
-      this.checkpoints = places;
-    }
-    this.desableCheckpoint = false;
+    this.checkpointsFiltered = places;
+    this.form.controls.checkpoint.enable();
+    this.form.controls.checkpoint.setErrors({'invalid': true});
   }
 
   changeCheckpoint(id: number){
     this.checkpoint = this.checkpoints.filter(x => x.checkpoint == id).map(x => x)[0];
   }
 
-  changeTrip(id: number){
-    this.trip = this.trips.filter(x => x.id == id).map(x => x)[0];
-  }
-
   changeShip(id: number){
     this.ship = this.ships.filter(x => x.id == id).map(x => x)[0];
 
-    if (this.data.nome != 'General Motors do Brasil') {
-      this.trips = [];
-      this.ships.forEach(item => {
-        if (item.description == this.ship.description) {
-          let trip = new Trip();
-          trip.id = item.id;
-          trip.identifierNumber = item.viagem;
-          trip.shipId = item.id;
-          this.trips.push(trip);
-        }
-      });
-    }
+    this.form.controls.trip.enable();
+    this.form.controls.trip.setErrors({'invalid': true});
+    this.tripsFiltered = [];
+    this.trips.forEach(trip => {
+      if (trip.shipId == this.ship.id) {
+        this.tripsFiltered.push(trip);
+      }
+    });
+  }
+
+  changeTrip(id: number){
+    this.trip = this.trips.filter(x => x.id == id).map(x => x)[0];
   }
 
   toNavigate(){
@@ -330,7 +333,7 @@ export class VistoriaGeneralMotorsPage {
         companyOrigin: this.companyOrigin,
         companyDestination: this.companyDestination,
       },
-      tipoVistoria: this.data.nome == 'General Motors do Brasil' ? 2 : 1
+      tipoVistoria: 2
     });
   }
 }
