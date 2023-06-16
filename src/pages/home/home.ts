@@ -137,12 +137,12 @@ const menus = [
     nome: 'mnu_mob_qualidade'
   },
 
-  // {
-  //   texto: 'Vistoriar',
-  //   cssClass: 'vistoriar',
-  //   id: 3142,
-  //   nome: 'mnu_mob_vistoria'
-  // },
+  {
+    texto: 'Vistoriar',
+    cssClass: 'vistoriar',
+    id: 3142,
+    nome: 'mnu_mob_vistoria'
+  },
 
   // {
   //   texto: 'Buscar Avaria',
