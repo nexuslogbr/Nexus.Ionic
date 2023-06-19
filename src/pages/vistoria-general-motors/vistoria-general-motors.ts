@@ -107,12 +107,6 @@ export class VistoriaGeneralMotorsPage {
 
   ionViewWillEnter(){
     this.loadGM();
-    // if (this.data.nome == 'General Motors do Brasil') {
-    //   this.loadGM();
-    // }
-    // else {
-    //   this.loadGeral();
-    // }
   }
 
   initializeFormControl(){
@@ -161,8 +155,8 @@ export class VistoriaGeneralMotorsPage {
         this.surveyors = surveyors$.retorno.surveyors;
         if (this.surveyors.length) {
           this.surveyors.forEach(surveyor => {
-            if (this.user) {
-
+            if (this.user.nome == surveyor.name) {
+              this.surveyor = surveyor;
             }
           });
         }
@@ -332,8 +326,7 @@ export class VistoriaGeneralMotorsPage {
         surveyor: this.surveyor,
         companyOrigin: this.companyOrigin,
         companyDestination: this.companyDestination,
-      },
-      tipoVistoria: 2
+      }
     });
   }
 }

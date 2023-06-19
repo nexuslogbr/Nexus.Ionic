@@ -40,8 +40,6 @@ export class LancamentoAvariaVistoriaPage {
     companyDestination: new Company()
   };
 
-  tipoVistoria = 0;
-
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -69,7 +67,6 @@ export class LancamentoAvariaVistoriaPage {
 
   ionViewWillLoad() {
     this.formData = this.navParams.get('data');
-    this.tipoVistoria = this.navParams.get('tipoVistoria');
   }
 
   toggleMenu = function (this) {
@@ -124,8 +121,7 @@ export class LancamentoAvariaVistoriaPage {
     const modal: Modal = this.modal.create(LancamentoAvariaGmSelecaoPage, {
       data: {
         formData: this.formData,
-        array: this.damages,
-        tipoVistoria: this.tipoVistoria
+        array: this.damages
       },
     });
     modal.present();
