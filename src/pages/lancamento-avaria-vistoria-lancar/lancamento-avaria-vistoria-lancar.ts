@@ -6,7 +6,7 @@ import { AuthService } from '../../providers/auth-service/auth-service';
 import * as $ from 'jquery';
 import { Storage } from '@ionic/storage';
 import { MomentoDataService } from '../../providers/momento-data-service';
-import { Momento } from '../../model/momento';
+import { Momento } from '../../model/Momento';
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { Veiculo } from '../../model/veiculo';
 import { Navio } from '../../model/navio';

@@ -13,7 +13,7 @@ import { VeiculoDataService } from '../../providers/veiculo-data-service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { Checklist } from '../../model/checklist';
 import { LancamentoAvariaVistoriaPage } from '../../pages/lancamento-avaria-vistoria/lancamento-avaria-vistoria';
-import { Momento } from '../../model/momento';
+import { Momento } from '../../model/Momento';
 import { Local } from '../../model/local';
 import { StakeHolder } from '../../model/stakeholder';
 import { Observable } from 'rxjs/Observable';
