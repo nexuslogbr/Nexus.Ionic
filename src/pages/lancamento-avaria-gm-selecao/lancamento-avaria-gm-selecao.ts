@@ -87,8 +87,6 @@ export class LancamentoAvariaGmSelecaoPage {
   damages:Damage[] = [];
   partsAll: Part[] = [];
 
-  tipoVistoria = 0;
-
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -111,7 +109,6 @@ export class LancamentoAvariaGmSelecaoPage {
     var data = this.navParams.get('data');
     this.formData = data.formData;
     this.damages = data.array == null ? [] : data.array;
-    this.tipoVistoria = data.tipoVistoria;
 
     this.title = this.formData.parte;
 
@@ -142,12 +139,7 @@ export class LancamentoAvariaGmSelecaoPage {
   }
 
   loadScreen(){
-    if (this.tipoVistoria == 1) {
-      this.loadGeral();
-    }
-    else if (this.tipoVistoria == 2) {
-      this.loadGM();
-    }
+    this.loadGM();
   }
 
   loadGM(){
@@ -211,84 +203,6 @@ export class LancamentoAvariaGmSelecaoPage {
         // Interno
         else if (image == 9) {
           this.parts = this.partsAll.filter(x => x.block == 0 && x.zone == 4).map(x => x);
-        }
-      }
-    });
-  }
-
-  loadGeral(){
-    this.authService.showLoading();
-    this.loadImage();
-
-    forkJoin([
-      this.pecaService.listar(),
-      this.tipoAvariaService.listar(),
-      this.gravidadeService.listar(),
-      this.responsabilidadeAvariaService.listar()
-    ])
-    .pipe(
-      finalize(() => {
-        this.authService.hideLoading();
-      })
-    )
-    .subscribe(arrayResult => {
-      let partes$ = arrayResult[0];
-      let tipoAvarias$ = arrayResult[1];
-      let gravidades$ = arrayResult[2];
-      let responsabilidadeAvaria$ = arrayResult[3];
-
-      if (partes$.sucesso && tipoAvarias$.sucesso && gravidades$.sucesso && responsabilidadeAvaria$.sucesso) {
-
-        this.partes = partes$.retorno;
-        this.partes.forEach(element => {
-          let part = new Part();
-          part.id = element.id;
-          part.description = element.nome;
-          part.block = element.parteVeiculo.id;
-          part.zone = element.parteVeiculo.id;
-          this.partsAll.push(part);
-        });
-
-        this.tipoAvarias = tipoAvarias$.retorno;
-        this.tipoAvarias.forEach(element => {
-          let qualityinconsistence = new Qualityinconsistence();
-          qualityinconsistence.id = element.id;
-          qualityinconsistence.description = element.nome;
-          this.qualityinconsistences.push(qualityinconsistence);
-        });
-
-        this.gravidades = gravidades$.retorno;
-        this.gravidades.forEach(element => {
-          let severity = new Severity();
-          severity.id = element.id;
-          severity.description = element.nome;
-          this.severities.push(severity);
-        });
-
-        this.responsabilidadeAvarias = responsabilidadeAvaria$.retorno;
-
-
-        let image = this.formData.number;
-
-        // Frente capo, parachoques e farol
-        if (image == 1 || image == 2) {
-          this.parts = this.partsAll.filter(x => x.block == 1).map(x => x);
-        }
-        // Traseira parachoques, porta-malas e lanterna
-        else if (image == 3 || image == 4) {
-            this.parts = this.partsAll.filter(x => x.block == 2).map(x => x);
-        }
-        // Lateral frente, meio e traseira
-        else if (image == 5 || image == 6 || image == 7) {
-          this.parts = this.partsAll.filter(x => x.block == 3).map(x => x);
-        }
-        // Teto
-        else if (image == 8 || image == 8) {
-          this.parts = this.partsAll.filter(x => x.block == 4).map(x => x);
-        }
-        // Interno
-        else if (image == 9 || image == 9) {
-          this.parts = this.partsAll.filter(x => x.block == 0).map(x => x);
         }
       }
     });
@@ -415,67 +329,21 @@ export class LancamentoAvariaGmSelecaoPage {
     this.survey.damages = this.damages;
     this.survey.documents = [];
 
-    if (this.tipoVistoria == 1) {
-
-    let imagesToSend = [];
-    this.images.forEach(image => {
-      imagesToSend.push({
-        id: image.id,
-        data: image.path,
-        fileName: image.fileName
-      });
+    this.generalMotorsService.insertsurvey(this.survey)
+    .subscribe((response:DataRetorno) => {
+      if (response.sucesso) {
+        this.alertService.showInfo('Salvo com sucesso!');
+        this.authService.hideLoading();
+        let data = 'esc';
+        this.view.dismiss(data);
+        var response = response;
+      }
+      else {
+        this.alertService.showError(response.mensagem);;
+      }
+    }, (error: any) => {
+        this.alertService.showError('Erro ao salvar avaria');
     });
-
-    this.survey['ResponsabilidadeAvariaID'] = this.responsabilidadeAvaria.id;
-      this.vistoriaService.salvar(this.survey, imagesToSend, this.responsabilidadeAvaria.id)
-      .pipe(
-        finalize(() => {
-          this.authService.hideLoading();
-        })
-        )
-        .subscribe((response:DataRetorno) => {
-          if (response.sucesso) {
-            let data = 'esc';
-            this.view.dismiss(data);
-            setTimeout(() => {
-              this.alertService.showInfo('Salvo com sucesso!');
-              // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
-            }, 1500);
-            var response = response;
-          }
-          else {
-            this.alertService.showError(response.mensagem);;
-          }
-
-        }, (error: any) => {
-          this.alertService.showError('Erro ao salvar avaria');
-      });
-    }
-    else if (this.tipoVistoria == 2) {
-      this.generalMotorsService.insertsurvey(this.survey)
-      .pipe(
-        finalize(() => {
-          this.authService.hideLoading();
-        })
-        )
-        .subscribe((response:DataRetorno) => {
-          if (response.sucesso) {
-            let data = 'esc';
-            this.view.dismiss(data);
-            setTimeout(() => {
-              this.alertService.showInfo('Salvo com sucesso!');
-              // this.alertService.showInfo(response.retorno.ResponseStatus.Message);
-            }, 1500);
-            var response = response;
-          }
-          else {
-            this.alertService.showError(response.mensagem);;
-          }
-
-        }, (error: any) => {
-          this.alertService.showError('Erro ao salvar avaria');
-      });
-    }
   }
 
   /// Funções relativas a captura, exibição e upload de imagens

@@ -11,7 +11,7 @@ import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
 import { ModalSelecionarChassiComponent } from '../../components/modal-selecionar-chassi/modal-selecionar-chassi';
 import { ModalSelecionarChassiBuscaComponent } from '../../components/modal-selecionar-chassi-busca/modal-selecionar-chassi-busca';
-import { Momento } from '../../model/momento';
+import { Momento } from '../../model/Momento';
 
 @Component({
   selector: 'modal-busca-chassi',

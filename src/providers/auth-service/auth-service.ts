@@ -40,24 +40,17 @@ export class AuthService {
   proximaPosicao: string;
   proximoBolsao: string;
   forcarFila: string;
-  //url: string = "http://192.168.4.157:8585/api";
-  //url: string = 'http://192.168.4.157:1655/api';
-  //url: string = 'api';
-  //url: string = "https://app.nexuslogbr.com/webapi/api";
-
-  //url: string = 'http://api-devpatio.validasistema.com.br/ ';
-  //url: string = 'http://api-hlgpatio.validasistema.com.br/api';
-  //url: string = "http://vm.trial.validasistema.com.br/webapi/api";
-   //url: string = 'https://gdl.kline-brasil.com.br/webapi/api';
-
    //PRODUÇÃO NEXUS
   // url: string= 'https://app.nexuslogbr.com/webapi/api';
 
   // TESTE NEXUS
+  // url: string = 'http://api.nexus.luby.me/api';
 
-  // url: string = 'http://localhost:9945/api'
-  url: string = 'https://api-nexus.luby.com.br/api';
+  // DESENVOLVIMENTO NEXUS
+  url: string = 'http://localhost:9945/api'
+
   //headers: any =  {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'};
+  //
 
   private LOGIN_KEY = 'login_data';
 

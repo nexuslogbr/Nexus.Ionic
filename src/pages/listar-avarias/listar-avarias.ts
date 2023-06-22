@@ -12,11 +12,11 @@ import { DataRetorno } from "../../model/dataretorno";
 import { AlertService } from "../../providers/alert-service";
 import { LancamentoAvariaSelecaoSuperficiePage } from '../lancamento-avaria-selecao-superficie/lancamento-avaria-selecao-superficie';
 import { Veiculo } from "../../model/veiculo";
-import { Momento } from "../../model/momento";
+import { Momento } from "../../model/Momento";
 import { GravidadeAvaria } from "../../model/gravidadeAvaria";
 import { TipoAvaria } from "../../model/tipoAvaria";
 import { SuperficieChassiParte } from "../../model/superficieChassiParte";
-import { PosicaoSuperficieChassi } from "../../model/posicaoSuperficieChassi";
+import { PosicaoSuperficieChassi } from "../../model/PosicaoSuperficieChassi";
 
 @Component({
   selector: "page-listar-avarias",

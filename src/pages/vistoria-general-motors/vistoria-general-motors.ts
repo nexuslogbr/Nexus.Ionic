@@ -46,10 +46,12 @@ export class VistoriaGeneralMotorsPage {
   public form: FormGroup
 
   checkpoints: Checkpoint[] = [];
+  checkpointsFiltered: Checkpoint[] = [];
   companies: Company[] = [];
   places: Place[] = [];
   ships: Ship[] = [];
   trips: Trip[] = [];
+  tripsFiltered: Trip[] = [];
   surveyors: Surveyor[] = [];
 
   checkpoint = new Checkpoint();
@@ -62,8 +64,6 @@ export class VistoriaGeneralMotorsPage {
   surveyor = new Surveyor();
 
   data: StakeHolder;
-
-  desableCheckpoint = true;
 
   constructor(
     public http: HttpClient,
@@ -88,7 +88,7 @@ export class VistoriaGeneralMotorsPage {
     this.url = this.authService.getUrl();
     this.user = this.authService.getUserData();
     this.local = this.authService.getUserData().localNome;
-    this.data = this.navParams.get('data');
+    // this.data = this.navParams.get('data');
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -106,24 +106,18 @@ export class VistoriaGeneralMotorsPage {
   }
 
   ionViewWillEnter(){
-    if (this.data.nome == 'General Motors do Brasil') {
-      this.loadGM();
-    }
-    else {
-      this.loadGeral();
-    }
+    this.loadGM();
   }
 
   initializeFormControl(){
     this.form = this.formBuilder.group({
       company: [null, Validators.required],
-      surveyor: [null, Validators.required],
       place: [null, Validators.required],
-      checkpoint: [null, Validators.required],
+      checkpoint: [{ value:null, disabled: true }, Validators.required],
       companyOrigin: [null, Validators.required],
       companyDestiny: [null, Validators.required],
-      ship: [null, Validators.required],
-      trip: [null, Validators.required]
+      ship: [{ value:null, disabled: true }, Validators.required],
+      trip: [{ value:null, disabled: true }, Validators.required]
     });
   }
 
@@ -157,90 +151,22 @@ export class VistoriaGeneralMotorsPage {
         this.places = places$.retorno;
         this.trips = trips$.retorno.trips;
         this.ships = ships$.retorno.ships;
+
         this.surveyors = surveyors$.retorno.surveyors;
+        if (this.surveyors.length) {
+          this.surveyors.forEach(surveyor => {
+            if (this.user.nome == surveyor.name) {
+              this.surveyor = surveyor;
+            }
+          });
+        }
+
 
         let company = this.companies.filter(x => x.companyName == 'Nexus').map(x => x)[0];
         this.form.patchValue({
           company: company.id
         });
         this.company = company;
-      }
-
-      else {
-        this.alertService.showError("Erro ao carregar as listas!");
-      }
-
-    },
-    error => {
-      this.showErrorMessage = true;
-    },
-    () => {
-      this.authService.hideLoading();
-    });
-  }
-
-  loadGeral(){
-    this.authService.showLoading();
-
-    forkJoin([
-      this.vistoriaService.vistoriadores(),
-      this.localService.listar(),
-      this.momentoService.listar(),
-      this.stakeholderService.listar(),
-      this.navioService.listar()
-    ])
-    .pipe(
-      finalize(() => {
-        this.authService.hideLoading();
-      })
-    )
-    .subscribe(arrayResult => {
-      let vistoriadores$ = arrayResult[0];
-      let local$ = arrayResult[1];
-      let momentos$ = arrayResult[2];
-      let stakeholders$ = arrayResult[3];
-      let navios$ = arrayResult[4];
-
-      if (vistoriadores$.sucesso && local$.sucesso && momentos$.sucesso && stakeholders$.sucesso && navios$.sucesso) {
-
-        vistoriadores$.retorno.forEach(item => {
-          let surveyor = new Surveyor();
-          surveyor.id = item.id;
-          surveyor.name = item.nome
-          this.surveyors.push(surveyor);
-        });
-
-        local$.retorno.forEach(item => {
-          let place = new Place();
-          place.local = item.id;
-          place.localDescription = item.nome;
-          this.places.push(place);
-        });
-
-        momentos$.retorno.forEach(item => {
-          let checkpoint = new Checkpoint();
-          checkpoint.checkpoint = item.id;
-          checkpoint.checkpointDescription = item.nome;
-          this.checkpoints.push(checkpoint);
-        });
-
-        stakeholders$.retorno.forEach(item => {
-          let company = new Company();
-          company.id = item.id;
-          company.companyName = item.nome[0].toUpperCase() + item.nome.substring(1);
-          this.companies.push(company);
-        });
-
-        navios$.retorno.forEach(item => {
-          let temNavio = this.ships.filter(x => x.description == item.nome).map(x => x)[0];
-          if (!temNavio) {
-            let ship = new Ship();
-            ship.id = item.id;
-            ship.description = item.nome;
-            ship.viagem = item.viagem;
-            this.ships.push(ship);
-          }
-        });
       }
 
       else {
@@ -263,10 +189,6 @@ export class VistoriaGeneralMotorsPage {
     $("side-menu").toggleClass("show");
   };
 
-  voltar(){
-    this.view.dismiss();
-  }
-
   changeCompany(id:number) {
     this.company = this.companies.filter(x => x.id == id).map(x => x)[0];
   }
@@ -286,35 +208,67 @@ export class VistoriaGeneralMotorsPage {
   changePlace(local: number){
     this.place = this.places.filter(x => x.local == local).map(x => x)[0];
     var places = this.checkpoints.filter(x => x.local == local).map(x => x);
-    if (this.data.nome == 'General Motors do Brasil') {
-      this.checkpoints = places;
-    }
-    this.desableCheckpoint = false;
+    this.checkpointsFiltered = places;
+    this.form.controls.checkpoint.enable();
+    this.form.controls.checkpoint.setErrors({'invalid': true});
+    if (this.place.localDescription == 'Porto Rio Grande')
+   {
+     this.disableTravelAndShip();
+   }
+   else{
+     this.enableTravelAndShip();
+   }
   }
 
   changeCheckpoint(id: number){
     this.checkpoint = this.checkpoints.filter(x => x.checkpoint == id).map(x => x)[0];
-  }
-
-  changeTrip(id: number){
-    this.trip = this.trips.filter(x => x.id == id).map(x => x)[0];
+    if (this.place.localDescription == 'Porto Rio Grande'
+    && (this.checkpoint.checkpointDescription == 'Entrada Porto' || this.checkpoint.checkpointDescription == 'Descarregamento Rio Grande' || this.checkpoint.checkpointDescription == 'Saída Porto'))
+   {
+     this.disableTravelAndShip();
+   }
+   else{
+     this.enableTravelAndShip();
+   }
   }
 
   changeShip(id: number){
-    this.ship = this.ships.filter(x => x.id == id).map(x => x)[0];
+    if (id > 0) {
+      this.ship = this.ships.filter(x => x.id == id).map(x => x)[0];
 
-    if (this.data.nome != 'General Motors do Brasil') {
-      this.trips = [];
-      this.ships.forEach(item => {
-        if (item.description == this.ship.description) {
-          let trip = new Trip();
-          trip.id = item.id;
-          trip.identifierNumber = item.viagem;
-          trip.shipId = item.id;
-          this.trips.push(trip);
+      this.form.controls.trip.enable();
+      this.form.controls.trip.setErrors({'invalid': true});
+      this.tripsFiltered = [];
+      this.trips.forEach(trip => {
+        if (trip.shipId == this.ship.id) {
+          this.tripsFiltered.push(trip);
         }
       });
     }
+  }
+
+  changeTrip(id: number){
+    if (id > 0) {
+      this.trip = this.trips.filter(x => x.id == id).map(x => x)[0];
+    }
+  }
+
+  enableTravelAndShip(){
+    this.form.controls.ship.enable();
+    this.form.controls.trip.enable();
+    // this.form.controls.ship.setErrors({'invalid': true});
+    // this.form.controls.trip.setErrors({'invalid': true});
+  }
+
+  disableTravelAndShip(){
+    this.form.patchValue({
+      ship: 0,
+      trip: 0
+    });
+    this.form.controls.ship.disable();
+    this.form.controls.trip.disable();
+    this.form.controls.ship.setErrors({'invalid': false});
+    this.form.controls.trip.setErrors({'invalid': false});
   }
 
   toNavigate(){
@@ -328,8 +282,7 @@ export class VistoriaGeneralMotorsPage {
         surveyor: this.surveyor,
         companyOrigin: this.companyOrigin,
         companyDestination: this.companyDestination,
-      },
-      tipoVistoria: this.data.nome == 'General Motors do Brasil' ? 2 : 1
+      }
     });
   }
 }

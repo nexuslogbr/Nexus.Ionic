@@ -13,7 +13,7 @@ import { VeiculoDataService } from '../../providers/veiculo-data-service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { Checklist } from '../../model/checklist';
 import { LancamentoAvariaVistoriaPage } from '../../pages/lancamento-avaria-vistoria/lancamento-avaria-vistoria';
-import { Momento } from '../../model/momento';
+import { Momento } from '../../model/Momento';
 import { Local } from '../../model/local';
 import { StakeHolder } from '../../model/stakeholder';
 import { Observable } from 'rxjs/Observable';
@@ -28,12 +28,7 @@ import { LancamentoAvariaSelecaoSuperficiePage } from '../../pages/lancamento-av
 import { Surveyor } from '../../model/GeneralMotors/surveyor';
 import { GeneralMotorsDataService } from '../../providers/general-motors-data-service';
 import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
-/**
- * Generated class for the ModalChassisVistoriaGmComponent component.
- *
- * See https://angular.io/api/core/Component for more info on Angular
- * Components.
- */
+
 @Component({
   selector: 'modal-chassis-vistoria-gm',
   templateUrl: 'modal-chassis-vistoria-gm.html'
@@ -72,8 +67,6 @@ export class ModalChassisVistoriaGmComponent {
   veiculo: Veiculo;
   retorno: DataRetorno;
 
-  tipoVistoria = 0;
-
   constructor(
     public navCtrl: NavController,
     public authService: AuthService,
@@ -93,7 +86,6 @@ export class ModalChassisVistoriaGmComponent {
 
     let data = this.navParam.get('data');
     this.formData = data;
-    this.tipoVistoria = this.navParam.get('tipoVistoria');
 
     if (localStorage.getItem('tema') == "Cinza" || !localStorage.getItem('tema')) {
       this.primaryColor = '#595959';
@@ -258,8 +250,7 @@ export class ModalChassisVistoriaGmComponent {
   comAvaria(){
     const chassiModal: Modal = this.modal.create(LancamentoAvariaVistoriaPage,
       {
-        data: this.formData,
-        tipoVistoria: this.tipoVistoria
+        data: this.formData
       });
 
     this.veiculo = null;
