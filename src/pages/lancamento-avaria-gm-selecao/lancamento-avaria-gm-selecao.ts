@@ -330,23 +330,18 @@ export class LancamentoAvariaGmSelecaoPage {
     this.survey.documents = [];
 
     this.generalMotorsService.insertsurvey(this.survey)
-    .pipe(
-      finalize(() => {
+    .subscribe((response:DataRetorno) => {
+      if (response.sucesso) {
+        this.alertService.showInfo('Salvo com sucesso!');
         this.authService.hideLoading();
-      })
-      )
-      .subscribe((response:DataRetorno) => {
-        if (response.sucesso) {
-          this.alertService.showInfo('Salvo com sucesso!');
-          let data = 'esc';
-          this.view.dismiss(data);
-          var response = response;
-        }
-        else {
-          this.alertService.showError(response.mensagem);;
-        }
-
-      }, (error: any) => {
+        let data = 'esc';
+        this.view.dismiss(data);
+        var response = response;
+      }
+      else {
+        this.alertService.showError(response.mensagem);;
+      }
+    }, (error: any) => {
         this.alertService.showError('Erro ao salvar avaria');
     });
   }

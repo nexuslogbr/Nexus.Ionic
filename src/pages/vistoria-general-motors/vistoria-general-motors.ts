@@ -189,10 +189,6 @@ export class VistoriaGeneralMotorsPage {
     $("side-menu").toggleClass("show");
   };
 
-  voltar(){
-    this.view.dismiss();
-  }
-
   changeCompany(id:number) {
     this.company = this.companies.filter(x => x.id == id).map(x => x)[0];
   }
@@ -215,44 +211,64 @@ export class VistoriaGeneralMotorsPage {
     this.checkpointsFiltered = places;
     this.form.controls.checkpoint.enable();
     this.form.controls.checkpoint.setErrors({'invalid': true});
+    if (this.place.localDescription == 'Porto Rio Grande')
+   {
+     this.disableTravelAndShip();
+   }
+   else{
+     this.enableTravelAndShip();
+   }
   }
 
   changeCheckpoint(id: number){
     this.checkpoint = this.checkpoints.filter(x => x.checkpoint == id).map(x => x)[0];
-
     if (this.place.localDescription == 'Porto Rio Grande'
-     && (this.checkpoint.checkpointDescription == 'Entrada Porto'
-      || this.checkpoint.checkpointDescription == 'Descarregamento Rio Grande'
-      || this.checkpoint.checkpointDescription == 'Saída Porto'))
-    {
-      this.form.controls.ship.disable();
-      this.form.controls.trip.disable();
-      this.form.controls.ship.setErrors({'invalid': false});
-      this.form.controls.trip.setErrors({'invalid': false});
-    }
-    else{
-      this.form.controls.ship.enable();
-      this.form.controls.trip.enable();
-      this.form.controls.ship.setErrors({'invalid': true});
-      this.form.controls.trip.setErrors({'invalid': true});
-    }
+    && (this.checkpoint.checkpointDescription == 'Entrada Porto' || this.checkpoint.checkpointDescription == 'Descarregamento Rio Grande' || this.checkpoint.checkpointDescription == 'Saída Porto'))
+   {
+     this.disableTravelAndShip();
+   }
+   else{
+     this.enableTravelAndShip();
+   }
   }
 
   changeShip(id: number){
-    this.ship = this.ships.filter(x => x.id == id).map(x => x)[0];
+    if (id > 0) {
+      this.ship = this.ships.filter(x => x.id == id).map(x => x)[0];
 
-    this.form.controls.trip.enable();
-    this.form.controls.trip.setErrors({'invalid': true});
-    this.tripsFiltered = [];
-    this.trips.forEach(trip => {
-      if (trip.shipId == this.ship.id) {
-        this.tripsFiltered.push(trip);
-      }
-    });
+      this.form.controls.trip.enable();
+      this.form.controls.trip.setErrors({'invalid': true});
+      this.tripsFiltered = [];
+      this.trips.forEach(trip => {
+        if (trip.shipId == this.ship.id) {
+          this.tripsFiltered.push(trip);
+        }
+      });
+    }
   }
 
   changeTrip(id: number){
-    this.trip = this.trips.filter(x => x.id == id).map(x => x)[0];
+    if (id > 0) {
+      this.trip = this.trips.filter(x => x.id == id).map(x => x)[0];
+    }
+  }
+
+  enableTravelAndShip(){
+    this.form.controls.ship.enable();
+    this.form.controls.trip.enable();
+    // this.form.controls.ship.setErrors({'invalid': true});
+    // this.form.controls.trip.setErrors({'invalid': true});
+  }
+
+  disableTravelAndShip(){
+    this.form.patchValue({
+      ship: 0,
+      trip: 0
+    });
+    this.form.controls.ship.disable();
+    this.form.controls.trip.disable();
+    this.form.controls.ship.setErrors({'invalid': false});
+    this.form.controls.trip.setErrors({'invalid': false});
   }
 
   toNavigate(){
