@@ -7,7 +7,7 @@ import { ModalErrorComponent } from '../../components/modal-error/modal-error';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import * as $ from 'jquery';
 import { HomePage } from '../home/home';
-import { Momento } from '../../model/Momento';
+import { Momento } from '../../model/momento';
 import { Veiculo } from '../../model/veiculo';
 import { finalize } from 'rxjs/operators';
 import { VistoriaDataService } from '../../providers/vistoria-service';

@@ -13,7 +13,7 @@ import { AlertService } from '../../providers/alert-service';
 import { finalize } from 'rxjs/operators';
 import { Avaria } from '../../model/avaria';
 import { Veiculo } from '../../model/veiculo';
-import { Momento } from '../../model/Momento';
+import { Momento } from '../../model/momento';
 import { GravidadeAvaria } from '../../model/gravidadeAvaria';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { forkJoin } from 'rxjs/observable/forkJoin';

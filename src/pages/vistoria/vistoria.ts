@@ -6,7 +6,7 @@ import * as $ from 'jquery';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../../providers/alert-service';
-import { Momento } from '../../model/Momento';
+import { Momento } from '../../model/momento';
 import { MomentoDataService } from '../../providers/momento-data-service';
 import { StakeholderService } from '../../providers/stakeholder-data-service';
 import { finalize } from 'rxjs/operators';
