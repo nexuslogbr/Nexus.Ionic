@@ -245,6 +245,18 @@ export class LancamentoAvariaGmSelecaoPage {
 
   }
 
+  initializeFormControl(){
+    this.form = this.formBuilder.group({
+      lado: [null, Validators.required],
+      subArea: [null, Validators.required],
+      checkpoint: [{ value:null, disabled: true }, Validators.required],
+      companyOrigin: [null, Validators.required],
+      companyDestiny: [null, Validators.required],
+      ship: [{ value:null, disabled: true }, Validators.required],
+      trip: [{ value:null, disabled: true }, Validators.required]
+    });
+  }
+
   toggleMenu = function (this) {
     $('.menu-body').toggleClass('show-menu');
     $('menu-inner').toggleClass('show');
@@ -332,10 +344,10 @@ export class LancamentoAvariaGmSelecaoPage {
     this.generalMotorsService.insertsurvey(this.survey)
     .subscribe((response:DataRetorno) => {
       if (response.sucesso) {
-        this.alertService.showInfo('Salvo com sucesso!');
-        this.authService.hideLoading();
         let data = 'esc';
         this.view.dismiss(data);
+        this.authService.hideLoading();
+        this.alertService.showInfo('Salvo com sucesso!');
         var response = response;
       }
       else {
