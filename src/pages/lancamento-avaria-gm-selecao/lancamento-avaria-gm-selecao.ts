@@ -332,11 +332,10 @@ export class LancamentoAvariaGmSelecaoPage {
     this.generalMotorsService.insertsurvey(this.survey)
     .subscribe((response:DataRetorno) => {
       if (response.sucesso) {
-        this.alertService.showInfo('Salvo com sucesso!');
-        this.authService.hideLoading();
         let data = 'esc';
         this.view.dismiss(data);
-        var response = response;
+        this.alertService.showInfo(response.mensagem);
+        this.authService.hideLoading();
       }
       else {
         this.alertService.showError(response.mensagem);;
@@ -400,27 +399,27 @@ export class LancamentoAvariaGmSelecaoPage {
   }
 
   saveImage(photo: Photo, type:number) {
-    const fileName = new Date().getTime() + '.jpeg';
+    const fileName = 'damage' + new Date().getTime() + '.jpg';
 
     let image = {
       id: 0,
-      path: 'data:image/jpeg;base64,' + photo.base64String,
+      path: 'data:image/jpg;base64,' + photo.base64String,
       fileName: fileName
     }
 
     if (type === 1) {
       this.imageClose = null;
       this.imageClose = image;
-      this.damage.photoClose = 'data:image/jpeg;base64,' + photo.base64String;
+      this.damage.photoClose = 'data:image/jpg;base64,' + photo.base64String;
+      this.damage.PhotoNameClose = fileName;
     }
     else if (type === 2){
       this.ImageNormal = null;
       this.ImageNormal = image;
-      this.damage.photoNormal = 'data:image/jpeg;base64,' + photo.base64String;
+      this.damage.photoNormal = 'data:image/jpg;base64,' + photo.base64String;
+      this.damage.PhotoNameNormal = fileName;
     }
 
-    // this.images = [];
-    // this.images.push(image);
     this.authService.hideLoading();
   }
 

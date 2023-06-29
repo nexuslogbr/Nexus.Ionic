@@ -9,4 +9,6 @@ export class Damage {
   public other: string;
   public photoClose: string;
   public photoNormal: string;
+  public PhotoNameClose: string;
+  public PhotoNameNormal: string;
 }
