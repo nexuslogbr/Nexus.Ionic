@@ -41,10 +41,10 @@ export class AuthService {
   proximoBolsao: string;
   forcarFila: string;
    //PRODUÇÃO NEXUS
-  // url: string= 'https://app.nexuslogbr.com/webapi/api';
+  url: string= 'https://app.nexuslogbr.com/webapi/api';
 
   // TESTE NEXUS
-  url: string = 'https://api.nexus.luby.me/api';
+  // url: string = 'https://api.nexus.luby.me/api';
 
   // DESENVOLVIMENTO NEXUS
   // url: string = 'http://localhost:9945/api'

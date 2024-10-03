@@ -2,7 +2,7 @@ FROM node:14
 
 EXPOSE 8100
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
 ENV GRADLE_HOME /usr/local/gradle
 ENV GRADLE_VERSION 7.4.2
 ENV ANDROID_API_LEVELS android-28
@@ -18,12 +18,12 @@ ENV PATH ${GRADLE_HOME}/bin:${JAVA_HOME}/bin:${ANDROID_HOME}/cmdline-tools/lates
 RUN apt-get update
 
 # INSTALL JAVA
-RUN apt-get install openjdk-8-jdk -y
+RUN apt-get install openjdk-11-jdk -y
 
 # INSTALL ANDROID
 RUN mkdir -p ${ANDROID_HOME} && \
   curl -L https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip > /tmp/tools.zip && \
-  unzip /tmp/tools.zip -d ${ANDROID_HOME} 
+  unzip /tmp/tools.zip -d ${ANDROID_HOME}
 
 RUN mkdir -p ${ANDROID_HOME}/cmdline-tools/latest && \
     cp -a ${ANDROID_HOME}/cmdline-tools/bin/. ${ANDROID_HOME}/cmdline-tools/latest/bin/ && \
