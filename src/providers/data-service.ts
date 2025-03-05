@@ -21,7 +21,7 @@ export class DataService {
   urlApi: string;
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    //console.log('Hello DataServiceProvider Provider');
+    ///console.log('Hello DataServiceProvider Provider');
     this.urlApi = this.authService.getUrl();
   }
 
