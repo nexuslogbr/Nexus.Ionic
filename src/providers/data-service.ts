@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { AuthService } from "./auth-service/auth-service";
 import { Romaneio } from "../model/romaneio";
 import { DataRetorno } from "../model/dataretorno";
-import { RomaneioDetalhe } from "../model/romaneiodetalhe";
+import { RomaneioDetalhe } from "../model/romaneioDetalhe";
 import { Local } from "../model/local";
 
 const headers = new HttpHeaders({
