@@ -1,9 +1,10 @@
+-
 - Ajustar a versão no config.xml;
 - Ajustar a url da API;
 - Ajustar o id:
     - nexus: com.nexus.pym
     - calldisu: br.com.callidustecnologia.nexus
-    
+
 - Validar o bloco no config.xml (bug do scanner)
 
         <config-file parent="/manifest/application" target="AndroidManifest.xml">
@@ -17,7 +18,7 @@
 
 
 - O plugin de splash-screen deve ser o 5.0.2 o (5.0.3 dá problema com os resources na compilação)
-    - config.xml    
+    - config.xml
         <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     - package.json
         "cordova-plugin-splashscreen": "5.0.2",
