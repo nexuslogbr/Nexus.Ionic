@@ -1,0 +1,7 @@
+{
+  "name": "Nexus.Ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
